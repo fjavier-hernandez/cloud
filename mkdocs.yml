@@ -1,0 +1,114 @@
+site_name: Introducción a la Nube Pública
+site_description: Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web.
+site_url: https://fjavier-hernandez.github.io/cloud/
+use_directory_urls: false
+
+# Solo se publica docs/ (nav mínima). Guías docentes fuera de la web pública.
+exclude_docs: |
+  90-guias/**
+  img/aws-icons/README.md
+
+# Nav producción (opción D): mapa completo visible; ritmo de entregas = Aules / calendario.
+nav:
+  - "Inicio": "index.md"
+  - "Acceso": "00-acceso/acceso.md"
+  - "1. Fundamentos de la nube AWS": "01-fundamentos-nube-aws/tema1.md"
+  - "2. Seguridad, IAM y responsabilidad compartida": "02-seguridad-iam/tema2.md"
+  - "3. Redes, VPC y entrega de contenido": "03-redes-entrega-contenido/tema3.md"
+  - "4. Cómputo: EC2, Lambda y contenedores": "04-computo-serverless/tema4.md"
+  - "5. Almacenamiento": "05-almacenamiento/tema5.md"
+  - "6. Bases de datos": "06-bases-de-datos/tema6.md"
+  - "7. Arquitectura Well-Architected": "07-arquitectura-well-architected/tema7.md"
+  - "8. Escalado, monitorización y cierre CLF-C02": "08-escalado-monitoreo-cierre/tema8.md"
+  - "Certificación": "99-certificacion/certificacion.md"
+
+theme:
+  language: es
+  name: "material"
+  favicon: "img/cloud.svg"
+  palette:
+    - scheme: javi
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Cambiar a modo noche
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Cambiar a modo día
+  font:
+    text: Roboto
+    code: Roboto Mono
+  logo: "./img/cloud.svg"
+  features:
+    - header.autohide
+    - navigation.top
+    - navigation.tracking
+    - navigation.footer
+    - navigation.indexes
+    - content.code.annotate
+    - announce.dismiss
+    - toc.follow
+    - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  status:
+      deprecated: Pronto será historia
+      new: Recién añadido
+      updated: Modificado
+  search:
+    language: "es"
+  social:
+    - icon: fontawesome/solid/envelope
+      link: mailto:<fj.hernandez@edu.gva.es>
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/fjavier-hernandez-illan
+
+plugins:
+  - search
+  - tags
+  - social:
+      cards: true
+  - print-site:
+      enumerate_headings: false
+      toc_title: Tabla de contenidos
+      include_css: false
+      exclude:
+        - "tags.md"
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - meta
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      linenums: true
+      linenums_style: pymdownx-inline
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.keys
+  - sane_lists
+  - toc:
+      permalink: true
+      toc_depth: 4
+
+copyright: 2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>

@@ -1,0 +1,47 @@
+# Cloud INP — documentación interna (profesor)
+# No usar en CI ni en gh-deploy del site público del alumnado.
+
+site_name: Cloud INP — interno
+site_description: Guías operativas del profesor (AWS Academy). No público.
+site_url: http://127.0.0.1:8001/
+use_directory_urls: false
+docs_dir: interno
+site_dir: site-interno
+
+nav:
+  - "Inicio interno": "README.md"
+  - "Checklist Academy": "profesor-academy.md"
+
+theme:
+  language: es
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Modo noche
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Modo día
+  features:
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - toc:
+      permalink: true
+
+dev_addr: 127.0.0.1:8001
