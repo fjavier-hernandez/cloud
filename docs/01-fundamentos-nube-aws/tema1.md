@@ -58,6 +58,17 @@ Trabajamos el **RA1** y el arranque del **RA2** del módulo *Introducción a la 
 
 [*On-premises*](#on-premises) significa que el hardware y gran parte de la operación viven **en instalaciones de la organización** (aula, CPD propio o un hosting «caja en un rack»). Dimensionas para el **pico** (Black Friday, entrega del TFG, campaña). El resto del año esa capacidad duerme y **sigue costando**: electricidad, amortización, parches. En nube pública el coste se acerca al **uso real**, a cambio de aprender a apagar, etiquetar y no dejar un lab encendido.
 
+!!! success "Ventajas (nube pública, a ojo de Foundations)"
+    - **Escalabilidad:** más o menos CPU, disco o balanceadores sin comprar rack.
+    - **Agilidad:** levantar un laboratorio o una API de prueba en minutos.
+    - **Coste variable:** pagas por uso (ojo: también te castiga el olvido).
+    - **Menos mantenimiento de CPD:** temperatura, SAI y cableado los asume el proveedor.
+
+!!! warning "Desventajas / trade-offs"
+    - Una mala arquitectura o un lab sin apagar **dispara la factura**.
+    - Hace falta gente que conozca la plataforma (no es «gratis de operación»).
+    - Datos en máquinas que no son tuyas: región, normativa y cifrado importan.
+
 La frontera no siempre es nítida: un «VPS barato» de un hosting clásico puede parecer nube (lo pides por panel) pero sin elasticidad real ni API de inventario. Este módulo se centra en el modelo **AWS**: API, regiones, factura medible y catálogo de servicios. Si tu referencia mental es solo el panel de un hosting compartido, conviene recalibrar antes del Tema 3.
 
 Una API Node/Java en el aula vive en un PC. En AWS esa misma API puede ser:
@@ -82,6 +93,11 @@ Antes de abrir la consola conviene situar **cuatro piezas** que se repiten en to
 | **Consola / CLI / SDK** | Tres formas de hablar con la API | La consola enseña; el SDK es lo que usará tu código |
 
 En un despliegue real el orden importa: primero la **cuenta** y la **región** del lab Academy; después el **servicio**; al final automatizas con CLI/SDK. Crear un bucket «porque el tutorial lo hace en `us-east-1`» mientras el resto del grupo trabaja en Europa es un clásico que mezcla latencia, precio y, a veces, residencia del dato.
+
+<figure markdown="span">
+![Ejemplo de uso de AWS CLI](img/salvador/cli_1.png){ width="640" }
+<figcaption>CLI: misma API que la consola, en terminal.</figcaption>
+</figure>
 
 Categorías que irás viendo: cómputo, almacenamiento, bases de datos, red, seguridad, gestión, facturación. No memorices 200 nombres; sitúa **en qué cajón** está cada uno.
 
@@ -112,6 +128,11 @@ En un equipo DAW esto se nota el día del incidente: en IaaS alguien entra por S
 | **PaaS** | Código y datos | SO y plataforma | Entorno de despliegue gestionado |
 | **SaaS** | Uso y configuración | Toda la pila | Correo o un CRM en el navegador |
 
+<figure markdown="span">
+![Comparativa Tradicional / IaaS / PaaS / SaaS: capas bajo tu control frente al proveedor](img/salvador/nube_6.png){ width="720" }
+<figcaption>Quién gestiona cada capa de la pila: de todo en casa (tradicional) hasta casi todo el proveedor (SaaS).</figcaption>
+</figure>
+
 Subir de IaaS a SaaS **reduce operación** y **reduce control**. Un front estático en almacenamiento de objetos (S3) no es IaaS: no hay SO que parchear. Una API con estado y cron pesado **tampoco** es candidata automática a una función de 15 minutos.
 
 **Antes / después (proyecto DAW).** Antes: un VPS alquilado donde instalas nginx, Node, MySQL y renovas certificados a mano (cerca de IaaS). Después: front en hosting estático/SaaS de objetos, API en un entorno PaaS o en funciones, base en RDS. Ganas tiempo de desarrollo; pierdes el «SSH y arreglo todo» —y eso es una decisión consciente, no un fallo.
@@ -129,11 +150,19 @@ Además del «qué gestionas» (IaaS/PaaS/SaaS) está el «**dónde** vive la ca
 | Tipo | Idea | Cuándo aparece en un proyecto |
 | --- | --- | --- |
 | **Pública** | Capacidad de un proveedor, internet | Este módulo (AWS) |
-| **Privada** | Fábrica dedicada a una organización | OpenStack u otro stack interno |
+| **Privada** | Fábrica dedicada a una organización | Stack interno (p. ej. OpenStack u otro); **fuera del alcance** de este módulo más allá del nombre |
 | **Híbrida** | On-prem (o privada) + pública | Datos sensibles en casa, pico en AWS |
-| **Multicloud** | Varias nubes **públicas** | AWS + Azure; más operación, menos dependencia |
+| **Multicloud** | Varias nubes públicas | AWS + otro proveedor; más operación (este módulo se centra en AWS) |
 
-**OpenStack** permite montar una nube privada (instancias, volúmenes, redes). Aquí no se instala: sirve para no confundir «nube» con «marca AWS».
+!!! success "Ventajas (privada / multicloud — reconocer)"
+    - **Privada:** más control del recurso; no compartes el host con terceros desconocidos.
+    - **Multicloud:** puedes repartir riesgo o elegir el servicio más barato de cada proveedor.
+
+!!! warning "Desventajas"
+    - **Privada:** más CAPEX y más personal cualificado.
+    - **Multicloud:** necesitas conocer **más de una** nube; la operación se complica (este módulo se queda en AWS).
+
+OpenStack (u otros stacks) sirve para montar nube **privada**; en este módulo solo lo nombramos para no confundir «nube» con «marca AWS». No se instala ni se practica. Existen otros proveedores públicos (Azure, Google Cloud…): aquí el hilo práctico es **AWS**.
 
 En semipresencial INP casi todo el trabajo del módulo es **nube pública AWS**. La híbrida aparece cuando el instituto o una empresa deja datos o un legado on-prem y solo saca a AWS el front o el pico; multicloud suele ser decisión de empresa, no de un lab de Foundations.
 
@@ -178,6 +207,11 @@ En este módulo identificas la **R** y el **porqué**. No montas un programa de 
 
 **[CAPEX](#capex):** inviertes antes (servidores, SAI). **[OPEX](#opex):** pagas operación continua. **[TCO](#tco):** no compares solo el precio de la VM; incluye electricidad, personal, red y el coste de **esperar** a ampliar.
 
+<figure markdown="span">
+![Desglose típico de costes on-premises (hardware, software, facilities, personal)](img/salvador/nube_5.png){ width="720" }
+<figcaption>TCO on-premises: el precio del servidor es solo una fila; facilities y personal pesan.</figcaption>
+</figure>
+
 Un error típico de proyecto escolar: comparar el €/mes de una `t3.micro` con «gratis en el aula» y concluir que la nube es cara. El aula ya está pagada por el centro; la nube te cobra el lab que dejas encendido. Otro error: olvidar que el tiempo de un desarrollador montando el CPD también es TCO.
 
 Dimensiones típicas de la factura:
@@ -203,6 +237,11 @@ Planes de **Support** (básico incluido frente a planes de pago) y **Trusted Adv
 
 Modelos de compra de cómputo (reconocer): **On-Demand** (flexibilidad), **Savings Plans / Reserved** (compromiso → descuento), **Spot** (barato e interrumpible).
 
+<figure markdown="span">
+![On-Demand frente a Reserved (sin/parcial/total anticipo): menos compromiso, más €/hora](img/salvador/nube_precios_ec2.png){ width="640" }
+<figcaption>On-Demand es lo habitual en lab; Reserved/Savings Plans bajan el €/hora a cambio de compromiso.</figcaption>
+</figure>
+
 En labs Academy casi siempre trabajarás en **On-Demand** (o Free Tier). Spot encaja en batch interrumpible, no en el checkout de una tienda. Reserved/Savings Plans son compromiso a largo plazo: no los «actives» en una cuenta de clase sin criterio.
 
 **Checklist de lab (coste).** Antes de crear: región del enunciado. Durante: tags si el lab lo pide. Al terminar: **terminar** instancias, borrar volúmenes y balanceadores de prueba. La calculadora no sustituye el apagado.
@@ -212,6 +251,11 @@ En labs Academy casi siempre trabajarás en **On-Demand** (o Free Tier). Spot en
 Una **[región](#region)** es un área geográfica con varios centros de datos. Eliges región por latencia, **residencia del dato**, servicios disponibles y precio. En los labs usa la región que indique Academy; no «pruebes» en `us-east-1` por costumbre de tutoriales.
 
 Una **[zona de disponibilidad (AZ)](#zona-de-disponibilidad)** es uno o más edificios con energía y red propias, enlazados con baja latencia a otras AZ de la **misma** región. Por eso un fallo de planta no tiene por qué tumbar el servicio **si tú despliegas en más de una AZ**. Alta disponibilidad típica ≠ una VM gorda. Región y AZ no son sinónimos: la región es el «país/área»; la AZ es el edificio (o cluster) dentro de esa área.
+
+<figure markdown="span">
+![Mapa conceptual de regiones conectadas en la infraestructura global](img/salvador/nube_regiones.jpg){ width="720" }
+<figcaption>Regiones repartidas y enlazadas: eliges dónde viven tus recursos (latencia, dato, precio).</figcaption>
+</figure>
 
 **Ejemplo DAW.** Despliegas la API solo en `eu-west-1a`. Un mantenimiento o un fallo en esa AZ tumba el TFG aunque la «región Irlanda» siga existiendo. Con ALB + instancias (o tareas) en `1a` y `1b`, el usuario puede seguir entrando. Eso cuesta más (doble mínimo de capacidad) y es el trade-off que Well-Architected llama **fiabilidad**.
 
@@ -250,9 +294,14 @@ Este tema no «cierra» la nube: solo fija el vocabulario. Seguridad e identidad
 
 Dominios *Cloud Concepts* y *Billing*, más región/AZ/edge. El examen pide **identificar** beneficio o servicio, no diseñar un *landing zone*.
 
+!!! tip "Para el CLF"
+    En el examen importa la **causa** (OPEX, AZ, Spot ≠ tipo de instancia), no el eslogan. CAF/7 R son etiquetas con ejemplo. Edge ≠ base de datos.
+
+    Ampliación, trucos y **autocheck certificación** → [Certificación § Tema 1](../99-certificacion/certificacion.md#tema-1).
+
 **Videotutorial (Practitioner).** [Sesión 1 Cloud Practitioner 2026](https://www.youtube.com/watch?v=Z3yNbQXz_bI) (~1 h 52 min). Salta al tramo de conceptos / valor / modelos. Vídeo: Profe Santos Cloud (YouTube).
 
-**Ampliación y trucos de examen →** [Certificación § Tema 1](../99-certificacion/certificacion.md#tema-1) · [serie Santos](../99-certificacion/certificacion.md#serie-santos) · [tests](../99-certificacion/certificacion.md#tests).
+**Serie y tests** → [serie Santos](../99-certificacion/certificacion.md#serie-santos) · [tests](../99-certificacion/certificacion.md#tests).
 
 ---
 
@@ -310,19 +359,37 @@ Si en tutoría solo da tiempo a una duda, prioriza **factura + región + modelo 
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. Una pyme no quiere parchear SO ni runtimes: ¿IaaS, PaaS o SaaS? ¿Por qué cambia la factura de operación?
-2. ¿Multicloud e híbrida son lo mismo? Pon un ejemplo de cada una para una app con base de datos.
-3. Un cliente mueve VMs tal cual a EC2. ¿Qué «R» es? ¿Qué ganaría con *replatform* de la base de datos?
-4. ¿La transferencia *hacia* AWS suele ser el coste dominante, o la *salida*? ¿Free Tier implica 0 € en un lab de tres semanas?
-5. ¿Una AZ es una región? Cita dos motivos para usar **más de una región** y uno para usar **más de una AZ**.
-6. Nombra tres formas de interactuar con AWS que el examen espera (consola, CLI, SDK/API).
-7. ¿El +1 de Practitioner sustituye un RA suspendido?
+Comprueba lo de esta quincena (Foundations). Para estilo examen CLF: [Certificación § Tema 1](../99-certificacion/certificacion.md#tema-1).
 
-Si fallas la 1 o la 5, vuelve al bloque Foundations antes de memorizar logos del Tema 8. Si fallas la 3, relee las 7 R con un ejemplo de *tu* proyecto (TFG, práctica de servidor, wiki del ciclo).
+1. **V/F.** En PaaS tú sigues parcheando el sistema operativo de la máquina.
+2. Empareja: **CAPEX** · **OPEX** · **IaaS** · **SaaS** con: (a) factura variable de recursos · (b) comprar torres · (c) VM donde instalas el stack · (d) usas la app lista (correo, CRM).
+3. Una app con BD en el CPD del cliente y front en AWS: ¿**híbrida** o **multicloud**?
+4. **V/F.** El Free Tier garantiza 0 € en un lab de tres semanas si dejas instancias encendidas.
+5. Elige la correcta: una **AZ** es…  
+   a) otra región · b) un edificio/datacenter dentro de una región · c) un edge de CloudFront
+6. Nombra tres formas de hablar con AWS que hemos visto (sin inventar productos).
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **Falso** — en PaaS el proveedor gestiona el SO/plataforma; tú el código/datos.
+
+2. CAPEX→(b); OPEX→(a); IaaS→(c); SaaS→(d).
+
+3. **Híbrida** (on-prem + nube). Multicloud sería varios proveedores cloud.
+
+4. **Falso** — Free Tier tiene límites; recursos fuera de cuota o mal apagados facturan.
+
+5. **b**.
+
+6. Consola, CLI, SDK/API (IaC/CloudFormation como idea vale como ampliación).
+
+</details>
 
 ---
+
 
 ## Glosario
 
@@ -358,3 +425,4 @@ Capacidad de subir o bajar recursos en minutos según la demanda, en lugar de co
 
 **multitenancy**{: #multitenancy}
 Varios clientes comparten la fábrica física del proveedor, aislados lógicamente. Es la base económica de la nube pública. No implica que tus datos sean visibles a otros tenants: el aislamiento es responsabilidad conjunta (AWS + tu configuración IAM/red).
+

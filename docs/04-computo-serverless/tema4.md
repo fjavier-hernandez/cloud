@@ -35,7 +35,43 @@ Balanceo y Auto Scaling: Tema 8. Aquí se *nombra* el ASG como pareja natural de
 
 La AMI no es «la instancia encendida»; es la receta. Si cada despliegue reinstala Node a mano, estás pagando tiempo de humano además de hora de VM.
 
+<figure markdown="span">
+![Selección de AMI Quick Start en la consola EC2](img/salvador/ec2_1.png){ width="720" }
+<figcaption>AMI Quick Start al lanzar una instancia.</figcaption>
+</figure>
+
+!!! tip "Crear tu propia AMI (idea Foundations)"
+    Cuando la instancia ya tiene el SO y el software «bien», puedes **Actions → Image and templates → Create image**. Así lanzas clones iguales sin reinstalar a mano. En el formulario conviene dejar el *reboot* para snapshot coherente.
+
+<figure markdown="span">
+![Menú Actions: Create image desde una instancia en ejecución](img/salvador/ami_create_menu.png){ width="720" }
+<figcaption>Crear AMI desde una EC2 que ya está lista.</figcaption>
+</figure>
+
+<figure markdown="span">
+![Formulario Create image: nombre, reboot y volúmenes](img/salvador/ami_create_form.png){ width="720" }
+<figcaption>Nombre de la AMI, reboot para consistencia y volúmenes incluidos.</figcaption>
+</figure>
+
+!!! note "Características EC2 (Foundations)"
+    - Genera **máquinas virtuales** en la nube (web, correo, ficheros…).
+    - El coste depende de RAM, vCPU, disco e IP pública estática.
+    - Escalable: puedes cambiar tipo (con límites) según necesidad — y **apagando** cuando no hace falta.
+
 Familias: propósito general, cómputo, memoria, almacenamiento, GPU. **Rightsizing:** no cojas `2xlarge` porque el tutorial lo traía. El modelo de **compra** (On-Demand, Savings Plans, Spot) no es una familia: Spot puede ser un `t3.micro` interrumpible.
+
+<figure markdown="span">
+![Familias y tipos de instancia EC2](img/salvador/ec2_8.png){ width="720" }
+<figcaption>Familia / tipo: plantilla de hardware, no el modelo de precio.</figcaption>
+</figure>
+
+!!! danger "Par de claves"
+    Si generas tu propia clave, **descárgala en el momento**: es la única oportunidad. Si la pierdes, toca recrear la instancia (en Academy suele usarse `vockey` / labsuser.pem según el lab).
+
+<figure markdown="span">
+![Descarga / uso del par de claves](img/salvador/ec2_9.png){ width="640" }
+<figcaption>Par de claves: sin `.pem` no entras por SSH.</figcaption>
+</figure>
 
 **Antes / después.** Antes: un `t3.large` 24/7 «porque así va holgado» para una API de prácticas con pico a las 11:00. Después: tipo más pequeño, apagado fuera de horario (o ASG a cero) y, si el workload es un cron, valorar Lambda. El ahorro no es magia: es dejar de pagar ociosidad.
 
@@ -98,9 +134,12 @@ EC2 sin VPC/SG claros (Tema 3) es un servidor expuesto. El disco de la VM es EBS
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Tipo de instancia ≠ modelo de precio. EC2 / Lambda / ECS·Fargate / EKS: elegir por estado, duración y operación — no por moda. SageMaker no es «un tipo de EC2».
+Tipo de instancia ≠ modelo de precio. EC2 / Lambda / ECS·Fargate / EKS: elige por estado, duración y operación.
 
-**Ampliación y trucos de examen →** [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
+!!! tip "Para el CLF"
+    Spot no es un `t3.micro`. SageMaker/Rekognition no son «un tipo de EC2». Auto Scaling escala **grupos**, no es un tipo.
+
+    Ampliación y **autocheck certificación** → [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
 
 ---
 
@@ -113,6 +152,25 @@ Tipo de instancia ≠ modelo de precio. EC2 / Lambda / ECS·Fargate / EKS: elegi
 Vídeo: Profe Santos Cloud (YouTube). Qué mirar: AMI, tipo pequeño, SG y cómo apagar/terminar; eso es lo que facturas en el lab.
 
 **Extra (opcional).** [Lambda 101](https://www.youtube.com/watch?v=TIeUbq4bCOU) (~14 min) — contraste serverless frente a EC2 24/7. Vídeo: Profe Santos Cloud (YouTube).
+
+**Extra.** [Creación y gestión de EC2](https://www.youtube.com/watch?v=ts9izrtvrqg) — lanzar instancia: AMI, tipo, par de claves y acceso.
+
+<iframe src="https://www.youtube.com/embed/ts9izrtvrqg" title="Creación y gestión de EC2" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<figure markdown="span">
+![Pares de claves al crear una EC2](img/salvador/ec2_4.png){ width="640" }
+<figcaption>Par de claves al lanzar la instancia.</figcaption>
+</figure>
+
+<figure markdown="span">
+![EC2 Instance Connect: usuario de la AMI y botón Connect](img/salvador/ec2_12.png){ width="720" }
+<figcaption>Conectar desde consola (Instance Connect): el usuario suele venir de la AMI (`ubuntu`, `ec2-user`…).</figcaption>
+</figure>
+
+<figure markdown="span">
+![Instancia EC2 en ejecución / consola](img/salvador/ec2_11.png){ width="640" }
+<figcaption>Instancia en consola tras el lanzamiento.</figcaption>
+</figure>
 
 El M6 del LMS Academy se indica en clase / Aules.
 
@@ -138,15 +196,35 @@ El criterio de DAW no es «cuál es más moderno», sino **estado**, **duración
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. AMI: ¿instancia encendida o plantilla? ¿Qué problema hay si «la buena» solo existe en el disco de un compañero?
-2. ¿Spot es un tipo (`t3.micro`) o un modelo de precio? ¿Lo usarías para el checkout de una tienda?
-3. Un cron de 30 s cada hora: ¿EC2 24/7 o Lambda? Calcula el trade-off de coste, no el de moda.
-4. ¿Fargate te obliga a gestionar el SO de un nodo EC2?
-5. Cita dos familias de instancia y un caso web para cada una (API ligera frente a colas en memoria).
+Comprueba cómputo de esta quincena. CLF: [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
+
+1. Una **AMI** es…  
+   a) la instancia encendida · b) la plantilla para lanzar instancias · c) un tipo de precio
+2. **V/F.** Spot es un tipo de instancia (`t3.micro`).
+3. Un cron de 30 s cada hora: hipótesis más razonable en Foundations…  
+   a) EC2 24/7 · b) Lambda · c) EKS obligatorio
+4. **V/F.** Con Fargate administras tú el SO de cada nodo EC2 del clúster.
+5. Empareja: **EC2** · **Lambda** · **ECS+Fargate** con: (a) handler sin `listen` · (b) SSH y SO custom · (c) contenedor sin gestionar nodos
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **b**.
+
+2. **Falso** — Spot es **modelo de precio**, no familia/tipo.
+
+3. **b** (evento corto; EC2 24/7 suele sobrar).
+
+4. **Falso** — Fargate quita la gestión del nodo.
+
+5. EC2→(b); Lambda→(a); ECS+Fargate→(c).
+
+</details>
 
 ---
+
 
 ## Glosario
 
@@ -164,3 +242,4 @@ Servicio de funciones *serverless*: ejecuta código ante eventos sin mantener un
 
 **Fargate**{: #fargate}
 Modo de ejecución de contenedores en el que AWS gestiona los nodos: no administras el SO del host. Menos SSH y menos parches de nodo; a cambio, menos control del «hierro» subyacente.
+

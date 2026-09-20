@@ -45,6 +45,11 @@ El límite **se mueve** con el modelo de servicio. En una app DAW no es lo mismo
 <figcaption>El límite se mueve con el modelo de servicio: en rojo lo que asumes tú; en azul lo que opera AWS.</figcaption>
 </figure>
 
+<figure markdown="span">
+![Modelo AWS: seguridad EN la nube (cliente) frente a seguridad DE la nube (AWS)](img/salvador/responsabilidad_compartida.png){ width="720" }
+<figcaption>Misma idea en el diagrama oficial de AWS: datos e identidades son tuyos; regiones, AZ y hardware son del proveedor.</figcaption>
+</figure>
+
 Si subes un `.env` con la clave de Stripe a un repo público, eso no es «fallo de AWS». Si alguien entra en el datacenter, sí.
 
 **Antes / después.** Antes: API + MySQL en la misma EC2; tú parcheas SO, Node y MySQL. Después: API en EC2 (o Lambda) y MySQL en RDS; AWS parchea el motor, pero **tú** sigues siendo dueño de usuarios de BD, datos, cifrado que activas y del security group que abre el puerto. El «pasé a gestionado» no te quita la responsabilidad del secreto en GitHub.
@@ -65,6 +70,15 @@ Si subes un `.env` con la clave de Stripe a un repo público, eso no es «fallo 
 - **Grupos:** el mismo juego de permisos (`alumnos-labs`).
 - **[Roles](#rol):** identidad que **asume** un servicio o una persona; la instancia EC2 no debería llevar access keys en un fichero.
 - **[Policies](#policy):** JSON *allow/deny* sobre acciones y recursos. **[Mínimo privilegio](#minimo-privilegio):** `s3:GetObject` sobre *un* bucket, no `AdministratorAccess`.
+
+!!! tip "Ideas de policy (S3) que conviene reconocer"
+    - Lectura solo para un **usuario IAM** concreto (`s3:GetObject` sobre `arn:aws:s3:::mi-bucket/*`).
+    - Lectura/escritura para un **rol** de la app (`GetObject` + `PutObject`).
+    - **Deny** si la IP de origen no es la del aula/oficina (`NotIpAddress`).
+    - Condicionar por **etiqueta** del objeto (p. ej. solo `Access=public`).
+    - Limitar a tráfico que entra por un **VPC endpoint** (`aws:SourceVpce`).
+
+    En Foundations no memorizas el JSON entero: sí reconoces *Principal*, *Action*, *Resource* y *Condition*. El lab Academy te hace probar un allow/deny real.
 
 Nunca subas **access keys** a GitHub. En labs, evita admin global si el ejercicio no lo exige.
 
@@ -111,9 +125,12 @@ La red (SG/NACL) se profundiza en el Tema 3: aquí solo anclas que **abrir puert
 
 Más allá del IAM de aula: reconocer logos (CloudTrail ≠ CloudWatch), responsabilidad compartida y qué hace solo el **root**.
 
-**Videotutorial (Practitioner).** [Sesión 2 Cloud Practitioner 2026](https://www.youtube.com/watch?v=XfFq9lKYDPc) (~1 h 53 min). Prioriza seguridad / IAM. Vídeo: Profe Santos Cloud (YouTube).
+!!! tip "Para el CLF"
+    Shared responsibility: app comprometida que lista buckets → casi siempre *en* la nube. Root + MFA. CloudTrail audita API; no mide CPU.
 
-**Ampliación y trucos de examen →** [Certificación § Tema 2](../99-certificacion/certificacion.md#tema-2) · [serie Santos](../99-certificacion/certificacion.md#serie-santos).
+    Ampliación, tabla de logos y **autocheck certificación** → [Certificación § Tema 2](../99-certificacion/certificacion.md#tema-2).
+
+**Videotutorial (Practitioner).** [Sesión 2 Cloud Practitioner 2026](https://www.youtube.com/watch?v=XfFq9lKYDPc) (~1 h 53 min). Prioriza seguridad / IAM. Vídeo: Profe Santos Cloud (YouTube).
 
 ---
 
@@ -157,15 +174,34 @@ Un `AccessDenied` en consola no es «AWS roto»: es la policy haciendo su trabaj
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. ¿Quién parchea el SO de una EC2 donde corre tu API? ¿Y el motor de RDS?
-2. Diferencia usuario / grupo / rol / policy. ¿Dónde pondrías el permiso de la instancia para leer un bucket?
-3. Cita dos acciones que el examen asocia al **root**.
-4. ¿CloudTrail sirve para métricas de CPU o para auditoría de API?
-5. ¿El modelo compartido es idéntico en EC2 y en Lambda? ¿Por qué cambia el riesgo de un `.env` mal subido?
+Comprueba IAM y responsabilidad compartida de este tema. CLF: [Certificación § Tema 2](../99-certificacion/certificacion.md#tema-2).
+
+1. ¿Quién parchea el SO de una **EC2** donde corre tu API Node?
+2. ¿Dónde encaja mejor el permiso «leer el bucket S3» de la API: **usuario** largo en el disco, o **rol** de la instancia/función?
+3. **V/F.** CloudTrail te dice la CPU de la instancia.
+4. Elige dos acciones típicas del **root** (no del trabajo diario de despliegue):  
+   a) `s3:GetObject` en un bucket de lab · b) cerrar la cuenta · c) cambiar el plan de Support · d) lanzar un `t3.micro`
+5. Empareja: **policy** · **grupo** · **MFA** con: (a) documento JSON de permisos · (b) segundo factor · (c) conjunto de usuarios con políticas comunes.
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **Tú** (cliente) en EC2.
+
+2. **Rol** asumido (evita keys permanentes en disco).
+
+3. **Falso** — CloudTrail audita llamadas API; CPU → CloudWatch.
+
+4. **b** y **c** (el examen asocia root a cuenta/billing/support, no al deploy rutinario).
+
+5. policy→(a); MFA→(b); grupo→(c).
+
+</details>
 
 ---
+
 
 ## Glosario
 

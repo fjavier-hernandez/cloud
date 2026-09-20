@@ -3,12 +3,11 @@ site_description: Apuntes para el módulo optativo Introducción a la Nube Públ
 site_url: https://fjavier-hernandez.github.io/cloud/
 use_directory_urls: false
 
-# Solo se publica docs/ (nav mínima). Guías docentes fuera de la web pública.
+# Solo docs/ en la web pública.
 exclude_docs: |
   90-guias/**
   img/aws-icons/README.md
 
-# Nav producción (opción D): mapa completo visible; ritmo de entregas = Aules / calendario.
 nav:
   - "Inicio": "index.md"
   - "Acceso": "00-acceso/acceso.md"

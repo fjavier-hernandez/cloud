@@ -37,6 +37,16 @@ Antes de memorizar logos, fija el **estilo de acceso**. En desarrollo web decide
 | **Fichero** | NFS/SMB | **EFS**, **FSx** | Sí (carpeta de red) | Varias instancias leyendo el mismo `uploads/` |
 
 <figure markdown="span">
+![Comparativa de estilos de almacenamiento en AWS](img/salvador/s3_1.jpg){ width="720" }
+<figcaption>Bloque / fichero / objeto: elige por cómo accede la app.</figcaption>
+</figure>
+
+!!! tip "Ventajas por estilo (resumen)"
+    - **Bloque (EBS):** más rendimiento para el disco de una VM.
+    - **Objeto (S3):** sencillo de integrar por API y suele ser más barato para ficheros/front.
+    - **Fichero (EFS):** varias EC2 montan la misma carpeta.
+
+<figure markdown="span">
 ![Almacenamiento: S3 (objeto), EBS (bloque) y EFS (archivo)](../img/diagramas/almacenamiento-opciones.svg){ width="800" }
 <figcaption>Tres estilos de acceso: API de objetos, disco de la VM o carpeta NFS compartida.</figcaption>
 </figure>
@@ -46,6 +56,11 @@ Antes de memorizar logos, fija el **estilo de acceso**. En desarrollo web decide
 ### Amazon S3
 
 **[Amazon S3](#s3)** (*Simple Storage Service*) es almacenamiento de **objetos**: guardas bytes con una clave dentro de un *bucket*, y hablas con él por API/SDK (o URL firmada), no como si fuera la unidad `C:`. Buckets (nombre globalmente único), objetos, prefijos. **Clases** (Standard, IA, Glacier…): precio frente a tiempo de acceso. **Lifecycle** para enfriar lo que nadie pide. Versionado. *Block public access* por defecto: un 403 en la URL es el resultado **correcto** si el objeto no debe ser público.
+
+<figure markdown="span">
+![Clases de almacenamiento S3 / ciclo de vida (visión de consola)](img/salvador/s3_20.png){ width="640" }
+<figcaption>Clases y ciclo de vida: Standard es lo habitual; Glacier no es «disco barato con acceso inmediato».</figcaption>
+</figure>
 
 En código DAW suele verse así: el controlador recibe el multipart, el SDK hace `PutObject`, y la base solo guarda la clave o la URL. El navegador no necesita NFS. Si mañana hay dos instancias detrás del ALB, **ambas** hablan con el mismo bucket: no hay divergencia de `uploads/` locales.
 
@@ -71,6 +86,21 @@ Si el acceso a S3 sale «por internet» desde una EC2 en VPC privada, en arquite
 
 **[Amazon EBS](#ebs)** (*Elastic Block Store*) es el **disco de bloque** de una instancia EC2: se monta en el sistema operativo como un volumen. Vive en **una** AZ. Snapshots hacia S3. Tipos gp/io (IOPS). **Instance store:** disco del host, efímero; no lo uses como única copia del TFG.
 
+<figure markdown="span">
+![Volumen EBS asociado a una instancia](img/salvador/s3_2.jpg){ width="720" }
+<figcaption>EBS: volumen de bloque ligado a EC2 (misma AZ).</figcaption>
+</figure>
+
+!!! success "Ventajas EBS"
+    - Replicación dentro de la AZ; persistencia aunque pares la instancia (según configuración).
+    - Cifrado sencillo; se puede **aumentar** el tamaño (no reducir).
+    - Un volumen EBS solo se asocia a una instancia de **su misma AZ**.
+
+<figure markdown="span">
+![Crear volumen EBS: tipo gp3, tamaño, AZ y etiqueta](img/salvador/s3_3.png){ width="720" }
+<figcaption>Volumen EBS: tipo, GiB, IOPS y **misma AZ** que la instancia a la que lo vas a asociar.</figcaption>
+</figure>
+
 Multi-attach avanzado queda fuera. La regla Foundations: un volumen ≈ una instancia.
 
 Si terminas la EC2 y dejas el volumen, **sigue facturando**. El snapshot es la copia durable hacia S3; el volumen huérfano es un clásico de lab caro.
@@ -78,6 +108,26 @@ Si terminas la EC2 y dejas el volumen, **sigue facturando**. El snapshot es la c
 ### EFS / FSx y movimiento
 
 **[Amazon EFS](#efs)** ofrece un sistema de ficheros **NFS** elástico: **varias** EC2 pueden montar el mismo directorio a la vez (incluso en AZ distintas de la región). **FSx:** Windows / Lustre / NetApp (nombres de examen).
+
+<figure markdown="span">
+![Amazon EFS montado desde varias instancias](img/salvador/s3_9.png){ width="720" }
+<figcaption>EFS: carpeta compartida entre EC2.</figcaption>
+</figure>
+
+!!! note "Características EFS (resumen)"
+    - NFS gestionado; crece y decrece sin dimensionar a ojo el LUN.
+    - Varias EC2 (incluso en AZ distintas de la región) montan el **mismo** sistema de ficheros.
+    - Encaja en `uploads/` compartidos; no sustituye a S3 para objetos servidos por HTTP a escala.
+
+<figure markdown="span">
+![Montaje / acceso EFS desde instancias](img/salvador/s3_11.png){ width="720" }
+<figcaption>Varias instancias montan el mismo EFS (idea de práctica).</figcaption>
+</figure>
+
+<figure markdown="span">
+![Políticas / acceso a objetos (contexto S3)](img/salvador/s3_17.png){ width="640" }
+<figcaption>Acceso a objetos: política y *block public access* van juntos.</figcaption>
+</figure>
 
 **Storage Gateway**, familia **Snow** (dispositivo físico para muchos TB), **AWS Backup**, DataSync: reconocer *cuándo* un VPN no basta para 80 TB.
 
@@ -97,7 +147,10 @@ S3 + CloudFront (Tema 3) para estáticos. EBS nace con EC2 (Tema 4). Las bases (
 
 S3 ≠ disco del SO; EBS ≠ EFS; Glacier es clase/archivo. En coste, no olvides la **salida** (egress).
 
-**Ampliación y trucos de examen →** [Certificación § Tema 5](../99-certificacion/certificacion.md#tema-5).
+!!! tip "Para el CLF"
+    El examen premia elegir el almacén correcto y oler el egress. S3 no sustituye EBS del SO.
+
+    Ampliación y **autocheck certificación** → [Certificación § Tema 5](../99-certificacion/certificacion.md#tema-5).
 
 ---
 
@@ -110,6 +163,20 @@ S3 ≠ disco del SO; EBS ≠ EFS; Glacier es clase/archivo. En coste, no olvides
 Vídeo: Profe Santos Cloud (YouTube). Qué mirar: subida de objeto y *block public access*; el 403 es evidencia, no un fallo del lab.
 
 **Extra (opcional).** [S3 Static Web](https://www.youtube.com/watch?v=GMsD5XIfRLc) (~8 min) — hosting estático mínimo. Vídeo: Profe Santos Cloud (YouTube).
+
+**Extra.** [Web estática en S3](https://www.youtube.com/watch?v=HTmkUgp3XdY) — bucket, *static website hosting* y prueba del endpoint.
+
+<iframe src="https://www.youtube.com/embed/HTmkUgp3XdY" title="Web estática en S3" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<figure markdown="span">
+![Consola S3 / bucket](img/salvador/s3_18.png){ width="640" }
+<figcaption>Trabajo con buckets S3 en consola.</figcaption>
+</figure>
+
+<figure markdown="span">
+![Hosting estático / web en S3](img/salvador/s3_21.png){ width="640" }
+<figcaption>Web estática sobre S3 (paso de práctica).</figcaption>
+</figure>
 
 El M7 del LMS Academy se indica en clase / Aules.
 
@@ -136,15 +203,34 @@ EBS: snapshot ≠ backup mágico de la aplicación. Es copia del volumen en un m
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. ¿El disco del SO de EC2 se diseña como bucket S3 Standard? ¿Qué servicio es el disco?
-2. ¿EFS sirve para compartir un directorio entre dos EC2 en AZ distintas (misma región)?
-3. Foto a la que se accede una vez al año: ¿clase de S3 coherente (idea, no el céntimo)?
-4. ¿El snapshot de EBS se queda solo en la AZ del volumen?
-5. Snow Family frente a VPN para 80 TB: ¿por qué el «subir por la red del instituto» no escala?
+Comprueba almacenamiento de este tema. CLF: [Certificación § Tema 5](../99-certificacion/certificacion.md#tema-5).
+
+1. El disco del SO de una EC2 se diseña normalmente con…  
+   a) S3 Standard · b) **EBS** · c) Glacier Deep Archive
+2. **V/F.** EFS puede montarse en varias EC2 (misma región) a la vez.
+3. Una foto a la que casi nadie accede en un año: ¿clase/archivo **caliente** o **fría/archivo** (idea)?
+4. **V/F.** Un snapshot de EBS «vive solo» en la AZ del volumen y no se puede usar para recuperar en la región.
+5. Empareja: **S3** · **EBS** · **egress** con: (a) objetos por API/HTTP · (b) volumen de bloque · (c) tráfico de salida que factura
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **b** (EBS).
+
+2. **Verdadero**.
+
+3. **Fría/archivo** (Glacier / clase fría — idea, no el céntimo exacto).
+
+4. **Falso** — el snapshot es recurso de región (idea Foundations: no lo trates como «solo disco local de la AZ»).
+
+5. S3→(a); EBS→(b); egress→(c).
+
+</details>
 
 ---
+
 
 ## Glosario
 
@@ -156,3 +242,4 @@ EBS: snapshot ≠ backup mágico de la aplicación. Es copia del volumen en un m
 
 **EFS**{: #efs}
 *Elastic File System*: sistema de ficheros NFS gestionado, compartible por varias instancias a la vez en la región. Encaja cuando varias EC2 necesitan la misma carpeta montada; no sustituye a S3 para objetos servidos por HTTP a escala web.
+

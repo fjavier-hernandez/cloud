@@ -32,6 +32,14 @@ Instalar MySQL «en la misma EC2 que Express» funciona en el aula y **acopla** 
 MySQL en EC2: control total y **tú** haces alta disponibilidad, parches y copias. **[Amazon RDS](#rds)** (*Relational Database Service*) es una base de datos **relacional gestionada**: AWS asume parches del motor, snapshots y Multi-AZ opcional. El examen (y una app de clase bien hecha) premian el servicio gestionado salvo motor raro o licencia que lo impida. Para un desarrollador web: sigues hablando SQL; dejas de ser el DBA del SO.
 
 <figure markdown="span">
+![Visión de RDS como servicio gestionado](img/salvador/rds_1.png){ width="640" }
+<figcaption>RDS: motor gestionado (PaaS de datos), no solo una EC2 con MySQL.</figcaption>
+</figure>
+
+!!! note "Por qué RDS y no MySQL «a pelo» en EC2"
+    Puedes instalar el SGBD en EC2, sí. Con RDS te ahorras parches del motor, backups y buena parte de la HA. A cambio, menos control del SO. Por seguridad suele ir en **subnets privadas** y solo acepta el SG de la API.
+
+<figure markdown="span">
 ![Bases de datos gestionadas: RDS/Aurora y DynamoDB](../img/diagramas/bases-datos-opciones.svg){ width="800" }
 <figcaption>Relacional gestionado frente a NoSQL serverless: elige por el modelo de datos, no por el logo.</figcaption>
 </figure>
@@ -58,7 +66,26 @@ Dos mecanismos que se confunden:
 - **[Multi-AZ](#multi-az):** disponibilidad (failover a otra AZ). No es un *speedup* de lecturas.
 - **[Read replica](#read-replica):** escala de **lectura** (reporting). No es el mismo mecanismo que Multi-AZ.
 
+<figure markdown="span">
+![Esquema Multi-AZ en RDS](img/salvador/rds_4.png){ width="640" }
+<figcaption>Multi-AZ: copia síncrona para failover.</figcaption>
+</figure>
+
+!!! tip "Multi-AZ frente a réplica de lectura"
+    - **Multi-AZ:** escritura síncrona al standby; ante fallo, el standby toma el relevo (comercio, finanzas…).
+    - **Réplica de lectura:** replicación asíncrona; escala SELECT / reporting; el failover manual no es el mismo mecanismo.
+
+<figure markdown="span">
+![Esquema de réplica de lectura en RDS](img/salvador/rds_3.png){ width="640" }
+<figcaption>Réplica de lectura: escala SELECT; no es el mismo mecanismo que Multi-AZ.</figcaption>
+</figure>
+
 Security group: el puerto del motor **no** se abre a `0.0.0.0/0`. La API en subnet privada habla con RDS; tú no expones 3306 a internet «para DBeaver desde casa» si hay alternativas (bastion, VPN).
+
+<figure markdown="span">
+![RDS: VPC, subnet group y acceso público = No](img/salvador/rds_2.png){ width="720" }
+<figcaption>Conectividad: VPC + subnet group; **acceso público = No** en lab serio.</figcaption>
+</figure>
 
 Si el lab pide WordPress+RDS, identifica en el `.md` qué es IaaS (EC2) y qué es gestionado (RDS): es exactamente el límite de responsabilidad del Tema 2 aplicado a datos.
 
@@ -103,11 +130,14 @@ En Foundations no montas un proyecto DMS completo: reconoces la herramienta cuan
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Managed vs EC2-hosted; relacional vs NoSQL; Multi-AZ ≠ read replica. DynamoDB refuerza el dominio — no sustituye el lab RDS.
+Managed vs EC2-hosted; relacional vs NoSQL; Multi-AZ ≠ read replica.
+
+!!! tip "Para el CLF"
+    Multi-AZ = failover; réplica = lecturas. DynamoDB *además* del checkout SQL si el dominio es relacional — no «en lugar de» por moda.
+
+    Ampliación y **autocheck certificación** → [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
 
 **Videotutorial (Practitioner / NoSQL).** [DynamoDB](https://www.youtube.com/watch?v=j1VL7ctuerw) (~10 min). Vídeo: Profe Santos Cloud (YouTube).
-
-**Ampliación y trucos de examen →** [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
 
 ---
 
@@ -120,6 +150,20 @@ Managed vs EC2-hosted; relacional vs NoSQL; Multi-AZ ≠ read replica. DynamoDB 
 Vídeo: Profe Santos Cloud (YouTube). Qué mirar: clase pequeña, SG del motor y borrar la instancia al acabar.
 
 **Extra (opcional).** [RDSPrivateSubnet EC2Linux](https://www.youtube.com/watch?v=4X1f23RpBG0) (~21 min) — RDS en privada con EC2; refuerza el Tema 3. Vídeo: Profe Santos Cloud (YouTube).
+
+**Extra.** [WordPress con RDS](https://www.youtube.com/watch?v=WUHzjhrS8tg) — app web en EC2 y base MySQL gestionada en RDS.
+
+<iframe src="https://www.youtube.com/embed/WUHzjhrS8tg" title="WordPress con RDS" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<figure markdown="span">
+![WordPress / app conectada a RDS](img/salvador/rds_5.png){ width="640" }
+<figcaption>App + RDS: la BD fuera de la EC2.</figcaption>
+</figure>
+
+<figure markdown="span">
+![Pasos de práctica WordPress con RDS](img/salvador/rds_8.png){ width="640" }
+<figcaption>Práctica: app en cómputo y credenciales apuntando al endpoint RDS.</figcaption>
+</figure>
 
 El M8 del LMS Academy se indica en clase / Aules.
 
@@ -152,15 +196,35 @@ Si usas un ORM (Sequelize, JPA, Entity Framework), Multi-AZ no cambia tu código
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. ¿Multi-AZ sirve para el reporting de lecturas, o para el fallo de una AZ?
-2. Catálogo en JSON con picos: ¿RDS o DynamoDB como primera hipótesis de examen? ¿Y un checkout con transacciones?
-3. ¿Quién parchea el motor en RDS?
-4. Redshift: ¿OLTP de la tienda o analítica?
-5. DMS: ¿copia el hardware on-prem a una AZ, o mueve datos/esquemas?
+Comprueba bases de datos de este tema. CLF: [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
+
+1. **Multi-AZ** en RDS sirve sobre todo para…  
+   a) acelerar SELECT de reporting · b) **failover** si cae una AZ · c) sustituir backups
+2. Checkout con transacciones SQL: primera hipótesis…  
+   a) DynamoDB · b) **RDS/Aurora** · c) Redshift
+3. ¿Quién parchea el **motor** en RDS?
+4. **V/F.** Redshift es la opción típica de OLTP de la tienda online.
+5. Empareja: **DynamoDB** · **ElastiCache** · **read replica** con: (a) NoSQL clave-valor · (b) caché en memoria · (c) escala de lectura
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **b**.
+
+2. **b**.
+
+3. **AWS** (managed); tú esquemas/datos/accesos.
+
+4. **Falso** — Redshift ≈ analítica/warehouse; OLTP → RDS/Aurora.
+
+5. DynamoDB→(a); ElastiCache→(b); read replica→(c).
+
+</details>
 
 ---
+
 
 ## Glosario
 
@@ -178,3 +242,4 @@ Base NoSQL gestionada (clave-valor / documentos), serverless y de baja latencia.
 
 **OLTP**{: #oltp}
 *Online Transaction Processing*: cargas transaccionales del día a día (pedidos, stock). Se distingue de la analítica / reporting (p. ej. Redshift). Mezclar ambos en el mismo motor sin criterio suele degradar la tienda o el informe.
+

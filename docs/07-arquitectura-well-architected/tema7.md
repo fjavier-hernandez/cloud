@@ -43,7 +43,7 @@ Multi-AZ **mejora fiabilidad** y **sube coste**. Eso es evaluable. El diagrama d
 
 Los pilares **se tensan** entre sí. Más AZ y más alarmas mejoran fiabilidad y operaciones; también suman factura y complejidad. Rightsizing mejora coste y sostenibilidad; mal hecho, empeora rendimiento. En el entregable no busques el diagrama perfecto: busca **justificar** el trade-off que aceptas.
 
-**Antes / después.** Antes: una EC2 con MySQL local, AMI manual y SG abierto. Después (Foundations, no Architecting): ALB, dos AZ, RDS Multi-AZ, cola para trabajos largos y alarmas. Cada cambio se puede etiquetar con un **pilar**; ese es el ejercicio del CE f, no redibujar Netflix.
+**Antes / después.** Antes: una EC2 con MySQL local, AMI manual y SG abierto. Después: ALB, dos AZ, RDS Multi-AZ, cola para trabajos largos y alarmas. Cada cambio se puede etiquetar con un **pilar**; ese es el ejercicio del CE f, no redibujar Netflix.
 
 ### Patrones de resiliencia
 
@@ -56,7 +56,7 @@ Los pilares **se tensan** entre sí. Más AZ y más alarmas mejoran fiabilidad y
 
 <figure markdown="span">
 ![Patrón resiliente: ALB, EC2 en dos AZ, SQS, workers, RDS Multi-AZ y CloudWatch](../img/diagramas/arquitectura-resiliente.svg){ width="800" }
-<figcaption>Varias AZ, desacoplo con cola SQS y base gestionada Multi-AZ (nivel Foundations, no Architecting).</figcaption>
+<figcaption>Varias AZ, desacoplo con cola SQS y base gestionada Multi-AZ.</figcaption>
 </figure>
 
 El lab de Foundations puede ser más simple. El análisis (CE f) es decir **qué pilar mejora** si pasas de una EC2+MySQL local a ALB + varias AZ + RDS.
@@ -88,11 +88,14 @@ Sin VPC multi-AZ (T3), RDS Multi-AZ (T6) y ALB/ASG (T8), el discurso Well-Archit
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Etiqueta el escenario con un **pilar** (seguridad, operaciones, coste, fiabilidad…). SNS ≠ SQS. No diseñas *landing zones*.
+Etiqueta el escenario con un **pilar**. SNS ≠ SQS. No diseñas *landing zones*.
+
+!!! tip "Para el CLF"
+    Cifrar → seguridad; alarmas → operaciones; Spot/talla → coste; multi-AZ → fiabilidad. SQS = cola de trabajo; SNS = pub/sub.
+
+    Ampliación y **autocheck certificación** → [Certificación § Tema 7](../99-certificacion/certificacion.md#tema-7).
 
 **Videotutorial (Practitioner).** [AWS Well Architecting Framework](https://www.youtube.com/watch?v=S9NTua9mg9k) (~1 h 52 min). Salta a los pilares. Vídeo: Profe Santos Cloud (YouTube).
-
-**Ampliación y trucos de examen →** [Certificación § Tema 7](../99-certificacion/certificacion.md#tema-7).
 
 ---
 
@@ -133,20 +136,41 @@ Eso es exactamente el espíritu de PR701 y de muchas preguntas CLF del dominio d
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. Cifrar EBS y forzar HTTPS: ¿qué pilar primero?
-2. Pasar de una AZ a dos con ALB: ¿efecto *principal* fiabilidad o sostenibilidad?
-3. ¿SQS sirve para que un pico de pedidos no tumbe al worker que renderiza facturas?
-4. ¿CloudFormation es un pilar o una práctica que ayuda a operaciones?
-5. ¿Este módulo exige un *landing zone* multi-cuenta?
+Comprueba pilares y desacoplo de este tema. CLF: [Certificación § Tema 7](../99-certificacion/certificacion.md#tema-7).
+
+1. Cifrar EBS y forzar HTTPS: pilar que etiquetas primero…  
+   a) sostenibilidad · b) **seguridad** · c) coste
+2. Pasar de una AZ a dos con ALB: efecto *principal*…  
+   a) **fiabilidad** · b) sostenibilidad · c) «más barato siempre»
+3. **V/F.** SQS encaja para que un pico de pedidos no tumbe al worker que genera PDFs.
+4. CloudFormation es…  
+   a) un pilar Well-Architected · b) una **práctica/IaC** que ayuda a operaciones
+5. **V/F.** Este módulo exige montar un *landing zone* multi-cuenta.
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **b**.
+
+2. **a**.
+
+3. **Verdadero** (cola de trabajo).
+
+4. **b**.
+
+5. **Falso**.
+
+</details>
 
 ---
+
 
 ## Glosario
 
 **Well-Architected**{: #well-architected}
-Marco de AWS con seis pilares para revisar cargas en la nube (operaciones, seguridad, fiabilidad, rendimiento, coste, sostenibilidad). Nivel Practitioner: reconocer el pilar ante un escenario. No sustituye al curso Architecting ni exige un diagrama de cuarenta cajas.
+Marco de AWS con seis pilares para revisar cargas en la nube (operaciones, seguridad, fiabilidad, rendimiento, coste, sostenibilidad). Nivel Practitioner: reconocer el pilar ante un escenario, sin exigir un diagrama de cuarenta cajas.
 
 **SQS**{: #sqs}
 *Simple Queue Service*: cola de mensajes. Desacopla productor y consumidor: el productor encola aunque el worker esté caído o saturado. Encaja en «generar PDF / enviar mail» sin tumbar el checkout HTTP.

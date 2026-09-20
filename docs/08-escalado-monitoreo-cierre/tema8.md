@@ -7,7 +7,7 @@ description: ELB, Auto Scaling, CloudWatch y catálogo extra de Practitioner (Fo
 
 Si el Tema 7 dice *por qué* varias AZ, este dice *cómo* reparte el tráfico un **[ALB](#alb)**, *cómo* un **[ASG](#asg)** sigue la demanda y *cómo* te enteras ([CloudWatch](#cloudwatch)) antes que el usuario. Cierra **RA3** y **RA4**, y cierra la **2.ª evaluación** del módulo con la preparación **CLF-C02**. Núcleo **Foundations M10**, más el catálogo corto de servicios que el examen nombra y Foundations apenas toca. Ver [glosario](#glosario).
 
-Piensa este tema como el «tablero de control» de lo ya visto: la VPC (T3) y el cómputo (T4) son la materia; ELB/ASG/CloudWatch son cómo la mantienes viva bajo carga y cómo demuestras (con métricas) que no estás a ciegas. El catálogo CLF del final no sustituye Foundations: es reconocimiento rápido de logos.
+Piensa este tema como el «tablero de control» de lo ya visto: la VPC (T3) y el cómputo (T4) son la materia; ELB/ASG/CloudWatch son cómo la mantienes viva bajo carga y cómo demuestras (con métricas) que no estás a ciegas. El catálogo CLF del final es reconocimiento rápido de logos.
 
 ## Propuesta didáctica
 
@@ -44,6 +44,16 @@ Un **[balanceador de carga](#elb)** reparte peticiones entre varios destinos (in
 
 En desarrollo web el ALB permite reglas del estilo «`/api/*` → grupo de la API» y «`/` → front». No sustituye a nginx en todos los casos, pero en Foundations es el punto de entrada gestionado que encaja con varias AZ y con el ASG.
 
+<figure markdown="span">
+![Idea de balanceo de carga entre destinos](img/salvador/elb_1.png){ width="640" }
+<figcaption>ELB: reparte tráfico y deja fuera lo que falla el health check.</figcaption>
+</figure>
+
+!!! tip "Características ELB (Foundations)"
+    - Distribuye la carga entre varias instancias (o destinos).
+    - Detecta destinos *unhealthy* y deja de mandarles tráfico.
+    - Encaja con varias AZ: si cae una zona, el resto sigue sirviendo.
+
 | Tipo | Uso típico |
 | --- | --- |
 | **ALB** | HTTP/HTTPS (capa 7): host, path, tu API REST |
@@ -51,13 +61,43 @@ En desarrollo web el ALB permite reglas del estilo «`/api/*` → grupo de la AP
 | **GWLB** | *Appliances*; reconocer el nombre |
 | CLB clásico | Legado; no es la respuesta moderna |
 
+<figure markdown="span">
+![Tipos / esquema de balanceadores](img/salvador/elb_2.png){ width="640" }
+<figcaption>ALB frente a otros tipos (reconocer en examen).</figcaption>
+</figure>
+
 El ALB en **varias AZ** complementa el ASG: si una AZ cae, el balanceador deja de mandar a esa zona.
+
+<figure markdown="span">
+![ALB con destinos en varias AZ](img/salvador/elb_5.png){ width="640" }
+<figcaption>Balanceador multi-AZ con health checks.</figcaption>
+</figure>
+
+!!! tip "Práctica ALB (pasos que verás en consola)"
+    - Elige **al menos dos AZ** (y una subnet en cada una): si no, no hay HA real.
+    - Crea el *target group* y registra las instancias; el health check debe apuntar a una ruta que tu app responda (p. ej. `/` o `/health`).
+    - El DNS del ALB es el punto de entrada; deja de apuntar A records a una sola EC2.
+
+<figure markdown="span">
+![Crear ALB: VPC y dos zonas de disponibilidad](img/salvador/elb_6.png){ width="720" }
+<figcaption>Mapeo de red del ALB: VPC + mínimo dos AZ/subnets.</figcaption>
+</figure>
+
+<figure markdown="span">
+![Registro de destinos / target group en el ALB](img/salvador/elb_4.png){ width="720" }
+<figcaption>Target group: dónde manda el balanceador el tráfico sano.</figcaption>
+</figure>
 
 **Antes / después.** Antes: una sola EC2 con IP pública y DNS A record; si cae, cae el servicio. Después: ALB delante, health check a `/health`, dos instancias en AZ distintas. El usuario sigue usando el mismo nombre DNS; tú dejas de apuntar a una mascota.
 
 ### Auto Scaling
 
 Un **[Auto Scaling Group (ASG)](#asg)** mantiene un conjunto de instancias con mínimo, deseado y máximo. Escala con CPU, peticiones o horario (dev a cero por la noche). Elasticidad = la capacidad **sigue** a la demanda, no una VM eterna «por si acaso».
+
+<figure markdown="span">
+![ASG / elasticidad detrás del balanceador](img/salvador/elb_9.png){ width="640" }
+<figcaption>Capacidad que sigue a la demanda (ASG + ELB).</figcaption>
+</figure>
 
 En una API de prácticas el patrón sano es: min bajo en lab, desired acorde a la demo, max con techo consciente. Programar un horario que baje a cero por la noche evita la factura del fin de semana. En producción real el min suele ser ≥ 2 si quieres sobrevivir a una AZ; en el instituto el min=2 sin apagar es un error de coste.
 
@@ -120,11 +160,14 @@ La **2.ª evaluación** cierra Temas 5–8. Este tema concentra ELB/ASG/CloudWat
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-ALB / ASG / CloudWatch en el Foundations de este tema. Para el examen: catálogo corto (IA, analítica, colas…) con *cuándo sí / cuándo no*, mapa de dominios CLF y cierre de prep.
+ALB / ASG / CloudWatch cierran Foundations. El catálogo CLF (IA, analítica, colas…) y el estilo examen viven en el hub.
 
-**Ampliación, catálogo y trucos →** [Certificación § Tema 8](../99-certificacion/certificacion.md#tema-8) · [serie](../99-certificacion/certificacion.md#serie-santos) · [tests](../99-certificacion/certificacion.md#tests) · [orden](../99-certificacion/certificacion.md#orden).
+!!! tip "Para el CLF"
+    Health check + min/desired/max. CloudWatch ≠ CloudTrail. Reconoce el servicio de una frase (*cuándo sí / cuándo no*).
 
-Recuerda: el examen CLF es nota global; **en este módulo los RA no se compensan** y el +1 no aprueba un RA suspendido — detalle en [Certificación](../99-certificacion/certificacion.md#certificacion) y [Evaluación](../index.md#evaluacion).
+    Catálogo, mapa de dominios y **autocheck certificación** → [Certificación § Tema 8](../99-certificacion/certificacion.md#tema-8).
+
+**Serie / tests / orden** → [serie](../99-certificacion/certificacion.md#serie-santos) · [tests](../99-certificacion/certificacion.md#tests) · [orden](../99-certificacion/certificacion.md#orden).
 
 ---
 
@@ -162,17 +205,34 @@ Para el cierre CLF: [Certificación](../99-certificacion/certificacion.md) (seri
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. ¿ALB opera en capa 7 o es un NAT de VPC? ¿Para una API HTTP cuál eliges frente a NLB?
-2. ASG mínimo 2 y dos AZ: si cae una AZ, ¿qué esperas?
-3. CPU al 10 % un mes en `m5.2xlarge`: ¿qué pilar y qué acción de coste?
-4. ¿Rekognition es un tipo de EC2 o IA aplicada?
-5. ¿Aprobar CLF-C02 te aprueba el RA3 si lo tienes suspendido?
+Cierre Foundations (ELB/ASG/CloudWatch). El catálogo CLF largo y el estilo examen están en [Certificación § Tema 8](../99-certificacion/certificacion.md#tema-8).
 
-**Último recordatorio de módulo.** Los RA no se compensan; el +1 (si Aules lo concede) **suma** pero **no** aprueba un RA suspendido. Detalle: [Certificación](../99-certificacion/certificacion.md#certificacion) · [Evaluación](../index.md#evaluacion).
+1. Un **ALB** opera sobre todo en…  
+   a) capa 3 (IP) · b) **capa 7 (HTTP/HTTPS)** · c) solo como NAT de VPC
+2. ASG con min=2 en **dos** AZ: si cae una AZ, ¿qué esperas a alto nivel?
+3. **V/F.** Miras la CPU de la instancia en **CloudTrail**.
+4. Empareja: **ALB** · **ASG** · **CloudWatch** con: (a) reparte a destinos sanos · (b) min/desired/max · (c) métricas y alarmas
+5. **V/F.** Aprobar CLF-C02 te aprueba automáticamente un RA suspendido en este módulo.
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **b**.
+
+2. Que el ASG/ALB sigan sirviendo con capacidad en la AZ viva (si el diseño es multi-AZ); no «todo caído».
+
+3. **Falso** — CPU → CloudWatch; CloudTrail = API.
+
+4. ALB→(a); ASG→(b); CloudWatch→(c).
+
+5. **Falso** — los RA no se compensan; el +1 no aprueba un RA.
+
+</details>
 
 ---
+
 
 ## Glosario
 
@@ -187,3 +247,4 @@ Para el cierre CLF: [Certificación](../99-certificacion/certificacion.md) (seri
 
 **CloudWatch**{: #cloudwatch}
 Servicio de métricas, logs y alarmas. Responde a «¿qué está pasando ahora en el recurso?» (CPU, latencia, *unhealthy hosts*…). No sustituye a CloudTrail (auditoría de API) ni aprueba un RA por arte de magia.
+

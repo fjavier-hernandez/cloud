@@ -44,16 +44,16 @@ Todos los temas están **disponibles para estudio** en este sitio. Que puedas le
 
 | Tema | Título | Qué trabajamos | Estudio | Evaluación | RA principales |
 | ---: | --- | --- | --- | --- | --- |
-| — | [Acceso](00-acceso/acceso.md) | Entrar a Academy, Learner Lab y Skill Builder | Disponible | — | — |
-| **1** | [Fundamentos de la nube AWS](01-fundamentos-nube-aws/tema1.md) | Mapa y definiciones (módulos introductorios de Cloud Foundations), modelos, adopción, facturación, infra global y consola | Disponible | 1.ª eval. / Aules | RA1, RA2 |
-| **2** | [Seguridad, IAM y responsabilidad compartida](02-seguridad-iam/tema2.md) | Shared responsibility, IAM, MFA y protección de datos | Disponible | 1.ª eval. / Aules | RA2 |
-| **3** | [Redes, VPC y entrega de contenido](03-redes-entrega-contenido/tema3.md) | VPC, subredes, SG/NACL, CloudFront y Route 53 | Disponible | 1.ª eval. / Aules | RA3 |
-| **4** | [Cómputo: EC2, Lambda y contenedores](04-computo-serverless/tema4.md) | Máquinas virtuales, serverless y contenedores | Disponible | 1.ª eval. / Aules | RA3 |
-| **5** | [Almacenamiento](05-almacenamiento/tema5.md) | S3, EBS, EFS y clases de almacenamiento | Disponible | 2.ª eval. / Aules | RA4 |
-| **6** | [Bases de datos](06-bases-de-datos/tema6.md) | RDS, Aurora, DynamoDB y elección de motor | Disponible | 2.ª eval. / Aules | RA4 |
-| **7** | [Arquitectura Well-Architected](07-arquitectura-well-architected/tema7.md) | Pilares, resiliencia y desacoplo | Disponible | 2.ª eval. / Aules | RA4 |
-| **8** | [Escalado, monitorización y cierre CLF-C02](08-escalado-monitoreo-cierre/tema8.md) | ELB, Auto Scaling, CloudWatch; cierre del módulo | Disponible | 2.ª eval. / Aules | RA3, RA4 |
-| — | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible | +1 según Evaluación / Aules | — |
+| — | [Acceso](00-acceso/acceso.md) | Entrar a Academy, Learner Lab y Skill Builder | Disponible para estudio | — | — |
+| **1** | [Fundamentos de la nube AWS](01-fundamentos-nube-aws/tema1.md) | Mapa y definiciones (módulos introductorios de Cloud Foundations), modelos, adopción, facturación, infra global y consola | Disponible para estudio | 1.ª eval. / Aules | RA1, RA2 |
+| **2** | [Seguridad, IAM y responsabilidad compartida](02-seguridad-iam/tema2.md) | Shared responsibility, IAM, MFA y protección de datos | Disponible para estudio | 1.ª eval. / Aules | RA2 |
+| **3** | [Redes, VPC y entrega de contenido](03-redes-entrega-contenido/tema3.md) | VPC, subredes, SG/NACL, CloudFront y Route 53 | Disponible para estudio | 1.ª eval. / Aules | RA3 |
+| **4** | [Cómputo: EC2, Lambda y contenedores](04-computo-serverless/tema4.md) | Máquinas virtuales, serverless y contenedores | Disponible para estudio | 1.ª eval. / Aules | RA3 |
+| **5** | [Almacenamiento](05-almacenamiento/tema5.md) | S3, EBS, EFS y clases de almacenamiento | Disponible para estudio | 2.ª eval. / Aules | RA4 |
+| **6** | [Bases de datos](06-bases-de-datos/tema6.md) | RDS, Aurora, DynamoDB y elección de motor | Disponible para estudio | 2.ª eval. / Aules | RA4 |
+| **7** | [Arquitectura Well-Architected](07-arquitectura-well-architected/tema7.md) | Pilares, resiliencia y desacoplo | Disponible para estudio | 2.ª eval. / Aules | RA4 |
+| **8** | [Escalado, monitorización y cierre CLF-C02](08-escalado-monitoreo-cierre/tema8.md) | ELB, Auto Scaling, CloudWatch; cierre del módulo | Disponible para estudio | 2.ª eval. / Aules | RA3, RA4 |
+| — | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | +1 según Evaluación / Aules | — |
 
 El **Tema 1** concentra los módulos introductorios de *AWS Academy Cloud Foundations*. **Acceso** es solo el *cómo entrar*. Los temas **2–8** siguen un bloque Foundations cada uno; el ritmo de **tutoría y entregas** lo marcan Aules y el calendario de abajo.
 
@@ -142,14 +142,23 @@ pie showData
 
 ## Materiales
 
-- Este sitio web de apuntes.
+- Este sitio web de apuntes (guía del módulo).
 - **AWS Academy Cloud Foundations** (acceso learner según se indique en clase / Aules).
 - Consola AWS de las cuentas de laboratorio.
 - Ampliación: [AWS Skill Builder](https://skillbuilder.aws/) — *Cloud Practitioner Essentials*.
 - Guía oficial del examen: [AWS Certified Cloud Practitioner (CLF-C02)](https://aws.amazon.com/certification/certified-cloud-practitioner/).
-- Videotutoriales curados (Profe Santos Cloud) en cada tema.
-- **[Certificación](99-certificacion/certificacion.md)** — hub CLF-C02 (serie Santos, apuntes, tests, Skill Builder). El +1 se detalla en [Evaluación](#evaluacion) / Aules.
+- Videotutoriales en cada tema (Profe Santos Cloud y otros).
+- **[Certificación](99-certificacion/certificacion.md)** — hub CLF-C02 (notas por tema, **autochecks estilo examen**, serie Santos, tests, Skill Builder). Los quizzes de clase van en cada tema. El +1 se detalla en [Evaluación](#evaluacion) / Aules.
 - Editor de entregas: Visual Studio Code + Markdown.
+
+## Referencias
+
+Fuentes utilizadas en la elaboración de estos apuntes:
+
+- Salvador Serrano — apuntes Cloud (IES Severo Ochoa): <https://salvasevero.github.io/cloud/>
+- [Profe Santos Cloud](https://www.youtube.com/@ProfeSantosCloud) (YouTube)
+- Documentación y guías oficiales [AWS](https://docs.aws.amazon.com/) (incluye Architecture Icons / diagramas de servicio)
+- [AWS Skill Builder](https://skillbuilder.aws/) y guía del examen [CLF-C02](https://aws.amazon.com/certification/certified-cloud-practitioner/)
 
 ## Contenidos del sitio
 
@@ -158,7 +167,7 @@ pie showData
 | [Inicio](index.md) | Planificación y evaluación |
 | [Acceso](00-acceso/acceso.md) | Entrar a Academy, lab y Skill Builder |
 | [Temas 1–8](#temas-del-curso) | Apuntes Foundations + puente Practitioner |
-| [Certificación](99-certificacion/certificacion.md) | Hub prep. CLF-C02 |
+| [Certificación](99-certificacion/certificacion.md) | Hub prep. CLF-C02 (notas + autocheck examen) |
 
 *[CFGS]: Ciclo Formativo de Grado Superior
 *[DAW]: Desarrollo de Aplicaciones Web

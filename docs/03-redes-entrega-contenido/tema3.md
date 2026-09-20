@@ -34,6 +34,11 @@ Cómputo (tipos de instancia, Lambda) es el Tema 4. Balanceo y autoescalado: Tem
 
 Una **[VPC](#vpc)** (*Virtual Private Cloud*) es tu red virtual en **una** región AWS: eliges un rango de direcciones (**[CIDR](#cidr)**, p. ej. `10.0.0.0/16`) y la partes en **[subredes](#subnet)**. Cada subnet vive en **una** AZ: por eso «alta disponibilidad» implica al menos dos subnets, no un `/24` enorme. Para un desarrollador web, la VPC es el «barrio» donde colocas el front, la API y la base de datos, y decides qué queda expuesto a internet.
 
+!!! note "IPs que AWS se reserva en cada subnet"
+    En un CIDR de subnet, AWS reserva **cinco** direcciones (no las uses para EC2):
+    red, *gateway* virtual, DNS de la VPC, una reservada y *broadcast*.
+    Ejemplo en `10.0.0.0/24`: `.0`, `.1`, `.2`, `.3` y `.255` no son tuyas para instancias.
+
 | Pieza | Función | Error típico |
 | --- | --- | --- |
 | **Subnet** | Trozo de CIDR en una AZ | Pensar que cruza dos AZ |
@@ -94,11 +99,14 @@ La VPC es el escenario; EC2/Lambda (Tema 4) son los actores; el ALB y el Auto Sc
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-VPC (subnet = una AZ), SG vs NACL, VPN/Direct Connect, API Gateway como idea, CloudFront + Route 53. Publica el front; la base en privada.
+VPC (subnet = una AZ), SG vs NACL, VPN/Direct Connect, API Gateway como idea, CloudFront + Route 53.
+
+!!! tip "Para el CLF"
+    Publica ALB/CloudFront; la base en privada. CloudFront cachea contenido — no «mueve» RDS al borde. SG con estado; NACL sin estado.
+
+    Ampliación y **autocheck certificación** → [Certificación § Tema 3](../99-certificacion/certificacion.md#tema-3).
 
 **Videotutorial (CDN / DNS).** [CloudFront - S3 - Route 53 (Static Web)](https://www.youtube.com/watch?v=DgQroj70CJ0) (~19 min). Vídeo: Profe Santos Cloud (YouTube).
-
-**Ampliación y trucos de examen →** [Certificación § Tema 3](../99-certificacion/certificacion.md#tema-3).
 
 ---
 
@@ -142,15 +150,34 @@ Si saltas al paso 4 abriendo 3306 al mundo, el resto del diagrama «bonito» no 
 
 ---
 
-## Autocheck / preparación cert
+## Autocheck del tema
 
-1. ¿Una subnet puede ocupar dos AZ? ¿Qué implica eso para una API que debe sobrevivir a un fallo de edificio?
-2. ¿El security group recuerda conexiones establecidas? ¿Y la NACL? ¿Por qué importa en un POST de formulario?
-3. ¿Para qué sirve un NAT Gateway si ya existe el IGW?
-4. CloudFront: ¿reduce latencia copiando la región de RDS al borde, o cacheando contenido?
-5. VPN frente a Direct Connect: una diferencia que el examen espera, aplicada a un backend que habla mucho con un CPD propio.
+Comprueba VPC y entrega de este tema. CLF: [Certificación § Tema 3](../99-certificacion/certificacion.md#tema-3).
+
+1. **V/F.** Una subnet puede cruzar dos AZ «para tener HA gratis».
+2. El **security group**…  
+   a) no tiene estado · b) recuerda conexiones establecidas · c) sustituye al IGW
+3. ¿Para qué sirve un **NAT Gateway** si ya hay IGW?
+4. Empareja: **IGW** · **NACL** · **CloudFront** con: (a) puerta a internet de la VPC · (b) filtro a nivel de subnet (sin estado) · (c) CDN en el borde
+5. **V/F.** CloudFront «mueve» RDS a la edge location más cercana al alumno.
+
+<details markdown="1">
+<summary>Soluciones</summary>
+
+1. **Falso** — una subnet = una AZ.
+
+2. **b**.
+
+3. Salida a internet desde subnets **privadas** sin aceptar entradas no solicitadas (parches, `npm`…).
+
+4. IGW→(a); NACL→(b); CloudFront→(c).
+
+5. **Falso** — cachea contenido; no traslada la base de datos.
+
+</details>
 
 ---
+
 
 ## Glosario
 
