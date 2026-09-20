@@ -7,6 +7,9 @@ description: EC2, AMI, tipos de instancia, Lambda, ECS/EKS/Fargate y elección d
 
 Tres maneras de «correr código» en AWS: **máquina virtual**, **contenedor** y **función**. El error de DAW no es desconocer los logos; es meter una API con WebSocket persistente en [Lambda](#lambda) «porque es serverless» o dejar un `t3.large` 24/7 para un cron de treinta segundos. **Foundations M6.** Ver [glosario](#glosario).
 
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). La red del Tema 3 ya sitúa la instancia; aquí eliges **dónde corre** el proceso y cuánto pagas por dejarlo encendido.
+
 ## Propuesta didáctica
 
 > **RA3.** *Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.*
@@ -24,6 +27,42 @@ Balanceo y Auto Scaling: Tema 8. Aquí se *nombra* el ASG como pareja natural de
 * Lambda: evento, duración, coste por invocación.
 * ECS, EKS, Fargate: contenedores con o sin nodos que parchear.
 * Elastic Beanstalk, Lightsail: nombres; cuándo simplifican.
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q5** | EC2 + AMI + elección VM/Lambda | **PR401**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. Nombra un caso en el que **EC2** encaje mejor que **Lambda** (pista: estado o conexión larga).
+    2. ¿Qué es una **AMI** y para qué la usarías al clonar un lab?
+    3. ¿**Spot** es un tamaño de instancia (`t3.micro`) o un **modelo de compra**?
+    4. ¿Por qué conviene **terminate** (o min=0) al acabar el lab aunque «la dejes para mañana»?
+    5. En una frase: ¿qué diferencia de operación hay entre una **VM** y un **contenedor**?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. API con **WebSocket** o proceso largo con estado en memoria / puerto persistente: mejor **EC2** (o contenedor) que Lambda «porque es serverless».
+
+2. Una **AMI** es la **plantilla** (SO + software) para lanzar instancias iguales; sirve para clonar el lab sin reinstalar a mano.
+
+3. **Spot** es un **modelo de compra** (capacidad interrumpible más barata), no un tamaño `t3.micro`.
+
+4. Si no **terminate** (o min=0), el lab **sigue facturando** horas, discos y balancers olvidados.
+
+5. En una **VM** gestionas (más) el SO y el proceso; en un **contenedor** empaquetas la app y, con Fargate, dejas de parchear nodos EC2 del clúster.
+
+</details>
 
 ---
 
@@ -134,12 +173,10 @@ EC2 sin VPC/SG claros (Tema 3) es un servidor expuesto. El disco de la VM es EBS
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Tipo de instancia ≠ modelo de precio. EC2 / Lambda / ECS·Fargate / EKS: elige por estado, duración y operación.
+En el CLF-C02 no basta con nombrar EC2 o Lambda: hay que separar **tipo de instancia** de **modelo de precio** y elegir servicio según estado, duración y quién opera el entorno (ECS/Fargate, EKS…).
 
 !!! tip "Para el CLF"
-    Spot no es un `t3.micro`. SageMaker/Rekognition no son «un tipo de EC2». Auto Scaling escala **grupos**, no es un tipo.
-
-    Ampliación y **autocheck certificación** → [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
+    Spot es un modelo de compra, no un tamaño `t3.micro`. SageMaker o Rekognition no son «un tipo de EC2». Auto Scaling escala **grupos** de instancias, no sustituye elegir bien el cómputo. Ampliación y **autocheck certificación** en [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
 
 ---
 
@@ -178,13 +215,23 @@ El M6 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR401 — Lanzar y comparar cómputo** (RA3 d, f)
+### PR401 — Lanzar y comparar cómputo
 
-1. Lab Academy M6 (EC2 / AMI).
-2. En el `.md`: ¿este workload seguiría igual de bien en **Lambda**? Estado, tiempo, puerto persistente, coste 24/7.
-3. **Termina** las instancias. Captura de la lista vacía o parada.
+* :simple-neutralinojs: **PR401**. (RA3 // d, f // **PR 0–10**). Lanzas el lab Academy M6 (EC2 / AMI) y argumentas si ese mismo workload encajaría en **Lambda**, mirando estado, duración y coste 24/7.
 
-**Checklist de lab.** AMI/región del enunciado → tipo pequeño → SG mínimo → evidencias → **terminate**. Si comparas con Lambda, escribe en el `.md` *estado*, *duración* y *coste 24/7*, no solo el logo.
+  **Tareas:** sigue AMI/región del enunciado con tipo pequeño y SG mínimo; documenta evidencias del lanzamiento; en el `.md`, compara EC2 frente a Lambda (estado, tiempo, puerto persistente, coste); **terminate** las instancias y deja evidencia de lista vacía o parada.
+
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR401.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR401](../90-soluciones/pr/PR401.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Lab EC2/AMI | Lanzamiento según enunciado | 0–3 |
+| Comparación Lambda | Estado, duración, coste 24/7 | 0–4 |
+| Limpieza | Terminate / evidencias | 0–2 |
+| Claridad del `.md` | Sin quedarse solo en el logo | 0–1 |
+| **Total** | | **/10** |
 
 ---
 
@@ -219,7 +266,7 @@ Comprueba cómputo de esta quincena. CLF: [Certificación § Tema 4](../99-certi
 
 4. **Falso** — Fargate quita la gestión del nodo.
 
-5. EC2→(b); Lambda→(a); ECS+Fargate→(c).
+5. **EC2** encaja con (b) SSH y SO a medida; **Lambda**, con (a) handler sin `listen`; **ECS+Fargate**, con (c) contenedor sin gestionar nodos.
 
 </details>
 

@@ -20,6 +20,7 @@ nav:
   - "7. Arquitectura Well-Architected": "07-arquitectura-well-architected/tema7.md"
   - "8. Escalado, monitorización y cierre CLF-C02": "08-escalado-monitoreo-cierre/tema8.md"
   - "Certificación": "99-certificacion/certificacion.md"
+  - "Soluciones": "90-soluciones/soluciones.md"
 
 theme:
   language: es

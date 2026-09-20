@@ -1,15 +1,15 @@
 ---
 title: Certificación
-description: Prep. AWS Certified Cloud Practitioner (CLF-C02) del módulo INP — serie Santos, apuntes, tests, Skill Builder, notas y autochecks CLF por tema.
+description: Preparación AWS Certified Cloud Practitioner (CLF-C02) del módulo INP — serie Santos, apuntes, tests, Skill Builder, notas y autochecks CLF por tema.
 ---
 
 # Certificación { #certificacion }
 
-Material de preparación para **AWS Certified Cloud Practitioner (CLF-C02)**. Esta página es el **hub** del CLF: notas de ampliación por tema, **autochecks estilo examen**, serie Santos, apuntes, tests y exam prep. Los Temas 1–8 del módulo siguen siendo el núcleo (Academy Cloud Foundations); el quiz de cada tema es de clase — aquí el tono es de examen.
+Esta página es el **hub** de preparación del examen **AWS Certified Cloud Practitioner (CLF-C02)**. Aquí concentras notas de ampliación por tema, **autochecks estilo examen**, la serie Santos, apuntes, tests y la sección oficial de Skill Builder. Los Temas 1–8 siguen siendo el núcleo del módulo (*Academy Cloud Foundations*); el cuestionario de cada tema es de clase, y en este hub el tono es el del examen.
 
-**Para quién.** Todo el alumnado del módulo. También quien quiera **adelantar** la prep. CLF a su ritmo (empresa, refuerzo, repaso entre quincenas…): empieza por [#orden](#orden), no por memorizar baterías.
+Va dirigida a todo el alumnado del módulo y también a quien quiera **adelantar** la preparación del examen a su ritmo (empresa, refuerzo, repaso entre quincenas…). Empieza por el [#orden](#orden), no por memorizar baterías.
 
-Antes de Skill Builder, entra por [Acceso](../00-acceso/acceso.md) (Academy → Builder ID).
+Antes de Skill Builder, pasa por [Acceso](../00-acceso/acceso.md): allí solo entras en Academy y activas el Builder ID; el estudio del examen continúa aquí.
 
 ### Examen CLF, RA del módulo y +1
 
@@ -48,11 +48,11 @@ Repaso rápido en inglés:
 
 ## Skill Builder { #skill-builder }
 
-- [AWS Skill Builder — Exam Prep](https://skillbuilder.aws/exam-prep) — prep. oficial.
+- [AWS Skill Builder — Exam Prep](https://skillbuilder.aws/exam-prep) — preparación oficial.
 - Portal: [skillbuilder.aws](https://skillbuilder.aws/). Activa la cuenta desde Academy / [Acceso](../00-acceso/acceso.md) (Builder ID).
 - Guía del examen: [AWS Certified Cloud Practitioner (CLF-C02)](https://aws.amazon.com/certification/certified-cloud-practitioner/).
 
-PDF de prep. del centro / Aules: cuando se publique allí. No hay fichero autorizado en este sitio.
+Si el centro publica un PDF de preparación en Aules, úsalo desde allí. En este sitio no hay un fichero de preparación autorizado.
 
 ## Orden sugerido { #orden }
 
@@ -236,7 +236,7 @@ Más práctica: [#tests](#tests).
 
 [Apuntes del tema](../05-almacenamiento/tema5.md)
 
-S3 ≠ disco SO; EBS ≠ EFS; cuidado con **egress**.
+En este bloque el examen premia elegir el **estilo** de almacén (objeto, bloque o fichero) y no olvidar la **salida de datos** en la factura. S3 no es el disco del SO; EBS no es EFS.
 
 #### Autocheck certificación
 
@@ -268,7 +268,7 @@ Más práctica: [#tests](#tests).
 
 [Apuntes del tema](../06-bases-de-datos/tema6.md)
 
-Multi-AZ = failover; réplica = lecturas. Managed vs self-managed.
+Aquí se distingue base **gestionada** frente a MySQL en la EC2, Multi-AZ (failover) frente a réplica de lectura, y cuándo un NoSQL va *además* del dominio relacional.
 
 #### Autocheck certificación
 
@@ -300,7 +300,7 @@ Más práctica: [#tests](#tests).
 
 [Apuntes del tema](../07-arquitectura-well-architected/tema7.md)
 
-Etiqueta el escenario con un pilar. SNS ≠ SQS.
+El examen pide **etiquetar** el escenario con un pilar y no confundir una cola de trabajo (SQS) con un pub/sub (SNS). No exige un *landing zone* multi-cuenta.
 
 #### Autocheck certificación
 
@@ -331,8 +331,7 @@ Más práctica: [#tests](#tests) · [#serie-santos](#serie-santos).
 
 [Apuntes del tema](../08-escalado-monitoreo-cierre/tema8.md)
 
-- ALB / ASG / CloudWatch: health check; min/desired/max; métrica ≠ CloudTrail.
-- Catálogo de una frase:
+Cierra Foundations con balanceo, Auto Scaling y observación: health check, min/desired/max, y CloudWatch frente a CloudTrail. El catálogo de una frase resume *cuándo sí* / *cuándo no*:
 
 | Servicio | Cuándo sí | Cuándo no |
 | --- | --- | --- |

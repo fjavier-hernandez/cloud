@@ -5,7 +5,10 @@ description: Pilares del AWS Well-Architected Framework, desacoplo y resiliencia
 
 # Tema 7. Arquitectura Well-Architected
 
-Una sola EC2 con MySQL local, AMI hecha a mano y el puerto 3306 abierto al mundo **funciona** hasta el primer pico o el primer disco lleno. El **[Well-Architected Framework](#well-architected)** no es un poster: es un vocabulario para **discutir trade-offs** (coste vs AZ extra, seguridad vs comodidad). **Foundations M9.** Nivel Practitioner: pilares y patrones cortos. No seguimos el curso Academy Cloud Architecting. Ver [glosario](#glosario).
+Una sola EC2 con MySQL local, AMI hecha a mano y el puerto 3306 abierto al mundo **funciona** hasta el primer pico o el primer disco lleno. El **[Well-Architected Framework](#well-architected)** no es un poster: es un vocabulario para **discutir trade-offs** (coste vs AZ extra, seguridad vs comodidad). **Foundations M9.** Nivel Practitioner: pilares y patrones cortos. Ver [glosario](#glosario).
+
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Antes de escalar (Tema 8), nombra **por qué** una AZ sola o un disco lleno te tumba el servicio: aquí justificas el trade-off.
 
 ## Propuesta didáctica
 
@@ -23,6 +26,42 @@ La monitorización fina es el Tema 8. Aquí CloudWatch aparece como práctica de
 * Seis pilares y tensiones entre ellos.
 * Varias AZ, desacoplo ([SNS](#sns)/[SQS](#sqs)), [IaC](#iac) como idea.
 * Well-Architected Tool: existe; no es un entregable de producción del instituto.
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q9** | Pilares WA + trade-offs Multi-AZ | **PR701**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. ¿Para qué sirve el **Well-Architected Framework** si no vas a dibujar Netflix: etiquetar **trade-offs** o memorizar logos?
+    2. Poner la API en **dos AZ** mejora un pilar y suele empeorar otro: ¿cuáles?
+    3. ¿**SQS** o **SNS** si un worker debe procesar «generar PDF» cuando pueda?
+    4. Da un ejemplo de cambio en una app DAW y el **pilar** que mejora (una frase).
+    5. ¿Este módulo te pide diseñar un *landing zone* multi-cuenta completo?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. Sirve para **etiquetar trade-offs** con pilares (argumentar cambios), no para memorizar logos ni dibujar Netflix.
+
+2. Mejora **fiabilidad**; suele empeorar **coste** (y a veces complejidad/operación).
+
+3. **SQS**: cola de trabajo para que el worker procese cuando pueda. SNS sería pub/sub a varios suscriptores.
+
+4. Ejemplo: pasar MySQL local a **RDS Multi-AZ** → pilar **fiabilidad** (aceptas más coste).
+
+5. **No.** Este módulo no pide un *landing zone* multi-cuenta.
+
+</details>
 
 ---
 
@@ -76,7 +115,6 @@ La **Well-Architected Tool** es un cuestionario por pilares. Saber que existe ba
 ### Errores frecuentes (diseño)
 
 - Mejorar «todo» a la vez sin decir qué pilar priorizas (el entregable pide cinco cambios argumentados).
-- Confundir este módulo con *Cloud Architecting* (otro curso Academy): aquí no diseñamos landing zones multi-cuenta.
 - Usar SNS cuando necesitabas una cola de trabajo (o al revés): pub/sub ≠ «el worker procesará cuando pueda».
 - Declarar sostenibilidad sin rightsizing (apagar idle cuenta más que un párrafo verde).
 
@@ -88,14 +126,12 @@ Sin VPC multi-AZ (T3), RDS Multi-AZ (T6) y ALB/ASG (T8), el discurso Well-Archit
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Etiqueta el escenario con un **pilar**. SNS ≠ SQS. No diseñas *landing zones*.
+El Practitioner no pide un diagrama de cuarenta cajas: pide **etiquetar** el escenario con un pilar y no confundir una cola de trabajo (SQS) con un pub/sub (SNS). Tampoco diseñas *landing zones* multi-cuenta en este módulo.
 
 !!! tip "Para el CLF"
-    Cifrar → seguridad; alarmas → operaciones; Spot/talla → coste; multi-AZ → fiabilidad. SQS = cola de trabajo; SNS = pub/sub.
+    Cifrar datos apunta a seguridad; las alarmas, a operaciones; Spot o rightsizing, a coste; varias AZ, a fiabilidad. SQS encaja cuando un worker procesará el mensaje; SNS, cuando varios suscriptores reaccionan al mismo evento. Ampliación y **autocheck certificación** en [Certificación § Tema 7](../99-certificacion/certificacion.md#tema-7).
 
-    Ampliación y **autocheck certificación** → [Certificación § Tema 7](../99-certificacion/certificacion.md#tema-7).
-
-**Videotutorial (Practitioner).** [AWS Well Architecting Framework](https://www.youtube.com/watch?v=S9NTua9mg9k) (~1 h 52 min). Salta a los pilares. Vídeo: Profe Santos Cloud (YouTube).
+**Videotutorial (Practitioner).** [AWS Well Architecting Framework](https://www.youtube.com/watch?v=S9NTua9mg9k) (~1 h 52 min) — pilares del Well-Architected Framework. Vídeo: Profe Santos Cloud (YouTube).
 
 ---
 
@@ -113,15 +149,23 @@ El M9 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR701 — Mejorar un diagrama frágil** (RA4 d, f)
+### PR701 — Mejorar un diagrama frágil
 
-Anti-patrón: una EC2 `t3.large` en una AZ, MySQL en la misma instancia, AMI manual, SG `0.0.0.0/0` en 3306, backups en `/home`.
+* :simple-neutralinojs: **PR701**. (RA4 // d, f // **PR 0–10**). Partes de un anti-patrón (una EC2 `t3.large` en una AZ, MySQL en la misma instancia, AMI manual, SG `0.0.0.0/0` en 3306, backups en `/home`) y propones mejoras etiquetadas por pilar, sin montar el diagrama completo.
 
-Entrega: **cinco** cambios, cada uno con **pilar** y servicio Foundations (RDS, ALB, Multi-AZ, IAM, S3, CloudWatch…). No implementes el diagrama completo.
+  **Tareas:** escribe **cinco** cambios; cada uno en formato `Problema → servicio/práctica Foundations → pilar → por qué mejora / qué empeora (coste, complejidad)`; opcional: knowledge check Academy M9.
 
-Opcional: knowledge check Academy M9.
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR701.md`.
 
-**Formato de cada cambio (recomendado).** `Problema → servicio/práctica → pilar → por qué mejora / qué empeora (coste, complejidad)`.
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR701](../90-soluciones/pr/PR701.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Cinco cambios | Completos y distintos | 0–4 |
+| Pilares | Etiqueta correcta por cambio | 0–3 |
+| Trade-off | Qué mejora / qué empeora | 0–2 |
+| Claridad | Formato legible | 0–1 |
+| **Total** | | **/10** |
 
 ---
 

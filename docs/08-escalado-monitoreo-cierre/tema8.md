@@ -9,6 +9,9 @@ Si el Tema 7 dice *por qué* varias AZ, este dice *cómo* reparte el tráfico un
 
 Piensa este tema como el «tablero de control» de lo ya visto: la VPC (T3) y el cómputo (T4) son la materia; ELB/ASG/CloudWatch son cómo la mantienes viva bajo carga y cómo demuestras (con métricas) que no estás a ciegas. El catálogo CLF del final es reconocimiento rápido de logos.
 
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Si ya justificaste Multi-AZ en el Tema 7, aquí lo **operas**: tráfico, capacidad y alarmas.
+
 ## Propuesta didáctica
 
 > **RA3.** *Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.*
@@ -33,6 +36,43 @@ Piensa este tema como el «tablero de control» de lo ya visto: la VPC (T3) y el
 * Auto Scaling: min / desired / max; métricas; apagar entornos de desarrollo.
 * CloudWatch, CloudTrail, Config, Trusted Advisor, Health.
 * Repaso CLF-C02: IA/ML, analítica, integración (reconocer el servicio).
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q10** | ELB + ASG + CloudWatch | **PR801**, **AC802**; Autocheck del tema |
+| **Q11** | Repaso CLF-C02 y cierre de la 2.ª evaluación | Hub [Certificación](../99-certificacion/certificacion.md); prueba objetiva según Aules |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. ¿Qué problema resuelve un **ALB** delante de varias instancias de tu API?
+    2. ¿Para qué sirve el **health check** del balanceador?
+    3. En un **ASG**, ¿qué significan min, desired y max en una frase cada uno?
+    4. ¿**CloudWatch** o **CloudTrail** si quieres alarmar CPU al 80 %?
+    5. Al acabar el lab, ¿por qué dejar **min=0** o terminate evita sorpresas en la factura?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. Reparte el tráfico HTTP/HTTPS entre varias instancias y deja de mandar a las que fallan; evita una sola «mascota» como punto único de fallo.
+
+2. El **health check** comprueba si el destino responde (p. ej. `/health`); si no, el ALB no le envía tráfico.
+
+3. **min:** suelo que no baja; **desired:** cuántas quieres ahora; **max:** techo al escalar.
+
+4. **CloudWatch** (métricas/alarmas). CloudTrail audita llamadas a la API.
+
+5. Con **min=0** o terminate dejas de pagar capacidad ociosa del lab; si no, el ASG/instancias siguen facturando.
+
+</details>
 
 ---
 
@@ -138,11 +178,11 @@ El ALB reparte en capa 7 (host/path); CloudWatch te enseña el *log stream* o la
 <figcaption>Log stream en CloudWatch Logs. Fuente: AWS Lambda Developer Guide (AWS).</figcaption>
 </figure>
 
-Para el repaso CLF, Skill Builder concentra cursos y prep oficiales (p. ej. *Cloud Practitioner Essentials*): no confundas ese portal con la consola del lab.
+Para el repaso CLF, Skill Builder concentra cursos y materiales oficiales de preparación (p. ej. *Cloud Practitioner Essentials*): no confundas ese portal con la consola del lab.
 
 <figure markdown="span">
 ![Cabecera del portal AWS Skill Builder](img/capturas/skillbuilder-clf.png){ width="800" }
-<figcaption>Portal Skill Builder para prep. CLF. Fuente: skillbuilder.aws (AWS).</figcaption>
+<figcaption>Portal Skill Builder para la preparación CLF. Fuente: skillbuilder.aws (AWS).</figcaption>
 </figure>
 
 ### Errores frecuentes (escala y observación)
@@ -160,14 +200,12 @@ La **2.ª evaluación** cierra Temas 5–8. Este tema concentra ELB/ASG/CloudWat
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-ALB / ASG / CloudWatch cierran Foundations. El catálogo CLF (IA, analítica, colas…) y el estilo examen viven en el hub.
+Con ALB, Auto Scaling y CloudWatch cierras el núcleo Foundations de este tema. El catálogo corto de servicios (IA, analítica, colas…) y el tono de examen viven en el hub de Certificación.
 
 !!! tip "Para el CLF"
-    Health check + min/desired/max. CloudWatch ≠ CloudTrail. Reconoce el servicio de una frase (*cuándo sí / cuándo no*).
+    El health check deja fuera lo que falla; el ASG se entiende con min, desired y max. CloudWatch mira métricas y alarmas; CloudTrail audita la API. En el catálogo basta reconocer el servicio con una frase de *cuándo sí* y *cuándo no*. Detalle y **autocheck certificación** en [Certificación § Tema 8](../99-certificacion/certificacion.md#tema-8).
 
-    Catálogo, mapa de dominios y **autocheck certificación** → [Certificación § Tema 8](../99-certificacion/certificacion.md#tema-8).
-
-**Serie / tests / orden** → [serie](../99-certificacion/certificacion.md#serie-santos) · [tests](../99-certificacion/certificacion.md#tests) · [orden](../99-certificacion/certificacion.md#orden).
+Para seguir hacia el examen, en [Certificación](../99-certificacion/certificacion.md) tienes la [serie Santos](../99-certificacion/certificacion.md#serie-santos), los [tests de práctica](../99-certificacion/certificacion.md#tests) y el [orden sugerido](../99-certificacion/certificacion.md#orden).
 
 ---
 
@@ -187,13 +225,38 @@ El M10 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR801 — Escalar y observar** (RA3 e, f; RA4 e)
+### PR801 — Escalar y observar
 
-Lab Academy M10. Evidencias: ALB con un destino sano; ASG con min ≥ 1 en lab y **min = 0 o terminate** al acabar; una alarma CloudWatch (CPU o *unhealthy host*) o captura de métrica.
+* :simple-neutralinojs: **PR801**. (RA3 // e, f // RA4 // e // **PR 0–10**). Cierras Foundations M10 operando tráfico, capacidad y observación: ALB, ASG y una señal en CloudWatch, sin dejar el lab facturando.
 
-**AC802 — Mapa de servicios:** ocho tarjetas (servicio → una frase → dominio CLF-C02). Sin dumps de examen.
+  **Tareas:** lab Academy M10; evidencia de ALB con al menos un destino sano; ASG con min ≥ 1 durante el lab y **min = 0 o terminate** al acabar; una alarma CloudWatch (CPU o *unhealthy host*) o captura de métrica.
 
-**Checklist de lab M10.** Destino sano en el ALB → ASG con min coherente → alarma o métrica capturada → **min=0 o terminate** al acabar. Sin captura de recursos vivos, la práctica no cierra.
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR801.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR801](../90-soluciones/pr/PR801.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| ALB | Destino sano documentado | 0–3 |
+| ASG | Min/desired coherentes en lab | 0–3 |
+| CloudWatch | Alarma o métrica | 0–2 |
+| Limpieza | min=0 o terminate | 0–2 |
+| **Total** | | **/10** |
+
+### AC802 — Mapa de servicios CLF
+
+* :simple-readdotcv: **AC802**. (RA3 // f // RA4 // f // **AC 0–1**). Preparas ocho tarjetas de reconocimiento (servicio → una frase → dominio CLF-C02). Sin dumps de examen: calidad frente a cantidad.
+
+  **Tareas:** elige ocho servicios del catálogo visto en el tema / hub; una frase de *cuándo sí*; dominio aproximado del CLF-C02.
+
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `AC802.md`.
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · AC802](../90-soluciones/pr/AC802.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Ocho tarjetas útiles | Servicio + frase + dominio; sin dump | 0–1 |
+| **Total** | | **/1** |
 
 ---
 
@@ -225,7 +288,7 @@ Cierre Foundations (ELB/ASG/CloudWatch). El catálogo CLF largo y el estilo exam
 
 3. **Falso** — CPU → CloudWatch; CloudTrail = API.
 
-4. ALB→(a); ASG→(b); CloudWatch→(c).
+4. El **ALB** encaja con (a) repartir a destinos sanos; el **ASG**, con (b) min/desired/max; **CloudWatch**, con (c) métricas y alarmas.
 
 5. **Falso** — los RA no se compensan; el +1 no aprueba un RA.
 

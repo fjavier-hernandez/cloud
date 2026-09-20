@@ -9,6 +9,9 @@ En este tema construimos el mapa que el resto del módulo da por sentado: qué e
 
 El núcleo es **AWS Academy Cloud Foundations M0–M3**. La ampliación apunta al vocabulario del **CLF-C02**, sin convertir el tema en un plan de migración de empresa.
 
+!!! tip "Primera clase"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). No hace falta haber leído el tema entero: sirve para ver qué traes (VPS vs nube, IaaS/PaaS, región y factura) antes de Foundations.
+
 !!! tip "Cómo leerlo"
     No hace falta memorizar el catálogo de servicios. Sí hace falta poder **explicar** un caso (tienda online, API de un TFG, front estático) eligiendo modelo, región y una estimación de coste razonable. Los términos marcados enlazan al [glosario](#glosario) al final del tema.
 
@@ -47,6 +50,45 @@ Trabajamos el **RA1** y el arranque del **RA2** del módulo *Introducción a la 
 * Adopción y migración: marco CAF y estrategias (7 R) a nivel de reconocimiento.
 * Economía: [CAPEX](#capex) / [OPEX](#opex), [TCO](#tco), dimensiones de precio, calculadora y presupuestos.
 * Infraestructura global: regiones, zonas de disponibilidad, *edge*; navegación por la consola.
+
+### Programación de aula (orientativa, quincenas)
+
+En INP la sesión de centro es **tutoría quincenal** (~1 h); el grueso es autónomo. El Tema 1 ocupa **dos** quincenas.
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q1** | Acceso + mapa del tema + cuestionario | Lectura conceptos/modelos; **PR101**, **PR102** |
+| **Q2** | Dudas Q1; facturación e infra global | **PR103**, **PR104**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Antes de Foundations — responde con lo que sepas"
+    1. ¿En qué se parece y en qué no un **VPS** barato a la **nube pública** que estudia este módulo?
+    2. Si despliegas una API Node y un MySQL, ¿quién parchea el SO en **IaaS** frente a un motor **PaaS**/gestionable?
+    3. ¿Por qué importa la **región** además de «que la consola abra»?
+    4. Nombra dos partidas de coste distintas del precio «de la VM» (pista: salida de datos, personal, facilities…).
+    5. ¿Qué pasa con la factura si dejas una instancia de lab encendida el fin de semana?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. Se parecen en que alquilas capacidad por red; se diferencian en que la **nube pública** ofrece más servicios gestionados, regiones/AZ y facturación por uso medido, no solo «una VM remota».
+
+2. En **IaaS** (EC2) **tú** parcheas el SO; en un motor **PaaS**/gestionable (p. ej. RDS) el proveedor parchea el motor y tú sigues con datos, usuarios y configuración.
+
+3. La **región** fija latencia, soberanía de datos y qué servicios/precios aplican; no basta con que la consola abra.
+
+4. Ejemplos: **egress** (salida de datos), personal/operación, almacenamiento, balanceadores, facilities on-prem si comparas TCO…
+
+5. Sigue **facturando** el tiempo encendido (y lo asociado); Free Tier no es «gratis ilimitado».
+
+</details>
 
 ---
 
@@ -277,7 +319,7 @@ Si despliegas la API en Irlanda y el bucket de fotos en Oregón «porque el tuto
 <figcaption>La región agrupa AZ; el borde (CloudFront / Route 53) acerca contenido, no la base de datos transaccional.</figcaption>
 </figure>
 
-El flujo típico de un primer recurso de cómputo (AMI → instancia → SG → conectar) es el que verás en Foundations cuando toque EC2; aquí solo sitúalo en el mapa región/AZ.
+El flujo típico de un primer recurso de cómputo (AMI → instancia → SG → conectar) es el que verás en Foundations con EC2; aquí solo sitúalo en el mapa región/AZ.
 
 <figure markdown="span">
 ![Diagrama de primeros pasos con Amazon EC2 en la guía oficial](img/capturas/ec2-get-started.png){ width="800" }
@@ -286,18 +328,16 @@ El flujo típico de un primer recurso de cómputo (AMI → instancia → SG → 
 
 ### Relación con el resto del módulo
 
-Este tema no «cierra» la nube: solo fija el vocabulario. Seguridad e identidades → Tema 2. Redes y exposición → Tema 3. Dónde corre el código → Tema 4. Discos y objetos → Tema 5. Datos → Tema 6. Trade-offs de diseño → Tema 7. Escala y alarmas → Tema 8. Si aquí entiendes región, modelo y factura, el resto deja de ser una lista de logos.
+Este tema no cierra la nube: fija el vocabulario con el que se entiende el resto. Cuando aquí tengas claros región, modelo de servicio y factura, el Tema 2 (identidades) deja de ser una lista de logos, el Tema 3 (VPC) deja de parecer «redes por magia» y el cómputo, el almacenamiento y los datos (Temas 4–6) se eligen con criterio. Los Temas 7 y 8 usan ese mismo mapa para trade-offs de diseño y para escalar sin volar la cuenta del lab.
 
 ---
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Dominios *Cloud Concepts* y *Billing*, más región/AZ/edge. El examen pide **identificar** beneficio o servicio, no diseñar un *landing zone*.
+Los dominios *Cloud Concepts* y *Billing*, más región, AZ y edge, son el marco del examen en este bloque. El CLF-C02 pide **identificar** un beneficio o un servicio; no diseñar un *landing zone* de empresa.
 
 !!! tip "Para el CLF"
-    En el examen importa la **causa** (OPEX, AZ, Spot ≠ tipo de instancia), no el eslogan. CAF/7 R son etiquetas con ejemplo. Edge ≠ base de datos.
-
-    Ampliación, trucos y **autocheck certificación** → [Certificación § Tema 1](../99-certificacion/certificacion.md#tema-1).
+    En el examen importa la **causa** (OPEX, varias AZ, Spot como modelo de precio), no el eslogan. Las etiquetas CAF o las 7 R solo cuentan si las anclas a un ejemplo concreto. El borde (CDN o DNS) acerca contenido; no mueve tu base de datos transaccional. Ampliación, trucos y **autocheck certificación** en [Certificación § Tema 1](../99-certificacion/certificacion.md#tema-1).
 
 **Videotutorial (Practitioner).** [Sesión 1 Cloud Practitioner 2026](https://www.youtube.com/watch?v=Z3yNbQXz_bI) (~1 h 52 min). Salta al tramo de conceptos / valor / modelos. Vídeo: Profe Santos Cloud (YouTube).
 
@@ -321,31 +361,81 @@ Los módulos en vídeo del LMS Academy (M0–M3) se indican en clase / Aules.
 
 ## Actividad / práctica
 
-**PR101 — Consola y ecosistema** (RA1 c; RA2 b, c)
+### PR101 — Consola y ecosistema
 
-1. Entra en la *class* de Cloud Foundations con el código de clase.
-2. Completa el módulo **0** del LMS (lectura + knowledge check).
-3. En la consola learner: región activa y buscador de servicios. **No crees recursos de pago.**
-4. Entrega (`.md`): cinco servicios, cada uno en una categoría y una frase de para qué sirve en una app web.
+* :simple-neutralinojs: **PR101**. (RA1 // c // RA2 // b, c // **PR 0–10**). Entras en la *class* de Cloud Foundations y reconoces el mapa de servicios en la consola learner **sin** crear recursos de pago.
 
-**PR102 — Modelos** (RA1 a, b, c)
+  **Tareas:** completa el módulo **0** del LMS (lectura + knowledge check); anota la región activa y usa el buscador de servicios; elige **cinco** servicios, cada uno con categoría y una frase de para qué sirve en una app web.
 
-Cuatro situaciones (correo del centro, API de un proyecto DAW, front estático, backup). Para cada una: ¿IaaS, PaaS o SaaS? ¿Pública, privada, híbrida o multicloud? ¿Qué ventaja frente a comprar hardware justifica la elección? Knowledge check del **Módulo 1**.
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR101.md` (o ZIP + `img/` si hay capturas).
 
-**PR103 — Estimación** (RA1 d, e, f)
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR101](../90-soluciones/pr/PR101.md).
 
-Con **AWS Pricing Calculator**, un mes de: instancia pequeña 24/7 en región europea + 50 GB de objetos + 10 GB de salida. Repite la instancia a **40 h/sem**. Entrega: supuestos y desglose. Completa el lab de costes de Academy M2 si está activo.
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Acceso y módulo 0 | Class + knowledge check hechos | 0–2 |
+| Consola sin coste | Región anotada; sin recursos de pago | 0–2 |
+| Cinco servicios | Categoría + caso web claro | 0–4 |
+| Claridad del `.md` | Estructura legible, sin catálogo interminable | 0–2 |
+| **Total** | | **/10** |
 
-**PR104 — Fábrica global** (RA2 a, b, c)
+### PR102 — Modelos
 
-Compara dos regiones en consola (sin crear recursos). Localiza en el mapa público de infraestructura una región europea con varias AZ. Knowledge check **Módulo 3**.
+* :simple-neutralinojs: **PR102**. (RA1 // a, b, c // **PR 0–10**). Clasificas cuatro situaciones de una app o centro educativo eligiendo modelo de servicio y de despliegue, y justificas la ventaja frente a comprar hardware.
 
-Tiempo conjunto orientativo: dos quincenas de trabajo autónomo + tutoría.
+  - Situaciones: correo del centro; API de un proyecto DAW; front estático; backup.
 
-### Qué entregar bien (y qué no)
+  **Tareas:** para cada situación, indica IaaS/PaaS/SaaS y pública/privada/híbrida/multicloud; una frase de ventaja frente a hardware propio; knowledge check del **Módulo 1** si está activo en Academy.
 
-- **Sí:** supuestos de la calculadora, captura de región, cinco servicios con categoría y caso web, justificación IaaS/PaaS/SaaS en cuatro frases.
-- **No:** pegar capturas sin leyenda, listar 40 servicios del catálogo, afirmar «la nube es más barata» sin trade-off, dejar recursos de pago creados «por si acaso».
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR102.md`.
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR102](../90-soluciones/pr/PR102.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Cuatro situaciones | Todas clasificadas | 0–4 |
+| Modelos coherentes | Servicio y despliegue encajan | 0–3 |
+| Justificación | Ventaja vs hardware (no eslogan) | 0–3 |
+| **Total** | | **/10** |
+
+### PR103 — Estimación
+
+* :simple-neutralinojs: **PR103**. (RA1 // d, e, f // **PR 0–10**). Usas **AWS Pricing Calculator** para comparar coste 24/7 frente a uso parcial y dejas claros los supuestos.
+
+  **Tareas:** estima un mes en región europea con instancia pequeña 24/7 + 50 GB de objetos + 10 GB de salida; repite la instancia a **40 h/sem**; documenta supuestos y desglose; completa el lab de costes de Academy M2 si está activo.
+
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR103.md` (capturas de la calculadora dentro del desarrollo si las usas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR103](../90-soluciones/pr/PR103.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Escenario 24/7 | Supuestos y desglose | 0–3 |
+| Escenario 40 h/sem | Comparación coherente | 0–3 |
+| Lectura de coste | Se entiende qué dispara la factura | 0–2 |
+| Lab M2 (si aplica) / claridad | Evidencia o nota de no disponible | 0–2 |
+| **Total** | | **/10** |
+
+### PR104 — Fábrica global
+
+* :simple-neutralinojs: **PR104**. (RA2 // a, b, c // **PR 0–10**). Relacionas región, AZ y mapa global sin crear recursos: dónde vive la carga y por qué importa la elección.
+
+  **Tareas:** compara dos regiones en consola (solo lectura); localiza en el mapa público de infraestructura una región europea con varias AZ; knowledge check del **Módulo 3**; en el `.md`, explica en pocas frases región frente a AZ.
+
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR104.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR104](../90-soluciones/pr/PR104.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Comparación de regiones | Evidencia sin recursos de pago | 0–3 |
+| Región europea + AZ | Localización correcta | 0–3 |
+| Conceptos | Región ≠ AZ explicado | 0–2 |
+| Knowledge check / claridad | Completado o justificado | 0–2 |
+| **Total** | | **/10** |
+
+!!! tip "Calidad del entregable"
+    Prioriza supuestos claros y capturas con leyenda frente a listas interminables de servicios. Apaga lo que crees en el lab.
 
 ---
 
@@ -376,7 +466,7 @@ Comprueba lo de esta quincena (Foundations). Para estilo examen CLF: [Certificac
 
 1. **Falso** — en PaaS el proveedor gestiona el SO/plataforma; tú el código/datos.
 
-2. CAPEX→(b); OPEX→(a); IaaS→(c); SaaS→(d).
+2. **CAPEX** encaja con (b) comprar torres; **OPEX**, con (a) factura variable de recursos; **IaaS**, con (c) VM donde instalas el stack; **SaaS**, con (d) usar la app lista.
 
 3. **Híbrida** (on-prem + nube). Multicloud sería varios proveedores cloud.
 

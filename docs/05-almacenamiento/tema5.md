@@ -7,6 +7,9 @@ description: S3, EBS, EFS, FSx, clases de almacenamiento y backup (Foundations M
 
 En una app web hay **tres** estilos de almacenamiento que la gente mezcla: el disco de la VM, una carpeta de red compartida y un **objeto** al que se llega por HTTP. Subir el `uploads/` de Express a [S3](#s3) no es lo mismo que montar un [EBS](#ebs). **Foundations M7.** Ver [glosario](#glosario).
 
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Si tu API ya corre en EC2 o Lambda, aquí decides **dónde viven los ficheros** y qué pasa si borras la instancia.
+
 ## Propuesta didáctica
 
 > **RA4.** *Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.*
@@ -23,6 +26,42 @@ Bases de datos: Tema 6.
 * Objeto (S3), bloque (EBS), fichero (EFS / FSx).
 * Clases S3, lifecycle, versionado, *block public access*.
 * Snapshots, instance store, backup y movimiento de datos (Snow, Gateway).
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q7** | S3 vs EBS/EFS + lifecycle | **PR501**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. ¿**S3** es el disco del sistema operativo de la EC2, o un almacén de **objetos** por API/HTTP?
+    2. ¿Cuándo usarías **EBS** frente a subir ficheros a un bucket?
+    3. Dos EC2 en AZ distintas necesitan la **misma carpeta** montada: ¿EBS o **EFS**?
+    4. Si terminas la instancia, ¿qué suele pasar con los datos solo en el disco raíz si no hiciste snapshot?
+    5. ¿Por qué la **salida de datos** (egress) puede disparar la factura aunque el almacenamiento «parezca barato»?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. **S3** es almacén de **objetos** (API/HTTP), no el disco del SO de la EC2.
+
+2. **EBS** cuando el SO o la app necesitan un **volumen de bloque** montado en esa VM (disco del sistema, datos de una sola instancia).
+
+3. **EFS** (fichero de red montable en varias EC2). EBS es de una instancia (salvo patrones avanzados fuera de este módulo).
+
+4. Los datos del disco raíz **se pierden** al terminate si no hay snapshot/AMI que los preserve (salvo volúmenes que el enunciado diga conservar).
+
+5. El **egress** factura el tráfico que sale hacia internet/clientes; un bucket «barato» sirviendo mucho sin CDN puede salir caro en red.
+
+</details>
 
 ---
 
@@ -145,12 +184,10 @@ S3 + CloudFront (Tema 3) para estáticos. EBS nace con EC2 (Tema 4). Las bases (
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-S3 ≠ disco del SO; EBS ≠ EFS; Glacier es clase/archivo. En coste, no olvides la **salida** (egress).
+El examen premia elegir el **estilo** de almacén (objeto, bloque o fichero) y no olvidar la **salida de datos** en la factura. Glacier es una clase o archivo de S3, no un disco de SO.
 
 !!! tip "Para el CLF"
-    El examen premia elegir el almacén correcto y oler el egress. S3 no sustituye EBS del SO.
-
-    Ampliación y **autocheck certificación** → [Certificación § Tema 5](../99-certificacion/certificacion.md#tema-5).
+    S3 no sustituye el EBS del sistema operativo; EFS no es lo mismo que un volumen de una sola VM. Si sirves mucho tráfico desde un bucket sin CDN, el coste que dispara suele ser el egress. Ampliación y **autocheck certificación** en [Certificación § Tema 5](../99-certificacion/certificacion.md#tema-5).
 
 ---
 
@@ -184,14 +221,28 @@ El M7 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR501 — Objetos y bloques** (RA4 a, c)
+### PR501 — Objetos y bloques
 
-Lab Academy M7. Completa **una** evidencia:
+* :simple-neutralinojs: **PR501**. (RA4 // a, c // **PR 0–10**). Distingues almacén de objetos y de bloque con **una** evidencia del lab Academy M7 (S3 o EBS), sin dejar recursos vivos.
 
-- Sube un fichero a S3, *block public access*, prueba la URL y explica el 403.
-- O: volumen EBS, montaje, snapshot, borrar el volumen de lab.
+  Completa **una** de estas vías:
 
-**Checklist.** Block public access ON → prueba 403 → evidencia. Si usas EBS: snapshot → **delete** volumen e instancia. Anota clase S3 si el lab la pide.
+  - Sube un fichero a S3, deja *block public access*, prueba la URL y explica el 403.
+  - O: volumen EBS, montaje, snapshot y borrado del volumen (e instancia) de lab.
+
+  **Tareas:** documenta la vía elegida con capturas en el desarrollo; anota la clase S3 si el lab la pide; al terminar, *delete* de lo creado.
+
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR501.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR501](../90-soluciones/pr/PR501.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Evidencia S3 o EBS | Una vía completa y correcta | 0–4 |
+| Concepto (objeto/bloque) | Explicación coherente (403 / snapshot) | 0–3 |
+| Limpieza | Recursos de lab eliminados | 0–2 |
+| Claridad | Capturas con leyenda / `.md` ordenado | 0–1 |
+| **Total** | | **/10** |
 
 ---
 
@@ -225,7 +276,7 @@ Comprueba almacenamiento de este tema. CLF: [Certificación § Tema 5](../99-cer
 
 4. **Falso** — el snapshot es recurso de región (idea Foundations: no lo trates como «solo disco local de la AZ»).
 
-5. S3→(a); EBS→(b); egress→(c).
+5. **S3** encaja con (a) objetos por API/HTTP; **EBS**, con (b) volumen de bloque; el **egress**, con (c) el tráfico de salida que factura.
 
 </details>
 

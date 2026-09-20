@@ -7,6 +7,9 @@ description: RDS, Aurora, DynamoDB, Redshift y elección relacional vs NoSQL (Fo
 
 Instalar MySQL «en la misma EC2 que Express» funciona en el aula y **acopla** fallo, parche y backup. En nube la pregunta de DAW es: ¿necesito SQL transaccional, un almacén de documentos, o analítica? **Foundations M8.** Ver [glosario](#glosario).
 
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Distingue ya el almacenamiento de objetos (Tema 5) de los **datos estructurados**: aquí eliges motor y quién parchea.
+
 ## Propuesta didáctica
 
 > **RA4.** *Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.*
@@ -22,6 +25,42 @@ Instalar MySQL «en la misma EC2 que Express» funciona en el aula y **acopla** 
 * Relacional: [Multi-AZ](#multi-az) vs [*read replica*](#read-replica).
 * DynamoDB, ElastiCache, Redshift: cuándo no es RDS.
 * DMS / SCT: migración de datos (enlace con las 7 R del Tema 1).
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q8** | RDS Multi-AZ vs réplica + DynamoDB | **PR601**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. MySQL en la misma EC2 que Express frente a **RDS**: ¿quién aplica parches del **motor** en cada caso?
+    2. ¿**Multi-AZ** responde sobre todo a failover de escritura o a escalar lecturas de reporting?
+    3. ¿Para qué sirve una **réplica de lectura** que Multi-AZ no cubre igual?
+    4. ¿Cuándo tendría sentido **DynamoDB** *además* de un checkout SQL, y cuándo es un error sustituirlo «por moda»?
+    5. ¿Por qué abrir **3306** al mundo desde RDS es un anti-patrón aunque «así conectas el cliente SQL del portátil»?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. MySQL en EC2: **tú** parcheas el motor (y el SO). En **RDS**, **AWS** aplica parches del motor.
+
+2. **Multi-AZ** responde sobre todo al **failover** de la escritura (otra AZ), no a escalar SELECT de reporting.
+
+3. La **réplica de lectura** escala lecturas / reporting de forma asíncrona; no es el mismo mecanismo que el failover Multi-AZ.
+
+4. **Además:** p. ej. catálogo o sesión NoSQL junto a un checkout SQL. **Error:** tirar el dominio relacional/transaccional «porque DynamoDB escala» sin necesidad.
+
+5. Expone el motor a internet entero; el SG debe aceptar el SG de la API (o bastion), no `0.0.0.0/0` en 3306.
+
+</details>
 
 ---
 
@@ -126,16 +165,18 @@ En Foundations no montas un proyecto DMS completo: reconoces la herramienta cuan
 - Dejar la instancia RDS del lab encendida tras la entrega.
 - Guardar la contraseña del master en el README público del repo.
 
+### Relación con otros temas
+
+El disco y los objetos del Tema 5 no sustituyen una base transaccional: S3 guarda ficheros; aquí eliges motor y quién parchea. La API sigue viviendo en el cómputo del Tema 4, idealmente en subnet privada (Tema 3), y Multi-AZ o réplicas se entienden mejor cuando el Tema 7 pide justificar el trade-off.
+
 ---
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Managed vs EC2-hosted; relacional vs NoSQL; Multi-AZ ≠ read replica.
+Aquí el examen contrapone base **gestionada** frente a MySQL en la EC2, relacional frente a NoSQL, y Multi-AZ frente a réplica de lectura: no son sinónimos.
 
 !!! tip "Para el CLF"
-    Multi-AZ = failover; réplica = lecturas. DynamoDB *además* del checkout SQL si el dominio es relacional — no «en lugar de» por moda.
-
-    Ampliación y **autocheck certificación** → [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
+    Multi-AZ responde al **failover** de la escritura; la réplica de lectura escala SELECT o reporting. DynamoDB puede ir *además* de un checkout SQL si el dominio sigue siendo relacional; no lo sustituyas «por moda». Ampliación y **autocheck certificación** en [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
 
 **Videotutorial (Practitioner / NoSQL).** [DynamoDB](https://www.youtube.com/watch?v=j1VL7ctuerw) (~10 min). Vídeo: Profe Santos Cloud (YouTube).
 
@@ -171,13 +212,23 @@ El M8 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR601 — RDS mínimo** (RA4 b, c)
+### PR601 — RDS mínimo
 
-Lab Academy M8. Checklist: clase pequeña; SG sin 3306/5432 al mundo; secretos **fuera** del markdown público; **borrar** la instancia al terminar (factura).
+* :simple-neutralinojs: **PR601**. (RA4 // b, c // **PR 0–10**). Configuras un RDS de lab (Academy M8) con tamaño mínimo, red restringida y secretos fuera del markdown público; borras la instancia al acabar.
 
-Si el lab enlaza WordPress+RDS: cinco líneas sobre qué es IaaS (EC2) y qué es gestionado (RDS).
+  **Tareas:** elige clase/tamaño mínimo; restringe el SG (sin 3306/5432 al mundo); documenta el endpoint y la separación IaaS (EC2) / gestionado (RDS) si el lab enlaza WordPress+RDS (cinco líneas bastan); deja secretos fuera del `.md` público; **delete** RDS (y snapshots de lab si el enunciado lo pide).
 
-**Checklist.** Clase/tamaño mínimo → SG restringido → secreto fuera del markdown público → evidencias → **delete** RDS (y snapshots de lab si el enunciado lo pide).
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR601.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR601](../90-soluciones/pr/PR601.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Instancia RDS | Creada según lab / tamaño mínimo | 0–3 |
+| Seguridad de red | SG sin motor abierto al mundo | 0–3 |
+| Secretos y claridad | Fuera del markdown público; IaaS vs managed si aplica | 0–2 |
+| Limpieza | Delete RDS / snapshots de lab | 0–2 |
+| **Total** | | **/10** |
 
 ---
 
@@ -219,7 +270,7 @@ Comprueba bases de datos de este tema. CLF: [Certificación § Tema 6](../99-cer
 
 4. **Falso** — Redshift ≈ analítica/warehouse; OLTP → RDS/Aurora.
 
-5. DynamoDB→(a); ElastiCache→(b); read replica→(c).
+5. **DynamoDB** encaja con (a) NoSQL clave-valor; **ElastiCache**, con (b) caché en memoria; la **read replica**, con (c) escala de lectura.
 
 </details>
 

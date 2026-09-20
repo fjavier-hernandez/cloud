@@ -7,6 +7,9 @@ description: VPC, subredes, rutas, seguridad de red, CloudFront y Route 53 (Foun
 
 Tu front y tu API no «salen a internet» por arte de magia: viven en una **[VPC](#vpc)**, en **[subredes](#subnet)** atadas a una AZ, con tablas de rutas y cortafuegos. **Foundations M5** es el mínimo para publicar un servidor web sin abrir SSH al mundo. No sustituye a un módulo de redes locales: aquí el CIDR cabe en una servilleta y el trade-off es **exposición vs salida**. Ver [glosario](#glosario).
 
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Trae claro el mapa región/AZ del Tema 1: aquí dibujas el **barrio** de la app (público, privado, security group).
+
 ## Propuesta didáctica
 
 > **RA3.** *Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.*
@@ -25,6 +28,42 @@ Cómputo (tipos de instancia, Lambda) es el Tema 4. Balanceo y autoescalado: Tem
 * [Security groups](#security-group) frente a [NACL](#nacl); subred pública frente a privada.
 * Route 53 y CloudFront: DNS y CDN.
 * VPN frente a Direct Connect (cuándo merece un enlace dedicado).
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q4** | VPC pública/privada + SG | **PR301**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. ¿Qué es una **VPC** en una frase, sin inventar CIDR todavía?
+    2. ¿En qué se diferencia una subred **pública** de una **privada** (ruta a internet)?
+    3. ¿Security group o NACL: cuál usas casi siempre en el lab de una API web, y por qué?
+    4. ¿Por qué abrir **3306** o **22** a `0.0.0.0/0` es un anti-patrón aunque «así conectas desde casa»?
+    5. ¿CloudFront acerca el **contenido** al usuario o replica tu base de datos al borde?
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. Una **VPC** es tu red virtual en **una** región AWS: el barrio donde colocas front, API y datos.
+
+2. **Pública:** tiene ruta al Internet Gateway (entrada/salida según diseño). **Privada:** no; sale con NAT si necesita internet sin aceptar entradas no solicitadas.
+
+3. Casi siempre el **security group** (con estado, atado a ENI/instancia). La NACL es filtro de subnet sin estado y más fácil de romper en el lab.
+
+4. Expone SSH o el motor de BD a **todo internet**: escaneo, fuerza bruta e incidentes. Mejor bastion, VPN o SG desde el SG de la API.
+
+5. CloudFront acerca **contenido** cacheable (estáticos, respuestas cacheables); **no** replica tu base de datos al borde.
+
+</details>
 
 ---
 
@@ -79,9 +118,7 @@ En la práctica diaria del módulo casi todo se decide con **security groups**: 
 
 Cuando el usuario escribe `midominio.es`, alguien tiene que traducir el nombre a una IP o a un balanceador. **Route 53** es el DNS de AWS (autoritativo, *health checks*, políticas básicas). **[CloudFront](#cloudfront)** es la CDN: cachea contenido cerca del usuario en el *borde*. No confundas «acercar el HTML/JS» con «replicar la base de datos a Tokio».
 
-- **Route 53:** tu dominio apunta a un ALB o a CloudFront; no hace falta memorizar todas las *routing policies*.
-- **CloudFront:** origina en S3 (SPA) o en un ALB. Reduce latencia de **estáticos**.
-- **Global Accelerator:** IPs anycast; nombre de examen.
+En Foundations el flujo habitual es: el dominio en Route 53 apunta a un ALB o a CloudFront; CloudFront origina en S3 (SPA) o en el balanceador y reduce latencia de **estáticos**. Global Accelerator (IPs anycast) aparece como nombre de examen; no lo necesitas para el lab M5.
 
 **Cuándo NO usar CloudFront.** Si tu «contenido» es una consulta SQL con datos personales en cada request, la CDN no sustituye a la API ni replica RDS. CloudFront brilla con estáticos, imágenes y respuestas cacheables; el checkout dinámico sigue golpeando el origen.
 
@@ -99,12 +136,10 @@ La VPC es el escenario; EC2/Lambda (Tema 4) son los actores; el ALB y el Auto Sc
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-VPC (subnet = una AZ), SG vs NACL, VPN/Direct Connect, API Gateway como idea, CloudFront + Route 53.
+El examen insiste en **dónde** publicas (ALB o CloudFront frente a base en privada), qué hace una CDN y la diferencia de estado entre security group y NACL. VPN y Direct Connect solo hay que reconocerlos.
 
 !!! tip "Para el CLF"
-    Publica ALB/CloudFront; la base en privada. CloudFront cachea contenido — no «mueve» RDS al borde. SG con estado; NACL sin estado.
-
-    Ampliación y **autocheck certificación** → [Certificación § Tema 3](../99-certificacion/certificacion.md#tema-3).
+    Publica el tráfico en el borde o en el balanceador; deja la base en subnet privada. CloudFront acerca contenido cacheable: no «mueve» RDS al borde. El security group lleva estado; la NACL, no. Ampliación y **autocheck certificación** en [Certificación § Tema 3](../99-certificacion/certificacion.md#tema-3).
 
 **Videotutorial (CDN / DNS).** [CloudFront - S3 - Route 53 (Static Web)](https://www.youtube.com/watch?v=DgQroj70CJ0) (~19 min). Vídeo: Profe Santos Cloud (YouTube).
 
@@ -126,16 +161,23 @@ El M5 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR301 — VPC y servidor web** (RA3 a, b, c)
+### PR301 — VPC y servidor web
 
-Lab Academy M5 (*Build a VPC and launch a web server* o equivalente). Comprueba: subnet en una AZ; SG con **80/443** desde internet y administración **no** abierta a `0.0.0.0/0` si el lab lo permite; **borrado** de instancia, IGW y VPC de lab al terminar.
+* :simple-neutralinojs: **PR301**. (RA3 // a, b, c // **PR 0–10**). Montas (o completas) el lab Academy M5 de VPC y servidor web: subnets, rutas y security group coherentes con una API publicada sin abrir administración al mundo.
 
-**Checklist de lab.**
+  **Tareas:** anota CIDR de VPC y de cada subnet con su AZ; verifica la ruta al IGW solo en la subnet pública; captura el SG (puertos 80/443 y administración restringida si el lab lo permite); termina recursos en orden (instancia → volúmenes/ENI → IGW → subnets → VPC) según el lab.
 
-1. Anota CIDR de VPC y de cada subnet + AZ.
-2. Verifica ruta al IGW solo en la subnet que debe ser pública.
-3. Captura del SG (puertos) en el `.md`.
-4. Termina recursos en orden (instancia → ENI/vols → IGW → subnets → VPC) según el lab.
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR301.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR301](../90-soluciones/pr/PR301.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| VPC / subnets | CIDR y AZ documentados | 0–3 |
+| Rutas e IGW | Pública vs privada coherente | 0–2 |
+| Security group | Puertos justificados; sin 0.0.0.0/0 innecesario | 0–3 |
+| Limpieza | Recursos de lab terminados | 0–2 |
+| **Total** | | **/10** |
 
 ---
 
@@ -170,7 +212,7 @@ Comprueba VPC y entrega de este tema. CLF: [Certificación § Tema 3](../99-cert
 
 3. Salida a internet desde subnets **privadas** sin aceptar entradas no solicitadas (parches, `npm`…).
 
-4. IGW→(a); NACL→(b); CloudFront→(c).
+4. El **IGW** es (a) la puerta a internet de la VPC; la **NACL**, (b) el filtro a nivel de subnet sin estado; **CloudFront**, (c) la CDN en el borde.
 
 5. **Falso** — cachea contenido; no traslada la base de datos.
 

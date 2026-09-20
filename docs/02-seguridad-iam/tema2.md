@@ -7,6 +7,9 @@ description: Shared responsibility, IAM, MFA, protección de datos y servicios d
 
 Una API en la nube no «hereda» la seguridad del proveedor. AWS protege los edificios y el hipervisor; **tú** decides quién llama a `s3:GetObject`, si el [root](#root) tiene [MFA](#mfa) y si el secreto del JWT vive en el código. Este tema es **Foundations M4** y el bloque que más se parece al dominio más pesado del CLF-C02 (*Security and Compliance*). Los términos clave están en el [glosario](#glosario).
 
+!!! tip "Al empezar"
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Si vienes del Tema 1, confirma Acceso y región del lab: aquí el eje es **quién puede hacer qué** (IAM y responsabilidad compartida).
+
 ## Propuesta didáctica
 
 > **RA2.** *Identifica los componentes clave de la infraestructura global de la nube, diferenciando servicios principales, regiones, zonas de disponibilidad y aplicando medidas básicas de seguridad como el modelo de responsabilidad compartida, gestión de accesos y protección de datos.*
@@ -23,6 +26,42 @@ Una API en la nube no «hereda» la seguridad del proveedor. AWS protege los edi
 * [IAM](#iam): root, usuarios, grupos, roles, policies; mínimo privilegio; MFA.
 * Cifrado en tránsito y en reposo; Artifact y conformidad (RGPD no es automático).
 * Servicios de detección y auditoría a nivel de reconocimiento (CloudTrail, GuardDuty, WAF…).
+
+### Programación de aula (orientativa)
+
+| Quincena | En tutoría | Trabajo autónomo / evidencias |
+| --- | --- | --- |
+| **Q3** | Responsabilidad compartida + IAM | **PR201**; Autocheck del tema |
+
+---
+
+<a id="cuestionario-inicial"></a>
+
+## Cuestionario inicial
+
+!!! question "Responde con lo que sepas"
+    1. En una API en **EC2** con MySQL en la misma máquina, ¿quién parchea el SO de la VM? ¿Y si pasas el motor a **RDS**?
+    2. ¿Para qué sirve el usuario **root** de la cuenta AWS y por qué no lo usarías a diario?
+    3. ¿Qué aporta el **MFA** frente a solo usuario y contraseña?
+    4. ¿Por qué es mala idea pegar **access keys** en el repositorio de una app Node?
+    5. Da un ejemplo de **mínimo privilegio**: una acción permitida sobre un recurso concreto (no «AdministratorAccess»).
+
+Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
+
+<details markdown="1">
+<summary>Soluciones (autoevaluación)</summary>
+
+1. En **EC2**, **tú** parcheas el SO de la VM. Si el motor pasa a **RDS**, AWS parchea el motor; tú sigues con usuarios, datos, cifrado y el security group.
+
+2. El **root** es la identidad de la cuenta (facturación, cierre, Support…). No lo uses a diario: crea usuarios/roles con mínimo privilegio.
+
+3. El **MFA** añade un segundo factor: aunque filtren la contraseña, hace falta el dispositivo/código.
+
+4. Las **access keys** en el repo se filtran (GitHub, forks, capturas); quien las tenga actúa como tu cuenta. Mejor rol de instancia/función o credenciales fuera de Git.
+
+5. Ejemplo: `s3:GetObject` solo sobre `arn:aws:s3:::mi-bucket-lab/*` para un rol de la API — no `AdministratorAccess`.
+
+</details>
 
 ---
 
@@ -56,7 +95,7 @@ Si subes un `.env` con la clave de Stripe a un repo público, eso no es «fallo 
 
 ### Cuándo NO echar la culpa a AWS
 
-- Access keys en un repo o en un capturas de pantalla del lab.
+- Access keys en un repo o en unas capturas de pantalla del lab.
 - Bucket público «para que se vea la foto del ejercicio».
 - Root compartido por el grupo de clase.
 - Abrir SSH/`0.0.0.0/0` «solo un rato» y olvidarlo.
@@ -70,6 +109,8 @@ Si subes un `.env` con la clave de Stripe a un repo público, eso no es «fallo 
 - **Grupos:** el mismo juego de permisos (`alumnos-labs`).
 - **[Roles](#rol):** identidad que **asume** un servicio o una persona; la instancia EC2 no debería llevar access keys en un fichero.
 - **[Policies](#policy):** JSON *allow/deny* sobre acciones y recursos. **[Mínimo privilegio](#minimo-privilegio):** `s3:GetObject` sobre *un* bucket, no `AdministratorAccess`.
+
+En una API Node el patrón sano es: la persona usa un usuario o federación con MFA; la instancia o la función **asume un rol** con la policy justa. Si pegas access keys en el repo, has saltado IAM y has creado un incidente.
 
 !!! tip "Ideas de policy (S3) que conviene reconocer"
     - Lectura solo para un **usuario IAM** concreto (`s3:GetObject` sobre `arn:aws:s3:::mi-bucket/*`).
@@ -123,12 +164,10 @@ La red (SG/NACL) se profundiza en el Tema 3: aquí solo anclas que **abrir puert
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-Más allá del IAM de aula: reconocer logos (CloudTrail ≠ CloudWatch), responsabilidad compartida y qué hace solo el **root**.
+En Foundations practicas IAM en el lab; el examen te pide **reconocer** el modelo de responsabilidad compartida, el papel del **root** y qué audita cada logo (CloudTrail no es CloudWatch).
 
 !!! tip "Para el CLF"
-    Shared responsibility: app comprometida que lista buckets → casi siempre *en* la nube. Root + MFA. CloudTrail audita API; no mide CPU.
-
-    Ampliación, tabla de logos y **autocheck certificación** → [Certificación § Tema 2](../99-certificacion/certificacion.md#tema-2).
+    Si una app comprometida lista buckets, la falla suele ser *en* la nube (tu cuenta), no del edificio de AWS. El root lleva MFA; CloudTrail registra llamadas a la API y no mide CPU. Ampliación, tabla de logos y **autocheck certificación** en [Certificación § Tema 2](../99-certificacion/certificacion.md#tema-2).
 
 **Videotutorial (Practitioner).** [Sesión 2 Cloud Practitioner 2026](https://www.youtube.com/watch?v=XfFq9lKYDPc) (~1 h 53 min). Prioriza seguridad / IAM. Vídeo: Profe Santos Cloud (YouTube).
 
@@ -150,25 +189,32 @@ El M4 del LMS Academy se indica en clase / Aules.
 
 ## Actividad / práctica
 
-**PR201 — Usuarios y políticas** (RA2 d, e, f)
+### PR201 — Usuarios y políticas
 
-Lab de IAM de Academy M4: usuario o grupo, policy gestionada, probar una denegación. Si el lab no está disponible: en la cuenta learner, con supervisión, un usuario **sin** facturación, `ReadOnlyAccess` o la policy del enunciado, MFA si el entorno lo permite, y **borrar** al terminar.
+* :simple-neutralinojs: **PR201**. (RA2 // d, e, f // **PR 0–10**). Practicas IAM con mínimo privilegio: un usuario o grupo, una policy y la evidencia de una denegación, sin usar el root a diario.
 
-No uses el root para el trabajo cotidiano.
+  - Preferente: lab de IAM de Academy M4.
+  - Alternativa (si el lab no está disponible): en la cuenta learner, con supervisión, un usuario **sin** facturación, `ReadOnlyAccess` o la policy del enunciado, MFA si el entorno lo permite, y **borrar** al terminar.
 
-**Checklist de lab Academy (IAM).**
+  **Tareas:** confirma que no trabajas como root; crea solo lo que pide el enunciado y anota nombres; prueba una acción denegada; activa MFA si el learner lo permite; borra usuarios/roles/policies y access keys temporales al cerrar.
 
-1. Confirma que no estás en la cuenta root (o no la uses si el lab lo permite).
-2. Crea solo lo que pide el enunciado; anota nombres de usuario/rol.
-3. Prueba una acción denegada (evidencia de mínimo privilegio).
-4. Activa MFA si el entorno learner lo permite.
-5. **Borra** usuarios/roles/policies de lab al terminar; quita access keys temporales.
+  **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR201.md` (o ZIP + `img/` si hay capturas).
+
+  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR201](../90-soluciones/pr/PR201.md).
+
+| Criterio | Descripción | Puntos |
+| --- | --- | --- |
+| Lab / usuario | Recurso creado según enunciado | 0–3 |
+| Mínimo privilegio | Evidencia de denegación | 0–3 |
+| MFA / buenas prácticas | MFA si aplica; sin root diario | 0–2 |
+| Limpieza | Borrado de recursos de lab | 0–2 |
+| **Total** | | **/10** |
 
 ---
 
 ### En la práctica de desarrollo web
 
-Cuando tu API en Node usa el SDK de AWS (S3, SES, etc.), las credenciales **no** van en el front ni en el repositorio. En EC2/Lambda el SDK toma el **rol** de la instancia/función. En el portátil de desarrollo usas un perfil local o variables de entorno **fuera de Git**. Si el lab Academy te da un usuario IAM, trátalo como material sensible: no lo captures en el PDF ni en el chat del grupo.
+Cuando tu API en Node usa el SDK de AWS (S3, SES, etc.), las credenciales **no** van en el front ni en el repositorio. En EC2/Lambda el SDK toma el **rol** de la instancia/función. En el portátil de desarrollo usas un perfil local o variables de entorno **fuera de Git**. Si el lab Academy te da un usuario IAM, trátalo como material sensible: no pegues claves ni capturas con secretos en el `.md` de la práctica, ni en el chat del grupo.
 
 Un `AccessDenied` en consola no es «AWS roto»: es la policy haciendo su trabajo. Lee el mensaje (acción + recurso) antes de pedir `AdministratorAccess`.
 
@@ -196,7 +242,7 @@ Comprueba IAM y responsabilidad compartida de este tema. CLF: [Certificación §
 
 4. **b** y **c** (el examen asocia root a cuenta/billing/support, no al deploy rutinario).
 
-5. policy→(a); MFA→(b); grupo→(c).
+5. La **policy** es (a) el documento JSON de permisos; el **MFA**, (b) el segundo factor; el **grupo**, (c) el conjunto de usuarios con políticas comunes.
 
 </details>
 

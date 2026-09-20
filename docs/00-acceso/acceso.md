@@ -7,6 +7,9 @@ description: Cómo entrar a AWS Academy, el Learner Lab y Skill Builder en el m�
 
 Aquí solo el **cómo entrar** a las plataformas del módulo. Cuando hayas entrado, sigue con [Fundamentos de la nube AWS](../01-fundamentos-nube-aws/tema1.md): allí está el mapa y las definiciones.
 
+!!! tip "Antes del Tema 1"
+    Completa primero el acceso a **Academy**, el **Learner Lab** y, si el curso lo usa, **Skill Builder**. Sin consola del lab, el Tema 1 se queda en lectura; con Acceso listo, la primera quincena ya puede practicar.
+
 Ten a mano tu **correo institucional** (el mismo en todos los pasos). Lee esto **antes** del Tema 1.
 
 ## Tres sitios (no los mezcles)
@@ -109,4 +112,4 @@ Skill Builder es **otra** plataforma. Sirve para cursos digitales y para prepara
 - Skill Builder: [skillbuilder.aws](https://skillbuilder.aws). Builder ID: [Sign in with AWS Builder ID](https://docs.aws.amazon.com/signin/latest/userguide/sign-in-builder-id.html).
 - Si el bloqueo es de **clase del instituto** (invitación, lab de la class): escribe en **Aules** o coméntalo en la **tutoría quincenal** antes de abrir tickets genéricos.
 
-Cuando tengas Academy y (si aplica) Skill Builder en marcha, sigue con el [Tema 1 — Fundamentos de la nube AWS](../01-fundamentos-nube-aws/tema1.md). Después de entrar, los temas incluyen videotutorial. Para el examen: [Certificación](../99-certificacion/certificacion.md).
+Cuando tengas Academy y (si aplica) Skill Builder en marcha, pasa al [Tema 1 — Fundamentos de la nube AWS](../01-fundamentos-nube-aws/tema1.md): ahí empieza la teoría del módulo. La preparación del examen **Cloud Practitioner** no vive en esta página; está en [Certificación](../99-certificacion/certificacion.md).
