@@ -51,7 +51,7 @@ En este sitio puedes **estudiar todos los temas** a tu ritmo. Eso no abre entreg
 | **6** | [Bases de datos](06-bases-de-datos/tema6.md) | RDS, Aurora, DynamoDB y elección de motor | Disponible para estudio | 2.ª eval. / Aules | RA4 |
 | **7** | [Arquitectura Well-Architected](07-arquitectura-well-architected/tema7.md) | Pilares, resiliencia y desacoplo | Disponible para estudio | 2.ª eval. / Aules | RA4 |
 | **8** | [Escalado, monitorización y cierre CLF-C02](08-escalado-monitoreo-cierre/tema8.md) | ELB, Auto Scaling, CloudWatch; cierre del módulo | Disponible para estudio | 2.ª eval. / Aules | RA3, RA4 |
-| — | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | +1 según Evaluación / Aules | — |
+| — | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | [+1](#mas-uno-clf) (Aules) | — |
 | — | [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial y Autocheck por tema | Disponible para estudio | — | — |
 
 El **Tema 1** concentra los módulos introductorios de *AWS Academy Cloud Foundations*. **Acceso** es solo el *cómo entrar*. Los temas **2–8** siguen un bloque Foundations cada uno; el ritmo de **tutoría y entregas** lo marcan Aules y el calendario de abajo.
@@ -82,13 +82,13 @@ timeline
 La **1.ª evaluación** (septiembre → principios de diciembre) cubre los Temas **1–4**. La **2.ª evaluación** (desde la 2.ª semana de diciembre → finales de febrero / principios de marzo) cubre los Temas **5–8**. El Tema 1 ocupa las dos primeras quincenas; no hay 3.ª evaluación: el módulo acaba antes de la FE.
 
 !!! tip "Núcleo del curso"
-    Cada tema tiene un **bloque Foundations** (lo que evalúa el módulo) y un apartado de **ampliación Practitioner (CLF-C02)**. El hilo es *AWS Academy Cloud Foundations*, no el curso *AWS Academy Cloud Architecting*. En semipresencial, la tutoría quincenal presenta el bloque y resuelve dudas; el estudio y los labs son trabajo autónomo. Certificar Cloud Practitioner puede sumar +1 a la nota final según las condiciones que se publiquen en Aules (ver [Evaluación](#evaluacion)).
+    Cada tema tiene un **bloque Foundations** (lo que evalúa el módulo) y un apartado de **ampliación Practitioner (CLF-C02)**. El hilo es *AWS Academy Cloud Foundations*, no el curso *AWS Academy Cloud Architecting*. En semipresencial, la tutoría quincenal presenta el bloque y resuelve dudas; el estudio y los labs son trabajo autónomo. Si certificas Cloud Practitioner, puedes sumar **+1** a la nota final ([+1 Cloud Practitioner](#mas-uno-clf)). La preparación está en [Certificación](99-certificacion/certificacion.md).
 
 ## Evaluación
 
 La evaluación se organiza por **resultados de aprendizaje (RA)**. Cada actividad indica qué RA trabaja. **Los RA no se compensan entre sí:** hay que superar cada uno.
 
-**Examen CLF frente a este módulo.** En el examen **CLF-C02** la nota es global: un dominio más flojo puede compensarse con otros (reglas AWS del examen). **Aquí** no: un RA suspendido no se salva con otro. El **+1** por certificación (si se concede según Aules) **suma** a la nota del módulo, pero **no aprueba un RA suspendido**. Preparación y detalle: [Certificación](99-certificacion/certificacion.md).
+**Examen CLF frente a este módulo.** En el examen **CLF-C02** la nota es global: un dominio más flojo puede compensarse con otros (reglas AWS del examen). **Aquí** no: un RA suspendido no se salva con otro. El **+1** por certificación solo suma a la nota del módulo; no recupera un RA suspendido. Detalle: [+1 Cloud Practitioner](#mas-uno-clf). Preparación: [Certificación](99-certificacion/certificacion.md).
 
 ### Cómo se calcula la nota
 
@@ -96,7 +96,7 @@ Tres pasos, en este orden:
 
 1. En cada RA, tu nota es la **media ponderada** de las actividades de ese RA (AC, PR, PY, PO).
 2. La **nota final** del módulo es la suma de (nota de cada RA × su peso: 20 %, 25 %, 30 %, 25 %).
-3. Certificar **AWS Certified Cloud Practitioner (CLF-C02)** puede sumar +1 a la nota final según las condiciones que se publiquen en Aules. Ese +1 **suma**, pero **no sustituye** ni aprueba ningún RA.
+3. Si acreditas el **+1** por CLF-C02 (condiciones en Aules), se suma a esa nota final ([+1 Cloud Practitioner](#mas-uno-clf)).
 
 <figure markdown="span">
 ![Cálculo de la nota: instrumentos AC·PR·PY·PO → nota de cada RA → nota final; +1 CLF-C02 si Aules lo concede](img/diagramas/pasos-evaluacion.svg){ width="800" }
@@ -104,6 +104,15 @@ Tres pasos, en este orden:
 </figure>
 
 **Ejemplo (simplificado):** si en RA3 tienes prácticas de VPC/EC2 y un examen, se promedian (según lo que se indique en Aules) y ese resultado cuenta un **30 %** de la nota del módulo. Suspender un RA no se compensa con otro.
+
+### +1 Cloud Practitioner { #mas-uno-clf }
+
+Si obtienes la certificación **AWS Certified Cloud Practitioner (CLF-C02)**, puedes sumar **+1** a la nota final del módulo.
+
+- Con ese punto, la nota del módulo puede pasar de 10 (hasta **11**).
+- El plazo y cómo acreditarlo se publican en **Aules**.
+- Ese +1 solo suma: no recupera un RA suspendido ni sustituye prácticas ni exámenes.
+- Material de preparación: [Certificación](99-certificacion/certificacion.md).
 
 ### Peso de cada RA
 
@@ -124,7 +133,7 @@ pie showData
 | Práctica | :simple-neutralinojs: **PR** | Lab Academy o consola | **0–10** |
 | Proyecto | :material-calendar: **PY** | Entregable mayor con rúbrica | **0–30** |
 | Prueba objetiva | :material-pen: **PO** | Examen escrito o en ordenador | **0–100** |
-| Cloud Practitioner | **+1** | Certificación CLF-C02 | +1 en la nota final según las condiciones que se publiquen en Aules |
+| Cloud Practitioner | **+1** | Certificación CLF-C02 | +1 en la nota final ([+1 Cloud Practitioner](#mas-uno-clf); plazo en Aules) |
 
 ### Entrega de prácticas { #entrega }
 
@@ -174,7 +183,7 @@ pie showData
 - **Estudio libre ≠ entregas libres:** puedes leer todos los temas; las tareas y plazos los marca Aules y el calendario de evaluaciones.
 - Cada actividad indica el **RA** que evalúa y su escala. Codificación: prefijo del IE + número de tema (ej. `AC102` = actividad 02 del Tema 1; `PR201` = práctica 01 del Tema 2).
 - **AWS Academy Cloud Foundations:** trabajarás en la *class* del curso. Los labs puntúan como **PR** del tema correspondiente.
-- **+1 Practitioner:** certificar **CLF-C02** puede sumar +1 a la nota final según Aules. Suma a la calificación del módulo; **no** aprueba un RA suspendido. Material: [Certificación](99-certificacion/certificacion.md).
+- **+1 Practitioner:** [+1 Cloud Practitioner](#mas-uno-clf). Material: [Certificación](99-certificacion/certificacion.md).
 
 ## Materiales
 
@@ -184,7 +193,7 @@ pie showData
 - Ampliación: [AWS Skill Builder](https://skillbuilder.aws/) — *Cloud Practitioner Essentials*.
 - Guía oficial del examen: [AWS Certified Cloud Practitioner (CLF-C02)](https://aws.amazon.com/certification/certified-cloud-practitioner/).
 - Videotutoriales en cada tema (Profe Santos Cloud y otros).
-- **[Certificación](99-certificacion/certificacion.md)** — hub CLF-C02 (notas por tema, **autochecks estilo examen**, serie Santos, tests, Skill Builder). Los quizzes de clase van en cada tema. El +1 se detalla en [Evaluación](#evaluacion) / Aules.
+- **[Certificación](99-certificacion/certificacion.md)** — hub CLF-C02 (notas por tema, **autochecks estilo examen**, serie Santos, tests, Skill Builder). Los quizzes de clase van en cada tema. Sobre el +1: [+1 Cloud Practitioner](#mas-uno-clf).
 - Editor de entregas: Visual Studio Code + Markdown.
 
 ## Referencias

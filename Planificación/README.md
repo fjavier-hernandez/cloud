@@ -15,6 +15,7 @@ Carpeta **interna** (fuera del sitio MkDocs público). Versionada en el repo `cl
 | Diario de sesiones (tras cada tutoría) | [`diario_sesiones_Cloud_2026_27.md`](diario_sesiones_Cloud_2026_27.md) |
 | Matriz CE × IE (cobertura) | [`matriz_CE_Cloud_2026_27.md`](matriz_CE_Cloud_2026_27.md) |
 | Plantilla entrega prácticas (Aules) | [`plantilla_entrega_practica.md`](plantilla_entrega_practica.md) |
+| Checklist +1 CLF (texto Aules, profesor) | [`checklist_Aules_mas_uno_CLF_2026_27.md`](checklist_Aules_mas_uno_CLF_2026_27.md) |
 
 Tras cada tutoría, marca en el diario la fecha real, lo impartido y las mejoras; no sustituye Aules ni la programación de aula.
 Espejo opcional en OneDrive aula: `[CURSOS]/26_27/[CLOUD]/` (cuando se sincronice).
@@ -59,7 +60,7 @@ CE = cobertura; **sin** % de boletín por CE.
 ## Certificación / +1
 
 Itinerario Foundations + ampliación CLF-C02.  
-**+1** si certifica: remisión a **C5 / Aules** (sin rúbrica inventada en C4).
+**+1** si certifica: detalle en checklist Aules y en [`docs/index.md#mas-uno-clf`](../docs/index.md#mas-uno-clf) (sin rúbrica en este documento).
 
 ## IE pendientes de ampliar
 

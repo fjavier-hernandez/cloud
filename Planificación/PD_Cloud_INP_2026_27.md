@@ -87,7 +87,7 @@ El centro forma técnicos superiores en desarrollo web. El módulo aporta vocabu
 | Mapa de **8 temas** (T1 = Foundations M0–M3) | Sitio MkDocs + esta PD |
 | Evaluación por **RA** (CE = cobertura) | § 8 y matriz CE |
 | Nav completa (Acceso + T1–T8 + Certificación) | Ritmo de entregas = Aules / calendario |
-| +1 CLF-C02 | Remisión a **C5 / Aules** (sin rúbrica inventada aquí) |
+| +1 CLF-C02 | Checklist Aules + `#mas-uno-clf` (detalle en Aules; sin rúbrica en este documento) |
 | Entregas | Markdown (`.md`) vía Aules |
 
 ---
@@ -153,7 +153,7 @@ No sustituye módulos de desarrollo de aplicaciones; aporta el contexto de **des
 1. **Nota de cada RA** = media ponderada de los **IE** (AC, PR, PY, PO) que evalúan ese RA.  
 2. **Nota final** = RA1×20 % + RA2×25 % + RA3×30 % + RA4×25 %.  
 3. Los **RA no se compensan** entre sí.  
-4. **+1 CLF-C02:** puede sumar a la nota final **según las condiciones que se publiquen en Aules** (detalle en fase **C5** / Aules). **No** inventa rúbrica esta PD; **no** aprueba un RA suspendido.
+4. **+1 CLF-C02:** puede sumar a la nota final según las condiciones publicadas en **Aules** (checklist interno + `#mas-uno-clf`). Sin rúbrica en este documento. No recupera un RA suspendido; la suma puede llevar la calificación del módulo **hasta 11**.
 
 Los **CE** verifican cobertura (matriz); **no** llevan % de boletín.
 
@@ -244,7 +244,7 @@ Detalle CE×IE: `matriz_CE_Cloud_2026_27.md`.
 
 ## 8.3. +1 Cloud Practitioner
 
-Puede sumar **+1** a la nota final según **Aules / fase C5**. Sin rúbrica inventada en esta PD.
+Puede sumar **+1** a la nota final (hasta **11** en el módulo) según **Aules**. Resumen en el site: `#mas-uno-clf`. Checklist interno: `checklist_Aules_mas_uno_CLF_2026_27.md`. Sin rúbrica en este documento.
 
 ## 8.4. Recuperación y pendientes
 

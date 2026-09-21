@@ -85,7 +85,7 @@ Cada CE debe tener **≥ 1** evidencia. IE **provisionales** marcados; **ampliab
 
 ## +1 CLF-C02
 
-Puede sumar **+1** a la nota final según **Aules / C5**. Sin rúbrica en esta matriz. No sustituye RA.
+Puede sumar **+1** a la nota final (hasta **11**) según **Aules**. Resumen en el site: `#mas-uno-clf`. Checklist: `checklist_Aules_mas_uno_CLF_2026_27.md`. Sin rúbrica en este documento. No sustituye RA.
 
 ## Pendiente de ampliar (verificación)
 

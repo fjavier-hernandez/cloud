@@ -17,9 +17,9 @@ Tres cosas distintas; no las mezcles:
 
 1. **Examen CLF-C02 (AWS).** La nota del examen es **global**: un dominio más flojo puede compensarse con otros, según las reglas de AWS del propio examen.
 2. **Este módulo (INP).** Los **RA no se compensan**: hay que superar **cada** resultado de aprendizaje. Suspender uno no se salva con otro.
-3. **El +1** por certificación (si se concede según [Evaluación](../index.md#evaluacion) / Aules) **suma** a la calificación del módulo, pero **no aprueba un RA suspendido**.
+3. **El +1** por certificación suma a la nota final del módulo (puede llegar a **11**) y no recupera un RA suspendido. Detalle en [Evaluación · +1 Cloud Practitioner](../index.md#mas-uno-clf).
 
-El procedimiento concreto del +1 en Aules se publica allí (no se inventa aquí).
+El plazo, la evidencia y dónde entregarla se indican en Aules.
 
 ## Serie Profe Santos Cloud { #serie-santos }
 

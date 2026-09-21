@@ -72,7 +72,7 @@ Primera tutoría prevista: **2026-09-22**.
 | Labs Academy M0–M10 | Skill Builder / tests CLF |
 | Autocheck del tema | Autocheck certificación (hub) |
 
-**+1 CLF-C02:** condiciones en **Aules / C5** (sin rúbrica aquí).
+**+1 CLF-C02:** condiciones en **Aules** (checklist interno + `#mas-uno-clf`; sin rúbrica en este documento).
 
 ## 6. IE provisionales a ampliar tras verificación
 
