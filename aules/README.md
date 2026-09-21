@@ -62,3 +62,16 @@ Antes de publicar el curso, sustituye `BASE_URL` por la URL real (sin barra fina
 | [`04-caja-mas-uno.html`](04-caja-mas-uno.html) | Callout +1 CLF-C02 |
 | [`05-aviso-calendario.html`](05-aviso-calendario.html) | Fechas orientativas |
 | [`06-normas-entrega.html`](06-normas-entrega.html) | Policy A de entregas |
+| [`gift/T1-fundamentos.gift`](gift/T1-fundamentos.gift) | Banco GIFT Tema 1 (piloto) |
+
+## Importar GIFT
+
+Banco de preguntas del Tema 1 (piloto), listo para cuestionarios en Aules:
+
+1. En Aules: **Banco de preguntas** → **Importar**.
+2. Formato: **GIFT**.
+3. Categoría: crea o elige **Cloud INP / Tema 1** (en el fichero ya va `$CATEGORY: Cloud INP/Tema 1`).
+4. Sube [`gift/T1-fundamentos.gift`](gift/T1-fundamentos.gift) y revisa la vista previa antes de confirmar.
+5. Usa las preguntas en un cuestionario de la sección del Tema 1 (tras el enlace a apuntes y la tarea, si sigues el orden de `03`).
+
+Codificación del fichero: **UTF-8**.

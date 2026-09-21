@@ -1,0 +1,108 @@
+// Banco GIFT — Cloud INP · Tema 1 (Fundamentos)
+// Fuente: Autocheck + cuestionario inicial de docs/01-fundamentos-nube-aws/tema1.md
+// Importar en Aules: Banco de preguntas → Importar → formato GIFT → categoría Cloud INP / Tema 1
+
+$CATEGORY: Cloud INP/Tema 1
+
+// T1-AC-01
+::T1-AC-01 PaaS y el sistema operativo::En un modelo PaaS, tú sigues parcheando el sistema operativo de la máquina.{
+FALSE#En PaaS el proveedor gestiona el SO y la plataforma; tú te ocupas del código y de los datos.
+}
+
+// T1-AC-02
+::T1-AC-02 CAPEX::¿Qué idea encaja mejor con CAPEX?{
+=Comprar torres o hardware antes de usarlo#CAPEX es inversión fija previa \(servidores, SAI…\).
+~Pagar solo el uso variable de recursos en la nube
+~Usar el correo o un CRM ya listos en el navegador
+~Instalar tú el stack completo en una máquina virtual
+}
+
+// T1-AC-03
+::T1-AC-03 OPEX::¿Qué idea encaja mejor con OPEX en nube pública?{
+=Factura variable según los recursos que usas#OPEX es gasto de operación continua ligado al uso.
+~Comprar torres para el CPD del centro
+~Tener el sistema operativo ya parcheado por el proveedor y no tocar nada más
+~Montar solo un edge de CDN
+}
+
+// T1-AC-04
+::T1-AC-04 IaaS::En IaaS, ¿qué situación es la más típica?{
+=Una máquina virtual donde instalas y parcheas tú el stack \(SO, runtime, app\)#En IaaS tú gestionas el SO y el despliegue; el proveedor, el hardware.
+~Usas solo la aplicación lista \(correo, CRM\) sin hostear nada
+~El proveedor parchea el SO y tú solo despliegas código
+~No hay sistema operativo porque todo es borde CDN
+}
+
+// T1-AC-05
+::T1-AC-05 SaaS::¿Qué ejemplo encaja con SaaS?{
+=Usar el correo o un CRM ya listos en el navegador#En SaaS usas y configuras; el proveedor gestiona toda la pila.
+~Una EC2 donde instalas nginx y Node a mano
+~Un VPS en el que renovas certificados tú mismo
+~Solo elegir la región de la consola
+}
+
+// T1-AC-06
+::T1-AC-06 Híbrida o multicloud::Una aplicación con la base de datos en el CPD del cliente y el front en AWS es…{
+=Híbrida \(on-prem o privada + nube pública\)#Híbrida mezcla capacidad propia con pública. Multicloud serían varias nubes públicas.
+~Multicloud \(varias nubes públicas a la vez\)
+~Solo nube privada
+~Solo SaaS
+}
+
+// T1-AC-07
+::T1-AC-07 Free Tier::El Free Tier garantiza 0 € en un lab de tres semanas si dejas instancias encendidas.{
+FALSE#El Free Tier tiene límites de cuota; fuera de cuota o mal apagado, factura.
+}
+
+// T1-AC-08
+::T1-AC-08 Zona de disponibilidad::Una zona de disponibilidad \(AZ\) es…{
+=Uno o más centros de datos \(edificio/cluster\) dentro de una región#La región es el área; la AZ está dentro de esa región, con energía y red propias.
+~Otra región distinta
+~Un punto de presencia de CloudFront \(edge\)
+~La cuenta de facturación de AWS
+}
+
+// T1-AC-09
+::T1-AC-09 Formas de hablar con AWS::¿Cuáles son tres formas habituales de interactuar con AWS vistas en el tema?{
+=Consola web, CLI y SDK/API#Consola, línea de comandos y SDK/API \(IaC como ampliación\).
+~Solo la consola y el correo del soporte
+~Solo CloudFront, Route 53 y el Free Tier
+~Solo SSH al CPD del instituto
+}
+
+// T1-CI-01
+::T1-CI-01 VPS y nube pública::Un VPS barato y la nube pública de este módulo se parecen en alquilar capacidad por red. ¿En qué se diferencian sobre todo?{
+=La nube pública añade más servicios gestionados, regiones/AZ y facturación por uso medido#No es solo «una VM remota»: hay catálogo, regiones y medida de uso.
+~En la nube pública nunca hay máquinas virtuales
+~El VPS siempre es multicloud y AWS no
+~En la nube pública no puedes elegir región
+}
+
+// T1-CI-02
+::T1-CI-02 Quién parchea en IaaS::En IaaS \(por ejemplo una EC2\), ¿quién parchea el sistema operativo?{
+=Tú \(el equipo que opera la instancia\)#En IaaS el SO es tu responsabilidad; en un motor PaaS/gestionable el proveedor parchea la plataforma.
+~Siempre el proveedor, igual que en SaaS
+~Nadie: IaaS no incluye sistema operativo
+~Solo el Free Tier de forma automática
+}
+
+// T1-CI-03
+::T1-CI-03 Por qué importa la región::Además de «que la consola abra», ¿por qué importa elegir bien la región?{
+=Por latencia, soberanía del dato y porque servicios y precios dependen de la región#La región no es un detalle cosmético de la consola.
+~Porque todas las regiones tienen el mismo precio y los mismos servicios
+~Porque la región solo afecta al color del tema de la consola
+~Porque sin región no existe el Free Tier
+}
+
+// T1-CI-04
+::T1-CI-04 Costes además de la VM::Además del precio de la máquina virtual, ¿qué partida de coste conviene no olvidar?{
+=La salida de datos \(egress\) y otras partidas \(almacenamiento, operación…\)#El TCO no es solo el €/hora de la VM; el egress es un clásico.
+~Solo el precio del monitor del aula
+~Únicamente la licencia del navegador
+~Nada: en nube pública solo se cobra la VM
+}
+
+// T1-CI-05
+::T1-CI-05 Instancia de lab encendida::Si dejas una instancia de lab encendida el fin de semana, la cuenta puede seguir facturando el tiempo encendido \(y lo asociado\).{
+TRUE#Free Tier no es gratis ilimitado; el tiempo encendido cuenta.
+}
