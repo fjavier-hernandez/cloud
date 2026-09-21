@@ -19,11 +19,13 @@ Orden sugerido en el curso:
 
 | Sección Aules | Qué poner |
 | --- | --- |
-| **General** | Portada (`01`) · Cómo empezar (`02`) · Normas de entrega (`06`) · +1 CLF (`04`) |
+| **General** | Profesor (`00`) → Portada (`01`) → Cómo empezar (`02`) → Normas de entrega (`06`) → +1 CLF (`04`) |
 | **Presentación / Acceso** | Enlace o etiqueta hacia Acceso en el site; recordatorio Academy / Lab |
 | **Calendario** | Aviso de fechas (`05`) + enlace al Calendario del site |
 | **Temas 1–8** | Una sección por tema; dentro, orden tipo RAL (ver `03`) |
 | **Certificación / +1** | Enlace al hub Certificación + caja `04` (si no está ya en General) |
+
+En Aules, crea además un **Diálogo** «Dudas individuales» y un **Foro** del curso (actividades Moodle; no van en estos HTML).
 
 ## Normas de entrega
 
@@ -56,6 +58,7 @@ Antes de publicar el curso, sustituye `BASE_URL` por la URL real (sin barra fina
 
 | Fichero | Uso |
 | --- | --- |
+| [`00-profesor.html`](00-profesor.html) | Profesor / presentación (primera en General) |
 | [`01-portada.html`](01-portada.html) | Bienvenida del módulo |
 | [`02-como-empezar.html`](02-como-empezar.html) | Primeros pasos |
 | [`03-plantilla-tema.html`](03-plantilla-tema.html) | Cabecera de cada Tema N + orden Moodle |
