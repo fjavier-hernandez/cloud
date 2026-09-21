@@ -11,7 +11,7 @@ Carpeta **interna** (fuera del sitio MkDocs público). Versionada en el repo `cl
 | Rol | Ruta |
 | --- | --- |
 | Programación didáctica (PD) | [`PD_Cloud_INP_2026_27.md`](PD_Cloud_INP_2026_27.md) |
-| Programación de aula (quincenas) | [`programacion_aula_Cloud_2026_27.md`](programacion_aula_Cloud_2026_27.md) |
+| Programación de aula (quincenas) | [`programacion_aula_Cloud_2026_27.md`](programacion_aula_Cloud_2026_27.md) — calendario alumnado → [`docs/calendario.md`](../docs/calendario.md) |
 | Diario de sesiones (tras cada tutoría) | [`diario_sesiones_Cloud_2026_27.md`](diario_sesiones_Cloud_2026_27.md) |
 | Matriz CE × IE (cobertura) | [`matriz_CE_Cloud_2026_27.md`](matriz_CE_Cloud_2026_27.md) |
 | Plantilla entrega prácticas (Aules) | [`plantilla_entrega_practica.md`](plantilla_entrega_practica.md) |

@@ -11,6 +11,7 @@ exclude_docs: |
 nav:
   - "Inicio": "index.md"
   - "Acceso": "00-acceso/acceso.md"
+  - "Calendario": "calendario.md"
   - "1. Fundamentos de la nube AWS": "01-fundamentos-nube-aws/tema1.md"
   - "2. Seguridad, IAM y responsabilidad compartida": "02-seguridad-iam/tema2.md"
   - "3. Redes, VPC y entrega de contenido": "03-redes-entrega-contenido/tema3.md"

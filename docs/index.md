@@ -54,7 +54,7 @@ En este sitio puedes **estudiar todos los temas** a tu ritmo. Eso no abre entreg
 | — | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | [+1](#mas-uno-clf) (Aules) | — |
 | — | [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial y Autocheck por tema | Disponible para estudio | — | — |
 
-El **Tema 1** concentra los módulos introductorios de *AWS Academy Cloud Foundations*. **Acceso** es solo el *cómo entrar*. Los temas **2–8** siguen un bloque Foundations cada uno; el ritmo de **tutoría y entregas** lo marcan Aules y el calendario de abajo.
+El **Tema 1** concentra los módulos introductorios de *AWS Academy Cloud Foundations*. **Acceso** es solo el *cómo entrar*. Los temas **2–8** siguen un bloque Foundations cada uno; el ritmo quincenal de tutorías está en el [Calendario del curso](calendario.md) y las entregas las marca **Aules**.
 
 ### Mapa tema × RA
 
@@ -209,8 +209,9 @@ Fuentes utilizadas en la elaboración de estos apuntes:
 
 | Página | Contenido |
 | --- | --- |
-| [Inicio](index.md) | Evaluación y calendario |
+| [Inicio](index.md) | Evaluación y mapa del curso |
 | [Acceso](00-acceso/acceso.md) | Entrar a Academy, lab y Skill Builder |
+| [Calendario](calendario.md) | Ritmo quincenal T1–T8 (orientativo) |
 | [Temas 1–8](#temas-del-curso) | Apuntes Foundations + puente Practitioner |
 | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (notas + autocheck examen) |
 | [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial + Autocheck por tema |
