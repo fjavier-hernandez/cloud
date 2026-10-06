@@ -44,7 +44,7 @@ La monitorización fina es el Tema 8. Aquí CloudWatch aparece como práctica de
     2. Poner la **API** (interfaz de programación de aplicaciones) en **dos AZ** mejora un pilar y suele empeorar otro: ¿cuáles?
     3. ¿**SQS** o **SNS** si un worker debe procesar «generar PDF» cuando pueda?
     4. Da un ejemplo de cambio en una app de un proyecto de DAW y el **pilar** que mejora (una frase).
-    5. ¿Este módulo te pide diseñar un *landing zone* multi-cuenta completo?
+    5. ¿Este módulo te pide diseñar un entorno de varias cuentas (*landing zone*) completo?
 
 Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
 
@@ -57,9 +57,9 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 3. **SQS**: cola de trabajo para que el worker procese cuando pueda. SNS sería publicación/suscripción hacia varios destinatarios.
 
-4. Ejemplo: pasar MySQL local a **RDS Multi-AZ** → pilar **fiabilidad** (aceptas más coste).
+4. Ejemplo: pasar MySQL local a **RDS Multi-AZ** mejora el pilar **fiabilidad** (aceptas más coste).
 
-5. **No.** Este módulo no pide un *landing zone* multi-cuenta.
+5. **No.** Este módulo no pide un entorno de varias cuentas (*landing zone*).
 
 </details>
 
@@ -67,7 +67,7 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 ## Bloque Foundations (Módulo 9)
 
-Los **seis pilares** del Well-Architected Framework son ejes de revisión de una carga en la nube: excelencia operativa, seguridad, fiabilidad, eficiencia del rendimiento, optimización de costes y sostenibilidad. No son una checklist mística: son preguntas sistemáticas. ¿Cómo desplegamos y qué aprendemos del incidente? ¿Quién accede a los datos? ¿Qué pasa si cae una AZ? ¿El tamaño del recurso encaja? ¿Pagamos ociosidad? ¿Usamos energía con sentido? Para una API de un proyecto de DAW sirven para **argumentar** un cambio («paso a Multi-AZ») sin pretender un diagrama de cuarenta cajas.
+Los **seis pilares** del Well-Architected Framework son ejes de revisión de una carga en la nube: excelencia operativa, seguridad, fiabilidad, eficiencia del rendimiento, optimización de costes y sostenibilidad. No son una lista mágica de casillas: son preguntas sistemáticas. ¿Cómo desplegamos y qué aprendemos del incidente? ¿Quién accede a los datos? ¿Qué pasa si cae una AZ? ¿El tamaño del recurso encaja? ¿Pagamos ociosidad? ¿Usamos energía con sentido? Para una API de un proyecto de DAW sirven para **argumentar** un cambio («paso a Multi-AZ») sin pretender un diagrama de cuarenta cajas.
 
 | Pilar | Pregunta que te haces | Ejemplo en una API de un proyecto de DAW |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ Los **seis pilares** del Well-Architected Framework son ejes de revisión de una
 | **Fiabilidad** | ¿Qué pasa si se cae una AZ o un disco? | ALB con instancias en dos AZ y RDS con Multi-AZ. |
 | **Eficiencia del rendimiento** | ¿El tipo y el tamaño del recurso encajan con la carga? | Elegir familia de instancia razonable y añadir caché solo si el acceso lo pide. |
 | **Optimización de costes** | ¿Pagamos capacidad encendida sin uso? | Apagar el entorno de desarrollo de noche o usar Spot en trabajos por lotes. |
-| **Sostenibilidad** | ¿La energía y el hardware se usan con sentido? | Ajustar el tamaño de los recursos y reducir instancias ociosas (*idle*). |
+| **Sostenibilidad** | ¿La energía y el hardware se usan con sentido? | Ajustar el tamaño de los recursos y reducir instancias ociosas. |
 
 Multi-AZ **mejora la fiabilidad** y **sube el coste**. Eso es evaluable en PR701. Un diagrama enorme sin justificar el equilibrio no lo es.
 
@@ -86,7 +86,6 @@ Otra tensión habitual es seguridad frente a comodidad en el aula. Abrir 3306 «
 
 El desacoplo también tensiona excelencia operativa: una cola SQS implica un worker, reintentos y, a veces, una cola de mensajes fallidos. Ganas resiliencia del HTTP; pagas un componente más que vigilar. En Foundations no montas todo eso en consola para PR701; sí debes poder decirlo en prosa.
 
-
 Los pilares **se tensan** entre sí. Más AZ y más alarmas mejoran fiabilidad y excelencia operativa; también suman factura y complejidad. Ajustar el tamaño de los recursos mejora coste y sostenibilidad; mal hecho, empeora el rendimiento. En el entregable no busques el diagrama perfecto: busca **justificar** lo que ganas y lo que pagas.
 
 Cuando la API y MySQL viven en la misma EC2, con AMI manual y SG abierto, un *terminate* o un disco lleno tumba todo a la vez. Un diseño más sólido separa el cómputo detrás de un **ALB** (*Application Load Balancer*, balanceador de carga de aplicaciones), reparte instancias en dos AZ, mueve la BD a [RDS](../06-bases-de-datos/tema6.md#rds) (*Relational Database Service*) con Multi-AZ, encola trabajos largos y pone alarmas. Cada uno de esos cambios se puede etiquetar con un **pilar**; ese es el ejercicio del CE f.
@@ -95,7 +94,7 @@ Cuando la API y MySQL viven en la misma EC2, con AMI manual y SG abierto, un *te
 
 **Qué es en este caso.** El pilar de **excelencia operativa** pregunta cómo ejecutas y evolucionas la carga: despliegues repetibles, observación (métricas, logs, alarmas) y aprendizaje tras incidentes. No es «tener muchas consolas abiertas»: es poder responder qué cambió, quién lo desplegó y cómo te enteras si la API deja de responder.
 
-**En la práctica.** En Foundations no montas un centro de operaciones. Sí puedes decir: «si la API cae, CloudWatch me avisa» o «la infraestructura se describe en CloudFormation para no depender de clics olvidados». La **[IaC](#iac)** (*Infrastructure as Code*, infraestructura como código) es la idea de definir recursos en ficheros y desplegarlos igual en otro entorno. Conoces la idea; no entregas plantillas de trescientas líneas. Un *runbook* de media página («si la alarma de 5xx salta, mira el ASG y el estado de RDS») ya cuenta como excelencia operativa en un proyecto de DAW.
+**En la práctica.** En Foundations no montas un centro de operaciones. Sí puedes decir: «si la API cae, CloudWatch me avisa» o «la infraestructura se describe en CloudFormation para no depender de clics olvidados». La **[IaC](#iac)** (*Infrastructure as Code*, infraestructura como código) es la idea de definir recursos en ficheros y desplegarlos igual en otro entorno. Conoces la idea; no entregas plantillas de trescientas líneas. Una guía operativa breve (*runbook*) de media página («si la alarma de 5xx salta, mira el ASG y el estado de RDS») ya cuenta como excelencia operativa en un proyecto de DAW.
 
 ### Seguridad
 
@@ -123,14 +122,14 @@ Cuando la API y MySQL viven en la misma EC2, con AMI manual y SG abierto, un *te
 
 ### Sostenibilidad
 
-**Qué es en este caso.** El pilar de **sostenibilidad** pregunta por el impacto ambiental del uso de recursos: menos *idle*, mejor aprovechamiento del hardware y patrones eficientes. AWS lo añadió como sexto pilar; en Foundations no hace falta un estudio de huella de carbono, sí hace falta no dejar capacidad encendida sin uso.
+**Qué es en este caso.** El pilar de **sostenibilidad** pregunta por el impacto ambiental del uso de recursos: menos capacidad ociosa, mejor aprovechamiento del hardware y patrones eficientes. AWS lo añadió como sexto pilar; en Foundations no hace falta un estudio de huella de carbono, sí hace falta no dejar capacidad encendida sin uso.
 
 **En la práctica.** Apagar entornos que no usas y ajustar tamaños cuenta más que un párrafo genérico sobre el planeta. Suele ir de la mano del pilar de costes cuando reduces ociosidad: la misma acción (parar la EC2 de desarrollo por la noche) mejora ambos.
 
 | Examen **CLF** (*AWS Certified Cloud Practitioner*, CLF-C02) | Clase DAW / empresa |
 | --- | --- |
 | Hay que etiquetar el escenario con un pilar. | En PR701 cada mejora lleva pilar y lo que empeora. |
-| SQS es cola de trabajo; SNS es publicación/suscripción. | «Generar PDF» tras un pedido → SQS, no SNS por defecto. |
+| SQS es cola de trabajo; SNS es publicación/suscripción. | Tras un pedido, «generar PDF» pasa a SQS, no a SNS por defecto. |
 | Varias AZ apuntan a fiabilidad, no a «más barato». | Dibuja dos AZ solo si justificas el coste. |
 
 ### Patrones de resiliencia
@@ -141,9 +140,9 @@ La **[resiliencia](#resiliencia)** es la capacidad de la carga para seguir prest
 
 **Desacoplo con cola de trabajo.** **[Desacoplar](#desacoplo)** significa que el productor no exige que el consumidor esté vivo en el mismo instante. **[Amazon SQS](#sqs)** (*Simple Queue Service*, servicio simple de colas) es una **cola de trabajo**: el `POST /pedidos` responde 201 y encola «generar factura PDF»; el worker procesa cuando pueda. Si el worker cae, los mensajes esperan; el usuario ya tiene el pedido. Sin cola, el HTTP espera al PDF y el *timeout* tumba la experiencia en el pico de la demo. Ese patrón también protege el rendimiento percibido: la API responde rápido aunque el PDF tarde.
 
-**Publicación/suscripción.** **[Amazon SNS](#sns)** (*Simple Notification Service*, servicio simple de notificaciones) publica un evento a **varios** suscriptores (correo, cola, función…). Encaja cuando varios destinos deben reaccionar al mismo hecho («pedido pagado» → correo al cliente, mensaje a almacén, métrica). No es la misma semántica que «un worker procesará este trabajo cuando pueda»: eso es SQS. En el CLF, si el enunciado dice «varios equipos deben enterarse», piensa SNS; si dice «un proceso procesará el mensaje más tarde», piensa SQS.
+**Publicación/suscripción.** **[Amazon SNS](#sns)** (*Simple Notification Service*, servicio simple de notificaciones) publica un evento a **varios** suscriptores (correo, cola, función…). Encaja cuando varios destinos deben reaccionar al mismo hecho («pedido pagado» hacia correo al cliente, mensaje a almacén, métrica). No es la misma semántica que «un worker procesará este trabajo cuando pueda»: eso es SQS. En el CLF, si el enunciado dice «varios equipos deben enterarse», piensa SNS; si dice «un proceso procesará el mensaje más tarde», piensa SQS.
 
-**Sin estado en la instancia.** Si las sesiones o los *uploads* viven solo en el disco de una EC2, la siguiente instancia detrás del ALB no los ve. Fotos en S3 y sesión en un almacén compartido (o un token JWT —*JSON Web Token*— sin estado en el servidor) son el patrón; enlaza con los Temas 5 y 6. Sustituir instancias enfermas (idea del Tema 8) solo funciona si la instancia es sustituible: por eso «cuidar una mascota» con datos locales choca con la fiabilidad.
+**Sin estado en la instancia.** Si las sesiones o los *uploads* viven solo en el disco de una EC2, la siguiente instancia detrás del ALB no los ve. Fotos en S3 y sesión en un almacén compartido (o un token JWT —*JSON Web Token*— sin estado en el servidor) son el patrón; enlaza con los Temas 5 y 6. Sustituir instancias enfermas (idea del Tema 8) solo funciona si la instancia es sustituible: si guarda datos locales, no se puede sustituir sin perderlos.
 
 **Multi-AZ en la BD.** RDS Multi-AZ hace **conmutación por error** (*failover*): si cae la instancia principal, el servicio pasa a la de reserva. Mejora fiabilidad; sube coste. No escala por sí solo las consultas de informes (eso sería una réplica de lectura). En el diseño frágil, MySQL en la misma EC2 acopla el fallo del cómputo y el de los datos: separar a RDS ya es un salto; activar Multi-AZ es el siguiente.
 
@@ -184,11 +183,11 @@ En un proyecto intermodular, el diseño frágil del enunciado de PR701 se parece
 
 Si intentas «mejorar todo» a la vez sin decir qué pilar priorizas, el entregable se vuelve una lista de deseos. Elige cinco cambios distintos y, en cada uno, nombra el pilar principal y lo que empeora (coste, complejidad).
 
-Usar SNS cuando necesitabas una cola de trabajo (o al revés) mezcla semánticas: la publicación/suscripción avisa a varios destinos; la cola guarda trabajos para un consumidor. Para «generar PDF cuando el worker pueda», SQS es la hipótesis seria.
+Usar SNS cuando necesitabas una cola de trabajo (o al revés) mezcla dos ideas distintas: la publicación/suscripción avisa a varios destinos; la cola guarda trabajos para un consumidor. Para «generar PDF cuando el worker pueda», SQS es la opción adecuada.
 
-Declarar sostenibilidad sin ajustar tamaños ni apagar recursos idle deja el pilar en eslogan. En Foundations, reducir ociosidad es la prueba más creíble de ese pilar (y suele alinear con costes).
+Declarar sostenibilidad sin ajustar tamaños ni apagar recursos ociosos deja el pilar en una frase vacía. En Foundations, reducir ociosidad es la prueba más creíble de ese pilar (y suele alinear con costes).
 
-Proponer un *landing zone* multi-cuenta o una malla de microservicios para una API de prácticas se sale del Módulo 9. Quédate en piezas Foundations: ALB, varias AZ, RDS, S3, IAM, SQS, CloudWatch.
+Proponer un entorno de varias cuentas o una malla de microservicios para una API de prácticas se sale del Módulo 9. Quédate en piezas Foundations: ALB, varias AZ, RDS, S3, IAM, SQS, CloudWatch.
 
 ### Relación con Temas 3–6 y 8
 
@@ -200,7 +199,7 @@ Si en el Tema 5 dejaste las fotos en el disco de la EC2, el pilar de fiabilidad 
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-El Practitioner no pide un diagrama de cuarenta cajas: pide **etiquetar** el escenario con un pilar y no confundir una cola de trabajo (SQS) con una publicación/suscripción (SNS). Tampoco diseñas *landing zones* multi-cuenta en este módulo. Preguntas típicas: «una empresa quiere reducir el tiempo de recuperación si falla una AZ» → fiabilidad / Multi-AZ; «quiere cifrar datos en reposo» → seguridad; «quiere pagar menos por instancias ociosas» → optimización de costes (y a menudo sostenibilidad). Si el enunciado describe un mensaje que varios sistemas deben recibir, SNS; si describe un trabajo que un proceso procesará más tarde, SQS.
+El Practitioner no pide un diagrama de cuarenta cajas: pide **etiquetar** el escenario con un pilar y no confundir una cola de trabajo (SQS) con una publicación/suscripción (SNS). Tampoco diseñas entornos de varias cuentas en este módulo. Preguntas típicas: «una empresa quiere reducir el tiempo de recuperación si falla una AZ» apunta a fiabilidad / Multi-AZ; «quiere cifrar datos en reposo» apunta a seguridad; «quiere pagar menos por instancias ociosas» apunta a optimización de costes (y a menudo sostenibilidad). Si el enunciado describe un mensaje que varios sistemas deben recibir, SNS; si describe un trabajo que un proceso procesará más tarde, SQS.
 
 !!! tip "Para el CLF"
     Cifrar datos apunta a seguridad; las alarmas, a excelencia operativa; Spot o ajustar tamaños, a coste; varias AZ, a fiabilidad. SQS encaja cuando un worker procesará el mensaje; SNS, cuando varios suscriptores reaccionan al mismo evento. Ampliación y **autocheck certificación** en [Certificación § Tema 7](../99-certificacion/certificacion.md#tema-7).
@@ -258,7 +257,7 @@ Comprueba pilares y desacoplo de este tema. CLF: [Certificación § Tema 7](../9
 3. **V/F.** SQS encaja para que un pico de pedidos no tumbe al worker que genera PDFs.
 4. CloudFormation es…  
    a) un pilar Well-Architected · b) una **práctica / IaC** que ayuda a la excelencia operativa
-5. **V/F.** Este módulo exige montar un *landing zone* multi-cuenta.
+5. **V/F.** Este módulo exige montar un entorno de varias cuentas (*landing zone*).
 
 <details markdown="1">
 <summary>Soluciones</summary>
@@ -276,7 +275,6 @@ Comprueba pilares y desacoplo de este tema. CLF: [Certificación § Tema 7](../9
 </details>
 
 ---
-
 
 ## Glosario
 
