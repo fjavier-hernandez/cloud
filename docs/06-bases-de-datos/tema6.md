@@ -40,7 +40,7 @@ Instalar MySQL en la misma [EC2](../04-computo-serverless/tema4.md#ec2) (*Elasti
 
 !!! question "Responde con lo que sepas"
     1. MySQL en la misma EC2 que Express frente a **RDS**: ¿quién mantiene y actualiza el **motor** en cada caso?
-    2. ¿**Multi-AZ** responde sobre todo al *failover* de escritura o a escalar lecturas de reporting?
+    2. ¿**Multi-AZ** responde sobre todo a la conmutación por error de escritura o a escalar consultas de informes?
     3. ¿Para qué sirve una **réplica de lectura** que Multi-AZ no cubre igual?
     4. ¿Cuándo tendría sentido **DynamoDB** *además* de un checkout SQL, y cuándo es un error sustituirlo «por moda»?
     5. ¿Por qué abrir **3306** al mundo desde RDS es una mala práctica aunque «así conectas el cliente SQL del portátil»?
@@ -52,13 +52,13 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 1. MySQL en EC2: **tú** mantienes y actualizas el motor (y aplicas los parches del **SO**, sistema operativo). En **RDS**, **AWS** mantiene y actualiza el motor.
 
-2. **Multi-AZ** responde sobre todo al ***failover*** de la escritura (otra AZ), no a escalar SELECT de reporting.
+2. **Multi-AZ** responde sobre todo a la **conmutación por error** (*failover*) de la escritura (otra AZ): si cae la instancia principal, RDS pasa a la de reserva. No escala SELECT de informes.
 
-3. La **réplica de lectura** escala lecturas / reporting de forma asíncrona; no es el mismo mecanismo que el *failover* Multi-AZ.
+3. La **réplica de lectura** escala lecturas / consultas de informes de forma asíncrona; no es el mismo mecanismo que la conmutación Multi-AZ.
 
 4. **Además:** por ejemplo un catálogo o sesión NoSQL junto a un checkout SQL. **Error:** tirar el dominio relacional y transaccional «porque DynamoDB escala» sin necesidad.
 
-5. Expone el motor a internet entero; el **SG** (grupo de seguridad, *security group*) debe aceptar el SG de la API (o un bastión), no `0.0.0.0/0` en 3306.
+5. Expone el motor a internet entero; el **SG** (grupo de seguridad, *security group*) debe aceptar el SG de la API (o un **servidor bastión**: una EC2 en subred pública que solo sirve de puerta de entrada por SSH a la red privada), no `0.0.0.0/0` en 3306.
 
 </details>
 
@@ -68,7 +68,7 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 ### ¿Gestionada o en la máquina virtual?
 
-Un **SGBD** (sistema de gestión de bases de datos) en EC2 te da control total: tú diseñas la alta disponibilidad (**HA**, *high availability*), aplicas los parches del SO, mantienes y actualizas el motor y montas las copias. **[Amazon RDS](#rds)** (*Relational Database Service*, servicio de bases de datos relacionales) es una base de datos **relacional gestionada**: AWS asume mantener y actualizar el motor, las [instantáneas](#instantanea-rds) y el despliegue **[Multi-AZ](#multi-az)** opcional. El examen **CLF** (*AWS Certified Cloud Practitioner*, CLF-C02) y una app de clase bien hecha premian el servicio gestionado salvo motor raro o licencia que lo impida. Para un desarrollador web: sigues hablando SQL; dejas de ser el **DBA** (*database administrator*, administrador de bases de datos) del SO.
+Un **SGBD** (sistema de gestión de bases de datos) en EC2 te da control total: tú diseñas la alta disponibilidad (**HA**, *high availability*), aplicas los parches del SO, mantienes y actualizas el motor y montas las copias. **[Amazon RDS](#rds)** (*Relational Database Service*, servicio de bases de datos relacionales) es una base de datos **relacional gestionada**: AWS asume mantener y actualizar el motor, las [instantáneas](#instantanea-rds) y el despliegue **[Multi-AZ](#multi-az)** opcional. El examen **CLF** (*AWS Certified Cloud Practitioner*, CLF-C02) y una app de clase bien hecha premian el servicio gestionado salvo motor raro o licencia que lo impida. Para un desarrollador web: sigues hablando SQL; dejas de encargarte del servidor donde corre el motor. El rol de **DBA** (*database administrator*, administrador de bases de datos) del SO y del host deja de ser tu día a día.
 
 <figure markdown="span">
 ![Visión de RDS como servicio gestionado](img/salvador/rds_1.png){ width="640" }
@@ -100,11 +100,11 @@ Cuando MySQL vive en la misma EC2 que Express, un *terminate* se lleva API y dat
 
 ### Relacionales: RDS y Aurora
 
-**Qué es en este caso — RDS.** Una **[instancia de BD](#instancia-de-bd)** en RDS es el recurso gestionado que ejecuta un motor relacional (MySQL, PostgreSQL, MariaDB, SQL Server, Oracle…). Eliges la **[clase de instancia](#clase-de-instancia)** (CPU y memoria de plantilla), el almacenamiento, la **[VPC](../03-redes-entrega-contenido/tema3.md#vpc)** (*Virtual Private Cloud*, nube virtual privada), el **[grupo de subredes de BD](#db-subnet-group)** (*DB subnet group*) y el SG. El **[endpoint](#endpoint-rds)** es el nombre DNS (*Domain Name System*, sistema de nombres de dominio) al que se conecta la aplicación: no es la IP de tu portátil.
+**Qué es en este caso — RDS.** Una **[instancia de BD](#instancia-de-bd)** en RDS es el recurso gestionado que ejecuta un motor relacional (MySQL, PostgreSQL, MariaDB, SQL Server, Oracle…). Eliges la **[clase de instancia](#clase-de-instancia)** (una combinación fija de CPU y memoria que eliges de una lista), el almacenamiento, la **[VPC](../03-redes-entrega-contenido/tema3.md#vpc)** (*Virtual Private Cloud*, nube virtual privada), el **[grupo de subredes de BD](#db-subnet-group)** (*DB subnet group*) y el SG. El **[endpoint](#endpoint-rds)** es el nombre DNS (*Domain Name System*, sistema de nombres de dominio) al que se conecta la aplicación: no es la IP de tu portátil.
 
 **En la práctica — RDS.** En el proyecto de DAW la **API** (interfaz de programación de aplicaciones) Node o PHP abre una conexión al endpoint (JDBC, `DATABASE_URL`, Sequelize u otro ORM —*object-relational mapper*, mapeador objeto-relacional—). El esquema, las migraciones de tablas y los usuarios de la app siguen siendo tuyos. AWS mantiene y actualiza el motor según la ventana de mantenimiento; tú no entras por **SSH** (*Secure Shell*, acceso remoto cifrado) al host de la BD para aplicar actualizaciones del motor. Si cambias la clase de instancia o el almacenamiento, lo haces desde la consola o la API de AWS, no reinstalando MySQL a mano en un disco EBS.
 
-El **grupo de subredes de BD** agrupa subredes (casi siempre privadas) en al menos dos AZ. RDS elige en qué subredes coloca el primario y, si hay Multi-AZ, el *standby*. Si metes solo subredes públicas «porque así conecto desde casa», estás diseñando al revés: la app debería vivir cerca de la BD en la VPC, y tú acercarte con bastión o **VPN** (red privada virtual, *virtual private network*) cuando haga falta administrar.
+El **grupo de subredes de BD** agrupa subredes (casi siempre privadas) en al menos dos AZ. RDS elige en qué subredes coloca el primario y, si hay Multi-AZ, la **instancia de reserva** (*standby*). Si metes solo subredes públicas «porque así conecto desde casa», estás diseñando al revés: la app debería vivir cerca de la BD en la VPC, y tú acercarte con un servidor bastión o **VPN** (red privada virtual, *virtual private network*) cuando haga falta administrar.
 
 **Qué es en este caso — Aurora.** **[Amazon Aurora](#aurora)** es un motor relacional compatible con MySQL o PostgreSQL, con almacenamiento distribuido y réplicas pensadas para más margen de HA y rendimiento dentro del ecosistema RDS.
 
@@ -114,18 +114,18 @@ El **grupo de subredes de BD** agrupa subredes (casi siempre privadas) en al men
 
 Dos mecanismos que se confunden y que el CLF premia distinguir.
 
-**[Multi-AZ](#multi-az)** (*Multi–Availability Zone*, varias zonas de disponibilidad) replica de forma síncrona hacia un *standby* en otra AZ. Si falla la AZ primaria, el servicio hace *failover* y el endpoint pasa a apuntar al *standby*. La aplicación suele reintentar la conexión al mismo nombre DNS; no reescribes el SQL. Responde a **disponibilidad de la escritura**, no a acelerar SELECT de reporting. Cuesta más que una sola AZ porque hay capacidad reservada en la segunda zona; en el lab lo activas porque el enunciado lo pide y porque quieres ver el patrón, no porque «más caro = mejor nota» sin más.
+**[Multi-AZ](#multi-az)** (*Multi–Availability Zone*, varias zonas de disponibilidad) replica de forma síncrona hacia una instancia de reserva en otra AZ. Si falla la AZ primaria, hay **conmutación**: el endpoint apunta a la instancia de reserva. La aplicación suele reintentar la conexión al mismo nombre DNS; no reescribes el SQL. Responde a **disponibilidad de la escritura**, no a acelerar SELECT de informes. Cuesta más que una sola AZ porque hay capacidad reservada en la segunda zona; en el lab lo activas porque el enunciado lo pide y porque quieres ver el patrón, no porque «más caro = mejor nota» sin más.
 
-Una **[réplica de lectura](#read-replica)** (*read replica*) copia de forma **asíncrona** para repartir consultas de solo lectura. Escala reporting o *dashboards*; puede ir un poco por detrás del primario (retraso de replicación). No es el mismo mecanismo que el *failover* Multi-AZ: si caes el primario, una réplica no se promociona sola salvo que configures y ejecutes ese proceso aparte.
+Una **[réplica de lectura](#read-replica)** (*read replica*) copia de forma **asíncrona** para repartir consultas de solo lectura. Escala consultas de informes o paneles; puede ir un poco por detrás del primario (retraso de replicación). No es el mismo mecanismo que la conmutación Multi-AZ: si caes el primario, una réplica no se promociona sola salvo que configures y ejecutes ese proceso aparte.
 
 <figure markdown="span">
 ![Esquema Multi-AZ en RDS](img/salvador/rds_4.png){ width="640" }
-<figcaption>Multi-AZ: copia síncrona para failover.</figcaption>
+<figcaption>Multi-AZ: copia síncrona para conmutación por error.</figcaption>
 </figure>
 
 !!! tip "Multi-AZ frente a réplica de lectura"
-    - **Multi-AZ:** escritura síncrona al *standby*; ante fallo, el *standby* toma el relevo (comercio, finanzas…).
-    - **Réplica de lectura:** replicación asíncrona; escala SELECT / reporting; el *failover* manual no es el mismo mecanismo.
+    - **Multi-AZ:** escritura síncrona a la instancia de reserva; ante fallo, esa instancia toma el relevo (comercio, finanzas…).
+    - **Réplica de lectura:** replicación asíncrona; escala SELECT / consultas de informes; la conmutación manual no es el mismo mecanismo.
 
 <figure markdown="span">
 ![Esquema de réplica de lectura en RDS](img/salvador/rds_3.png){ width="640" }
@@ -136,17 +136,17 @@ Una **[réplica de lectura](#read-replica)** (*read replica*) copia de forma **a
 
 Las **[instantáneas automáticas](#instantanea-rds)** las programa RDS (ventana de copia); las **manuales** las lanzas tú antes de un cambio arriesgado. Sirven para recuperar un punto en el tiempo; no sustituyen un buen diseño de esquema ni el control de quién puede conectar.
 
-El SG del motor **no** se abre a `0.0.0.0/0`. La API en subred privada habla con RDS; no expones 3306 a internet «para DBeaver desde casa» si hay alternativas (bastión, VPN).
+El SG del motor **no** se abre a `0.0.0.0/0`. La API en subred privada habla con RDS; no expones 3306 a internet «para DBeaver desde casa» si hay alternativas (servidor bastión, VPN).
 
 <figure markdown="span">
-![RDS: VPC, subnet group y acceso público = No](img/salvador/rds_2.png){ width="720" }
+![RDS: VPC, grupo de subredes y acceso público = No](img/salvador/rds_2.png){ width="720" }
 <figcaption>Conectividad: VPC + grupo de subredes; acceso público desactivado en un lab serio.</figcaption>
 </figure>
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
-| Multi-AZ sirve para el *failover* de la escritura. | En el lab del Módulo 8 activas Multi-AZ cuando el enunciado lo pide y lo explicas en el `.md`. |
-| La réplica de lectura escala SELECT, no sustituye Multi-AZ. | Si el cuello de botella es reporting, valora una réplica; si es caída de AZ, Multi-AZ. |
+| Multi-AZ sirve para la conmutación por error de la escritura. | En el lab del Módulo 8 activas Multi-AZ cuando el enunciado lo pide y lo explicas en el `.md`. |
+| La réplica de lectura escala SELECT; no sustituye a Multi-AZ. | Si el cuello de botella son las consultas de informes, valora una réplica; si es la caída de una AZ, Multi-AZ. |
 | El puerto del motor no va abierto a internet. | El SG de RDS solo acepta el SG de la aplicación web. |
 
 ### NoSQL y analítica
@@ -157,10 +157,12 @@ En un mismo producto puedes combinar: RDS para pedidos (transacciones, stock, in
 
 | Servicio | Modelo | Caso del proyecto de DAW |
 | --- | --- | --- |
-| **[DynamoDB](#dynamodb)** | Clave-valor / documentos, *serverless* | Sesiones, catálogo simple, picos imprevisibles |
-| **[ElastiCache](#elasticache)** | Caché en memoria | Acelerar lecturas calientes; no es el sistema de registro |
-| **[Redshift](#redshift)** | Analítica columnar | Informes; no el [OLTP](#oltp) de la tienda |
-| DocumentDB / Neptune / Keyspaces | Nombres de examen | Reconocer el logo en el CLF |
+| **[DynamoDB](#dynamodb)** | Almacén NoSQL clave-valor o de documentos, sin servidores que administres. | Encaja en sesiones, un catálogo simple o datos con picos imprevisibles. |
+| **[ElastiCache](#elasticache)** | Caché en memoria gestionada (Redis o Memcached). | Acelera lecturas calientes; no sustituye a la base de datos de registro. |
+| **[Redshift](#redshift)** | Almacén de datos columnar para analítica. | Sirve para informes agregados; no es el [OLTP](#oltp) del checkout de la tienda. |
+| **DocumentDB** | Compatible con la API de documentos de MongoDB. | Reconócelo cuando el escenario pide documentos tipo MongoDB gestionados. |
+| **Neptune** | Base de datos de grafos gestionada. | Reconócelo cuando el escenario describe relaciones tipo grafo (recomendaciones, redes). |
+| **Keyspaces** | Compatible con Apache Cassandra. | Reconócelo cuando el escenario pide un almacén tipo Cassandra gestionado. |
 
 **Qué es en este caso — DynamoDB.** Servicio NoSQL gestionado: trabajas con una **[tabla](#tabla-dynamodb)** de **[elementos](#elemento-dynamodb)** (*items*), cada uno identificado por una **[clave de partición](#clave-de-particion)** (*partition key*) y, si hace falta, una clave de ordenación (*sort key*). No es «MySQL más rápido».
 
@@ -171,7 +173,7 @@ En un mismo producto puedes combinar: RDS para pedidos (transacciones, stock, in
 <figcaption>Create table: partition key (y sort key opcional). Fuente: Amazon DynamoDB Developer Guide (AWS).</figcaption>
 </figure>
 
-**Cuándo no usar DynamoDB.** Pedidos con *joins* y transacciones clásicas, reporting *ad hoc* con SQL libre, o un equipo que solo conoce Sequelize/JPA sobre tablas normalizadas. Forzar NoSQL «porque es serverless» suele acabar en un modelo a medias y consultas dolorosas.
+**Cuándo no usar DynamoDB.** Pedidos con *joins* y transacciones clásicas, informes *ad hoc* con SQL libre, o un equipo que solo conoce Sequelize/JPA sobre tablas normalizadas. Forzar NoSQL «porque es serverless» suele acabar en un modelo a medias y consultas dolorosas.
 
 **Qué es en este caso — ElastiCache.** Caché en memoria (Redis o Memcached gestionados) delante de la BD o de la API.
 
@@ -192,7 +194,7 @@ En Foundations no montas un proyecto DMS completo: reconoces la herramienta cuan
 
 ### Conectar la aplicación con la base de datos
 
-La URL JDBC / `DATABASE_URL` apunta al **endpoint** de RDS, no a una base en tu portátil. El host suele parecerse a `xxx.region.rds.amazonaws.com`; el puerto es el del motor (3306 en MySQL). El SG de RDS acepta el SG de la API (o un bastión), no tu IP pública del instituto de forma permanente: las IP del aula cambian y, además, dejan el hábito de abrir el motor a trozos de internet.
+La URL JDBC / `DATABASE_URL` apunta al **endpoint** de RDS, no a una base en tu portátil. El host suele parecerse a `xxx.region.rds.amazonaws.com`; el puerto es el del motor (3306 en MySQL). El SG de RDS acepta el SG de la API (o un servidor bastión), no tu IP pública del instituto de forma permanente: las IP del aula cambian y, además, dejan el hábito de abrir el motor a trozos de internet.
 
 Los secretos (usuario, contraseña, cadena completa) no van al repositorio ni al `PR601.md` público. En el discurso Practitioner aparecen Parameter Store y Secrets Manager; en el lab, anótalos fuera del entregable y en el `.md` deja constancia de que la app apunta al endpoint sin pegar la contraseña.
 
@@ -203,13 +205,13 @@ En el asistente verás la opción de conectar EC2 con RDS ajustando los SG: úsa
 <figcaption>Conexión EC2–RDS: SG y subredes, no IP pública del aula. Fuente: Amazon RDS User Guide (AWS).</figcaption>
 </figure>
 
-Si usas un ORM (Sequelize, JPA, Entity Framework), Multi-AZ no cambia tu código SQL: cambia la disponibilidad del endpoint. Las réplicas de lectura sí pueden exigir una cadena de conexión de solo lectura para reporting.
+Si usas un ORM (Sequelize, JPA, Entity Framework), Multi-AZ no cambia tu código SQL: cambia la disponibilidad del endpoint. Las réplicas de lectura sí pueden exigir una cadena de conexión de solo lectura para consultas de informes.
 
 ### Errores frecuentes (datos)
 
-Si abres 3306 o 5432 a `0.0.0.0/0` «para probar desde el portátil», el motor queda expuesto a todo internet: escaneo, fuerza bruta e incidentes. En su lugar deja que el SG de RDS acepte solo el SG de la aplicación web (o un bastión) y usa VPN o túnel cuando necesites un cliente SQL desde casa.
+Si abres 3306 o 5432 a `0.0.0.0/0` «para probar desde el portátil», el motor queda expuesto a todo internet: escaneo, fuerza bruta e incidentes. En su lugar deja que el SG de RDS acepte solo el SG de la aplicación web (o un servidor bastión) y usa VPN o túnel cuando necesites un cliente SQL desde casa.
 
-Confundir Multi-AZ con réplica de lectura lleva a activar lo uno esperando lo otro: Multi-AZ no acelera los SELECT de reporting, y una réplica no es el mecanismo principal de *failover*. En el `.md` escribe para qué sirve cada uno con el caso de tu API.
+Confundir Multi-AZ con réplica de lectura lleva a activar lo uno esperando lo otro: Multi-AZ no acelera los SELECT de informes, y una réplica no es el mecanismo principal de conmutación. En el `.md` escribe para qué sirve cada uno con el caso de tu API.
 
 Dejar la instancia RDS del lab encendida tras la entrega sigue facturando almacenamiento y horas de instancia aunque nadie conecte. Al cerrar, elimina la instancia y las instantáneas de práctica según el enunciado, y deja captura de limpieza.
 
@@ -221,17 +223,17 @@ El disco y los objetos del Tema 5 no sustituyen una base transaccional: S3 guard
 
 ### El lab del Módulo 8: Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos
 
-En tu clase de *Cloud Foundations*, el lab del **Módulo 8** se llama **Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos**. Trabajas en la **región que indique el lab**. El hilo es de **RDS for MySQL** con red privada y Multi-AZ, no de DynamoDB.
+En tu clase de *Cloud Foundations*, el lab del **Módulo 8** se llama **Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos**. Trabajas en la **región que indique el lab**. La instancia EC2 con la aplicación web —una agenda de contactos (*Address Book*)— **ya viene creada** en el lab. Tu trabajo es montar la BD gestionada y enlazarla a esa agenda.
 
-Primero creas un **grupo de seguridad para la BD** cuyas reglas de entrada admitan el puerto del motor **solo** desde el SG de la aplicación web (la EC2 del lab). Así la API puede hablar con MySQL y el resto de internet no.
+Primero creas un **grupo de seguridad para la BD** cuyas reglas de entrada admitan el puerto del motor **solo** desde el SG de la aplicación web (la EC2 de la agenda). Así la app puede hablar con MySQL y el resto de internet no.
 
-Después creas un **grupo de subredes de BD** (*DB subnet group*) con subredes **privadas** en **dos AZ**. RDS necesita al menos dos subredes en AZ distintas para desplegar Multi-AZ; sin ese grupo, el asistente no puede colocar primario y *standby* como toca.
+Después creas un **grupo de subredes de BD** (*DB subnet group*) con subredes **privadas** en **dos AZ**. RDS necesita al menos dos subredes en AZ distintas para desplegar Multi-AZ; sin ese grupo, el asistente no puede colocar el primario y la instancia de reserva como toca.
 
 Luego **lanzas una instancia de Amazon RDS for MySQL** con **Multi-AZ** activado, clase y almacenamiento según el enunciado, acceso público desactivado y el SG de la BD que acabas de definir. Esperas a que quede *Available* y anotas el **endpoint** (sin pegar la contraseña en el entregable).
 
-Por último **conectas la aplicación web de la EC2** a ese endpoint: la configuración de la app (la que indique el enunciado) apunta al host de RDS con el usuario y la contraseña que hayas definido en el asistente. Compruebas que la web usa la BD gestionada y no un MySQL local en el disco de la EC2. Si el lab trae una aplicación ya preparada, tu trabajo es dejar bien la red y la cadena de conexión; si hay que editar un fichero de configuración, sigue el enunciado y no dejes secretos en capturas del entregable.
+Por último abres el formulario de configuración de la propia agenda en la EC2 e introduces el **endpoint**, el **nombre de la base de datos**, el **usuario** y la **contraseña** (los valores concretos los marca el enunciado; no los copies al `.md`). Compruebas que la agenda **guarda y muestra contactos**: eso demuestra que la aplicación usa RDS y no un MySQL local en el disco de la EC2. No dejes secretos en capturas del entregable.
 
-Respecto al mapa del proyecto de DAW (API en cómputo, BD gestionada, fotos en S3), este lab **practica** RDS, Multi-AZ, grupo de subredes y SG. **Simplifica** el resto del producto (no montas DynamoDB ni Redshift). En **PR601** deja claro qué es **IaaS** (*Infrastructure as a Service*, infraestructura como servicio: la EC2, donde **tú** aplicas los parches del SO) y qué es gestionado (RDS, donde AWS mantiene y actualiza el motor), y limpia la instancia al terminar.
+Respecto al mapa del proyecto de DAW (API en cómputo, BD gestionada, fotos en S3), este lab **practica** RDS, Multi-AZ, grupo de subredes y SG. **Simplifica** el resto del producto (no montas DynamoDB ni Redshift). En **PR601** deja claro qué es **IaaS** (*Infrastructure as a Service*, infraestructura como servicio: la EC2, donde **tú** aplicas los parches del SO) y qué es gestionado (RDS, donde AWS mantiene y actualiza el motor), y al terminar elimina la instancia RDS: deja una captura que demuestre que has eliminado los recursos.
 
 ---
 
@@ -240,7 +242,7 @@ Respecto al mapa del proyecto de DAW (API en cómputo, BD gestionada, fotos en S
 Aquí el examen contrapone base **gestionada** frente a MySQL en la EC2, relacional frente a NoSQL, y Multi-AZ frente a réplica de lectura: no son sinónimos. DMS y SCT aparecen cuando el escenario describe migración con poco tiempo de parada frente a un rediseño completo.
 
 !!! tip "Para el CLF"
-    Multi-AZ responde al **failover** de la escritura; la réplica de lectura escala SELECT o reporting. DynamoDB puede ir *además* de un checkout SQL si el dominio sigue siendo relacional; no lo sustituyas «por moda». Ampliación y **autocheck certificación** en [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
+    Multi-AZ responde a la **conmutación** de la escritura; la réplica de lectura escala SELECT o consultas de informes. DynamoDB puede ir *además* de un checkout SQL si el dominio sigue siendo relacional; no lo sustituyas «por moda». Ampliación y **autocheck certificación** en [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
 
 **Videotutorial (Practitioner / NoSQL).** [DynamoDB](https://www.youtube.com/watch?v=j1VL7ctuerw) (~10 min). Vídeo: Profe Santos Cloud (YouTube).
 
@@ -276,9 +278,9 @@ Vídeo: Profe Santos Cloud (YouTube). Qué mirar: clase pequeña, SG del motor y
 
 ### PR601 — RDS mínimo
 
-* :simple-neutralinojs: **PR601**. (RA4 // b, c // **PR 0–10**). Completas el lab Academy del Módulo 8 (**Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos**): SG de la BD, grupo de subredes, RDS for MySQL con Multi-AZ, conexión desde la app en EC2, secretos fuera del markdown público y limpieza al acabar.
+* :simple-neutralinojs: **PR601**. (RA4 // b, c // **PR 0–10**). Completas el lab Academy del Módulo 8 (**Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos**): la agenda (*Address Book*) ya está en una EC2; tú creas SG de la BD, grupo de subredes, RDS for MySQL Multi-AZ, configuras el formulario de la agenda, dejas secretos fuera del markdown y limpias al acabar.
 
-  **Tareas:** crea el SG de la BD (puerto del motor solo desde el SG de la app); crea el grupo de subredes de BD en subredes privadas de dos AZ; lanza RDS for MySQL con Multi-AZ según el enunciado; conecta la aplicación web al endpoint; documenta IaaS (EC2) frente a gestionado (RDS) en unas líneas; deja secretos fuera del `.md`; elimina la instancia RDS (e instantáneas de lab si el enunciado lo pide) y deja evidencia de limpieza.
+  **Tareas:** crea el SG de la BD (puerto del motor solo desde el SG de la agenda); crea el grupo de subredes de BD en subredes privadas de dos AZ; lanza RDS for MySQL con Multi-AZ según el enunciado; introduce endpoint, nombre de BD, usuario y contraseña en el formulario de la agenda; comprueba que guarda y muestra contactos; documenta IaaS (EC2) frente a gestionado (RDS); deja secretos fuera del `.md`; elimina la instancia RDS (e instantáneas de lab si el enunciado lo pide) y deja una captura que demuestre que has eliminado los recursos.
 
   **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR601.md` (o ZIP + `img/` si hay capturas).
 
@@ -289,7 +291,7 @@ Vídeo: Profe Santos Cloud (YouTube). Qué mirar: clase pequeña, SG del motor y
 | Lab RDS (SG, subredes, Multi-AZ) | Flujo del Ejercicio de laboratorio 5 | 0–3 |
 | Seguridad de red | SG sin motor abierto al mundo | 0–3 |
 | Secretos y claridad | Fuera del markdown; IaaS frente a gestionado | 0–2 |
-| Limpieza | Instancia RDS eliminada / evidencia | 0–2 |
+| Limpieza | Captura que demuestre que has eliminado los recursos | 0–2 |
 | **Total** | | **/10** |
 
 ---
@@ -299,7 +301,7 @@ Vídeo: Profe Santos Cloud (YouTube). Qué mirar: clase pequeña, SG del motor y
 Comprueba bases de datos de este tema. CLF: [Certificación § Tema 6](../99-certificacion/certificacion.md#tema-6).
 
 1. **Multi-AZ** en RDS sirve sobre todo para…  
-   a) acelerar SELECT de reporting · b) ***failover*** si cae una AZ · c) sustituir copias de seguridad
+   a) acelerar SELECT de informes · b) **conmutación** si cae una AZ · c) sustituir copias de seguridad
 2. Checkout con transacciones SQL: primera hipótesis…  
    a) DynamoDB · b) **RDS/Aurora** · c) Redshift
 3. ¿Quién mantiene y actualiza el **motor** en RDS?
@@ -333,19 +335,19 @@ Comprueba bases de datos de este tema. CLF: [Certificación § Tema 6](../99-cer
 Recurso RDS que ejecuta un motor concreto con una clase, almacenamiento y red asociados.
 
 **clase de instancia**{: #clase-de-instancia}
-Plantilla de CPU y memoria de la instancia de BD (p. ej. clases pequeñas en labs).
+Combinación fija de CPU y memoria de la instancia de BD que eliges de una lista (p. ej. clases pequeñas en labs).
 
 **endpoint RDS**{: #endpoint-rds}
 Nombre DNS al que se conecta la aplicación para hablar con la instancia de BD.
 
 **grupo de subredes de BD**{: #db-subnet-group}
-*DB subnet group*: conjunto de subredes (en AZ distintas) donde RDS puede colocar la instancia y el *standby* Multi-AZ.
+*DB subnet group*: conjunto de subredes (en AZ distintas) donde RDS puede colocar la instancia y la instancia de reserva Multi-AZ.
 
 **Multi-AZ**{: #multi-az}
-Despliegue en más de una zona de disponibilidad con *failover* de escritura. No sustituye a las réplicas de lectura ni acelera por sí solo los SELECT de reporting.
+Despliegue en más de una zona de disponibilidad con conmutación por error de escritura. No sustituye a las réplicas de lectura ni acelera por sí solo los SELECT de informes.
 
 **read replica**{: #read-replica}
-Réplica de lectura: copia de solo lectura para repartir consultas SELECT. No es el mecanismo principal de *failover* Multi-AZ.
+Réplica de lectura: copia de solo lectura para repartir consultas SELECT e informes. No es el mecanismo principal de conmutación Multi-AZ.
 
 **instantánea RDS**{: #instantanea-rds}
 Copia de la BD en un momento (automática o manual) para recuperación o restauración.
