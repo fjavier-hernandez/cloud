@@ -215,7 +215,7 @@ La **[instantánea](#instantanea)** (*snapshot*) es una copia del volumen en un 
 
 **En la práctica — FSx.** En un proyecto de DAW en Linux con Node suele bastar S3 o EFS. FSx aparece cuando el enunciado o el cliente arrastra un entorno Windows o un software que exige ese protocolo.
 
-**Storage Gateway**, la familia **[Snow](#snow-family)** (dispositivo físico para mover muchos terabytes sin depender solo de la red), **AWS Backup** y **[DataSync](#datasync)** sirven para reconocer *cuándo* una VPN no basta para migrar un **CPD** (centro de proceso de datos) grande: Gateway acerca un «disco o fichero» híbrido; Snow mueve datos por envío físico; DataSync automatiza copias entre almacenes en tus propias instalaciones (*on-premises*) y AWS.
+**Storage Gateway**, la familia **[Snow](#snow-family)** (dispositivo físico para mover muchos terabytes sin depender solo de la red), **AWS Backup** y **[DataSync](#datasync)** sirven para reconocer *cuándo* una **VPN** (red privada virtual, *virtual private network*) no basta para migrar un **CPD** (centro de proceso de datos) grande: Gateway acerca un «disco o fichero» híbrido; Snow mueve datos por envío físico; DataSync automatiza copias entre almacenes en tus propias instalaciones (*on-premises*) y AWS.
 
 ### Errores frecuentes (almacenamiento)
 
