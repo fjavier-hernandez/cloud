@@ -8,7 +8,7 @@ description: Shared responsibility, IAM, MFA, protección de datos y servicios d
 Una API (interfaz de programación de aplicaciones) en la nube no «hereda» la seguridad del proveedor. AWS protege los centros de datos y el hipervisor; **tú** decides quién puede llamar a `s3:GetObject`, si el [usuario raíz](#usuario-raiz) tiene [MFA](#mfa) (autenticación multifactor, *multi-factor authentication*) y si el secreto del JWT vive en el código o fuera de Git. Este tema corresponde al **Módulo 4** de *AWS Academy Cloud Foundations* y es el bloque que más se parece al dominio más pesado del examen **CLF-C02** (*AWS Certified Cloud Practitioner*, Cloud Practitioner). Los términos clave están en el [glosario](#glosario).
 
 !!! tip "Al empezar"
-    Empieza por el [cuestionario inicial](#cuestionario-inicial). Si vienes del Tema 1, confirma [Acceso](../00-acceso/acceso.md) y la región del Learner Lab: aquí el eje es **quién puede hacer qué** ([IAM](#iam) —*Identity and Access Management*, gestión de identidades y accesos— y [responsabilidad compartida](#responsabilidad-compartida)).
+    Empieza por el [cuestionario inicial](#cuestionario-inicial). Si vienes del Tema 1, confirma [Acceso](../00-acceso/acceso.md): aquí el eje es **quién puede hacer qué** ([IAM](#iam) —*Identity and Access Management*, gestión de identidades y accesos— y [responsabilidad compartida](#responsabilidad-compartida)). El lab de este tema se abre en el **Módulo 4** de Foundations.
 
 ## Propuesta didáctica
 
@@ -128,19 +128,19 @@ Cada uno de estos fallos es seguridad **en** la nube: configuración o hábitos 
 **SSH o `0.0.0.0/0` «solo un rato» y olvido.** Dejas la instancia expuesta a internet. Para evitarlo, restringe el [security group](#security-group) a la IP del lab o del aula y ciérralo al terminar.
 ### IAM: quién puede hacer qué
 
-**[IAM](#iam)** (*Identity and Access Management*, gestión de identidades y accesos) es el servicio con el que decides **quién** puede hacer **qué** sobre **qué recurso**. Sin IAM bien pensado, o dejas la cuenta abierta o bloqueas al equipo. En una API Node el patrón sano es: la persona entra con su identidad (en el lab, con la sesión del Learner Lab o con un usuario del ejercicio); la instancia o la función **asume un rol** con la política justa. Si pegas [access keys](#access-key) en el repo, has saltado ese diseño y has creado un incidente.
+**[IAM](#iam)** (*Identity and Access Management*, gestión de identidades y accesos) es el servicio con el que decides **quién** puede hacer **qué** sobre **qué recurso**. Sin IAM bien pensado, o dejas la cuenta abierta o bloqueas al equipo. En una API Node el patrón sano es: la persona entra con su identidad (en el lab del Módulo 4, con `user-1`…; en otros labs, con la sesión del entorno); la instancia o la función **asume un rol** con la política justa. Si pegas [access keys](#access-key) en el repo, has saltado ese diseño y has creado un incidente.
 
 #### Usuario raíz (root)
 
 **Qué es en este caso.** El [usuario raíz](#usuario-raiz) es la identidad propietaria de la cuenta AWS: facturación, cierre de cuenta, cambio de plan de Support y otras acciones de cuenta.
 
-**En la práctica.** No lo uses para desarrollar ni para el lab diario. Activa [MFA](#mfa), guarda esas credenciales fuera del grupo de clase y trabaja con la sesión del Learner Lab o con los usuarios del ejercicio del Módulo 4. El examen asocia el root a acciones de cuenta, no a desplegar la API de un proyecto de DAW.
+**En la práctica.** No lo uses para desarrollar ni para el lab diario. Activa [MFA](#mfa), guarda esas credenciales fuera del grupo de clase y, en el ejercicio del Módulo 4, trabaja con los usuarios que ya vienen creados. El examen asocia el root a acciones de cuenta, no a desplegar la API de un proyecto de DAW.
 
 #### Usuario IAM
 
 **Qué es en este caso.** Un [usuario IAM](#usuario-iam) es una identidad permanente pensada para una persona (o, a veces, para una aplicación antigua). Puede tener contraseña de consola y, si se generan, access keys.
 
-**En la práctica.** En empresas a menudo se sustituye por federación o Identity Center. En el **lab de IAM del Módulo 4** de Foundations **no creas** usuarios nuevos: el ejercicio ya trae creados `user-1`, `user-2` y `user-3`, y los grupos `S3-Support`, `EC2-Support` y `EC2-Admin`. Tú añades cada usuario a su grupo, entras como cada uno y compruebas qué puede hacer y qué le deniega la política. Un usuario no es lo mismo que un **rol**: el usuario es «alguien con credenciales de persona»; el rol se **asume** un rato, casi siempre por un servicio.
+**En la práctica.** En empresas a menudo se sustituye por federación o Identity Center. En el **lab de IAM del Módulo 4** de Foundations **no creas** usuarios nuevos: ese ejercicio se lanza con su propio *Start Lab* dentro del módulo del curso *Cloud Foundations* y ya trae creados `user-1`, `user-2` y `user-3`, y los grupos `S3-Support`, `EC2-Support` y `EC2-Admin`. Tú añades cada usuario a su grupo, entras como cada uno y compruebas qué puede hacer y qué le deniega la política. Un usuario no es lo mismo que un **rol**: el usuario es «alguien con credenciales de persona»; el rol se **asume** un rato, casi siempre por un servicio.
 
 #### Grupo IAM
 
@@ -158,13 +158,9 @@ Cada uno de estos fallos es seguridad **en** la nube: configuración o hábitos 
 <figcaption>Trust policy de un rol: quién puede hacer sts:AssumeRole. Fuente: AWS Well-Architected Tool User Guide (AWS).</figcaption>
 </figure>
 
-#### El Learner Lab: sesión federada, LabRole y límites
+#### Dos entornos de Academy: lab del Módulo 4 y Learner Lab
 
-En el **Learner Lab** de Academy no trabajas como en una cuenta AWS personal con tarjeta. Entras con una **sesión federada** del propio laboratorio: Academy te autentica y te deja la consola lista en la región que permite el lab. **No** asumes LabRole para «ser tú» en el día a día.
-
-**LabRole** (y su perfil de instancia **LabInstanceProfile**) es el rol que **asignas a un servicio** —por ejemplo a una EC2 o a una Lambda— para que *tu código* acceda a S3 u otros recursos **sin** pegar access keys en el disco. La máquina o la función asume ese rol; tú sigues trabajando con la sesión del lab.
-
-Además, en el Learner Lab **no puedes crear** usuarios, grupos ni roles IAM propios. La cuenta es compartida y controlada por Academy: así evitan que cada alumno deje identidades sueltas, facturación abierta o permisos demasiado amplios. Por eso el lab de IAM del Módulo 4 usa usuarios y grupos **ya creados**, y por eso un tutorial de internet con `AdministratorAccess` «no te deja» hacer lo mismo: no es que IAM esté roto; es **mínimo privilegio** y cuenta de clase.
+Conviene no mezclarlos. El **lab de IAM del Módulo 4** se abre **dentro** del curso *Cloud Foundations*: entras al módulo, pulsas su *Start Lab* y trabajas con los usuarios y grupos que ese ejercicio ya trae creados. El **Learner Lab** es **otro** curso de Academy: es el entorno libre para practicar EC2, S3 y el resto. Ahí entras con una **sesión federada**, **no** puedes crear usuarios, grupos ni roles IAM propios, y **LabRole** / **LabInstanceProfile** se asignan a servicios (una EC2 o una Lambda) para que el código llame a la API sin access keys. Que el Módulo 4 traiga `user-1`… no es «porque el Learner Lab lo imponga»: son entornos distintos, cada uno con su propio *Start Lab*.
 
 #### Política (*policy*)
 
@@ -239,8 +235,8 @@ El cortafuegos de la instancia ([security group](#security-group)) **no es IAM**
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
-| Root con MFA; mínimo privilegio; rol frente a access keys | En el lab: sesión federada, no root; evidencia de AccessDenied con los usuarios del Módulo 4 |
-| App comprometida que lista buckets → falla *en* la nube | Revisar el rol de la API (LabRole en el lab) y la política de S3 antes de culpar al proveedor |
+| Root con MFA; mínimo privilegio; rol frente a access keys | En el lab del Módulo 4: no root; evidencia de AccessDenied con user-1… |
+| App comprometida que lista buckets → falla *en* la nube | Revisar el rol del servicio (p. ej. LabRole en el Learner Lab) y la política de S3 |
 
 ### Cuentas, datos y red
 

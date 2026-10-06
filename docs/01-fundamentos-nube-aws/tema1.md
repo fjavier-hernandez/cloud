@@ -202,7 +202,7 @@ Subir de IaaS a SaaS **reduce el trabajo de administración** y **reduce el cont
 
 ### Errores frecuentes (modelos)
 
-- Llamar «PaaS» a cualquier cosa «en la nube» (EC2 con Docker sigue siendo IaaS a efectos de parches del SO del SO).
+- Llamar «PaaS» a cualquier cosa «en la nube» (EC2 con Docker sigue siendo IaaS a efectos de parches del SO).
 - Confundir SaaS (usas el correo del centro) con desplegar *tu* API en AWS.
 - Elegir el modelo por moda («todo serverless») sin mirar estado, tiempo de ejecución y dependencias.
 
