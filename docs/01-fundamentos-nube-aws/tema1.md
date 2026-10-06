@@ -328,13 +328,13 @@ Un error típico de proyecto escolar: comparar el €/mes de una instancia peque
 - **Salida de datos (*[egress](#egress)*).** La entrada suele ser barata o nula; sacar GB hacia internet o hacia otra región duele cuando sirves vídeos o descargas grandes. Un SPA pequeño casi no se nota.
 - **Licencias** incluidas frente a **BYOL** (*bring your own license*), cuando aplica.
 
-En una API de prácticas el coste dominante suele ser **cómputo encendido** (o el olvido), no el GB del front. Por eso la [AWS Pricing Calculator](https://calculator.aws/) pide supuestos explícitos: horas/semana, GB almacenados, GB de salida.
+En una API de prácticas el coste dominante suele ser **cómputo encendido** (o el olvido), no el GB del front. Por eso la [AWS Pricing Calculator](https://calculator.aws/#/addService) pide supuestos explícitos: horas/semana, GB almacenados, GB de salida. Abre ese enlace directo para añadir servicios sin cuenta. Si alguna vez entras por la portada de [calculator.aws](https://calculator.aws/), no pulses el botón naranja **Sign in for personalized estimates** (pide una cuenta de AWS): usa **Create estimate** (*Crear una estimación*). Con Academy no tienes cuenta propia para esa pantalla, y para estimar no la necesitas.
 
 #### Herramientas de coste (usarlas, no solo nombrarlas)
 
 | Herramienta | Momento |
 | --- | --- |
-| [**AWS Pricing Calculator**](https://calculator.aws/) | Antes de montar: estimas con supuestos |
+| [**AWS Pricing Calculator**](https://calculator.aws/#/addService) | Antes de montar: estimas con supuestos (pública, sin iniciar sesión) |
 | **AWS Budgets** | Durante: aviso cuando te sales del tope |
 | **Cost Explorer** | Después: qué ha costado de verdad |
 | **[Free Tier](#free-tier)** | Cuotas de prueba, no «todo vale 0 €» |
@@ -517,7 +517,7 @@ Los módulos en vídeo del LMS (sistema de gestión del aprendizaje) de Academy 
 
 ### PR103 — Estimación
 
-* :simple-neutralinojs: **PR103**. (RA1 // d, e, f // **PR 0–10**). Usas la [**AWS Pricing Calculator**](https://calculator.aws/) para comparar coste 24/7 frente a uso parcial y dejas claros los supuestos.
+* :simple-neutralinojs: **PR103**. (RA1 // d, e, f // **PR 0–10**). Usas la [**AWS Pricing Calculator**](https://calculator.aws/#/addService) para comparar coste 24/7 frente a uso parcial y dejas claros los supuestos (calculadora pública; no hace falta iniciar sesión en AWS).
 
   **Tareas:** estima un mes en región europea con instancia pequeña 24/7 + 50 GB de objetos + 10 GB de salida; repite la instancia a **40 h/sem**; documenta supuestos y desglose; completa el lab de costes de Academy M2 si está activo.
 
