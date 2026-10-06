@@ -1,0 +1,1607 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes y planificación del módulo optativo Introducción a la Nube Pública — curso 2026-2027">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/index.html">
+      
+      
+      
+        <link rel="next" href="00-acceso/acceso.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Introducción a la Nube Pública - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Introducción a la Nube Pública" />
+<meta property="og:description" content="Apuntes y planificación del módulo optativo Introducción a la Nube Pública — curso 2026-2027" />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/index.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/index.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Apuntes y planificación del módulo optativo Introducción a la Nube Pública — curso 2026-2027" />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/index.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduccion-a-la-nube-publica" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introducción a la Nube Pública
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="index.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resultados-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultados de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#carga-horaria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Carga horaria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temas-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temas del curso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temas del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapa-tema-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapa tema × RA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-se-calcula-la-nota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo se calcula la nota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mas-uno-clf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        +1 Cloud Practitioner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peso-de-cada-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peso de cada RA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrumentos-de-evaluacion-ie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instrumentos de evaluación (IE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrega" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entrega de prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entrega de prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plantilla-markdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plantilla Markdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markdown-y-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markdown y VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#materiales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Materiales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contenidos-del-sitio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos del sitio
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resultados-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultados de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#carga-horaria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Carga horaria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temas-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temas del curso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temas del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapa-tema-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapa tema × RA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-se-calcula-la-nota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo se calcula la nota
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mas-uno-clf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        +1 Cloud Practitioner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peso-de-cada-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Peso de cada RA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrumentos-de-evaluacion-ie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instrumentos de evaluación (IE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrega" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entrega de prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entrega de prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plantilla-markdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plantilla Markdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markdown-y-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markdown y VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#materiales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Materiales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contenidos-del-sitio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos del sitio
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+
+<h1 id="introduccion-a-la-nube-publica">Introducción a la Nube Pública<a class="headerlink" href="#introduccion-a-la-nube-publica" title="Permanent link">&para;</a></h1>
+<p>Apuntes y organización del módulo optativo <strong>Introducción a la nube pública</strong> del <abbr title="Ciclo Formativo de Grado Superior">CFGS</abbr> de <em>Desarrollo de Aplicaciones Web</em> (<abbr title="Desarrollo de Aplicaciones Web">DAW</abbr>), modalidad <strong>semipresencial</strong>, en el marco de la <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-5139">Ley Orgánica 3/2022</a> y el <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-16889">Real Decreto 659/2023</a>, impartido en el <a href="https://portal.edu.gva.es/iesmaciaabela/">IES Macià Abela</a> de Crevillent.</p>
+<p><strong>Curso 2026-2027.</strong> Empieza por <strong><a href="00-acceso/acceso.html">Acceso</a></strong>: entrar en Academy, el laboratorio de prácticas y Skill Builder, activar la suscripción y, si aplica, obtener los <a href="00-acceso/acceso.html#vouchers">vouchers de certificación</a>. El <strong><a href="01-fundamentos-nube-aws/tema1.html">Tema 1</a></strong> ya es contenido del módulo (mapa de Cloud Foundations). En la navegación tienes el resto de temas; la preparación del examen <strong>Cloud Practitioner (<abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr>)</strong> está en <strong><a href="99-certificacion/certificacion.html">Certificación</a></strong>. El hilo del curso es <strong>AWS Academy Cloud Foundations</strong>, con ampliación hacia ese mismo examen.</p>
+<h2 id="resultados-de-aprendizaje">Resultados de aprendizaje<a class="headerlink" href="#resultados-de-aprendizaje" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Descripción</th>
+<th>Peso (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RA1</td>
+<td>Comprende los fundamentos de la computación en la nube, sus ventajas frente a sistemas tradicionales, el marco de adopción, los principios de migración y los aspectos clave de facturación, como estimación y optimización de costos.</td>
+<td><strong>20</strong></td>
+</tr>
+<tr>
+<td>RA2</td>
+<td>Identifica los componentes clave de la infraestructura global de la nube, diferenciando servicios principales, regiones, zonas de disponibilidad y aplicando medidas básicas de seguridad como el modelo de responsabilidad compartida, gestión de accesos y protección de datos.</td>
+<td><strong>25</strong></td>
+</tr>
+<tr>
+<td>RA3</td>
+<td>Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.</td>
+<td><strong>30</strong></td>
+</tr>
+<tr>
+<td>RA4</td>
+<td>Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.</td>
+<td><strong>25</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Pesos en la nota</p>
+<p>Los cuatro resultados de aprendizaje (<abbr title="Resultado de aprendizaje">RA</abbr>) suman <strong>100 %</strong>: <strong>20 / 25 / 30 / 25</strong>. Cada <abbr title="Resultado de aprendizaje">RA</abbr> aporta ese porcentaje a la nota final del módulo (ver <a href="#evaluacion">Evaluación</a>).</p>
+</div>
+<h2 id="carga-horaria">Carga horaria<a class="headerlink" href="#carga-horaria" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Horas del módulo</p>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th style="text-align: right;">Horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total módulo</strong> (carga curricular)</td>
+<td style="text-align: right;"><strong>96 h</strong></td>
+</tr>
+<tr>
+<td>Optativa en el currículo</td>
+<td style="text-align: right;">≈ <strong>3 h/sem</strong></td>
+</tr>
+</tbody>
+</table>
+<p>En el grupo <strong>semipresencial <abbr title="Introducción a la Nube Pública">INP</abbr></strong> la sesión de centro es una <strong>tutoría colectiva quincenal</strong> (~1 h): se presenta el tema, se indican los recursos de estudio y se resuelven las dudas del bloque anterior. El <strong>grueso del trabajo es autónomo</strong> (apuntes, vídeos, labs de Academy). No hay 3 h lectivas presenciales cada semana.</p>
+<p>El módulo se imparte <strong>antes</strong> de la formación en empresa (<abbr title="Formación en empresa">FE</abbr>) del ciclo. La <abbr title="Formación en empresa">FE</abbr> empieza el <strong>1 de marzo de 2027</strong>; por eso el módulo se organiza de <strong>septiembre a finales de febrero</strong>.</p>
+</div>
+<h2 id="temas-del-curso">Temas del curso<a class="headerlink" href="#temas-del-curso" title="Permanent link">&para;</a></h2>
+<p>Antes de la teoría, pasa por <strong><a href="00-acceso/acceso.html">Acceso</a></strong>: entrar en Academy, el laboratorio de prácticas y Skill Builder, activar la suscripción y gestionar los vouchers de certificación. El <strong><a href="01-fundamentos-nube-aws/tema1.html">Tema 1</a></strong> ya es contenido del módulo: el mapa de <strong>Cloud Foundations</strong> (conceptos, modelos, coste e infraestructura). Son páginas distintas; no sustituyen la una a la otra. La preparación del examen <strong>Cloud Practitioner (<abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr>)</strong> está en <strong><a href="99-certificacion/certificacion.html">Certificación</a></strong>.</p>
+<p>En este sitio puedes <strong>estudiar todos los temas</strong> a tu ritmo. Eso no abre entregas: plazos y tareas los fijan el <strong>calendario de evaluaciones</strong> y <strong>Aules</strong>. Leer con libertad no significa entregar cuando quieras.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Tema</th>
+<th>Título</th>
+<th>Qué trabajamos</th>
+<th>Estudio</th>
+<th>Evaluación</th>
+<th><abbr title="Resultado de aprendizaje">RA</abbr> principales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">—</td>
+<td><a href="00-acceso/acceso.html">Acceso</a></td>
+<td>Entrar a Academy, el laboratorio de prácticas y Skill Builder; activación y vouchers</td>
+<td>Disponible para estudio</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>1</strong></td>
+<td><a href="01-fundamentos-nube-aws/tema1.html">Fundamentos de la nube AWS</a></td>
+<td>Mapa y definiciones (módulos introductorios de Cloud Foundations), modelos, adopción, facturación, infraestructura global y consola</td>
+<td>Disponible para estudio</td>
+<td>1.ª eval. / Aules</td>
+<td>RA1, RA2</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>2</strong></td>
+<td><a href="02-seguridad-iam/tema2.html">Seguridad, IAM y responsabilidad compartida</a></td>
+<td>Modelo de responsabilidad compartida, IAM, MFA y protección de datos</td>
+<td>Disponible para estudio</td>
+<td>1.ª eval. / Aules</td>
+<td>RA2</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>3</strong></td>
+<td><a href="03-redes-entrega-contenido/tema3.html">Redes, VPC y entrega de contenido</a></td>
+<td>VPC, subredes, grupos de seguridad (SG, <em>security groups</em>) y listas de control de acceso de red (NACL, <em>network ACL</em>), CloudFront y Route 53</td>
+<td>Disponible para estudio</td>
+<td>1.ª eval. / Aules</td>
+<td>RA3</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>4</strong></td>
+<td><a href="04-computo-serverless/tema4.html">Cómputo: EC2, Lambda y contenedores</a></td>
+<td>Máquinas virtuales, serverless y contenedores</td>
+<td>Disponible para estudio</td>
+<td>1.ª eval. / Aules</td>
+<td>RA3</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>5</strong></td>
+<td><a href="05-almacenamiento/tema5.html">Almacenamiento</a></td>
+<td>S3, EBS, EFS y clases de almacenamiento</td>
+<td>Disponible para estudio</td>
+<td>2.ª eval. / Aules</td>
+<td>RA4</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>6</strong></td>
+<td><a href="06-bases-de-datos/tema6.html">Bases de datos</a></td>
+<td>RDS, Aurora, DynamoDB y elección de motor</td>
+<td>Disponible para estudio</td>
+<td>2.ª eval. / Aules</td>
+<td>RA4</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>7</strong></td>
+<td><a href="07-arquitectura-well-architected/tema7.html">Arquitectura Well-Architected</a></td>
+<td>Pilares, resiliencia y desacoplo</td>
+<td>Disponible para estudio</td>
+<td>2.ª eval. / Aules</td>
+<td>RA4</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>8</strong></td>
+<td><a href="08-escalado-monitoreo-cierre/tema8.html">Escalado, monitorización y cierre <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr></a></td>
+<td>ELB, Auto Scaling, CloudWatch; cierre del módulo</td>
+<td>Disponible para estudio</td>
+<td>2.ª eval. / Aules</td>
+<td>RA3, RA4</td>
+</tr>
+<tr>
+<td style="text-align: right;">—</td>
+<td><a href="99-certificacion/certificacion.html">Certificación</a></td>
+<td>Página de preparación del <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr> (serie, apuntes, tests, Skill Builder)</td>
+<td>Disponible para estudio</td>
+<td><a href="#mas-uno-clf">+1</a> (Aules)</td>
+<td>—</td>
+</tr>
+<tr>
+<td style="text-align: right;">—</td>
+<td><a href="90-soluciones/soluciones.html">Soluciones</a></td>
+<td>Cuestionario inicial y Autocheck por tema</td>
+<td>Disponible para estudio</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>El <strong>Tema 1</strong> cubre la <strong>Introducción al curso</strong> y los <strong>Módulos 1–3</strong> de <em>AWS Academy Cloud Foundations</em>. Los <strong>Temas 2–8</strong> se corresponden con los <strong>Módulos 4–10</strong>, uno por tema. <strong>Acceso</strong> explica cómo entrar en Academy y el laboratorio, activar Skill Builder y obtener vouchers. El ritmo quincenal de tutorías está en el <a href="calendario.html">Calendario del curso</a> y las entregas las marca <strong>Aules</strong>.</p>
+<h3 id="mapa-tema-ra">Mapa tema × <abbr title="Resultado de aprendizaje">RA</abbr><a class="headerlink" href="#mapa-tema-ra" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Temas</th>
+<th style="text-align: center;">RA1</th>
+<th style="text-align: center;">RA2</th>
+<th style="text-align: center;">RA3</th>
+<th style="text-align: center;">RA4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Fundamentos de la nube AWS</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>2. Seguridad, IAM y responsabilidad compartida</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>3. Redes, VPC y entrega de contenido</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>4. Cómputo: EC2, Lambda y contenedores</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>5. Almacenamiento</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td>6. Bases de datos</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td>7. Arquitectura Well-Architected</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td>8. Escalado, monitorización y cierre <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr>
+<td><strong>Peso</strong></td>
+<td style="text-align: center;">20 %</td>
+<td style="text-align: center;">25 %</td>
+<td style="text-align: center;">30 %</td>
+<td style="text-align: center;">25 %</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>timeline
+    title Calendario orientativo — INP 2026-27
+    section 1.ª evaluación — sep–principios de diciembre
+        T1 Fundamentos (dos quincenas) : T2 Seguridad e IAM : T3 Redes y VPC : T4 Cómputo
+    section 2.ª evaluación — 2.ª semana de diciembre–finales de febrero
+        T5 Almacenamiento : T6 Bases de datos : T7 Well-Architected : T8 Escalado y CLF-C02</code></pre>
+<p>La <strong>1.ª evaluación</strong> (de septiembre a principios de diciembre) cubre los Temas <strong>1–4</strong>. La <strong>2.ª evaluación</strong> (desde la 2.ª semana de diciembre hasta finales de febrero) cubre los Temas <strong>5–8</strong>. El Tema 1 ocupa las dos primeras quincenas; no hay 3.ª evaluación: el módulo acaba antes de la <abbr title="Formación en empresa">FE</abbr>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Núcleo del curso</p>
+<p>Cada tema tiene un <strong>bloque Foundations</strong> (lo que evalúa el módulo) y un apartado de <strong>ampliación Practitioner (<abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr>)</strong>. El hilo es <em>AWS Academy Cloud Foundations</em>, no el curso <em>AWS Academy Cloud Architecting</em>. En semipresencial, la tutoría quincenal presenta el bloque y resuelve dudas; el estudio y los labs son trabajo autónomo. Si certificas Cloud Practitioner, puedes sumar <strong>+1</strong> a la nota final (<a href="#mas-uno-clf">+1 Cloud Practitioner</a>). La preparación está en <a href="99-certificacion/certificacion.html">Certificación</a>.</p>
+</div>
+<h2 id="evaluacion">Evaluación<a class="headerlink" href="#evaluacion" title="Permanent link">&para;</a></h2>
+<p>La evaluación se organiza por <strong>resultados de aprendizaje (<abbr title="Resultado de aprendizaje">RA</abbr>)</strong>. Cada actividad indica qué <abbr title="Resultado de aprendizaje">RA</abbr> trabaja. <strong>Los <abbr title="Resultado de aprendizaje">RA</abbr> no se compensan entre sí:</strong> hay que superar cada uno.</p>
+<p><strong>Examen CLF frente a este módulo.</strong> En el examen <strong><abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr></strong> la nota es global: un dominio más flojo puede compensarse con otros (reglas AWS del examen). <strong>Aquí</strong> no: un <abbr title="Resultado de aprendizaje">RA</abbr> suspendido no se salva con otro. El <strong>+1</strong> por certificación solo suma a la nota del módulo; no recupera un <abbr title="Resultado de aprendizaje">RA</abbr> suspendido. Detalle: <a href="#mas-uno-clf">+1 Cloud Practitioner</a>. Preparación: <a href="99-certificacion/certificacion.html">Certificación</a>.</p>
+<h3 id="como-se-calcula-la-nota">Cómo se calcula la nota<a class="headerlink" href="#como-se-calcula-la-nota" title="Permanent link">&para;</a></h3>
+<p>Tres pasos, en este orden:</p>
+<ol>
+<li>En cada <abbr title="Resultado de aprendizaje">RA</abbr>, tu nota es la <strong>media ponderada</strong> de las actividades de ese <abbr title="Resultado de aprendizaje">RA</abbr>: actividad de clase (<strong><abbr title="Actividad de clase">AC</abbr></strong>), práctica (<strong><abbr title="Práctica">PR</abbr></strong>), proyecto (<strong><abbr title="Proyecto">PY</abbr></strong>) y prueba objetiva (<strong><abbr title="Prueba objetiva">PO</abbr></strong>).</li>
+<li>La <strong>nota final</strong> del módulo es la suma de (nota de cada <abbr title="Resultado de aprendizaje">RA</abbr> × su peso: 20 %, 25 %, 30 %, 25 %).</li>
+<li>Si acreditas el <strong>+1</strong> por <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr> (condiciones en Aules), se suma a esa nota final (<a href="#mas-uno-clf">+1 Cloud Practitioner</a>).</li>
+</ol>
+<figure>
+<img alt="Cálculo de la nota: de los instrumentos AC·PR·PY·PO a la nota de cada RA y a la nota final; +1 CLF-C02 si Aules lo concede" src="img/diagramas/pasos-evaluacion.svg" width="800" />
+
+<figcaption>De los instrumentos a la nota de cada RA y de ahí a la nota final del módulo; el +1 de Cloud Practitioner solo se suma si se concede en Aules.</figcaption>
+</figure>
+<p><strong>Ejemplo (simplificado):</strong> si en RA3 tienes prácticas de VPC/EC2 y un examen, se promedian (según lo que se indique en Aules) y ese resultado cuenta un <strong>30 %</strong> de la nota del módulo. Suspender un <abbr title="Resultado de aprendizaje">RA</abbr> no se compensa con otro.</p>
+<h3 id="mas-uno-clf">+1 Cloud Practitioner<a class="headerlink" href="#mas-uno-clf" title="Permanent link">&para;</a></h3>
+<p>Si obtienes la certificación <strong>AWS Certified Cloud Practitioner (<abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr>)</strong>, puedes sumar <strong>+1</strong> a la nota final del módulo.</p>
+<ul>
+<li>Con ese punto, la nota del módulo puede pasar de 10 (hasta <strong>11</strong>).</li>
+<li>El plazo y cómo acreditarlo se publican en <strong>Aules</strong>.</li>
+<li>Ese +1 solo suma: no recupera un <abbr title="Resultado de aprendizaje">RA</abbr> suspendido ni sustituye prácticas ni exámenes.</li>
+<li>Material de preparación: <a href="99-certificacion/certificacion.html">Certificación</a>.</li>
+</ul>
+<h3 id="peso-de-cada-ra">Peso de cada <abbr title="Resultado de aprendizaje">RA</abbr><a class="headerlink" href="#peso-de-cada-ra" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>pie showData
+    title Peso de cada RA en la nota del módulo
+    "RA1 — Fundamentos y facturación" : 20
+    "RA2 — Infra global y seguridad" : 25
+    "RA3 — Redes, cómputo y escalado" : 30
+    "RA4 — Almacenamiento, datos y arquitectura" : 25</code></pre>
+<h3 id="instrumentos-de-evaluacion-ie">Instrumentos de evaluación (<abbr title="Instrumento de evaluación">IE</abbr>)<a class="headerlink" href="#instrumentos-de-evaluacion-ie" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Instrumento</th>
+<th>Icono</th>
+<th>Descripción</th>
+<th>Escala</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Actividad de clase</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.832 3.367 8.668.108a3.15 3.15 0 0 0-3.856 2.226L.943 16.777a3.15 3.15 0 0 0 2.226 3.856l12.163 3.259a3.15 3.15 0 0 0 3.855-2.226l3.87-14.443a3.15 3.15 0 0 0-2.226-3.856M6.332 2.741a1.574 1.574 0 0 1 1.928-1.113l12.163 3.26a1.574 1.574 0 0 1 1.113 1.927l-3.87 14.444a1.574 1.574 0 0 1-1.928 1.113l-12.163-3.26a1.574 1.574 0 0 1-1.113-1.927zm2.634 2.336a.787.787 0 1 0-.407 1.52l9.122 2.444a.787.787 0 1 0 .407-1.52zM6.985 9.434a.787.787 0 0 1 .963-.557l9.123 2.445a.787.787 0 0 1-.408 1.52l-9.122-2.444a.787.787 0 0 1-.556-.964m-.055 3.244a.787.787 0 0 0-.407 1.52l5.32 1.427a.787.787 0 0 0 .408-1.52z"/></svg></span> <strong><abbr title="Actividad de clase">AC</abbr></strong></td>
+<td>Microevidencia de aula / Academy</td>
+<td><strong>0–1</strong></td>
+</tr>
+<tr>
+<td>Práctica</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong><abbr title="Práctica">PR</abbr></strong></td>
+<td>Lab Academy o consola</td>
+<td><strong>0–10</strong></td>
+</tr>
+<tr>
+<td>Proyecto</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg></span> <strong><abbr title="Proyecto">PY</abbr></strong></td>
+<td>Entregable mayor con rúbrica</td>
+<td><strong>0–30</strong></td>
+</tr>
+<tr>
+<td>Prueba objetiva</td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c-.34.34-.67.67-.68 1-.03.32.31.65.63.96.48.5.95.95.93 1.44s-.53 1-1.04 1.5l-4.13 4.14L15 14.66l4.25-4.24-.96-.96-1.42 1.41-3.75-3.75 3.84-3.83c.39-.39 1.04-.39 1.41 0l2.34 2.34c.39.37.39 1.02 0 1.41M3 17.25l9.56-9.57 3.75 3.75L6.75 21H3z"/></svg></span> <strong><abbr title="Prueba objetiva">PO</abbr></strong></td>
+<td>Examen escrito o en ordenador</td>
+<td><strong>0–100</strong></td>
+</tr>
+<tr>
+<td>Cloud Practitioner</td>
+<td><strong>+1</strong></td>
+<td>Certificación <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr></td>
+<td>+1 en la nota final (<a href="#mas-uno-clf">+1 Cloud Practitioner</a>; plazo en Aules)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entrega">Entrega de prácticas<a class="headerlink" href="#entrega" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Entrega de prácticas</p>
+<p><strong>Cómo entregar.</strong> Las prácticas y actividades evaluables se entregan en <strong>Aules</strong>, en el plazo del enunciado. Entrega un <strong><code>.md</code></strong> con los metadatos de la plantilla, el H1, el enunciado y el desarrollo. Las capturas van <strong>dentro del desarrollo</strong>, con ruta relativa <code>img/...</code>. Si hay imágenes, sube un <strong>ZIP</strong> (<code>PR201.md</code> + carpeta <code>img/</code>); si no, basta el <code>.md</code>. No uses PDF salvo que Aules lo pida. En cada tema verás el código de la práctica (por ejemplo PR201) y el nombre del fichero; la norma general está aquí para no repetirla en todos los temas. Las calificaciones se publican en Aules. La plantilla está en esta página y <strong>la misma la tendrás adjunta en Aules</strong>.</p>
+<h4 id="plantilla-markdown">Plantilla Markdown<a class="headerlink" href="#plantilla-markdown" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>---
+<span class="linenos" data-linenos=" 2 "></span>title: "PR201 — Título de la práctica"
+<span class="linenos" data-linenos=" 3 "></span>author: "Nombre Apellidos"
+<span class="linenos" data-linenos=" 4 "></span>email: "usuario@edu.gva.es"
+<span class="linenos" data-linenos=" 5 "></span>curso: "2026-27"
+<span class="linenos" data-linenos=" 6 "></span>modulo: "Introducción a la nube pública"
+<span class="linenos" data-linenos=" 7 "></span>codigo: "PR201"
+<span class="linenos" data-linenos=" 8 "></span><span class="gu">fecha: "YYYY-MM-DD"</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="gu">---</span>
+<span class="linenos" data-linenos="10 "></span>
+<span class="linenos" data-linenos="11 "></span><span class="gh"># PR201 — Título de la práctica</span>
+<span class="linenos" data-linenos="12 "></span>
+<span class="linenos" data-linenos="13 "></span><span class="gu">## Enunciado</span>
+<span class="linenos" data-linenos="14 "></span>…
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span><span class="gu">## Desarrollo</span>
+<span class="linenos" data-linenos="17 "></span>… texto …
+<span class="linenos" data-linenos="18 "></span>![<span class="nt">Qué se ve</span>](<span class="na">img/ejemplo.png</span>)
+</code></pre></div>
+<p>Si hay capturas, la estructura del ZIP es:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>PR201/
+<span class="linenos" data-linenos="2 "></span>  PR201.md
+<span class="linenos" data-linenos="3 "></span>  img/
+<span class="linenos" data-linenos="4 "></span>    ejemplo.png
+</code></pre></div>
+<h4 id="markdown-y-vs-code">Markdown y VS Code<a class="headerlink" href="#markdown-y-vs-code" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Guía de Markdown: <a href="https://tutorialmarkdown.com/guia">tutorialmarkdown.com/guia</a></li>
+<li>Documentación de Visual Studio Code: <a href="https://code.visualstudio.com/docs">code.visualstudio.com/docs</a></li>
+</ul>
+</div>
+<p><strong>Resumen:</strong></p>
+<ul>
+<li><strong>El estudio libre no implica entregas libres:</strong> puedes leer todos los temas; las tareas y plazos los marca Aules y el calendario de evaluaciones.</li>
+<li>Cada actividad indica el <strong><abbr title="Resultado de aprendizaje">RA</abbr></strong> que evalúa y su escala. Codificación: prefijo del <abbr title="Instrumento de evaluación">IE</abbr> + número de tema (ej. <code>AC102</code> = actividad 02 del Tema 1; <code>PR201</code> = práctica 01 del Tema 2).</li>
+<li><strong>AWS Academy Cloud Foundations:</strong> trabajarás en la clase del curso. Los labs puntúan como <strong><abbr title="Práctica">PR</abbr></strong> del tema correspondiente.</li>
+<li><strong>+1 Practitioner:</strong> <a href="#mas-uno-clf">+1 Cloud Practitioner</a>. Material: <a href="99-certificacion/certificacion.html">Certificación</a>.</li>
+</ul>
+<h2 id="materiales">Materiales<a class="headerlink" href="#materiales" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Este sitio web de apuntes (guía del módulo).</li>
+<li><strong>AWS Academy Cloud Foundations</strong> (acceso de alumnado según se indique en clase / Aules).</li>
+<li>Consola AWS de las cuentas de laboratorio.</li>
+<li>Ampliación: <a href="https://skillbuilder.aws/">AWS Skill Builder</a> — <em>Cloud Practitioner Essentials</em>.</li>
+<li>Guía oficial del examen: <a href="https://aws.amazon.com/certification/certified-cloud-practitioner/">AWS Certified Cloud Practitioner (<abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr>)</a>.</li>
+<li>Videotutoriales en cada tema (Profe Santos Cloud y otros).</li>
+<li><strong><a href="99-certificacion/certificacion.html">Certificación</a></strong> — página de preparación del <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr> (notas por tema, <strong>autochecks estilo examen</strong>, serie Santos, tests, Skill Builder). Los quizzes de clase van en cada tema. Sobre el +1: <a href="#mas-uno-clf">+1 Cloud Practitioner</a>.</li>
+<li>Editor de entregas: Visual Studio Code + Markdown.</li>
+</ul>
+<h2 id="referencias">Referencias<a class="headerlink" href="#referencias" title="Permanent link">&para;</a></h2>
+<p>Fuentes utilizadas en la elaboración de estos apuntes:</p>
+<ul>
+<li>Salvador Serrano — <a href="https://salvasevero.git&#104;ub.io/cloud/">apuntes Cloud (IES Severo Ochoa)</a></li>
+<li><a href="https://www.youtube.com/@ProfeSantosCloud">Profe Santos Cloud</a> (YouTube)</li>
+<li>Documentación y guías oficiales <a href="https://docs.aws.amazon.com/">AWS</a> (incluye Architecture Icons / diagramas de servicio)</li>
+<li><a href="https://skillbuilder.aws/">AWS Skill Builder</a> y guía del examen <a href="https://aws.amazon.com/certification/certified-cloud-practitioner/"><abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr></a></li>
+</ul>
+<h2 id="contenidos-del-sitio">Contenidos del sitio<a class="headerlink" href="#contenidos-del-sitio" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Página</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="index.html">Inicio</a></td>
+<td>Evaluación y mapa del curso</td>
+</tr>
+<tr>
+<td><a href="00-acceso/acceso.html">Acceso</a></td>
+<td>Academy, laboratorio, Skill Builder, activación y vouchers</td>
+</tr>
+<tr>
+<td><a href="calendario.html">Calendario</a></td>
+<td>Ritmo quincenal T1–T8 (orientativo)</td>
+</tr>
+<tr>
+<td><a href="#temas-del-curso">Temas 1–8</a></td>
+<td>Apuntes Foundations y puente Practitioner</td>
+</tr>
+<tr>
+<td><a href="99-certificacion/certificacion.html">Certificación</a></td>
+<td>Página de preparación del <abbr title="AWS Certified Cloud Practitioner (versión C02)">CLF-C02</abbr> (notas y autocheck examen)</td>
+</tr>
+<tr>
+<td><a href="90-soluciones/soluciones.html">Soluciones</a></td>
+<td>Cuestionario inicial y Autocheck por tema</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+        
+          
+          <a href="00-acceso/acceso.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Acceso">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Acceso
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="js/print-site.js"></script>
+      
+    
+  </body>
+</html>

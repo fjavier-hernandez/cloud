@@ -1,0 +1,1762 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="RDS, Aurora, DynamoDB, Redshift y elección relacional frente a NoSQL (Foundations Módulo 8).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/06-bases-de-datos/tema6.html">
+      
+      
+        <link rel="prev" href="../05-almacenamiento/tema5.html">
+      
+      
+        <link rel="next" href="../07-arquitectura-well-architected/tema7.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Tema 6 — Bases de datos - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tema 6 — Bases de datos - Introducción a la Nube Pública" />
+<meta property="og:description" content="RDS, Aurora, DynamoDB, Redshift y elección relacional frente a NoSQL (Foundations Módulo 8)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/06-bases-de-datos/tema6.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/06-bases-de-datos/tema6.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Tema 6 — Bases de datos - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="RDS, Aurora, DynamoDB, Redshift y elección relacional frente a NoSQL (Foundations Módulo 8)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/06-bases-de-datos/tema6.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-6-bases-de-datos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tema 6 — Bases de datos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema6.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 8)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 8)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gestionada-o-en-la-maquina-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Gestionada o en la máquina virtual?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacionales-rds-y-aurora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relacionales: RDS y Aurora
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relacionales: RDS y Aurora">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-az-frente-a-replica-de-lectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-AZ frente a réplica de lectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instantaneas-y-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instantáneas y red
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nosql-y-analitica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoSQL y analítica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conectar-la-aplicacion-con-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conectar la aplicación con la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (datos)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-8-ejercicio-de-laboratorio-5-creacion-de-un-servidor-de-bases-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 8: Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr601-rds-minimo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR601 — RDS mínimo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 8)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 8)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gestionada-o-en-la-maquina-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ¿Gestionada o en la máquina virtual?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacionales-rds-y-aurora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relacionales: RDS y Aurora
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relacionales: RDS y Aurora">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-az-frente-a-replica-de-lectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-AZ frente a réplica de lectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instantaneas-y-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instantáneas y red
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nosql-y-analitica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NoSQL y analítica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conectar-la-aplicacion-con-la-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conectar la aplicación con la base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (datos)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-8-ejercicio-de-laboratorio-5-creacion-de-un-servidor-de-bases-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 8: Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr601-rds-minimo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR601 — RDS mínimo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-6-bases-de-datos">Tema 6. Bases de datos<a class="headerlink" href="#tema-6-bases-de-datos" title="Permanent link">&para;</a></h1>
+<p>Instalar MySQL en la misma <a href="../04-computo-serverless/tema4.html#ec2">EC2</a> (<em>Elastic Compute Cloud</em>, nube elástica de cómputo) que Express funciona en el aula y <strong>acopla</strong> fallo, actualizaciones y copia de seguridad: si cae la máquina, cae la API y la base de datos (<strong>BD</strong>). En la nube la pregunta de un proyecto de DAW es otra: ¿necesitas SQL (<em>Structured Query Language</em>, lenguaje de consulta estructurado) transaccional, un almacén de documentos, o analítica? Este tema corresponde al <strong>Módulo 8</strong> de <em>AWS Academy Cloud Foundations</em>. Los términos clave están en el <a href="#glosario">glosario</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. Distingue ya el almacenamiento de objetos (Tema 5) de los <strong>datos estructurados</strong>: aquí eliges motor y quién mantiene y actualiza ese motor.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA4.</strong> <em>Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion-ra4">Criterios de evaluación (RA4)<a class="headerlink" href="#criterios-de-evaluacion-ra4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>b)</strong> Se ha llevado a cabo la configuración y gestión de bases de datos en un entorno de nube.</li>
+<li><strong>c)</strong> Se ha trabajado en la resolución de problemas prácticos sobre almacenamiento y bases de datos.</li>
+</ul>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>BD en EC2 frente a <a href="#rds">RDS</a> / Aurora (quién mantiene y actualiza el motor).</li>
+<li>Relacional: <a href="#multi-az">Multi-AZ</a> frente a <a href="#read-replica">réplica de lectura</a>.</li>
+<li>DynamoDB, ElastiCache, Redshift: cuándo no es RDS.</li>
+<li>DMS / SCT: migración de datos (enlace con las 7 R del Tema 1).</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q8</strong></td>
+<td>RDS Multi-AZ frente a réplica + DynamoDB</td>
+<td><strong>PR601</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>MySQL en la misma EC2 que Express frente a <strong>RDS</strong>: ¿quién mantiene y actualiza el <strong>motor</strong> en cada caso?</li>
+<li>¿<strong>Multi-AZ</strong> responde sobre todo a la conmutación por error de escritura o a escalar consultas de informes?</li>
+<li>¿Para qué sirve una <strong>réplica de lectura</strong> que Multi-AZ no cubre igual?</li>
+<li>¿Cuándo tendría sentido <strong>DynamoDB</strong> <em>además</em> de un checkout SQL, y cuándo es un error sustituirlo «por moda»?</li>
+<li>¿Por qué abrir <strong>3306</strong> al mundo desde RDS es una mala práctica aunque «así conectas el cliente SQL del portátil»?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>MySQL en EC2: <strong>tú</strong> mantienes y actualizas el motor (y aplicas los parches del <strong>SO</strong>, sistema operativo). En <strong>RDS</strong>, <strong>AWS</strong> mantiene y actualiza el motor.</p>
+</li>
+<li>
+<p><strong>Multi-AZ</strong> responde sobre todo a la <strong>conmutación por error</strong> (<em>failover</em>) de la escritura (otra AZ): si cae la instancia principal, RDS pasa a la de reserva. No escala SELECT de informes.</p>
+</li>
+<li>
+<p>La <strong>réplica de lectura</strong> escala lecturas / consultas de informes de forma asíncrona; no es el mismo mecanismo que la conmutación Multi-AZ.</p>
+</li>
+<li>
+<p><strong>Además:</strong> por ejemplo un catálogo o sesión NoSQL junto a un checkout SQL. <strong>Error:</strong> tirar el dominio relacional y transaccional «porque DynamoDB escala» sin necesidad.</p>
+</li>
+<li>
+<p>Expone el motor a internet entero; el <strong>SG</strong> (grupo de seguridad, <em>security group</em>) debe aceptar el SG de la API (o un <strong>servidor bastión</strong>: una EC2 en subred pública que solo sirve de puerta de entrada por SSH a la red privada), no <code>0.0.0.0/0</code> en 3306.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-8">Bloque Foundations (Módulo 8)<a class="headerlink" href="#bloque-foundations-modulo-8" title="Permanent link">&para;</a></h2>
+<h3 id="gestionada-o-en-la-maquina-virtual">¿Gestionada o en la máquina virtual?<a class="headerlink" href="#gestionada-o-en-la-maquina-virtual" title="Permanent link">&para;</a></h3>
+<p>Un <strong>SGBD</strong> (sistema de gestión de bases de datos) en EC2 te da control total: tú diseñas la alta disponibilidad (<strong>HA</strong>, <em>high availability</em>), aplicas los parches del SO, mantienes y actualizas el motor y montas las copias. <strong><a href="#rds">Amazon RDS</a></strong> (<em>Relational Database Service</em>, servicio de bases de datos relacionales) es una base de datos <strong>relacional gestionada</strong>: AWS asume mantener y actualizar el motor, las <a href="#instantanea-rds">instantáneas</a> y el despliegue <strong><a href="#multi-az">Multi-AZ</a></strong> opcional. El examen <strong>CLF</strong> (<em>AWS Certified Cloud Practitioner</em>, CLF-C02) y una app de clase bien hecha premian el servicio gestionado salvo motor raro o licencia que lo impida. Para un desarrollador web: sigues hablando SQL; dejas de encargarte del servidor donde corre el motor. El rol de <strong>DBA</strong> (<em>database administrator</em>, administrador de bases de datos) del SO y del host deja de ser tu día a día.</p>
+<figure>
+<img alt="Visión de RDS como servicio gestionado" src="img/salvador/rds_1.png" width="640" />
+
+<figcaption>RDS: motor gestionado (plataforma de datos), no solo una EC2 con MySQL.</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Por qué RDS y no MySQL «a pelo» en EC2</p>
+<p>Puedes instalar el SGBD en EC2, sí. Con RDS te ahorras mantener y actualizar el motor, buena parte de las copias y de la HA. A cambio, menos control del SO. Por seguridad suele ir en <strong>subredes privadas</strong> y solo acepta el SG de la API.</p>
+</div>
+<figure>
+<img alt="Bases de datos gestionadas: RDS/Aurora y DynamoDB" src="../img/diagramas/bases-datos-opciones.svg" width="800" />
+
+<figcaption>Relacional gestionado frente a NoSQL serverless: elige por el modelo de datos, no por el logo.</figcaption>
+</figure>
+<p>Al crear RDS, mira motor, plantilla (<em>Free tier</em> / Dev) e identificador <strong>antes</strong> de pulsar <em>Create</em>: ahí se decide buena parte de la factura del lab.</p>
+<figure>
+<img alt="Asistente Create database de Amazon RDS con MySQL y Free tier" src="img/capturas/rds-create-mysql.png" width="800" />
+
+<figcaption>Create database: motor MySQL y plantilla Free tier. Fuente: Amazon RDS User Guide (AWS).</figcaption>
+</figure>
+<p>Cuando MySQL vive en la misma EC2 que Express, un <em>terminate</em> se lleva API y datos, y el parche del SO afecta a ambos a la vez. En un buen diseño la API corre en cómputo (EC2, contenedor o función) y la BD en RDS dentro de una subred privada: las instantáneas y Multi-AZ los activa el servicio gestionado, pero <strong>tú</strong> sigues diseñando el esquema, los usuarios de la base y el SG.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hay que distinguir MySQL en EC2 de RDS gestionado.</td>
+<td>En el proyecto intermodular la BD no debería vivir en la misma máquina que la API si puedes evitarlo.</td>
+</tr>
+<tr>
+<td>En RDS, AWS mantiene y actualiza el motor; tú gestionas datos y accesos.</td>
+<td>En el <code>.md</code> del lab explica quién aplica los parches del SO y quién mantiene el motor.</td>
+</tr>
+<tr>
+<td>La BD gestionada suele ir en subred privada.</td>
+<td>El puerto del motor solo acepta el SG de la aplicación.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="relacionales-rds-y-aurora">Relacionales: RDS y Aurora<a class="headerlink" href="#relacionales-rds-y-aurora" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso — RDS.</strong> Una <strong><a href="#instancia-de-bd">instancia de BD</a></strong> en RDS es el recurso gestionado que ejecuta un motor relacional (MySQL, PostgreSQL, MariaDB, SQL Server, Oracle…). Eliges la <strong><a href="#clase-de-instancia">clase de instancia</a></strong> (una combinación fija de CPU y memoria que eliges de una lista), el almacenamiento, la <strong><a href="../03-redes-entrega-contenido/tema3.html#vpc">VPC</a></strong> (<em>Virtual Private Cloud</em>, nube virtual privada), el <strong><a href="#db-subnet-group">grupo de subredes de BD</a></strong> (<em>DB subnet group</em>) y el SG. El <strong><a href="#endpoint-rds">endpoint</a></strong> es el nombre DNS (<em>Domain Name System</em>, sistema de nombres de dominio) al que se conecta la aplicación: no es la IP de tu portátil.</p>
+<p><strong>En la práctica — RDS.</strong> En el proyecto de DAW la <strong>API</strong> (interfaz de programación de aplicaciones) Node o PHP abre una conexión al endpoint (JDBC, <code>DATABASE_URL</code>, Sequelize u otro ORM —<em>object-relational mapper</em>, mapeador objeto-relacional—). El esquema, las migraciones de tablas y los usuarios de la app siguen siendo tuyos. AWS mantiene y actualiza el motor según la ventana de mantenimiento; tú no entras por <strong>SSH</strong> (<em>Secure Shell</em>, acceso remoto cifrado) al host de la BD para aplicar actualizaciones del motor. Si cambias la clase de instancia o el almacenamiento, lo haces desde la consola o la API de AWS, no reinstalando MySQL a mano en un disco EBS.</p>
+<p>El <strong>grupo de subredes de BD</strong> agrupa subredes (casi siempre privadas) en al menos dos AZ. RDS elige en qué subredes coloca el primario y, si hay Multi-AZ, la <strong>instancia de reserva</strong> (<em>standby</em>). Si metes solo subredes públicas «porque así conecto desde casa», estás diseñando al revés: la app debería vivir cerca de la BD en la VPC, y tú acercarte con un servidor bastión o <strong>VPN</strong> (red privada virtual, <em>virtual private network</em>) cuando haga falta administrar.</p>
+<p><strong>Qué es en este caso — Aurora.</strong> <strong><a href="#aurora">Amazon Aurora</a></strong> es un motor relacional compatible con MySQL o PostgreSQL, con almacenamiento distribuido y réplicas pensadas para más margen de HA y rendimiento dentro del ecosistema RDS.</p>
+<p><strong>En la práctica — Aurora.</strong> Nivel Foundations: «RDS con más margen de HA y rendimiento». Si tu <em>framework</em> ya habla PostgreSQL, Aurora compatible con PostgreSQL encaja sin reescribir el dominio: eso es <strong>replatform</strong> (cambiar de plataforma manteniendo el modelo) ligero, no <strong>refactor</strong> (rediseñar la aplicación). En el lab del Módulo 8 trabajas con <strong>RDS for MySQL</strong>; Aurora aparece sobre todo en el discurso del CLF y en ampliaciones.</p>
+<h4 id="multi-az-frente-a-replica-de-lectura">Multi-AZ frente a réplica de lectura<a class="headerlink" href="#multi-az-frente-a-replica-de-lectura" title="Permanent link">&para;</a></h4>
+<p>Dos mecanismos que se confunden y que el CLF premia distinguir.</p>
+<p><strong><a href="#multi-az">Multi-AZ</a></strong> (<em>Multi–Availability Zone</em>, varias zonas de disponibilidad) replica de forma síncrona hacia una instancia de reserva en otra AZ. Si falla la AZ primaria, hay <strong>conmutación</strong>: el endpoint apunta a la instancia de reserva. La aplicación suele reintentar la conexión al mismo nombre DNS; no reescribes el SQL. Responde a <strong>disponibilidad de la escritura</strong>, no a acelerar SELECT de informes. Cuesta más que una sola AZ porque hay capacidad reservada en la segunda zona; en el lab lo activas porque el enunciado lo pide y porque quieres ver el patrón, no porque «más caro = mejor nota» sin más.</p>
+<p>Una <strong><a href="#read-replica">réplica de lectura</a></strong> (<em>read replica</em>) copia de forma <strong>asíncrona</strong> para repartir consultas de solo lectura. Escala consultas de informes o paneles; puede ir un poco por detrás del primario (retraso de replicación). No es el mismo mecanismo que la conmutación Multi-AZ: si caes el primario, una réplica no se promociona sola salvo que configures y ejecutes ese proceso aparte.</p>
+<figure>
+<img alt="Esquema Multi-AZ en RDS" src="img/salvador/rds_4.png" width="640" />
+
+<figcaption>Multi-AZ: copia síncrona para conmutación por error.</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Multi-AZ frente a réplica de lectura</p>
+<ul>
+<li><strong>Multi-AZ:</strong> escritura síncrona a la instancia de reserva; ante fallo, esa instancia toma el relevo (comercio, finanzas…).</li>
+<li><strong>Réplica de lectura:</strong> replicación asíncrona; escala SELECT / consultas de informes; la conmutación manual no es el mismo mecanismo.</li>
+</ul>
+</div>
+<figure>
+<img alt="Esquema de réplica de lectura en RDS" src="img/salvador/rds_3.png" width="640" />
+
+<figcaption>Réplica de lectura: escala SELECT; no es el mismo mecanismo que Multi-AZ.</figcaption>
+</figure>
+<h4 id="instantaneas-y-red">Instantáneas y red<a class="headerlink" href="#instantaneas-y-red" title="Permanent link">&para;</a></h4>
+<p>Las <strong><a href="#instantanea-rds">instantáneas automáticas</a></strong> las programa RDS (ventana de copia); las <strong>manuales</strong> las lanzas tú antes de un cambio arriesgado. Sirven para recuperar un punto en el tiempo; no sustituyen un buen diseño de esquema ni el control de quién puede conectar.</p>
+<p>El SG del motor <strong>no</strong> se abre a <code>0.0.0.0/0</code>. La API en subred privada habla con RDS; no expones 3306 a internet «para DBeaver desde casa» si hay alternativas (servidor bastión, VPN).</p>
+<figure>
+<img alt="RDS: VPC, grupo de subredes y acceso público = No" src="img/salvador/rds_2.png" width="720" />
+
+<figcaption>Conectividad: VPC + grupo de subredes; acceso público desactivado en un lab serio.</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multi-AZ sirve para la conmutación por error de la escritura.</td>
+<td>En el lab del Módulo 8 activas Multi-AZ cuando el enunciado lo pide y lo explicas en el <code>.md</code>.</td>
+</tr>
+<tr>
+<td>La réplica de lectura escala SELECT; no sustituye a Multi-AZ.</td>
+<td>Si el cuello de botella son las consultas de informes, valora una réplica; si es la caída de una AZ, Multi-AZ.</td>
+</tr>
+<tr>
+<td>El puerto del motor no va abierto a internet.</td>
+<td>El SG de RDS solo acepta el SG de la aplicación web.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="nosql-y-analitica">NoSQL y analítica<a class="headerlink" href="#nosql-y-analitica" title="Permanent link">&para;</a></h3>
+<p><strong>NoSQL</strong> agrupa modelos que no se centran en tablas relacionales con claves foráneas (FK) clásicas (documentos, clave-valor, grafos…). No todo dato de una app web es «tablas normalizadas». A veces el dominio es un documento JSON con picos imprevisibles; a veces necesitas caché; a veces informes analíticos. La tabla sitúa servicios: no elijas DynamoDB solo porque «suena a nube».</p>
+<p>En un mismo producto puedes combinar: RDS para pedidos (transacciones, stock, integridad referencial), ElastiCache para sesiones calientes, S3 para facturas PDF. Eso no es «multicloud»: es usar el servicio adecuado por patrón de acceso. El examen premia reconocer el patrón; el proyecto de DAW premia no meterlo todo en una sola EC2 con un MySQL olvidado en el disco raíz.</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Modelo</th>
+<th>Caso del proyecto de DAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="#dynamodb">DynamoDB</a></strong></td>
+<td>Almacén NoSQL clave-valor o de documentos, sin servidores que administres.</td>
+<td>Encaja en sesiones, un catálogo simple o datos con picos imprevisibles.</td>
+</tr>
+<tr>
+<td><strong><a href="#elasticache">ElastiCache</a></strong></td>
+<td>Caché en memoria gestionada (Redis o Memcached).</td>
+<td>Acelera lecturas calientes; no sustituye a la base de datos de registro.</td>
+</tr>
+<tr>
+<td><strong><a href="#redshift">Redshift</a></strong></td>
+<td>Almacén de datos columnar para analítica.</td>
+<td>Sirve para informes agregados; no es el <a href="#oltp">OLTP</a> del checkout de la tienda.</td>
+</tr>
+<tr>
+<td><strong>DocumentDB</strong></td>
+<td>Compatible con la API de documentos de MongoDB.</td>
+<td>Reconócelo cuando el escenario pide documentos tipo MongoDB gestionados.</td>
+</tr>
+<tr>
+<td><strong>Neptune</strong></td>
+<td>Base de datos de grafos gestionada.</td>
+<td>Reconócelo cuando el escenario describe relaciones tipo grafo (recomendaciones, redes).</td>
+</tr>
+<tr>
+<td><strong>Keyspaces</strong></td>
+<td>Compatible con Apache Cassandra.</td>
+<td>Reconócelo cuando el escenario pide un almacén tipo Cassandra gestionado.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Qué es en este caso — DynamoDB.</strong> Servicio NoSQL gestionado: trabajas con una <strong><a href="#tabla-dynamodb">tabla</a></strong> de <strong><a href="#elemento-dynamodb">elementos</a></strong> (<em>items</em>), cada uno identificado por una <strong><a href="#clave-de-particion">clave de partición</a></strong> (<em>partition key</em>) y, si hace falta, una clave de ordenación (<em>sort key</em>). No es «MySQL más rápido».</p>
+<p><strong>En la práctica — DynamoDB.</strong> Encaja cuando el acceso es por clave conocida y el modelo no exige <em>joins</em> complejos. Al crear una tabla, lo primero que pide la consola es la <em>partition key</em> (y opcionalmente <em>sort key</em>). Sin eso no hay tabla: no es un <code>CREATE TABLE</code> SQL libre. Piensa el acceso antes de modelar: «dado el <code>userId</code>, dame la sesión» encaja; «dame todos los pedidos del mes pasado con el nombre del cliente y el stock» suele ser territorio SQL o un diseño NoSQL mucho más trabajado (y fácil de hacer mal en Foundations).</p>
+<figure>
+<img alt="Pantalla Create table de Amazon DynamoDB con partition key y sort key" src="img/capturas/dynamodb-create-table.png" width="800" />
+
+<figcaption>Create table: partition key (y sort key opcional). Fuente: Amazon DynamoDB Developer Guide (AWS).</figcaption>
+</figure>
+<p><strong>Cuándo no usar DynamoDB.</strong> Pedidos con <em>joins</em> y transacciones clásicas, informes <em>ad hoc</em> con SQL libre, o un equipo que solo conoce Sequelize/JPA sobre tablas normalizadas. Forzar NoSQL «porque es serverless» suele acabar en un modelo a medias y consultas dolorosas.</p>
+<p><strong>Qué es en este caso — ElastiCache.</strong> Caché en memoria (Redis o Memcached gestionados) delante de la BD o de la API.</p>
+<p><strong>En la práctica — ElastiCache.</strong> Sirve para sesiones o resultados calientes. Si apagas la caché, los datos duraderos deben seguir en RDS (o en el almacén que hayas elegido como sistema de registro).</p>
+<p><strong>Qué es en este caso — Redshift.</strong> Almacén de datos (<em>data warehouse</em>) columnar para analítica.</p>
+<p><strong>En la práctica — Redshift.</strong> Encaja en informes y agregaciones grandes. No es la BD del checkout de la tienda (<strong>OLTP</strong>, <em>Online Transaction Processing</em>, procesamiento de transacciones en línea).</p>
+<h3 id="migracion">Migración<a class="headerlink" href="#migracion" title="Permanent link">&para;</a></h3>
+<p><strong><a href="#dms">DMS</a></strong> (<em>Database Migration Service</em>, servicio de migración de bases de datos) replica datos entre orígenes y destinos. <strong>SCT</strong> (<em>Schema Conversion Tool</em>, herramienta de conversión de esquemas) ayuda a convertir esquemas cuando cambias de motor. Encaja con las 7 R del Tema 1:</p>
+<ul>
+<li><strong>Replatform:</strong> mueves la BD a un servicio gestionado (por ejemplo Oracle en tus propias instalaciones hacia Aurora) manteniendo el modelo de datos con cambios acotados.</li>
+<li><strong>Refactor:</strong> rediseñas la aplicación o el modelo (por ejemplo pasar parte del dominio a DynamoDB).</li>
+</ul>
+<p>En Foundations no montas un proyecto DMS completo: reconoces la herramienta cuando el escenario es «mover datos con poco tiempo de parada (<em>downtime</em>)» frente a «rediseñar la app». El CLF no te pide el asistente paso a paso; te pide elegir DMS/SCT frente a copiar un <em>dump</em> a mano sin herramienta de migración.</p>
+<h3 id="conectar-la-aplicacion-con-la-base-de-datos">Conectar la aplicación con la base de datos<a class="headerlink" href="#conectar-la-aplicacion-con-la-base-de-datos" title="Permanent link">&para;</a></h3>
+<p>La URL JDBC / <code>DATABASE_URL</code> apunta al <strong>endpoint</strong> de RDS, no a una base en tu portátil. El host suele parecerse a <code>xxx.region.rds.amazonaws.com</code>; el puerto es el del motor (3306 en MySQL). El SG de RDS acepta el SG de la API (o un servidor bastión), no tu IP pública del instituto de forma permanente: las IP del aula cambian y, además, dejan el hábito de abrir el motor a trozos de internet.</p>
+<p>Los secretos (usuario, contraseña, cadena completa) no van al repositorio ni al <code>PR601.md</code> público. En el discurso Practitioner aparecen Parameter Store y Secrets Manager; en el lab, anótalos fuera del entregable y en el <code>.md</code> deja constancia de que la app apunta al endpoint sin pegar la contraseña.</p>
+<p>En el asistente verás la opción de conectar EC2 con RDS ajustando los SG: úsala como lista de comprobación, no como excusa para abrir 3306 al mundo. Si la web «no conecta», mira en este orden: ¿misma VPC?, ¿grupo de subredes correcto?, ¿SG de la BD admite el SG de la EC2?, ¿la app usa el endpoint y no <code>localhost</code>?, ¿la instancia RDS está <em>Available</em>?</p>
+<figure>
+<img alt="Ajustes de red al conectar EC2 con Amazon RDS" src="img/capturas/rds-ec2-conexion.png" width="800" />
+
+<figcaption>Conexión EC2–RDS: SG y subredes, no IP pública del aula. Fuente: Amazon RDS User Guide (AWS).</figcaption>
+</figure>
+<p>Si usas un ORM (Sequelize, JPA, Entity Framework), Multi-AZ no cambia tu código SQL: cambia la disponibilidad del endpoint. Las réplicas de lectura sí pueden exigir una cadena de conexión de solo lectura para consultas de informes.</p>
+<h3 id="errores-frecuentes-datos">Errores frecuentes (datos)<a class="headerlink" href="#errores-frecuentes-datos" title="Permanent link">&para;</a></h3>
+<p>Si abres 3306 o 5432 a <code>0.0.0.0/0</code> «para probar desde el portátil», el motor queda expuesto a todo internet: escaneo, fuerza bruta e incidentes. En su lugar deja que el SG de RDS acepte solo el SG de la aplicación web (o un servidor bastión) y usa VPN o túnel cuando necesites un cliente SQL desde casa.</p>
+<p>Confundir Multi-AZ con réplica de lectura lleva a activar lo uno esperando lo otro: Multi-AZ no acelera los SELECT de informes, y una réplica no es el mecanismo principal de conmutación. En el <code>.md</code> escribe para qué sirve cada uno con el caso de tu API.</p>
+<p>Dejar la instancia RDS del lab encendida tras la entrega sigue facturando almacenamiento y horas de instancia aunque nadie conecte. Al cerrar, elimina la instancia y las instantáneas de práctica según el enunciado, y deja captura de limpieza.</p>
+<p>Pegar la contraseña del usuario <em>master</em> en el README o en el <code>PR601.md</code> público filtra el secreto del lab (y el hábito pasa al repo del proyecto intermodular). Anota credenciales fuera del entregable; en el <code>.md</code> basta el endpoint y la explicación de red.</p>
+<h3 id="relacion-con-otros-temas">Relación con otros temas<a class="headerlink" href="#relacion-con-otros-temas" title="Permanent link">&para;</a></h3>
+<p>El disco y los objetos del Tema 5 no sustituyen una base transaccional: S3 guarda ficheros; aquí eliges motor y quién mantiene y actualiza ese motor. Un <em>dump</em> de MySQL en un <em>bucket</em> es un objeto; la BD en marcha que atiende el checkout es otra cosa. La API sigue viviendo en el cómputo del Tema 4, idealmente en subred privada (Tema 3). IAM (Tema 2) decide quién puede crear instancias RDS o asumir roles; el SG decide qué tráfico <strong>TCP</strong> (<em>Transmission Control Protocol</em>, protocolo de control de transmisión) llega al puerto del motor. Multi-AZ y réplicas se entienden mejor cuando el Tema 7 pide justificar el equilibrio entre disponibilidad, coste y complejidad: no actives Multi-AZ «por costumbre» en un lab de media hora si el enunciado no lo pide —en el <strong>Ejercicio de laboratorio 5</strong> sí lo pide, y entonces lo documentas.</p>
+<h3 id="el-lab-del-modulo-8-ejercicio-de-laboratorio-5-creacion-de-un-servidor-de-bases-de-datos">El lab del Módulo 8: Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos<a class="headerlink" href="#el-lab-del-modulo-8-ejercicio-de-laboratorio-5-creacion-de-un-servidor-de-bases-de-datos" title="Permanent link">&para;</a></h3>
+<p>En tu clase de <em>Cloud Foundations</em>, el lab del <strong>Módulo 8</strong> se llama <strong>Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos</strong>. Trabajas en la <strong>región que indique el lab</strong>. La instancia EC2 con la aplicación web —una agenda de contactos (<em>Address Book</em>)— <strong>ya viene creada</strong> en el lab. Tu trabajo es montar la BD gestionada y enlazarla a esa agenda.</p>
+<p>Primero creas un <strong>grupo de seguridad para la BD</strong> cuyas reglas de entrada admitan el puerto del motor <strong>solo</strong> desde el SG de la aplicación web (la EC2 de la agenda). Así la app puede hablar con MySQL y el resto de internet no.</p>
+<p>Después creas un <strong>grupo de subredes de BD</strong> (<em>DB subnet group</em>) con subredes <strong>privadas</strong> en <strong>dos AZ</strong>. RDS necesita al menos dos subredes en AZ distintas para desplegar Multi-AZ; sin ese grupo, el asistente no puede colocar el primario y la instancia de reserva como toca.</p>
+<p>Luego <strong>lanzas una instancia de Amazon RDS for MySQL</strong> con <strong>Multi-AZ</strong> activado, clase y almacenamiento según el enunciado, acceso público desactivado y el SG de la BD que acabas de definir. Esperas a que quede <em>Available</em> y anotas el <strong>endpoint</strong> (sin pegar la contraseña en el entregable).</p>
+<p>Por último abres el formulario de configuración de la propia agenda en la EC2 e introduces el <strong>endpoint</strong>, el <strong>nombre de la base de datos</strong>, el <strong>usuario</strong> y la <strong>contraseña</strong> (los valores concretos los marca el enunciado; no los copies al <code>.md</code>). Compruebas que la agenda <strong>guarda y muestra contactos</strong>: eso demuestra que la aplicación usa RDS y no un MySQL local en el disco de la EC2. No dejes secretos en capturas del entregable.</p>
+<p>Respecto al mapa del proyecto de DAW (API en cómputo, BD gestionada, fotos en S3), este lab <strong>practica</strong> RDS, Multi-AZ, grupo de subredes y SG. <strong>Simplifica</strong> el resto del producto (no montas DynamoDB ni Redshift). En <strong>PR601</strong> deja claro qué es <strong>IaaS</strong> (<em>Infrastructure as a Service</em>, infraestructura como servicio: la EC2, donde <strong>tú</strong> aplicas los parches del SO) y qué es gestionado (RDS, donde AWS mantiene y actualiza el motor), y al terminar elimina la instancia RDS: deja una captura que demuestre que has eliminado los recursos.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>Aquí el examen contrapone base <strong>gestionada</strong> frente a MySQL en la EC2, relacional frente a NoSQL, y Multi-AZ frente a réplica de lectura: no son sinónimos. DMS y SCT aparecen cuando el escenario describe migración con poco tiempo de parada frente a un rediseño completo.</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>Multi-AZ responde a la <strong>conmutación</strong> de la escritura; la réplica de lectura escala SELECT o consultas de informes. DynamoDB puede ir <em>además</em> de un checkout SQL si el dominio sigue siendo relacional; no lo sustituyas «por moda». Ampliación y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-6">Certificación § Tema 6</a>.</p>
+</div>
+<p><strong>Videotutorial (Practitioner / NoSQL).</strong> <a href="https://www.youtube.com/watch?v=j1VL7ctuerw">DynamoDB</a> (~10 min). Vídeo: Profe Santos Cloud (YouTube).</p>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=43jYEiZvOsw">ATTA AWS Academy RDS 05</a> (~19 min).</p>
+<iframe src="https://www.youtube.com/embed/43jYEiZvOsw" title="ATTA AWS Academy RDS 05 — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Qué mirar: clase pequeña, SG del motor y eliminar la instancia al acabar.</p>
+<p><strong>Extra (opcional).</strong> <a href="https://www.youtube.com/watch?v=4X1f23RpBG0">RDSPrivateSubnet EC2Linux</a> (~21 min) — RDS en privada con EC2; refuerza el Tema 3. Vídeo: Profe Santos Cloud (YouTube).</p>
+<p><strong>Extra.</strong> <a href="https://www.youtube.com/watch?v=WUHzjhrS8tg">WordPress con RDS</a> — app web en EC2 y base MySQL gestionada en RDS.</p>
+<iframe src="https://www.youtube.com/embed/WUHzjhrS8tg" title="WordPress con RDS" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<figure>
+<img alt="WordPress / app conectada a RDS" src="img/salvador/rds_5.png" width="640" />
+
+<figcaption>App + RDS: la BD fuera de la EC2.</figcaption>
+</figure>
+<figure>
+<img alt="Pasos de práctica WordPress con RDS" src="img/salvador/rds_8.png" width="640" />
+
+<figcaption>Práctica: app en cómputo y credenciales apuntando al endpoint RDS.</figcaption>
+</figure>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr601-rds-minimo">PR601 — RDS mínimo<a class="headerlink" href="#pr601-rds-minimo" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR601</strong>. (RA4 // b, c // <strong>PR 0–10</strong>). Completas el lab Academy del Módulo 8 (<strong>Ejercicio de laboratorio 5 - Creación de un servidor de bases de datos</strong>): la agenda (<em>Address Book</em>) ya está en una EC2; tú creas SG de la BD, grupo de subredes, RDS for MySQL Multi-AZ, configuras el formulario de la agenda, dejas secretos fuera del markdown y limpias al acabar.</li>
+</ul>
+<p><strong>Tareas:</strong> crea el SG de la BD (puerto del motor solo desde el SG de la agenda); crea el grupo de subredes de BD en subredes privadas de dos AZ; lanza RDS for MySQL con Multi-AZ según el enunciado; introduce endpoint, nombre de BD, usuario y contraseña en el formulario de la agenda; comprueba que guarda y muestra contactos; documenta IaaS (EC2) frente a gestionado (RDS); deja secretos fuera del <code>.md</code>; elimina la instancia RDS (e instantáneas de lab si el enunciado lo pide) y deja una captura que demuestre que has eliminado los recursos.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR601.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo (no sustituye el enunciado): <a href="../90-soluciones/pr/PR601.html">Soluciones · PR601</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lab RDS (SG, subredes, Multi-AZ)</td>
+<td>Flujo del Ejercicio de laboratorio 5</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Seguridad de red</td>
+<td>SG sin motor abierto al mundo</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Secretos y claridad</td>
+<td>Fuera del markdown; IaaS frente a gestionado</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Limpieza</td>
+<td>Captura que demuestre que has eliminado los recursos</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba bases de datos de este tema. CLF: <a href="../99-certificacion/certificacion.html#tema-6">Certificación § Tema 6</a>.</p>
+<ol>
+<li><strong>Multi-AZ</strong> en RDS sirve sobre todo para…<br />
+   a) acelerar SELECT de informes · b) <strong>conmutación</strong> si cae una AZ · c) sustituir copias de seguridad</li>
+<li>Checkout con transacciones SQL: primera hipótesis…<br />
+   a) DynamoDB · b) <strong>RDS/Aurora</strong> · c) Redshift</li>
+<li>¿Quién mantiene y actualiza el <strong>motor</strong> en RDS?</li>
+<li><strong>V/F.</strong> Redshift es la opción típica de OLTP de la tienda online.</li>
+<li>Empareja: <strong>DynamoDB</strong> · <strong>ElastiCache</strong> · <strong>réplica de lectura</strong> con: (a) NoSQL clave-valor · (b) caché en memoria · (c) escala de lectura</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>AWS</strong> (servicio gestionado); tú esquemas, datos y accesos.</p>
+</li>
+<li>
+<p><strong>Falso</strong> — Redshift es analítica / <em>warehouse</em>; OLTP → RDS/Aurora.</p>
+</li>
+<li>
+<p><strong>DynamoDB</strong> encaja con (a) NoSQL clave-valor; <strong>ElastiCache</strong>, con (b) caché en memoria; la <strong>réplica de lectura</strong>, con (c) escala de lectura.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="rds">RDS</strong>
+<em>Relational Database Service</em> (servicio de bases de datos relacionales): bases relacionales gestionadas (MySQL, PostgreSQL…). AWS mantiene y actualiza el motor y la infraestructura; tú gestionas esquemas, datos y accesos.</p>
+<p><strong id="instancia-de-bd">instancia de BD</strong>
+Recurso RDS que ejecuta un motor concreto con una clase, almacenamiento y red asociados.</p>
+<p><strong id="clase-de-instancia">clase de instancia</strong>
+Combinación fija de CPU y memoria de la instancia de BD que eliges de una lista (p. ej. clases pequeñas en labs).</p>
+<p><strong id="endpoint-rds">endpoint RDS</strong>
+Nombre DNS al que se conecta la aplicación para hablar con la instancia de BD.</p>
+<p><strong id="db-subnet-group">grupo de subredes de BD</strong>
+<em>DB subnet group</em>: conjunto de subredes (en AZ distintas) donde RDS puede colocar la instancia y la instancia de reserva Multi-AZ.</p>
+<p><strong id="multi-az">Multi-AZ</strong>
+Despliegue en más de una zona de disponibilidad con conmutación por error de escritura. No sustituye a las réplicas de lectura ni acelera por sí solo los SELECT de informes.</p>
+<p><strong id="read-replica">read replica</strong>
+Réplica de lectura: copia de solo lectura para repartir consultas SELECT e informes. No es el mecanismo principal de conmutación Multi-AZ.</p>
+<p><strong id="instantanea-rds">instantánea RDS</strong>
+Copia de la BD en un momento (automática o manual) para recuperación o restauración.</p>
+<p><strong id="aurora">Aurora</strong>
+Motor relacional de AWS compatible con MySQL o PostgreSQL, con almacenamiento distribuido y más margen de HA dentro de RDS.</p>
+<p><strong id="dynamodb">DynamoDB</strong>
+Base NoSQL gestionada (clave-valor / documentos), <em>serverless</em> y de baja latencia. No es un sustituto automático de SQL transaccional con <em>joins</em> y claves foráneas.</p>
+<p><strong id="tabla-dynamodb">tabla DynamoDB</strong>
+Contenedor de elementos en DynamoDB; se define al crear la tabla con su clave de partición.</p>
+<p><strong id="elemento-dynamodb">elemento DynamoDB</strong>
+<em>Item</em>: registro individual en una tabla DynamoDB.</p>
+<p><strong id="clave-de-particion">clave de partición</strong>
+<em>Partition key</em>: atributo obligatorio que reparte los elementos entre particiones; sin ella no hay tabla.</p>
+<p><strong id="elasticache">ElastiCache</strong>
+Caché en memoria gestionada (Redis / Memcached). Acelera lecturas; no sustituye a la BD de registro.</p>
+<p><strong id="redshift">Redshift</strong>
+Almacén de datos columnar para analítica e informes, no para el OLTP de la tienda.</p>
+<p><strong id="oltp">OLTP</strong>
+<em>Online Transaction Processing</em> (procesamiento de transacciones en línea): cargas del día a día (pedidos, stock). Se distingue de la analítica.</p>
+<p><strong id="dms">DMS</strong>
+<em>Database Migration Service</em> (servicio de migración de bases de datos): replica datos entre orígenes y destinos con poco tiempo de parada cuando el escenario lo permite.</p>
+<p><strong id="replatform">replatform</strong>
+Migración que cambia de plataforma (p. ej. SGBD en servidor propio hacia RDS/Aurora) manteniendo el modelo con cambios acotados.</p>
+<p><strong id="refactor">refactor</strong>
+Migración que rediseña la aplicación o el modelo de datos (más cambio que un <em>replatform</em>).</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../05-almacenamiento/tema5.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 5. Almacenamiento">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                5. Almacenamiento
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../07-arquitectura-well-architected/tema7.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 7. Arquitectura Well-Architected">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                7. Arquitectura Well-Architected
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

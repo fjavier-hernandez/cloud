@@ -1,0 +1,1946 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Shared responsibility, IAM, MFA, protección de datos y servicios de seguridad a nivel Practitioner (Foundations Módulo 4).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/02-seguridad-iam/tema2.html">
+      
+      
+        <link rel="prev" href="../01-fundamentos-nube-aws/tema1.html">
+      
+      
+        <link rel="next" href="../03-redes-entrega-contenido/tema3.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Tema 2 — Seguridad, IAM y responsabilidad compartida - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tema 2 — Seguridad, IAM y responsabilidad compartida - Introducción a la Nube Pública" />
+<meta property="og:description" content="Shared responsibility, IAM, MFA, protección de datos y servicios de seguridad a nivel Practitioner (Foundations Módulo 4)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/02-seguridad-iam/tema2.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/02-seguridad-iam/tema2.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Tema 2 — Seguridad, IAM y responsabilidad compartida - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Shared responsibility, IAM, MFA, protección de datos y servicios de seguridad a nivel Practitioner (Foundations Módulo 4)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/02-seguridad-iam/tema2.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-2-seguridad-iam-y-responsabilidad-compartida" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tema 2 — Seguridad, IAM y responsabilidad compartida
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema2.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 4)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 4)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsabilidad-compartida_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Responsabilidad compartida
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Responsabilidad compartida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#en-iaas-api-en-ec2-con-tu-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En IaaS (API en EC2 con tu stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-paas-motor-en-rds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En PaaS (motor en RDS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-saas-correo-o-crm-del-centro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En SaaS (correo o CRM del centro)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cuando-no-echar-la-culpa-a-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuándo NO echar la culpa a AWS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iam-quien-puede-hacer-que" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IAM: quién puede hacer qué
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IAM: quién puede hacer qué">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuario-raiz-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuario raíz (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usuario-iam_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuario IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupo-iam_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grupo IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rol-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rol IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dos-entornos-de-academy-lab-del-modulo-4-y-learner-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dos entornos de Academy: lab del Módulo 4 y Learner Lab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politica-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Política (policy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-keys-y-por-que-no-van-a-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access keys y por qué no van a GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-group-frente-a-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security group frente a IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (IAM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cuentas-datos-y-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuentas, datos y red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr201-usuarios-y-politicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR201 — Usuarios y políticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-la-practica-de-desarrollo-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En la práctica de desarrollo web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 4)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 4)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsabilidad-compartida_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Responsabilidad compartida
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Responsabilidad compartida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#en-iaas-api-en-ec2-con-tu-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En IaaS (API en EC2 con tu stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-paas-motor-en-rds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En PaaS (motor en RDS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-saas-correo-o-crm-del-centro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En SaaS (correo o CRM del centro)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cuando-no-echar-la-culpa-a-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuándo NO echar la culpa a AWS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iam-quien-puede-hacer-que" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IAM: quién puede hacer qué
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IAM: quién puede hacer qué">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuario-raiz-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuario raíz (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usuario-iam_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuario IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupo-iam_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grupo IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rol-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rol IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dos-entornos-de-academy-lab-del-modulo-4-y-learner-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dos entornos de Academy: lab del Módulo 4 y Learner Lab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politica-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Política (policy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-keys-y-por-que-no-van-a-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access keys y por qué no van a GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-group-frente-a-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security group frente a IAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (IAM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cuentas-datos-y-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuentas, datos y red
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr201-usuarios-y-politicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR201 — Usuarios y políticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-la-practica-de-desarrollo-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En la práctica de desarrollo web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-2-seguridad-iam-y-responsabilidad-compartida">Tema 2. Seguridad, IAM y responsabilidad compartida<a class="headerlink" href="#tema-2-seguridad-iam-y-responsabilidad-compartida" title="Permanent link">&para;</a></h1>
+<p>Una API (interfaz de programación de aplicaciones) en la nube no «hereda» la seguridad del proveedor. AWS protege los centros de datos y el hipervisor; <strong>tú</strong> decides quién puede llamar a <code>s3:GetObject</code>, si el <a href="#usuario-raiz">usuario raíz</a> tiene <a href="#mfa">MFA</a> (autenticación multifactor, <em>multi-factor authentication</em>) y si el secreto del JWT vive en el código o fuera de Git. Este tema corresponde al <strong>Módulo 4</strong> de <em>AWS Academy Cloud Foundations</em> y es el bloque que más se parece al dominio más pesado del examen <strong>CLF-C02</strong> (<em>AWS Certified Cloud Practitioner</em>, Cloud Practitioner). Los términos clave están en el <a href="#glosario">glosario</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. Si vienes del Tema 1, confirma <a href="../00-acceso/acceso.html">Acceso</a>: aquí el eje es <strong>quién puede hacer qué</strong> (<a href="#iam">IAM</a> —<em>Identity and Access Management</em>, gestión de identidades y accesos— y <a href="#responsabilidad-compartida">responsabilidad compartida</a>). El lab de este tema se abre en el <strong>Módulo 4</strong> de Foundations.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA2.</strong> <em>Identifica los componentes clave de la infraestructura global de la nube, diferenciando servicios principales, regiones, zonas de disponibilidad y aplicando medidas básicas de seguridad como el modelo de responsabilidad compartida, gestión de accesos y protección de datos.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion-ra2">Criterios de evaluación (RA2)<a class="headerlink" href="#criterios-de-evaluacion-ra2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>d)</strong> Se ha comprendido el modelo de responsabilidad compartida en la nube.</li>
+<li><strong>e)</strong> Se ha aplicado medidas de seguridad básicas mediante herramientas de gestión de acceso.</li>
+<li><strong>f)</strong> Se han realizado ejercicios sobre gestión de usuarios y políticas de seguridad.</li>
+</ul>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Seguridad <strong>de</strong> la nube frente a seguridad <strong>en</strong> la nube; el límite cambia con IaaS, PaaS y SaaS.</li>
+<li><a href="#iam">IAM</a>: usuario raíz, usuarios, grupos, roles, políticas; <a href="#minimo-privilegio">mínimo privilegio</a>; <a href="#mfa">MFA</a>.</li>
+<li>Cifrado en tránsito y en reposo; <strong>AWS Artifact</strong> (portal de informes de cumplimiento de AWS) y conformidad (el RGPD —Reglamento General de Protección de Datos— no se cumple solo eligiendo región).</li>
+<li>Servicios de detección y auditoría a nivel de reconocimiento (CloudTrail, GuardDuty, WAF…).</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q3</strong></td>
+<td>Responsabilidad compartida + IAM</td>
+<td><strong>PR201</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>En una API en <strong>EC2</strong> con MySQL en la misma máquina, ¿quién aplica los parches de seguridad del sistema operativo (SO) de la máquina virtual? ¿Y si pasas el motor a <strong>RDS</strong>?</li>
+<li>¿Para qué sirve el usuario <strong>root</strong> de la cuenta AWS y por qué no lo usarías a diario?</li>
+<li>¿Qué aporta el <strong>MFA</strong> frente a solo usuario y contraseña?</li>
+<li>¿Por qué es mala idea pegar <strong>access keys</strong> en el repositorio de una app Node?</li>
+<li>Da un ejemplo de <strong>mínimo privilegio</strong>: una acción permitida sobre un recurso concreto (no «AdministratorAccess»).</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>En <strong>EC2</strong>, <strong>tú</strong> aplicas los parches de seguridad del SO de la máquina virtual. Si el motor pasa a <strong>RDS</strong>, AWS mantiene y actualiza el motor; tú sigues con usuarios, datos, cifrado y el security group.</p>
+</li>
+<li>
+<p>El <strong>root</strong> es la identidad de la cuenta (facturación, cierre, Support…). No lo uses a diario: trabaja con usuarios o roles con mínimo privilegio (en el lab del Módulo 4, con los usuarios que ya vienen creados).</p>
+</li>
+<li>
+<p>El <strong>MFA</strong> añade un segundo factor: aunque filtren la contraseña, hace falta el dispositivo o el código.</p>
+</li>
+<li>
+<p>Las <strong>access keys</strong> en el repo se filtran (GitHub, forks, capturas); quien las tenga actúa como tu cuenta. Mejor rol de instancia o de función, o credenciales fuera de Git.</p>
+</li>
+<li>
+<p>Ejemplo: <code>s3:GetObject</code> solo sobre <code>arn:aws:s3:::mi-bucket-lab/*</code> para un rol de la API — no <code>AdministratorAccess</code>.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-4">Bloque Foundations (Módulo 4)<a class="headerlink" href="#bloque-foundations-modulo-4" title="Permanent link">&para;</a></h2>
+<h3 id="responsabilidad-compartida_1">Responsabilidad compartida<a class="headerlink" href="#responsabilidad-compartida_1" title="Permanent link">&para;</a></h3>
+<p>El modelo de <strong><a href="#responsabilidad-compartida">responsabilidad compartida</a></strong> reparte quién asegura qué. AWS es responsable de la seguridad <strong>de</strong> la nube: instalaciones, hardware, red global del proveedor e hipervisor, y también de lo que mantiene en un servicio gestionado. Tú eres responsable de la seguridad <strong>en</strong> la nube: identidades, datos, configuración, puertos que abres, cifrado que activas y los parches de seguridad del sistema operativo cuando corres una máquina virtual.</p>
+<p>Esa frontera <strong>no es fija</strong>: se mueve con el modelo de servicio que vimos en el Tema 1 (<a href="../01-fundamentos-nube-aws/tema1.html#iaas">IaaS</a> —infraestructura como servicio—, <a href="../01-fundamentos-nube-aws/tema1.html#paas">PaaS</a> —plataforma como servicio—, <a href="../01-fundamentos-nube-aws/tema1.html#saas">SaaS</a> —software como servicio—). En un proyecto DAW no es lo mismo una API Node en <a href="../01-fundamentos-nube-aws/tema1.html#ec2">EC2</a> que una base de datos (BD) en <a href="../01-fundamentos-nube-aws/tema1.html#rds">RDS</a> o un correo SaaS del centro.</p>
+<h4 id="en-iaas-api-en-ec2-con-tu-stack">En IaaS (API en EC2 con tu stack)<a class="headerlink" href="#en-iaas-api-en-ec2-con-tu-stack" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Alquilas la máquina virtual y montas tú el sistema operativo, nginx, Node y, a veces, MySQL en el mismo disco.</p>
+<p><strong>En la práctica.</strong> AWS garantiza que el hipervisor y el centro de datos están protegidos; <strong>tú</strong> aplicas los parches de seguridad del SO, mantienes y actualizas Node y nginx, endureces la instancia, gestionas usuarios del sistema, eliges el <a href="#security-group">SG</a> (<em>security group</em>, el cortafuegos de la instancia) y cuidas de que el <code>.env</code> no acabe en un repo público. Si alguien compromete tu API porque dejaste el puerto 22 abierto a <code>0.0.0.0/0</code>, la falla es <strong>en</strong> la nube (tu configuración), no del edificio de AWS.</p>
+<h4 id="en-paas-motor-en-rds">En PaaS (motor en RDS)<a class="headerlink" href="#en-paas-motor-en-rds" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Mueves MySQL a un motor gestionado: AWS mantiene y actualiza el motor de base de datos.</p>
+<p><strong>En la práctica.</strong> Dejas de mantener y actualizar MySQL a mano, pero <strong>sigues</strong> siendo dueño de los usuarios de la base, de los datos, del cifrado que actives y del security group que deja entrar a la API. «Pasé a gestionado» no te quita la responsabilidad si alguien obtiene la contraseña del usuario <code>app</code> porque la pegaste en Discord.</p>
+<h4 id="en-saas-correo-o-crm-del-centro">En SaaS (correo o CRM del centro)<a class="headerlink" href="#en-saas-correo-o-crm-del-centro" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Consumes una aplicación completa: correo, wiki, CRM.</p>
+<p><strong>En la práctica.</strong> AWS (o el proveedor del SaaS) mantiene casi toda la pila; tú configuras cuentas, permisos de buzón y qué datos metes. En un proyecto de DAW el SaaS suele ser dependencia (inicio de sesión, correo), no el sitio donde despliegas tu API —pero si compartes la contraseña del correo del proyecto, el incidente sigue siendo tuyo.</p>
+<table>
+<thead>
+<tr>
+<th>Recurso / modelo</th>
+<th>Mantener y actualizar SO o motor</th>
+<th>Identidades y datos de la app</th>
+<th>Hardware y centros de datos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EC2 + tu stack (IaaS)</td>
+<td>Tú: parches del SO; tú mantienes Node, nginx…</td>
+<td>Tú</td>
+<td>AWS</td>
+</tr>
+<tr>
+<td>RDS (plataforma gestionada)</td>
+<td>AWS mantiene el motor</td>
+<td>Tú (usuarios de BD, datos, cifrado, SG)</td>
+<td>AWS</td>
+</tr>
+<tr>
+<td>Lambda (entorno de ejecución gestionado)</td>
+<td>AWS</td>
+<td>Tú (rol de ejecución, código, datos)</td>
+<td>AWS</td>
+</tr>
+<tr>
+<td>Correo / CRM (SaaS)</td>
+<td>Proveedor</td>
+<td>Tú (cuentas y configuración)</td>
+<td>Proveedor</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img alt="Responsabilidad compartida en EC2, RDS y Lambda: qué mantienes tú y qué gestiona AWS" src="../img/diagramas/responsabilidad-compartida.svg" width="800" />
+
+<figcaption>El límite se mueve con el modelo de servicio: en rojo lo que asumes tú; en azul lo que mantiene AWS.</figcaption>
+</figure>
+<figure>
+<img alt="Modelo AWS: seguridad EN la nube (cliente) frente a seguridad DE la nube (AWS)" src="img/salvador/responsabilidad_compartida.png" width="720" />
+
+<figcaption>Misma idea en el diagrama oficial de AWS: datos e identidades son tuyos; regiones, zonas de disponibilidad (AZ) y hardware son del proveedor.</figcaption>
+</figure>
+<p><strong>Antes / después.</strong> Al principio sueles tener la API y MySQL en la misma EC2: tú aplicas los parches del SO y además mantienes y actualizas Node y MySQL. Cuando pasas la base a RDS y dejas la API en EC2 (o en Lambda), AWS mantiene y actualiza el motor, pero <strong>tú</strong> sigues siendo dueño de los usuarios de la base de datos, de los datos, del cifrado y del security group que abre el puerto. Si subes un <code>.env</code> con la clave de Stripe a un repo público, eso no es «fallo de AWS». Si alguien entra físicamente en el centro de datos del proveedor, ese tramo sí es su responsabilidad.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distinguir seguridad <em>de</em> la nube (AWS) frente a <em>en</em> la nube (cliente)</td>
+<td>Ante un incidente, razonar si falló un parche del SO, una política IAM, un SG o el proveedor</td>
+</tr>
+<tr>
+<td>Reconocer que el límite cambia con EC2 / RDS / Lambda / SaaS</td>
+<td>En el lab, no culpar a AWS por access keys en GitHub o por un bucket público</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cuando-no-echar-la-culpa-a-aws">Cuándo NO echar la culpa a AWS<a class="headerlink" href="#cuando-no-echar-la-culpa-a-aws" title="Permanent link">&para;</a></h3>
+<p>Cada uno de estos fallos es seguridad <strong>en</strong> la nube: configuración o hábitos tuyos (o del equipo).</p>
+<p><strong>Access keys en un repo o en capturas del lab.</strong> Quien encuentre la clave puede llamar a la API como si fueras tú. Para evitarlo, no pegues <code>AKIA…</code> en el <code>.md</code>, en el chat ni en el front: asigna un <a href="#rol">rol</a> al servicio o guarda las credenciales fuera de Git, y bórralas al terminar el lab.</p>
+<p><strong>Bucket público «para que se vea la foto del ejercicio».</strong> Abres el objeto al mundo y scrapers o bots pueden indexarlo. Para evitarlo, usa una URL firmada, una política de lectura mínima o deja que solo la API sirva el fichero; no marques el bucket entero como público «un rato».</p>
+<p><strong>Usuario raíz compartido por el grupo de clase.</strong> Cualquiera del grupo podría cerrar la cuenta, cambiar la facturación o borrar recursos. Para evitarlo, cada persona trabaja con su identidad del lab; el root queda con MFA y fuera del día a día.</p>
+<p><strong>SSH o <code>0.0.0.0/0</code> «solo un rato» y olvido.</strong> Dejas la instancia expuesta a internet. Para evitarlo, restringe el <a href="#security-group">security group</a> a la IP del lab o del aula y ciérralo al terminar.</p>
+<h3 id="iam-quien-puede-hacer-que">IAM: quién puede hacer qué<a class="headerlink" href="#iam-quien-puede-hacer-que" title="Permanent link">&para;</a></h3>
+<p><strong><a href="#iam">IAM</a></strong> (<em>Identity and Access Management</em>, gestión de identidades y accesos) es el servicio con el que decides <strong>quién</strong> puede hacer <strong>qué</strong> sobre <strong>qué recurso</strong>. Sin IAM bien pensado, o dejas la cuenta abierta o bloqueas al equipo. En una API Node el patrón sano es: la persona entra con su identidad (en el lab del Módulo 4, con <code>user-1</code>…; en otros labs, con la sesión del entorno); la instancia o la función <strong>asume un rol</strong> con la política justa. Si pegas <a href="#access-key">access keys</a> en el repo, has saltado ese diseño y has creado un incidente.</p>
+<h4 id="usuario-raiz-root">Usuario raíz (root)<a class="headerlink" href="#usuario-raiz-root" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> El <a href="#usuario-raiz">usuario raíz</a> es la identidad propietaria de la cuenta AWS: facturación, cierre de cuenta, cambio de plan de Support y otras acciones de cuenta.</p>
+<p><strong>En la práctica.</strong> No lo uses para desarrollar ni para el lab diario. Activa <a href="#mfa">MFA</a>, guarda esas credenciales fuera del grupo de clase y, en el ejercicio del Módulo 4, trabaja con los usuarios que ya vienen creados. El examen asocia el root a acciones de cuenta, no a desplegar la API de un proyecto de DAW.</p>
+<h4 id="usuario-iam_1">Usuario IAM<a class="headerlink" href="#usuario-iam_1" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Un <a href="#usuario-iam">usuario IAM</a> es una identidad permanente pensada para una persona (o, a veces, para una aplicación antigua). Puede tener contraseña de consola y, si se generan, access keys.</p>
+<p><strong>En la práctica.</strong> En empresas a menudo se sustituye por federación o Identity Center. En el <strong>lab de IAM del Módulo 4</strong> de Foundations <strong>no creas</strong> usuarios nuevos: ese ejercicio se lanza con su propio <em>Start Lab</em> dentro del módulo del curso <em>Cloud Foundations</em> y ya trae creados <code>user-1</code>, <code>user-2</code> y <code>user-3</code>, y los grupos <code>S3-Support</code>, <code>EC2-Support</code> y <code>EC2-Admin</code>. Tú añades cada usuario a su grupo, entras como cada uno y compruebas qué puede hacer y qué le deniega la política. Un usuario no es lo mismo que un <strong>rol</strong>: el usuario es «alguien con credenciales de persona»; el rol se <strong>asume</strong> un rato, casi siempre por un servicio.</p>
+<h4 id="grupo-iam_1">Grupo IAM<a class="headerlink" href="#grupo-iam_1" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Un <a href="#grupo-iam">grupo</a> agrupa usuarios para aplicarles las mismas <a href="#politica">políticas</a> (<em>policies</em> en inglés). En el lab del Módulo 4, <code>S3-Support</code>, <code>EC2-Support</code> y <code>EC2-Admin</code> son esos paquetes de permisos.</p>
+<p><strong>En la práctica.</strong> El grupo no «hereda magia»: solo es un atajo para adjuntar las mismas políticas a varias personas. Si cambias la política del grupo, cambia el permiso de todos sus miembros. Por eso el lab te hace entrar como <code>user-1</code> en un grupo y como <code>user-2</code> en otro: ves la diferencia en lo que la consola te deja hacer.</p>
+<h4 id="rol-iam">Rol IAM<a class="headerlink" href="#rol-iam" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Un <a href="#rol">rol</a> es una identidad que <strong>se asume</strong> temporalmente: una instancia EC2, una función Lambda, otro servicio o una persona con permiso para <em>AssumeRole</em>. Lleva una política de confianza (<em>trust policy</em>: quién puede asumirlo) y políticas de permisos (qué puede hacer después).</p>
+<p><strong>En la práctica.</strong> Es la forma correcta de que tu API lea un bucket de imágenes sin llevar <code>AKIA…</code> en el disco. En el Learner Lab, el rol típico se llama <strong>LabRole</strong> (con el perfil de instancia <strong>LabInstanceProfile</strong>): lo asignas a una EC2 o a una Lambda para que el código llame a S3 u otros servicios. No lo «asumes tú» al entrar al lab; lo asume el <strong>servicio</strong>.</p>
+<figure>
+<img alt="Editor de trust policy JSON al crear un rol IAM" src="img/capturas/iam-trust-policy.png" width="800" />
+
+<figcaption>Trust policy de un rol: quién puede hacer sts:AssumeRole. Fuente: AWS Well-Architected Tool User Guide (AWS).</figcaption>
+</figure>
+<h4 id="dos-entornos-de-academy-lab-del-modulo-4-y-learner-lab">Dos entornos de Academy: lab del Módulo 4 y Learner Lab<a class="headerlink" href="#dos-entornos-de-academy-lab-del-modulo-4-y-learner-lab" title="Permanent link">&para;</a></h4>
+<p>Conviene no mezclarlos. El <strong>lab de IAM del Módulo 4</strong> se abre <strong>dentro</strong> del curso <em>Cloud Foundations</em>: entras al módulo, pulsas su <em>Start Lab</em> y trabajas con los usuarios y grupos que ese ejercicio ya trae creados. El <strong>Learner Lab</strong> es <strong>otro</strong> curso de Academy: es el entorno libre para practicar EC2, S3 y el resto. Ahí entras con una <strong>sesión federada</strong>, <strong>no</strong> puedes crear usuarios, grupos ni roles IAM propios, y <strong>LabRole</strong> / <strong>LabInstanceProfile</strong> se asignan a servicios (una EC2 o una Lambda) para que el código llame a la API sin access keys. Que el Módulo 4 traiga <code>user-1</code>… no es «porque el Learner Lab lo imponga»: son entornos distintos, cada uno con su propio <em>Start Lab</em>.</p>
+<h4 id="politica-policy">Política (<em>policy</em>)<a class="headerlink" href="#politica-policy" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Una <a href="#politica">política</a> (<em>policy</em> en inglés) es el documento (casi siempre JSON) que <strong>permite o deniega</strong> acciones sobre recursos. Se adjunta a usuarios, grupos o roles.</p>
+<p><strong>En la práctica.</strong> El <a href="#minimo-privilegio">principio de mínimo privilegio</a> dice: solo lo necesario para la tarea. <code>s3:GetObject</code> sobre <em>un</em> bucket de lab, no <code>AdministratorAccess</code> «para que funcione». Hay políticas <strong>gestionadas</strong> por AWS (p. ej. <code>ReadOnlyAccess</code>) y políticas <strong>insertadas</strong> (<em>inline</em>) pegadas a una sola identidad; en Foundations reconoces ambas. En el lab del Módulo 4 las políticas ya vienen ligadas a los grupos: tu trabajo es ver el efecto al entrar como cada usuario.</p>
+<h5 id="ejemplo-de-politica-json-linea-a-linea">Ejemplo de política JSON (línea a línea)<a class="headerlink" href="#ejemplo-de-politica-json-linea-a-linea" title="Permanent link">&para;</a></h5>
+<p>Imagina una política que solo permite <strong>leer</strong> objetos de un bucket de imágenes del lab (la idea es la misma que verás en los grupos del ejercicio):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="p">{</span>
+<span class="linenos" data-linenos=" 2 "></span><span class="w">  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 3 "></span><span class="w">  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="p">{</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">      </span><span class="nt">"Sid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LeerImagenesLab"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s3:GetObject"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:s3:::mi-bucket-lab/*"</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">    </span><span class="p">}</span>
+<span class="linenos" data-linenos="10 "></span><span class="w">  </span><span class="p">]</span>
+<span class="linenos" data-linenos="11 "></span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong><code>Version</code>:</strong> formato del lenguaje de políticas que espera IAM (en Foundations lo dejas como en el ejemplo del lab o de la documentación).</li>
+<li><strong><code>Statement</code>:</strong> lista de reglas; aquí hay una.</li>
+<li><strong><code>Sid</code>:</strong> etiqueta opcional para reconocer la regla en consola.</li>
+<li><strong><code>Effect</code>:</strong> <code>Allow</code> permite; <code>Deny</code> deniega. Un <em>deny</em> explícito gana a un <em>allow</em> cuando se evalúan varias políticas.</li>
+<li><strong><code>Action</code>:</strong> la acción de la API de AWS (<code>s3:GetObject</code>). Sin esto, no hay permiso concreto.</li>
+<li><strong><code>Resource</code>:</strong> sobre qué recurso aplica, en forma de <a href="#arn">ARN</a> (<em>Amazon Resource Name</em>, nombre de recurso de Amazon: <code>arn:aws:s3:::mi-bucket-lab/*</code> = objetos dentro del bucket). Un <code>*</code> sobre todos los buckets sería lo contrario del mínimo privilegio.</li>
+</ul>
+<p>En Foundations no memorizas el JSON entero; sí reconoces <em>Effect</em>, <em>Action</em>, <em>Resource</em> y, cuando aparezca, <em>Condition</em> (por ejemplo limitar por IP). El lab del Módulo 4 te hace vivir el allow/deny al cambiar de usuario.</p>
+<div class="admonition tip">
+<p class="admonition-title">Ideas de política (S3) que conviene reconocer</p>
+<ul>
+<li>Lectura solo para un <strong>usuario IAM</strong> concreto (<code>s3:GetObject</code> sobre <code>arn:aws:s3:::mi-bucket/*</code>).</li>
+<li>Lectura/escritura para un <strong>rol</strong> de la app (<code>GetObject</code> + <code>PutObject</code>).</li>
+<li><strong>Deny</strong> si la IP de origen no es la del aula u oficina (<code>NotIpAddress</code>).</li>
+<li>Condicionar por <strong>etiqueta</strong> del objeto (p. ej. solo <code>Access=public</code>).</li>
+<li>Limitar a tráfico que entra por un <strong>punto de enlace de VPC</strong> (<code>aws:SourceVpce</code>).</li>
+</ul>
+</div>
+<h4 id="access-keys-y-por-que-no-van-a-github">Access keys y por qué no van a GitHub<a class="headerlink" href="#access-keys-y-por-que-no-van-a-github" title="Permanent link">&para;</a></h4>
+<p>Las <a href="#access-key">access keys</a> son un par de credenciales de larga duración asociadas a un usuario IAM (identificador que suele empezar por <code>AKIA…</code> más un secreto). Quien las tenga puede firmar llamadas a la API <strong>como ese usuario</strong>, desde cualquier sitio con red.</p>
+<p>Si las pegas en el repositorio de una app Node —en el <code>.env</code> subido, en un commit «temporal» o en una captura del <code>.md</code>—, GitHub, forks, bots y compañeros del grupo pueden acabar usándolas. La factura y los borrados corren a nombre de tu cuenta (o del lab). El patrón sano es:</p>
+<ul>
+<li>En <strong>EC2</strong> o <strong>Lambda</strong>, el SDK asume el <strong>rol</strong> de la instancia o de la función (credenciales temporales).</li>
+<li>En el <strong>portátil</strong>, un perfil local o variables de entorno <strong>fuera de Git</strong>.</li>
+<li>En el lab Academy, trata cualquier clave como material sensible: no la pegues en Aules ni en el chat.</li>
+</ul>
+<p>Un <code>AccessDenied</code> en consola no es «AWS roto»: es la política haciendo su trabajo. Lee el mensaje (acción + recurso) antes de pedir <code>AdministratorAccess</code>.</p>
+<h4 id="security-group-frente-a-iam">Security group frente a IAM<a class="headerlink" href="#security-group-frente-a-iam" title="Permanent link">&para;</a></h4>
+<p>El cortafuegos de la instancia (<a href="#security-group">security group</a>) <strong>no es IAM</strong>, pero en clase suele ir junto: IAM decide <em>quién</em> llama a la API de AWS; el SG decide <em>qué tráfico de red</em> entra a la interfaz de red de la instancia (ENI, <em>elastic network interface</em>). Abrir el puerto 3306 al mundo es un fallo de red; dar <code>s3:*</code> sobre <code>*</code> es un fallo de IAM. Los dos pueden tumbar un proyecto de DAW.</p>
+<figure>
+<img alt="Diagrama de security groups asociados a instancias EC2" src="img/capturas/ec2-security-groups.png" width="800" />
+
+<figcaption>Security groups a nivel de instancia o interfaz de red. Fuente: Amazon EC2 User Guide (AWS).</figcaption>
+</figure>
+<h3 id="errores-frecuentes-iam">Errores frecuentes (IAM)<a class="headerlink" href="#errores-frecuentes-iam" title="Permanent link">&para;</a></h3>
+<p><strong>Pedir <code>AdministratorAccess</code> «para que el lab funcione».</strong> En el Learner Lab no puedes crear ese permiso a tu aire, y en una cuenta propia ensanchar permisos «porque sí» deja la puerta abierta si se filtra la identidad. Para evitarlo, trabaja con las políticas del ejercicio, captura la denegación y no intentes saltarte el mínimo privilegio (<a href="#pr201-usuarios-y-politicas">PR201</a>).</p>
+<p><strong>Confundir usuario con rol.</strong> El usuario es persona (en el lab del Módulo 4, <code>user-1</code>…); el rol lo asume EC2, Lambda u otro servicio. Si pegas access keys de un usuario en la instancia «porque el rol es complicado», vuelves al antipatrón: LabRole existe precisamente para ese caso.</p>
+<p><strong>Pensar que el grupo hereda permisos mágicos.</strong> El grupo solo agrupa políticas. Si el usuario no está en el grupo correcto, no tiene esos permisos: por eso el lab te hace añadir <code>user-1</code> a un grupo y probar.</p>
+<p><strong>Olvidar que <em>deny</em> explícito gana a <em>allow</em>.</strong> Puedes tener una política amplia y un deny por IP o por etiqueta que te bloquea. Lee el mensaje de error antes de ensanchar permisos a ciegas.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root con MFA; mínimo privilegio; rol frente a access keys</td>
+<td>En el lab del Módulo 4: no root; evidencia de AccessDenied con user-1…</td>
+</tr>
+<tr>
+<td>App comprometida que lista buckets → falla <em>en</em> la nube</td>
+<td>Revisar el rol del servicio (p. ej. LabRole en el Learner Lab) y la política de S3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cuentas-datos-y-red">Cuentas, datos y red<a class="headerlink" href="#cuentas-datos-y-red" title="Permanent link">&para;</a></h3>
+<p><strong><a href="#mfa">MFA</a></strong> (autenticación multifactor, <em>multi-factor authentication</em>) añade un segundo factor (app o dispositivo) además de la contraseña. En el usuario raíz es obligatorio en la práctica seria; en cualquier humano que pueda crear recursos de pago, muy recomendable. Aunque filtren la contraseña, falta el código del dispositivo.</p>
+<p><strong>Cifrado en tránsito</strong> protege los datos mientras viajan (TLS hacia el usuario, hacia el ALB —<em>Application Load Balancer</em>, balanceador de aplicación— o hacia CloudFront). <strong>Cifrado en reposo</strong> protege lo que está parado en disco u objeto (volumen, bucket S3). Son capas distintas: una API «con HTTPS» puede seguir guardando datos personales en claro en un volumen sin cifrar. <a href="#kms">KMS</a> (<em>Key Management Service</em>, servicio de gestión de claves) crea y controla las claves de cifrado; una <strong>CMK</strong> (<em>customer master key</em>, clave maestra del cliente) es una clave que administras tú en KMS para cifrar datos o otras claves. En Foundations basta reconocer KMS y CMK; no montamos un lab de criptografía.</p>
+<p><strong>Security groups</strong> (con estado, a nivel de interfaz de la instancia) y <strong>NACL</strong> (<em>network access control list</em>, lista de control de acceso de red; sin estado, a nivel de subred) son control de acceso de <strong>red</strong>. Se profundizan en el Tema 3; aquí conviene dejar claro que <strong>abrir puertos</strong> es decisión tuya, no de AWS.</p>
+<p><strong>AWS Artifact</strong> es el portal de AWS donde descargas informes y acuerdos de cumplimiento del proveedor (auditorías, certificaciones). Elegir una región europea no «cumple el RGPD» solo: hay que configurar quién accede, qué datos guardas y dónde se replican.</p>
+<h3 id="relacion-con-otros-temas">Relación con otros temas<a class="headerlink" href="#relacion-con-otros-temas" title="Permanent link">&para;</a></h3>
+<p>La red (SG y NACL) se profundiza en el Tema 3: aquí basta entender que abrir puertos es decisión tuya. El cómputo (Tema 4) decide <em>dónde</em> corre el código que asume el rol (por ejemplo LabRole en una EC2). Well-Architected (Tema 7) pone la seguridad como <strong>pilar</strong>, no como lista suelta de consejos.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>En Foundations practicas IAM en el lab; el examen te pide <strong>reconocer</strong> el modelo de responsabilidad compartida, el papel del usuario raíz y qué audita cada servicio. <a href="#cloudtrail">CloudTrail</a> registra llamadas a la API (quién hizo qué); no mide la CPU de la instancia —eso es CloudWatch (Tema 8).</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>Si una app comprometida lista buckets, la falla suele ser <em>en</em> la nube (tu cuenta), no del centro de datos de AWS. El root lleva MFA; CloudTrail no es CloudWatch. Ampliación, tabla de logos y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-2">Certificación § Tema 2</a>.</p>
+</div>
+<p><strong>Videotutorial (Practitioner).</strong> <a href="https://www.youtube.com/watch?v=XfFq9lKYDPc">Sesión 2 Cloud Practitioner 2026</a> (~1 h 53 min). Prioriza seguridad / IAM. Vídeo: Profe Santos Cloud (YouTube).</p>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=rEnenbxjOGo">IAM en Academy</a> (~9 min).</p>
+<iframe src="https://www.youtube.com/embed/rEnenbxjOGo" title="IAM en Academy — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Conviene fijarte en usuarios, grupos y políticas en el entorno Academy, y contrastarlo con el rol que asume un servicio.</p>
+<p><strong>Extra (opcional).</strong> <a href="https://www.youtube.com/watch?v=M-TKRBYHWHA">IAM Cloud9</a> (~24 min) — rol y entorno de desarrollo. Vídeo: Profe Santos Cloud (YouTube).</p>
+<p>En tu clase de <em>Cloud Foundations</em> de Academy, abre el <strong>Módulo 4</strong> (seguridad e IAM) y sigue el lab que indique el LMS (sistema de gestión del aprendizaje).</p>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr201-usuarios-y-politicas">PR201 — Usuarios y políticas<a class="headerlink" href="#pr201-usuarios-y-politicas" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR201</strong>. (RA2 // d, e, f // <strong>PR 0–10</strong>). Practicas IAM con mínimo privilegio usando el lab del Módulo 4: usuarios y grupos ya creados, políticas distintas y evidencia de una denegación, sin usar el root a diario.</p>
+</li>
+<li>
+<p><strong>Preferente:</strong> lab de IAM de Academy en el <strong>Módulo 4</strong> (<code>user-1</code> / <code>user-2</code> / <code>user-3</code> y grupos <code>S3-Support</code>, <code>EC2-Support</code>, <code>EC2-Admin</code>).</p>
+</li>
+<li><strong>Alternativa</strong> (si el lab no está disponible): <strong>no</strong> crees usuarios en el Learner Lab (el entorno no lo permite). Analiza las políticas de esos grupos en la documentación o captura del lab, o lee una política JSON dada y explica qué permite y qué deniega, con un ejemplo de acción que fallaría.</li>
+</ul>
+<p><strong>Tareas:</strong> confirma que no trabajas como root; en el lab, añade cada usuario a su grupo según el enunciado; entra como cada usuario y anota qué puede hacer; captura o describe una acción denegada; cierra sesión de esos usuarios al terminar (no hace falta borrar identidades que Academy ya traía).</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR201.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo: <a href="../90-soluciones/pr/PR201.html">Soluciones · PR201</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lab / usuarios</td>
+<td>Uso correcto de user-1… y grupos del Módulo 4 (o análisis alternativo)</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Mínimo privilegio</td>
+<td>Evidencia de denegación o explicación de qué deniega la política</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Buenas prácticas</td>
+<td>Sin root diario; sin access keys en el entregable</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Claridad del <code>.md</code></td>
+<td>Nombres, capturas o razonamiento legible</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="en-la-practica-de-desarrollo-web">En la práctica de desarrollo web<a class="headerlink" href="#en-la-practica-de-desarrollo-web" title="Permanent link">&para;</a></h3>
+<p>Cuando tu API en Node usa el SDK de AWS (S3, SES, etc.), las credenciales <strong>no</strong> van en el front ni en el repositorio. En EC2 o Lambda el SDK toma el <strong>rol</strong> de la instancia o de la función. En el portátil de desarrollo usas un perfil local o variables de entorno <strong>fuera de Git</strong>. Si el lab Academy te da un usuario IAM, trátalo como material sensible: no pegues claves ni capturas con secretos en el <code>.md</code> de la práctica, ni en el chat del grupo.</p>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba IAM y responsabilidad compartida de este tema. CLF: <a href="../99-certificacion/certificacion.html#tema-2">Certificación § Tema 2</a>.</p>
+<ol>
+<li>¿Quién aplica los parches de seguridad del SO de una <strong>EC2</strong> donde corre tu API Node?</li>
+<li>¿Dónde encaja mejor el permiso «leer el bucket S3» de la API: <strong>access keys</strong> de un usuario en el disco, o <strong>rol</strong> de la instancia o función (p. ej. LabRole)?</li>
+<li><strong>V/F.</strong> CloudTrail te dice la CPU de la instancia.</li>
+<li>Elige dos acciones típicas del <strong>root</strong> (no del trabajo diario de despliegue):<br />
+   a) <code>s3:GetObject</code> en un bucket de lab · b) cerrar la cuenta · c) cambiar el plan de Support · d) lanzar un <code>t3.micro</code></li>
+<li>Empareja: <strong>política</strong> · <strong>grupo</strong> · <strong>MFA</strong> con: (a) documento JSON de permisos · (b) segundo factor · (c) conjunto de usuarios con políticas comunes.</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>Tú</strong> (cliente) aplicas los parches del SO en EC2; Node lo mantienes y actualizas tú también.</p>
+</li>
+<li>
+<p><strong>Rol</strong> asumido por la instancia o la función (evita keys permanentes en disco).</p>
+</li>
+<li>
+<p><strong>Falso</strong> — CloudTrail audita llamadas a la API; la CPU se mira en CloudWatch.</p>
+</li>
+<li>
+<p><strong>b</strong> y <strong>c</strong> (el examen asocia root a cuenta, facturación y Support, no al despliegue rutinario).</p>
+</li>
+<li>
+<p>La <strong>política</strong> es (a) el documento JSON de permisos; el <strong>MFA</strong>, (b) el segundo factor; el <strong>grupo</strong>, (c) el conjunto de usuarios con políticas comunes.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="responsabilidad-compartida">responsabilidad compartida</strong>
+Reparto de deberes de seguridad entre AWS (seguridad <em>de</em> la nube) y el cliente (seguridad <em>en</em> la nube). El límite cambia según uses EC2, RDS, Lambda, etc. En una app DAW: AWS no revisa tu <code>.env</code>; tú no proteges el edificio del centro de datos.</p>
+<p><strong id="iam">IAM</strong>
+<em>Identity and Access Management</em>: servicio para gestionar identidades y permisos sobre recursos AWS (usuarios, grupos, roles y políticas). Es el control de acceso de casi todo lo que harás en Foundations: sin IAM coherente, o abres demasiado o bloqueas el lab.</p>
+<p><strong id="usuario-raiz">usuario raíz</strong>
+También llamado <em>root</em>: identidad propietaria de la cuenta AWS. Tiene privilegios totales; no debe usarse para el trabajo diario y debe protegerse con MFA. El examen suele asociarla a acciones de cuenta (cambiar plan de soporte, cerrar la cuenta), no a desplegar la API de un proyecto de DAW.</p>
+<p><strong id="root">root</strong>
+Sinónimo de <a href="#usuario-raiz">usuario raíz</a> en la documentación y en el examen. Misma idea: dueño de la cuenta, no identidad de desarrollo diario.</p>
+<p><strong id="usuario-iam">usuario IAM</strong>
+Identidad IAM pensada para una persona (contraseña de consola y, si se generan, access keys). En el lab del Módulo 4 ya existen <code>user-1</code>, <code>user-2</code> y <code>user-3</code>; en empresas a menudo se sustituye por federación.</p>
+<p><strong id="grupo-iam">grupo IAM</strong>
+Conjunto de usuarios IAM que comparten las mismas políticas. No concede permisos por sí solo: hay que adjuntarle policies.</p>
+<p><strong id="rol">rol</strong>
+Identidad IAM que se <em>asume</em> temporalmente (por una persona, una instancia EC2 o un servicio). Evita pegar access keys permanentes en el disco. En desarrollo web es la forma correcta de que la API lea un bucket o escriba logs.</p>
+<p><strong id="politica">política</strong>
+Documento (suele ser JSON) que permite o deniega acciones sobre recursos (<code>Effect</code>, <code>Action</code>, <code>Resource</code>). Se adjunta a usuarios, grupos o roles. Una policy mal acotada (<code>*</code> sobre <code>*</code>) convierte un lab en un incidente.</p>
+<p><strong id="policy">policy</strong>
+Nombre en inglés de <a href="#politica">política</a>. En consola y en el examen verás <em>policy</em> / <em>policies</em>.</p>
+<p><strong id="minimo-privilegio">mínimo privilegio</strong>
+Principio de dar solo los permisos necesarios para la tarea, ni más. Reduce el daño si se compromete una identidad. En clase: empieza por denegación y añade lo mínimo para que el lab pase.</p>
+<p><strong id="mfa">MFA</strong>
+<em>Multi-factor authentication</em>: segundo factor (app, hardware…) además de usuario y contraseña. Obligatoria en la práctica seria para el usuario raíz; muy recomendable en cualquier humano que pueda crear recursos de pago.</p>
+<p><strong id="access-key">access key</strong>
+Par de credenciales de larga duración de un usuario IAM (identificador + secreto) para firmar llamadas a la API. No deben subirse a GitHub ni pegarse en entregas; preferible rol con credenciales temporales.</p>
+<p><strong id="arn">ARN</strong>
+<em>Amazon Resource Name</em>: identificador único de un recurso AWS (por ejemplo <code>arn:aws:s3:::mi-bucket-lab/*</code>). Las políticas lo usan en el campo <code>Resource</code>.</p>
+<p><strong id="politica-gestionada">política gestionada</strong>
+Policy creada y mantenida por AWS (o por ti como <em>customer managed</em>) que puedes adjuntar a varias identidades. Ejemplo habitual en labs: <code>ReadOnlyAccess</code>.</p>
+<p><strong id="politica-insertada">política insertada</strong>
+Policy <em>inline</em> pegada a un solo usuario, grupo o rol. Sirve para permisos muy concretos de esa identidad; si borras la identidad, suele irse con ella.</p>
+<p><strong id="cifrado-en-transito">cifrado en tránsito</strong>
+Protección de los datos mientras viajan por la red (típicamente TLS/HTTPS). No implica por sí solo que el dato esté cifrado en disco.</p>
+<p><strong id="cifrado-en-reposo">cifrado en reposo</strong>
+Protección de los datos almacenados (volumen, objeto S3, etc.). Complementa el cifrado en tránsito; son capas distintas.</p>
+<p><strong id="security-group">security group</strong>
+Cortafuegos con estado asociado a la interfaz de red de una instancia (u otro recurso). Controla qué tráfico de red entra o sale; es otra capa distinta de IAM.</p>
+<p><strong id="kms">KMS</strong>
+<em>Key Management Service</em> (servicio de gestión de claves): crea y controla claves de cifrado. Una <strong>CMK</strong> (<em>customer master key</em>, clave maestra del cliente) es una clave que administras en KMS. En Foundations basta reconocer ambos nombres.</p>
+<p><strong id="cloudtrail">CloudTrail</strong>
+Servicio que registra llamadas a la API de AWS (quién hizo qué, cuándo). Es auditoría, no un monitor de CPU. Si necesitas latencia o uso de CPU, miras CloudWatch (Tema 8), no CloudTrail.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../01-fundamentos-nube-aws/tema1.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 1. Fundamentos de la nube AWS">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                1. Fundamentos de la nube AWS
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../03-redes-entrega-contenido/tema3.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 3. Redes, VPC y entrega de contenido">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                3. Redes, VPC y entrega de contenido
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

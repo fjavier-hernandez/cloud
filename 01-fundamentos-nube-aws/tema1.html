@@ -1,0 +1,2724 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web.">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/01-fundamentos-nube-aws/tema1.html">
+      
+      
+        <link rel="prev" href="../calendario.html">
+      
+      
+        <link rel="next" href="../02-seguridad-iam/tema2.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1. Fundamentos de la nube AWS - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="1. Fundamentos de la nube AWS - Introducción a la Nube Pública" />
+<meta property="og:description" content="Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/01-fundamentos-nube-aws/tema1.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/01-fundamentos-nube-aws/tema1.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="1. Fundamentos de la nube AWS - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/01-fundamentos-nube-aws/tema1.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-1-fundamentos-de-la-nube-aws" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Fundamentos de la nube AWS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema1.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa-quincenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa, quincenas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-introduccion-al-curso-y-m1m3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Introducción al curso y M1–M3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Introducción al curso y M1–M3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-nube-cuando-desarrollas-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué es «nube» cuando desarrollas web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-ecosistema-aws-mapa-corto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El ecosistema AWS (mapa corto)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-cuando-si-es-nube" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Características (cuando sí es nube)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-de-servicio-hasta-donde-operas-tu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de servicio: ¿hasta dónde operas tú?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos de servicio: ¿hasta dónde operas tú?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iaas-infrastructure-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IaaS — Infrastructure as a Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paas-platform-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PaaS — Platform as a Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#saas-software-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SaaS — Software as a Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (modelos)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-de-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de despliegue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos de despliegue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nube-publica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nube pública
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nube-privada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nube privada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nube-hibrida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nube híbrida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multicloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multicloud
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-frente-a-sistemas-tradicionales-con-contras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ventajas frente a sistemas tradicionales (con contras)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adopcion-y-migracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adopción y migración
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adopción y migración">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decision-tipica-daw-monolito-php-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decisión típica DAW: monolito PHP + MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#economia-y-facturacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Economía y facturación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Economía y facturación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-suele-aparecer-en-la-factura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué suele aparecer en la factura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#herramientas-de-coste-usarlas-no-solo-nombrarlas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas de coste (usarlas, no solo nombrarlas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-de-compra-de-computo-reconocer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de compra de cómputo (reconocer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infraestructura-global-y-consola" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infraestructura global y consola
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Infraestructura global y consola">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#region-y-zona-de-disponibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Región y zona de disponibilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consola-cli-y-sdk-tres-formas-de-hablar-con-la-misma-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consola, CLI y SDK: tres formas de hablar con la misma API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orden-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden de trabajo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-error-clasico-de-la-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El error clásico de la región
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-el-resto-del-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con el resto del módulo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr101-consola-y-ecosistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR101 — Consola y ecosistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr102-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR102 — Modelos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr103-estimacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR103 — Estimación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr104-fabrica-global" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR104 — Fábrica global
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lectura-recomendada-en-dos-pasadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lectura recomendada en dos pasadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa-quincenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa, quincenas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-introduccion-al-curso-y-m1m3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Introducción al curso y M1–M3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Introducción al curso y M1–M3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-nube-cuando-desarrollas-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué es «nube» cuando desarrollas web
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-ecosistema-aws-mapa-corto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El ecosistema AWS (mapa corto)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-cuando-si-es-nube" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Características (cuando sí es nube)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-de-servicio-hasta-donde-operas-tu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de servicio: ¿hasta dónde operas tú?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos de servicio: ¿hasta dónde operas tú?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iaas-infrastructure-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IaaS — Infrastructure as a Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paas-platform-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PaaS — Platform as a Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#saas-software-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SaaS — Software as a Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (modelos)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-de-despliegue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de despliegue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos de despliegue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nube-publica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nube pública
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nube-privada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nube privada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nube-hibrida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nube híbrida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multicloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multicloud
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-frente-a-sistemas-tradicionales-con-contras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ventajas frente a sistemas tradicionales (con contras)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adopcion-y-migracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adopción y migración
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adopción y migración">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decision-tipica-daw-monolito-php-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decisión típica DAW: monolito PHP + MySQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#economia-y-facturacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Economía y facturación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Economía y facturación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-suele-aparecer-en-la-factura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué suele aparecer en la factura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#herramientas-de-coste-usarlas-no-solo-nombrarlas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas de coste (usarlas, no solo nombrarlas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-de-compra-de-computo-reconocer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelos de compra de cómputo (reconocer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infraestructura-global-y-consola" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infraestructura global y consola
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Infraestructura global y consola">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#region-y-zona-de-disponibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Región y zona de disponibilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consola-cli-y-sdk-tres-formas-de-hablar-con-la-misma-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consola, CLI y SDK: tres formas de hablar con la misma API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orden-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden de trabajo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-error-clasico-de-la-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El error clásico de la región
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-el-resto-del-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con el resto del módulo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr101-consola-y-ecosistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR101 — Consola y ecosistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr102-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR102 — Modelos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr103-estimacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR103 — Estimación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr104-fabrica-global" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR104 — Fábrica global
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lectura-recomendada-en-dos-pasadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lectura recomendada en dos pasadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-1-fundamentos-de-la-nube-aws">Tema 1. Fundamentos de la nube AWS<a class="headerlink" href="#tema-1-fundamentos-de-la-nube-aws" title="Permanent link">&para;</a></h1>
+<p>En este tema construimos el mapa que el resto del módulo da por sentado: qué es la <strong>nube pública</strong>, por qué una aplicación web deja el CPD propio, cómo se <strong>paga</strong>, y <strong>dónde</strong> viven realmente los recursos (<a href="#region">región</a>, <a href="#zona-de-disponibilidad">zona de disponibilidad</a>, consola).</p>
+<p>El núcleo es <strong>AWS Academy Cloud Foundations</strong>: <em>Introducción al curso</em> y módulos <strong>1–3</strong>. La ampliación apunta al vocabulario del examen <strong>CLF-C02</strong> (<em>AWS Certified Cloud Practitioner</em>), sin convertir el tema en un plan de migración de empresa.</p>
+<div class="admonition tip">
+<p class="admonition-title">Primera clase</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. No hace falta haber leído el tema entero: sirve para ver qué traes (VPS vs nube, IaaS/PaaS, región y factura) antes de Foundations.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Cómo leerlo</p>
+<p>No hace falta memorizar el catálogo de servicios. Sí hace falta poder <strong>explicar</strong> un caso (tienda online, API de un proyecto de DAW, front estático) eligiendo modelo, región y una estimación de coste razonable. Los términos marcados enlazan al <a href="#glosario">glosario</a> al final del tema.</p>
+</div>
+<p>En semipresencial la tutoría (~1 h) no «explica el tema entero»: presenta el mapa, señala los labs y resuelve dudas del bloque anterior. El grueso es lectura + práctica autónomas. Si solo lees las tablas, el autocheck se cae; si solo lees los párrafos y saltas las prácticas de consola, el RA2 c) también.</p>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<p>Trabajamos el <strong>RA1</strong> y el arranque del <strong>RA2</strong> del módulo <em>Introducción a la Nube Pública</em>:</p>
+<blockquote>
+<p><strong>RA1.</strong> <em>Comprende los fundamentos de la computación en la nube, sus ventajas frente a sistemas tradicionales, el marco de adopción, los principios de migración y los aspectos clave de facturación, como estimación y optimización de costos.</em></p>
+<p><strong>RA2.</strong> <em>Identifica los componentes clave de la infraestructura global de la nube, diferenciando servicios principales, regiones, zonas de disponibilidad y aplicando medidas básicas de seguridad como el modelo de responsabilidad compartida, gestión de accesos y protección de datos.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación<a class="headerlink" href="#criterios-de-evaluacion" title="Permanent link">&para;</a></h3>
+<p><strong>RA1</strong></p>
+<ul>
+<li><strong>a)</strong> Se ha comprendido los conceptos fundamentales de la computación en la nube.</li>
+<li><strong>b)</strong> Se ha demostrado la capacidad para explicar las ventajas de la nube frente a sistemas tradicionales.</li>
+<li><strong>c)</strong> Se ha participado en actividades relacionadas con el ecosistema de servicios en la nube.</li>
+<li><strong>d)</strong> Se han identificado los principios básicos de la facturación y costos en la nube.</li>
+<li><strong>e)</strong> Se ha hecho uso correcto de herramientas para estimar y gestionar presupuestos.</li>
+<li><strong>f)</strong> Se ha participado en actividades prácticas sobre gestión de costos.</li>
+</ul>
+<p><strong>RA2</strong> (en este tema: infraestructura y categorías de servicio; IAM queda en el Tema 2)</p>
+<ul>
+<li><strong>a)</strong> Se ha adquirido conocimiento de los componentes de una infraestructura global en la nube.</li>
+<li><strong>b)</strong> Se ha demostrado la capacidad para explorar y describir las principales categorías de servicios disponibles.</li>
+<li><strong>c)</strong> Se ha realizado una evaluación del uso adecuado de servicios básicos en ejercicios prácticos.</li>
+</ul>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Computación en la nube frente a <a href="#on-premises"><em>on-premises</em></a>; acceso por consola, CLI y API.</li>
+<li>Modelos de servicio (<a href="#iaas">IaaS</a>, <a href="#paas">PaaS</a>, <a href="#saas">SaaS</a>) y de despliegue (pública, privada, híbrida, multicloud).</li>
+<li>Ventajas, límites y trade-offs (agilidad, coste variable, dependencia del proveedor).</li>
+<li>Adopción y migración: marco CAF y estrategias (7 R) a nivel de reconocimiento.</li>
+<li>Economía: <a href="#capex">CAPEX</a> / <a href="#opex">OPEX</a>, <a href="#tco">TCO</a>, dimensiones de precio, calculadora y presupuestos.</li>
+<li>Infraestructura global: regiones, zonas de disponibilidad, <em>edge</em>; navegación por la consola.</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa-quincenas">Programación de aula (orientativa, quincenas)<a class="headerlink" href="#programacion-de-aula-orientativa-quincenas" title="Permanent link">&para;</a></h3>
+<p>En INP la sesión de centro es <strong>tutoría quincenal</strong> (~1 h); el grueso es autónomo. El Tema 1 ocupa <strong>dos</strong> quincenas.</p>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q1</strong></td>
+<td>Acceso + mapa del tema + cuestionario</td>
+<td>Lectura conceptos/modelos; <strong>PR101</strong>, <strong>PR102</strong></td>
+</tr>
+<tr>
+<td><strong>Q2</strong></td>
+<td>Dudas Q1; facturación e infra global</td>
+<td><strong>PR103</strong>, <strong>PR104</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Antes de Foundations — responde con lo que sepas</p>
+<ol>
+<li>¿En qué se parece y en qué no un <strong>VPS</strong> barato a la <strong>nube pública</strong> que estudia este módulo?</li>
+<li>Si despliegas una API Node y un MySQL, ¿quién aplica los parches de seguridad del SO en <strong>IaaS</strong> frente a un motor <strong>PaaS</strong>/gestionable?</li>
+<li>¿Por qué importa la <strong>región</strong> además de «que la consola abra»?</li>
+<li>Nombra dos partidas de coste distintas del precio «de la VM» (pista: salida de datos, personal, facilities…).</li>
+<li>¿Qué pasa con la factura si dejas una instancia de lab encendida el fin de semana?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>Se parecen en que alquilas capacidad por red; se diferencian en que la <strong>nube pública</strong> ofrece más servicios gestionados, regiones/AZ y facturación por uso medido, no solo «una VM remota».</p>
+</li>
+<li>
+<p>En <strong>IaaS</strong> (EC2) <strong>tú</strong> aplicas los parches del SO; en un motor <strong>PaaS</strong>/gestionable (p. ej. RDS) el proveedor mantiene y actualiza el motor y tú sigues con datos, usuarios y configuración.</p>
+</li>
+<li>
+<p>La <strong>región</strong> fija latencia, soberanía de datos y qué servicios/precios aplican; no basta con que la consola abra.</p>
+</li>
+<li>
+<p>Ejemplos: <strong>egress</strong> (salida de datos), personal y mantenimiento, almacenamiento, balanceadores, facilities on-prem si comparas TCO…</p>
+</li>
+<li>
+<p>Sigue <strong>facturando</strong> el tiempo encendido (y lo asociado); Free Tier no es «gratis ilimitado».</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-introduccion-al-curso-y-m1m3">Bloque Foundations (Introducción al curso y M1–M3)<a class="headerlink" href="#bloque-foundations-introduccion-al-curso-y-m1m3" title="Permanent link">&para;</a></h2>
+<h3 id="que-es-nube-cuando-desarrollas-web">Qué es «nube» cuando desarrollas web<a class="headerlink" href="#que-es-nube-cuando-desarrollas-web" title="Permanent link">&para;</a></h3>
+<p><strong>Computación en la nube</strong> es pedir capacidad de TI (tecnologías de la información) —CPU, disco, red, bases de datos, identidad— a un proveedor, <strong>por red</strong>, <strong>bajo demanda</strong> y <strong>medida</strong>. No montas el CPD (centro de proceso de datos): no compras el rack, ni el SAI, ni negocias el caudal de la sala. Creas un recurso desde la consola o desde tu código, lo usas y, si lo apagas bien, dejas de pagar por él.</p>
+<p><a href="#on-premises"><em>On-premises</em></a> significa que el hardware y gran parte del mantenimiento viven <strong>en instalaciones de la organización</strong>: el aula, el CPD del cliente o un hosting «caja en un rack» que alguien tiene que alimentar y aplicar parches de seguridad. En ese modelo dimensionas para el <strong>pico</strong> (Black Friday, entrega del proyecto intermodular, campaña). El resto del año esa capacidad duerme y <strong>sigue costando</strong>: electricidad, amortización, parches, espacio. En nube pública el coste se acerca al <strong>uso real</strong>, a cambio de aprender a apagar, etiquetar y no dejar un lab encendido el fin de semana.</p>
+<div class="admonition success">
+<p class="admonition-title">Ventajas (nube pública, a ojo de Foundations)</p>
+<ul>
+<li><strong>Escalabilidad:</strong> más o menos CPU, disco o balanceadores sin comprar rack.</li>
+<li><strong>Agilidad:</strong> levantar un laboratorio o una API de prueba en minutos.</li>
+<li><strong>Coste variable:</strong> pagas por uso (ojo: también te castiga el olvido).</li>
+<li><strong>Menos mantenimiento de CPD:</strong> temperatura, SAI y cableado los asume el proveedor.</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Desventajas / trade-offs</p>
+<ul>
+<li>Una mala arquitectura o un lab sin apagar <strong>dispara la factura</strong>.</li>
+<li>Hace falta gente que conozca la plataforma (no es «gratis de mantenimiento»).</li>
+<li>Datos en máquinas que no son tuyas: región, normativa y cifrado importan.</li>
+</ul>
+</div>
+<p>La frontera no siempre es nítida. Un <strong>VPS</strong> (<em>Virtual Private Server</em>, servidor privado virtual) barato de un hosting clásico puede parecer nube porque lo pides por panel y te dan una máquina remota. Aun así, muchas veces falta lo que este módulo llama nube pública: <strong>elasticidad</strong> real (subir y bajar capacidad en minutos), <strong>API</strong> de inventario (crear y borrar recursos desde código) y <strong>facturación por uso medido</strong> de muchos servicios, no solo «una VM al mes». Este módulo se centra en el modelo <strong>AWS</strong>: API, regiones, factura medible y catálogo de servicios. Si tu referencia mental es solo el panel de un hosting compartido, conviene recalibrar antes del Tema 3.</p>
+<p>Una API Node o Java en el aula vive en un PC. En AWS esa misma API puede ser una <strong>máquina virtual</strong> (tú aplicas los parches de seguridad del sistema operativo, SO), un <strong>contenedor</strong> (empaquetas la app y el runtime) o una <strong>función</strong> que se ejecuta al llegar una petición HTTP. Las tres son «nube». No son el mismo trabajo para ti: cambia quién aplica los parches del SO y cómo pagas (hora de VM frente a invocación).</p>
+<p><strong>Mini-caso.</strong> Un proyecto de DAW con API Express y front React: en el aula todo corre en un portátil. En AWS el front puede ir a objetos estáticos (<a href="#s3">S3</a> + CDN), la API a una VM (<a href="#ec2">EC2</a>) o a funciones, y la base a un servicio gestionado (<a href="#rds">RDS</a>). El «mismo» proyecto tiene tres facturas y tres límites de administración distintos; el error es tratarlos como un solo «servidor en la nube».</p>
+<h3 id="el-ecosistema-aws-mapa-corto">El ecosistema AWS (mapa corto)<a class="headerlink" href="#el-ecosistema-aws-mapa-corto" title="Permanent link">&para;</a></h3>
+<p>Antes de abrir la consola conviene situar <strong>cuatro piezas</strong> que se repiten en todo el módulo. No son servicios concretos (EC2, S3…): son el marco donde esos servicios viven. Un desarrollador web elige <em>en qué cuenta</em>, <em>en qué región</em> y <em>con qué herramienta</em> (clic, CLI o SDK) crea un recurso; si mezclas esas piezas, el lab «funciona» pero la factura o la latencia no.</p>
+<table>
+<thead>
+<tr>
+<th>Pieza</th>
+<th>Qué es</th>
+<th>Por qué te importa en DAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cuenta</strong></td>
+<td>Contenedor de factura e identidades</td>
+<td>Cada lab tiene dueño y coste</td>
+</tr>
+<tr>
+<td><strong><a href="#region">Región</a></strong></td>
+<td>Área geográfica con varios centros de datos</td>
+<td>Latencia y residencia del dato</td>
+</tr>
+<tr>
+<td><strong>Servicio</strong></td>
+<td>Producto (EC2, S3, IAM…)</td>
+<td>Eliges uno por caso de uso, no «AWS en abstracto»</td>
+</tr>
+<tr>
+<td><strong>Consola / CLI / SDK</strong></td>
+<td>Tres formas de hablar con la misma API</td>
+<td>La consola enseña; el SDK es lo que usará tu código</td>
+</tr>
+</tbody>
+</table>
+<p>En un despliegue real el orden importa: primero la <strong>cuenta</strong> y la <strong>región</strong> (en Academy, la que permite el Learner Lab); después el <strong>servicio</strong>; al final automatizas con CLI o SDK. Crear un bucket «porque el tutorial lo hace en <code>us-east-1</code>» mientras el resto del grupo trabaja en Europa es un clásico que mezcla latencia, precio y, a veces, residencia del dato. Más adelante en este tema ampliamos consola, CLI y SDK con ejemplos concretos.</p>
+<figure>
+<img alt="Ejemplo de uso de AWS CLI" src="img/salvador/cli_1.png" width="640" />
+
+<figcaption>CLI: misma API que la consola, en terminal.</figcaption>
+</figure>
+<p>Categorías que irás viendo: cómputo, almacenamiento, bases de datos, red, seguridad, gestión, facturación. No memorices doscientas marcas; sitúa <strong>en qué cajón</strong> está cada servicio cuando lo uses en un lab.</p>
+<figure>
+<img alt="Bloques fundamentales: cómputo (EC2, Lambda, ECS), almacenamiento (S3, EBS, EFS), bases de datos (RDS, DynamoDB) y redes (VPC, Route 53, CloudFront)" src="../img/diagramas/bloques-fundamentales.svg" width="800" />
+
+<figcaption>Mapa de cajones: servicios representativos con iconos oficiales AWS (no es el catálogo completo).</figcaption>
+</figure>
+<h3 id="caracteristicas-cuando-si-es-nube">Características (cuando sí es nube)<a class="headerlink" href="#caracteristicas-cuando-si-es-nube" title="Permanent link">&para;</a></h3>
+<p>Cuando Foundations habla de nube pública, suele apuntar a cinco rasgos. No son eslóganes: sirven para distinguir un CPD clásico de lo que vas a practicar en el lab.</p>
+<p><strong>Bajo demanda.</strong> Pides capacidad cuando la necesitas. No abres un ticket de compras del centro para un servidor de prueba: creas la instancia o el bucket y, si el lab lo permite, empiezas en minutos.</p>
+<p><strong>Acceso por red.</strong> Llegas por HTTPS, API o consola. No hace falta «estar en el CPD» ni enchufar un cable al rack. Eso es lo que permite estudiar semipresencial con el Learner Lab desde casa.</p>
+<p><strong>Recursos agrupados (<a href="#multitenancy">multitenancy</a>).</strong> El hardware físico es del proveedor; muchos clientes comparten los mismos centros de datos, aislados lógicamente. Por eso el precio baja respecto a comprar torres «por si acaso», y por eso la seguridad de tu cuenta (IAM, red) importa tanto: el aislamiento no es magia, es configuración.</p>
+<p><strong><a href="#elasticidad">Elasticidad</a>.</strong> Subes o bajas capacidad en minutos, no en plazos de pedido de hardware. En clase lo notarás cuando montas y borras un lab; en producción lo verás con Auto Scaling (Tema 8).</p>
+<p><strong>Servicio medido.</strong> Hay métrica (horas, GB, peticiones). Lo apagado no debería facturarse igual que lo encendido. Si tu «servidor» solo se puede pedir con un ticket de tres semanas y no hay factura por hora, <strong>no</strong> estás usando el modelo de nube pública que estudia este módulo: estás en un CPD clásico con otra etiqueta. La elasticidad sin medición es marketing.</p>
+<h3 id="modelos-de-servicio-hasta-donde-operas-tu">Modelos de servicio: ¿hasta dónde operas tú?<a class="headerlink" href="#modelos-de-servicio-hasta-donde-operas-tu" title="Permanent link">&para;</a></h3>
+<p>Los modelos <strong><a href="#iaas">IaaS</a></strong> (<em>Infrastructure as a Service</em>, infraestructura como servicio), <strong><a href="#paas">PaaS</a></strong> (<em>Platform as a Service</em>, plataforma como servicio) y <strong><a href="#saas">SaaS</a></strong> (<em>Software as a Service</em>, software como servicio) no clasifican «lo moderno» frente a «lo antiguo». Clasifican <strong>hasta dónde llega lo que gestionas tú</strong> en la pila: sistema operativo, entorno de ejecución, aplicación. Para una API web la diferencia práctica es si mantienes y actualizas Node o Java y nginx, si solo despliegas código o si ni siquiera hospedas la app. La diferencia está en quién mantiene y actualiza cada capa: sistema operativo, entorno de ejecución, servidor web y tu código. Cuanto más mantienes tú, más control tienes, pero también más trabajo de administración.</p>
+<p>En un equipo DAW esto se nota el día del incidente: en IaaS alguien entra por SSH y mira logs del SO; en PaaS miras logs de plataforma y haces redeploy; en SaaS abres un ticket al proveedor del correo o del CRM. Ninguno es «incorrecto»: cambia el contrato operativo.</p>
+<h4 id="iaas-infrastructure-as-a-service">IaaS — Infrastructure as a Service<a class="headerlink" href="#iaas-infrastructure-as-a-service" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Alquilas capacidad de cómputo, disco y red virtual. Tú instalas el sistema operativo, el runtime (Node, JVM, PHP…), el servidor web y la aplicación. El proveedor se ocupa del hardware y del hipervisor. El ejemplo típico en AWS es una instancia <strong><a href="#ec2">EC2</a></strong> con tu API.</p>
+<p><strong>En la práctica.</strong> Controlas el entorno: puedes instalar casi cualquier stack y depurar como en un VPS, porque entras al sistema operativo. A cambio, los parches del SO, el hardening, los backups de lo que corra en disco y buena parte de la alta disponibilidad pasan a ser tuyos. Si dejas la instancia encendida, la cuenta sigue facturando. Un Docker en EC2 <strong>sigue siendo IaaS</strong> a efectos de parches del SO: el sistema de la máquina es tuyo.</p>
+<h4 id="paas-platform-as-a-service">PaaS — Platform as a Service<a class="headerlink" href="#paas-platform-as-a-service" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> El proveedor gestiona el sistema operativo y buena parte de la plataforma de ejecución. Tú aportas <strong>código y datos</strong>. Un motor de base de datos gestionado (<a href="#rds">RDS</a>) es el ejemplo que más verás en este módulo: el proveedor mantiene y actualiza el motor; tú sigues con esquemas, usuarios y consultas.</p>
+<p><strong>En la práctica.</strong> Reduces el trabajo de administración diario —el proveedor aplica parches del SO y mantiene la plataforma—, pero también pierdes control fino del entorno: no eliges cada paquete del sistema como en una EC2. Ese trato merece la pena cuando aceptas las restricciones de la plataforma a cambio de no administrar nginx ni el runtime a mano. No llames «PaaS» a cualquier cosa «en la nube»: EC2 con tu stack no lo es.</p>
+<h4 id="saas-software-as-a-service">SaaS — Software as a Service<a class="headerlink" href="#saas-software-as-a-service" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Usas una aplicación completa por red: correo, CRM, wiki gestionada. Configuras y consumes; no hosteas la pila.</p>
+<p><strong>En la práctica.</strong> En un proyecto DAW el SaaS suele ser una <strong>dependencia</strong> —login de terceros, correo del centro, pasarela de pagos—, no el sitio donde despliegas <em>tu</em> API. Confundir «uso el correo del centro» con «mi API corre en AWS» es un error típico de examen y de conversación con el cliente: en un caso consumes una app ajena; en el otro operas tu código.</p>
+<figure>
+<img alt="Comparativa Tradicional / IaaS / PaaS / SaaS: capas bajo tu control frente al proveedor" src="img/salvador/nube_6.png" width="720" />
+
+<figcaption>Quién gestiona cada capa de la pila: de todo en casa (tradicional) hasta casi todo el proveedor (SaaS).</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Tú gestionas</th>
+<th>El proveedor gestiona</th>
+<th>Ejemplo web</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IaaS</strong></td>
+<td>SO, runtime, despliegue, datos</td>
+<td>Hardware, hipervisor</td>
+<td>EC2 con tu WAR/JAR o API Node</td>
+</tr>
+<tr>
+<td><strong>PaaS</strong></td>
+<td>Código y datos</td>
+<td>SO y plataforma</td>
+<td>RDS; entorno de despliegue gestionado</td>
+</tr>
+<tr>
+<td><strong>SaaS</strong></td>
+<td>Uso y configuración</td>
+<td>Toda la pila</td>
+<td>Correo o CRM en el navegador</td>
+</tr>
+</tbody>
+</table>
+<p>Subir de IaaS a SaaS <strong>reduce el trabajo de administración</strong> y <strong>reduce el control</strong>. Un front estático en almacenamiento de objetos (S3) no es IaaS: no hay SO al que aplicar parches. Una API con estado y un cron pesado <strong>tampoco</strong> es candidata automática a una función de pocos minutos de ejecución.</p>
+<p><strong>Antes / después (proyecto DAW).</strong> Antes sueles tener un VPS alquilado donde instalas nginx, Node y MySQL y renuevas certificados a mano (cerca de IaaS). Después puedes dejar el front en hosting estático u objetos, la API en un entorno PaaS o en funciones, y la base en RDS. Ganas tiempo de desarrollo porque el proveedor asume más trabajo de administración; a cambio pierdes el «entro por SSH y lo arreglo todo». Esa pérdida de control es una decisión consciente, no un fallo del diseño.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reconocer si un escenario es IaaS, PaaS o SaaS (quién mantiene y actualiza cada capa)</td>
+<td>Justificar el modelo con tiempo de administración, control y riesgo del incidente</td>
+</tr>
+<tr>
+<td>Evitar marcar «todo es PaaS porque está en la nube»</td>
+<td>En el lab: EC2 = IaaS; RDS = plataforma gestionada; correo del centro = SaaS típico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="errores-frecuentes-modelos">Errores frecuentes (modelos)<a class="headerlink" href="#errores-frecuentes-modelos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Llamar «PaaS» a cualquier cosa «en la nube» (EC2 con Docker sigue siendo IaaS a efectos de parches del SO).</li>
+<li>Confundir SaaS (usas el correo del centro) con desplegar <em>tu</em> API en AWS.</li>
+<li>Elegir el modelo por moda («todo serverless») sin mirar estado, tiempo de ejecución y dependencias.</li>
+</ul>
+<h3 id="modelos-de-despliegue">Modelos de despliegue<a class="headerlink" href="#modelos-de-despliegue" title="Permanent link">&para;</a></h3>
+<p>Además del «qué gestionas» (IaaS / PaaS / SaaS) está el «<strong>dónde</strong> vive la capacidad»: ¿en un proveedor de internet, en una infraestructura dedicada solo a tu organización, o en una mezcla? Confundir <strong>híbrida</strong> con <strong>multicloud</strong> es un error típico de examen y de diseño: la primera mezcla on-prem (o privada) con pública; la segunda usa <strong>varias</strong> nubes públicas a la vez.</p>
+<h4 id="nube-publica">Nube pública<a class="headerlink" href="#nube-publica" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> La capacidad la ofrece un proveedor por internet. Este módulo trabaja casi siempre aquí: <strong>AWS</strong>.</p>
+<p><strong>En la práctica.</strong> En el Learner Lab creas recursos, consumes créditos por uso y trabajas en la región que permite el lab. La agilidad viene de levantar una API o un bucket en minutos y de tener un catálogo amplio de servicios; el límite es que dependes del proveedor (precios, cuotas, cambios de consola) y de que hace falta aprender la plataforma.</p>
+<h4 id="nube-privada">Nube privada<a class="headerlink" href="#nube-privada" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> La infraestructura (centros de datos, cómputo, red) está dedicada a una organización, a veces con software tipo OpenStack. Ganas control del recurso porque no compartes el host con terceros desconocidos.</p>
+<p><strong>En la práctica.</strong> Suele implicar más <a href="#capex">CAPEX</a> —compras o amortizas hardware— y personal que sepa operar esa plataforma. En este módulo solo la nombramos para no confundir «nube» con «marca AWS». No se instala ni se practica.</p>
+<h4 id="nube-hibrida">Nube híbrida<a class="headerlink" href="#nube-hibrida" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Combina on-premises (o privada) <strong>y</strong> nube pública. Por ejemplo, la base de datos sensible se queda en el CPD del cliente y el front o el pico de tráfico salen a AWS.</p>
+<p><strong>En la práctica.</strong> Aparece en empresas e institutos con legado: no todo se puede (o se quiere) sacar a la nube de golpe. La red y la identidad se complican —VPN, directorios, quién autentica a quién—. No es «un poco de cada proveedor cloud»: eso sería multicloud.</p>
+<h4 id="multicloud">Multicloud<a class="headerlink" href="#multicloud" title="Permanent link">&para;</a></h4>
+<p><strong>Qué es en este caso.</strong> Usas <strong>varias</strong> nubes públicas a la vez (por ejemplo AWS y otro proveedor).</p>
+<p><strong>En la práctica.</strong> Puedes repartir riesgo o elegir el servicio más barato de cada proveedor, pero tienes que conocer más de una plataforma y el mantenimiento (identidades, redes, facturas) se complica. Este módulo se centra en AWS; multicloud suele ser decisión de empresa, no de un lab de Foundations.</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Idea</th>
+<th>Cuándo aparece en un proyecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pública</strong></td>
+<td>Capacidad de un proveedor, internet</td>
+<td>Este módulo (AWS)</td>
+</tr>
+<tr>
+<td><strong>Privada</strong></td>
+<td>Infraestructura dedicada a una organización</td>
+<td>Stack interno; fuera del alcance práctico del módulo</td>
+</tr>
+<tr>
+<td><strong>Híbrida</strong></td>
+<td>On-prem (o privada) + pública</td>
+<td>Datos sensibles en casa, pico en AWS</td>
+</tr>
+<tr>
+<td><strong>Multicloud</strong></td>
+<td>Varias nubes públicas</td>
+<td>AWS + otro proveedor; más trabajo de administración</td>
+</tr>
+</tbody>
+</table>
+<p>Existen otros proveedores públicos (Azure, Google Cloud…): aquí el hilo práctico es <strong>AWS</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distinguir híbrida (on-prem + pública) de multicloud (varias públicas)</td>
+<td>En un proyecto de DAW o un encargo: ¿el cliente deja la BD en su CPD? → híbrida, no «multicloud»</td>
+</tr>
+<tr>
+<td>Reconocer que este curso es nube pública AWS</td>
+<td>No montar OpenStack en el lab «para practicar privada»</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ventajas-frente-a-sistemas-tradicionales-con-contras">Ventajas frente a sistemas tradicionales (con contras)<a class="headerlink" href="#ventajas-frente-a-sistemas-tradicionales-con-contras" title="Permanent link">&para;</a></h3>
+<p>La nube no es «gratis» ni «siempre más barata». Es un cambio de <strong>inversión fija</strong> (<a href="#capex">CAPEX</a>) a <strong>gasto ligado al uso</strong> (<a href="#opex">OPEX</a>), con ventajas de velocidad y alcance global… y con contras: dependencia del proveedor, curva de aprendizaje y facturas si olvidas apagar. El ejemplo mental es una tienda con pico de un fin de semana: on-premises compras para el pico; en nube puedes crecer el cómputo esas horas —si lo has diseñado— y bajar después.</p>
+<table>
+<thead>
+<tr>
+<th>Ventaja</th>
+<th>Causa</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coste variable (<a href="#opex">OPEX</a>) frente a <a href="#capex">CAPEX</a></td>
+<td>Pagas mientras el recurso existe</td>
+<td>Una instancia 24/7 puede salir más cara que un torre ya pagado</td>
+</tr>
+<tr>
+<td>Economías de escala</td>
+<td>El proveedor compra hardware a otro precio</td>
+<td>Precios y cuotas los marca él</td>
+</tr>
+<tr>
+<td>Dejar de comprar «por si acaso»</td>
+<td><a href="#elasticidad">Elasticidad</a></td>
+<td>Hay que <strong>diseñar</strong> el apagado y el autoescalado (Temas 4 y 8)</td>
+</tr>
+<tr>
+<td>Agilidad</td>
+<td>API en minutos</td>
+<td>Curva de aprendizaje y facturas sorpresa</td>
+</tr>
+<tr>
+<td>Alcance global</td>
+<td>Muchas regiones</td>
+<td>Cumplimiento: el dato tiene jurisdicción</td>
+</tr>
+<tr>
+<td>Alta disponibilidad</td>
+<td>Varias <a href="#zona-de-disponibilidad">zonas de disponibilidad</a></td>
+<td>Cuesta más que una sola VM</td>
+</tr>
+</tbody>
+</table>
+<p>La frase «la nube es más barata» es falsa como ley. Es más <strong>elástica</strong>. El ahorro aparece si mides y apagas; si no, pagas el pico <strong>y</strong> el olvido.</p>
+<p>Para una API de clase, el beneficio inmediato suele ser <strong>agilidad</strong> (montar y borrar el lab en la tutoría), no «ahorrar dinero respecto al PC del aula». El beneficio de <strong>alta disponibilidad</strong> solo aparece si despliegas en más de una AZ: lo verás en redes, bases de datos y Well-Architected.</p>
+<h3 id="adopcion-y-migracion">Adopción y migración<a class="headerlink" href="#adopcion-y-migracion" title="Permanent link">&para;</a></h3>
+<p>Migrar no es «subir un zip al bucket». Hay un <strong>marco de adopción</strong> —negocio, personas, gobierno, plataforma, seguridad, operaciones— y <strong>estrategias</strong> de movimiento. El <strong>CAF</strong> (<em>Cloud Adoption Framework</em>) en Foundations y en el CLF es un mapa de perspectivas, no un proyecto que entregues. Te sirve para no reducir «migrar» a un único ticket de infra: sin gobierno ni seguridad, el <em>lift-and-shift</em> solo mueve el problema a otra factura.</p>
+<p>Las <strong>7 R</strong> son etiquetas para <em>cómo</em> mueves una carga. No hace falta dirigir un programa corporativo, pero sí reconocer si alguien está haciendo <em>lift-and-shift</em> o rediseñando la app.</p>
+<table>
+<thead>
+<tr>
+<th>R</th>
+<th>Idea</th>
+<th>Ejemplo DAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rehost</td>
+<td>Lift-and-shift</td>
+<td>La misma VM a EC2</td>
+</tr>
+<tr>
+<td>Replatform</td>
+<td>Cambiar poco la plataforma</td>
+<td>MySQL en servidor → RDS</td>
+</tr>
+<tr>
+<td>Repurchase</td>
+<td>Pasarse a SaaS</td>
+<td>Wiki propia → servicio gestionado</td>
+</tr>
+<tr>
+<td>Refactor</td>
+<td>Rediseñar para nube</td>
+<td>Monolito → API + funciones + objetos</td>
+</tr>
+<tr>
+<td>Retire</td>
+<td>Apagar</td>
+<td>Servicio que ya no se usa</td>
+</tr>
+<tr>
+<td>Retain</td>
+<td>Dejar on-prem de momento</td>
+<td>Legado con licencia rara</td>
+</tr>
+<tr>
+<td>Relocate</td>
+<td>Mover el hipervisor con poco cambio</td>
+<td>Entorno virtualizado «tal cual»</td>
+</tr>
+</tbody>
+</table>
+<p>En este módulo identificas la <strong>R</strong> y el <strong>porqué</strong>. No montas un programa de migración corporativo.</p>
+<h4 id="decision-tipica-daw-monolito-php-mysql">Decisión típica DAW: monolito PHP + MySQL<a class="headerlink" href="#decision-tipica-daw-monolito-php-mysql" title="Permanent link">&para;</a></h4>
+<p>Imagina un monolito PHP con MySQL en un hosting compartido. Hay al menos tres caminos razonables; no son «mejores» en abstracto: cambian riesgo, tiempo y trabajo de administración.</p>
+<h5 id="rehost">Rehost<a class="headerlink" href="#rehost" title="Permanent link">&para;</a></h5>
+<p><strong>Qué es en este caso.</strong> Llevas PHP y MySQL <strong>tal cual</strong> a una máquina <a href="#ec2">EC2</a>: misma app, mismo motor, otro sitio donde corre.</p>
+<p><strong>En la práctica.</strong> Es el camino más rápido: en pocas horas puedes tener la web respondiendo porque apenas cambias la app. A cambio sigues aplicando los parches de seguridad del sistema operativo, haciendo backups a mano (o con scripts tuyos) y, si no diseñas más, dependiendo de <strong>una sola máquina</strong>. Si esa instancia cae, cae el servicio. Sirve para probar en el lab o para un <em>lift-and-shift</em> urgente; no resuelve sola el mantenimiento a medio plazo.</p>
+<h5 id="replatform">Replatform<a class="headerlink" href="#replatform" title="Permanent link">&para;</a></h5>
+<p><strong>Qué es en este caso.</strong> Dejas PHP en EC2 (o en un entorno similar) y mueves la base de datos a <strong><a href="#rds">RDS</a></strong>: cambias poco el código y ganas plataforma gestionada en el dato.</p>
+<p><strong>En la práctica.</strong> Con poco cambio de aplicación obtienes backups automáticos del motor y, si lo configuras, <strong>Multi-AZ</strong>: el proveedor mantiene una réplica en otra zona de disponibilidad y, si falla la primaria, la conmutación es <strong>automática</strong> y suele completarse en el orden de <strong>uno o dos minutos</strong> (no es «instantánea» ni garantiza cero impacto en las conexiones abiertas). Es un paso habitual en proyectos DAW cuando la base es el cuello de mantenimiento.</p>
+<h5 id="refactor">Refactor<a class="headerlink" href="#refactor" title="Permanent link">&para;</a></h5>
+<p><strong>Qué es en este caso.</strong> Rediseñas: API (por ejemplo con funciones), front en <a href="#s3">S3</a> y base gestionada o NoSQL según el caso.</p>
+<p><strong>En la práctica.</strong> Es <strong>otro proyecto</strong>, no el primer lab de Foundations. Encajas mejor con servicios gestionados y con un escalado más fino, pero pagas tiempo de desarrollo, pruebas y un modelo mental distinto: estado de la app, permisos IAM, <em>cold start</em> de las funciones, etc. El examen CLF te pide la etiqueta; en clase o en la empresa justificas el <strong>porqué</strong> con riesgo, coste y calendario.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Elegir la R correcta (rehost, replatform, refactor…) ante un enunciado corto</td>
+<td>Explicar <em>por qué</em> esa R: tiempo, riesgo, backups, Multi-AZ, deuda técnica</td>
+</tr>
+<tr>
+<td>No hace falta diseñar el programa CAF completo</td>
+<td>En el módulo: reconocer la etiqueta; en el proyecto de DAW o en un encargo: acotar alcance (replatform de BD ≠ reescribir todo)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="economia-y-facturacion">Economía y facturación<a class="headerlink" href="#economia-y-facturacion" title="Permanent link">&para;</a></h3>
+<p><strong><a href="#capex">CAPEX</a></strong> (<em>capital expenditure</em>, gasto de capital) es lo que inviertes <em>antes</em> (servidores, SAI, licencias perpetuas). <strong><a href="#opex">OPEX</a></strong> (<em>operational expenditure</em>, gasto operativo) es lo que pagas de forma continua por uso o suscripción. <strong><a href="#tco">TCO</a></strong> (<em>Total cost of ownership</em>, coste total de propiedad) es el coste total de poseer y mantener el sistema: no compares solo el precio de la VM; incluye electricidad, personal, red y el coste de <strong>esperar</strong> a ampliar.</p>
+<figure>
+<img alt="Desglose típico de costes on-premises (hardware, software, facilities, personal)" src="img/salvador/nube_5.png" width="720" />
+
+<figcaption>TCO on-premises: el precio del servidor es solo una fila; facilities y personal pesan.</figcaption>
+</figure>
+<p>Un error típico de proyecto escolar: comparar el €/mes de una instancia pequeña con «gratis en el aula» y concluir que la nube es cara. El aula ya está pagada por el centro; la nube te cobra el lab que dejas encendido. Otro error: olvidar que el tiempo de un desarrollador montando el CPD también es TCO.</p>
+<h4 id="que-suele-aparecer-en-la-factura">Qué suele aparecer en la factura<a class="headerlink" href="#que-suele-aparecer-en-la-factura" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Tiempo de cómputo:</strong> horas de instancia o invocaciones de función.</li>
+<li><strong>Almacenamiento:</strong> GB-mes y, a veces, peticiones.</li>
+<li><strong>Salida de datos (<em><a href="#egress">egress</a></em>).</strong> La entrada suele ser barata o nula; sacar GB hacia internet o hacia otra región duele cuando sirves vídeos o descargas grandes. Un SPA pequeño casi no se nota.</li>
+<li><strong>Licencias</strong> incluidas frente a <strong>BYOL</strong> (<em>bring your own license</em>), cuando aplica.</li>
+</ul>
+<p>En una API de prácticas el coste dominante suele ser <strong>cómputo encendido</strong> (o el olvido), no el GB del front. Por eso la <a href="https://calculator.aws/#/addService">AWS Pricing Calculator</a> pide supuestos explícitos: horas/semana, GB almacenados, GB de salida. Abre ese enlace directo para añadir servicios sin cuenta. Si alguna vez entras por la portada de <a href="https://calculator.aws/">calculator.aws</a>, no pulses el botón naranja <strong>Sign in for personalized estimates</strong> (pide una cuenta de AWS): usa <strong>Create estimate</strong> (<em>Crear una estimación</em>). Con Academy no tienes cuenta propia para esa pantalla, y para estimar no la necesitas.</p>
+<h4 id="herramientas-de-coste-usarlas-no-solo-nombrarlas">Herramientas de coste (usarlas, no solo nombrarlas)<a class="headerlink" href="#herramientas-de-coste-usarlas-no-solo-nombrarlas" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Herramienta</th>
+<th>Momento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://calculator.aws/#/addService"><strong>AWS Pricing Calculator</strong></a></td>
+<td>Antes de montar: estimas con supuestos (pública, sin iniciar sesión)</td>
+</tr>
+<tr>
+<td><strong>AWS Budgets</strong></td>
+<td>Durante: aviso cuando te sales del tope</td>
+</tr>
+<tr>
+<td><strong>Cost Explorer</strong></td>
+<td>A posteriori: qué ha costado de verdad</td>
+</tr>
+<tr>
+<td><strong><a href="#free-tier">Free Tier</a></strong></td>
+<td>Cuotas de prueba, no «todo vale 0 €»</td>
+</tr>
+<tr>
+<td><strong>Tags</strong></td>
+<td>Etiquetas para repartir coste por proyecto o alumno</td>
+</tr>
+</tbody>
+</table>
+<p>La <strong>Pricing Calculator</strong> te obliga a escribir supuestos (horas, GB, región). Si el supuesto es mentira («la API solo corre 2 h/semana» y la dejas 24/7), la estimación no te salva. <strong>Budgets</strong> es el aviso a tiempo: defines un tope y recibes alerta al acercarte. <strong>Cost Explorer</strong> mira hacia atrás: qué servicio se ha comido el crédito del lab. Las <strong>tags</strong> (etiquetas clave/valor) sirven para agrupar coste por práctica o por proyecto cuando la cuenta crece.</p>
+<p>Planes de <strong>Support</strong> (básico incluido frente a planes de pago) y <strong>Trusted Advisor</strong> (comprobaciones de coste y seguridad según el plan) existen; aun así, <strong>apagar el lab</strong> sigue siendo tu responsabilidad.</p>
+<h4 id="modelos-de-compra-de-computo-reconocer">Modelos de compra de cómputo (reconocer)<a class="headerlink" href="#modelos-de-compra-de-computo-reconocer" title="Permanent link">&para;</a></h4>
+<p><strong>On-Demand.</strong> Pagas por hora o segundo sin compromiso. Flexibilidad máxima; es lo habitual en el lab Academy (junto con Free Tier cuando aplique).</p>
+<p><strong>Savings Plans / Reserved.</strong> Te comprometes a un uso a medio plazo y, a cambio, bajas el €/hora. Encajan en cargas estables; no actives esos planes en una cuenta de clase sin criterio.</p>
+<p><strong>Spot.</strong> Usas capacidad sobrante del proveedor: sale más barata, pero AWS puede <strong>interrumpir</strong> la instancia. Sirve para trabajos por lotes que pueden pararse y retomarse; no para el checkout de una tienda.</p>
+<figure>
+<img alt="On-Demand frente a Reserved (sin/parcial/total anticipo): menos compromiso, más €/hora" src="img/salvador/nube_precios_ec2.png" width="640" />
+
+<figcaption>On-Demand es lo habitual en lab; Reserved/Savings Plans bajan el €/hora a cambio de compromiso.</figcaption>
+</figure>
+<p><strong>Checklist de lab (coste).</strong> Antes de crear nada, confirma la región del lab o del enunciado. Mientras trabajas, aplica tags si el lab lo pide. Al terminar, <strong>termina</strong> las instancias y borra volúmenes y balanceadores de prueba. Estimar en la calculadora no evita tener que apagar lo que creaste.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Relacionar CAPEX/OPEX, Free Tier con límites, On-Demand / Spot / Reserved</td>
+<td>Estimar con la calculadora, apagar el lab y leer la factura o el presupuesto del Learner Lab</td>
+</tr>
+<tr>
+<td>Reconocer egress como partida distinta de la VM</td>
+<td>En un front con vídeos: mirar GB de salida, no solo el tamaño del bucket</td>
+</tr>
+</tbody>
+</table>
+<h3 id="infraestructura-global-y-consola">Infraestructura global y consola<a class="headerlink" href="#infraestructura-global-y-consola" title="Permanent link">&para;</a></h3>
+<h4 id="region-y-zona-de-disponibilidad">Región y zona de disponibilidad<a class="headerlink" href="#region-y-zona-de-disponibilidad" title="Permanent link">&para;</a></h4>
+<p>Una <strong><a href="#region">región</a></strong> es un área geográfica con varios centros de datos. Eliges región por latencia (cerca de tus usuarios), <strong>residencia del dato</strong> (normativa como el RGPD en Europa), servicios disponibles y precio.</p>
+<p>En el <strong>Learner Lab</strong> de Academy usas la <strong>región que permite el lab</strong> (la verás en la barra o en la Student Guide). No cambies «por curiosidad» creando recursos en otra. Los avisos de «elige bien la región» de este tema valen sobre todo para <strong>proyectos reales</strong> o cuentas propias: ahí sí decides Irlanda, Frankfurt u otra según dato y usuarios.</p>
+<p>Una <strong><a href="#zona-de-disponibilidad">zona de disponibilidad</a></strong> (<strong>AZ</strong>, <em>Availability Zone</em>) es uno o más edificios con energía y red propias, enlazados con baja latencia a otras AZ de la <strong>misma</strong> región. Por eso un fallo de planta no tiene por qué tumbar el servicio <strong>si tú despliegas en más de una AZ</strong>. Alta disponibilidad típica no es «una VM gorda». Región y AZ no son sinónimos: la región es el área; la AZ es el edificio (o cluster) dentro de esa área.</p>
+<figure>
+<img alt="Mapa conceptual de regiones conectadas en la infraestructura global" src="img/salvador/nube_regiones.jpg" width="720" />
+
+<figcaption>Regiones repartidas y enlazadas: eliges dónde viven tus recursos (latencia, dato, precio).</figcaption>
+</figure>
+<p><strong>Ejemplo DAW.</strong> Despliegas la API solo en una AZ (por ejemplo <code>eu-west-1a</code>). Un mantenimiento o un fallo en esa AZ tumba el proyecto de DAW aunque la región «Irlanda» siga existiendo. Con un balanceador de carga (por ejemplo un ALB, <em>Application Load Balancer</em>) y instancias (o tareas) en dos AZ, el usuario puede seguir entrando. Eso cuesta más (doble mínimo de capacidad) y es el trade-off que Well-Architected llama <strong>fiabilidad</strong>.</p>
+<p>Las ubicaciones de <strong>borde</strong> (<em>edge</em>) acercan <strong>contenido</strong> (CDN, parte del DNS), no tu base de datos transaccional. <strong>Local Zones</strong> y <strong>Wavelength</strong> son nombres de examen (extensión metropolitana / 5G); no se configuran en este tema.</p>
+<h4 id="consola-cli-y-sdk-tres-formas-de-hablar-con-la-misma-api">Consola, CLI y SDK: tres formas de hablar con la misma API<a class="headerlink" href="#consola-cli-y-sdk-tres-formas-de-hablar-con-la-misma-api" title="Permanent link">&para;</a></h4>
+<p>AWS expone una <strong>API</strong>. Tú puedes hablarle de tres maneras habituales; el efecto sobre la cuenta es el mismo tipo de llamada, cambia la herramienta.</p>
+<p><strong>Consola de administración.</strong> Es la interfaz web: buscas el servicio, pulsas botones y ves el resultado. Encaja bien para <strong>aprender</strong>, explorar un servicio nuevo y comprobar el estado del lab; se hace lenta si repites la misma tarea veinte veces.</p>
+<p><strong>CLI (<em>Command Line Interface</em>).</strong> Es la terminal con el comando <code>aws</code>: llama a la misma API que la consola, pero en script. Sirve para tareas rápidas y para automatizar lo que ya entiendes. Por ejemplo, en el lab puedes crear un bucket vacío con <code>aws s3 mb s3://mi-bucket</code> (con el nombre y la región que indique el enunciado).</p>
+<p><strong>SDK (<em>Software Development Kit</em>).</strong> Son bibliotecas en el lenguaje de tu app (JavaScript, Java, Python…). Es lo que usa <strong>tu código</strong> en producción: por ejemplo, subir la foto de un usuario a un bucket S3 desde la API Node. La app no «entra a la consola»; firma peticiones con credenciales (en el módulo lo verás con IAM).</p>
+<table>
+<thead>
+<tr>
+<th>Herramienta</th>
+<th>Cuándo usarla</th>
+<th>Ejemplo DAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Consola</strong></td>
+<td>Aprender, inspeccionar, labs guiados</td>
+<td>Ver EC2 y S3 la primera vez sin crear recursos de pago</td>
+</tr>
+<tr>
+<td><strong>CLI</strong></td>
+<td>Tareas repetibles y scripts</td>
+<td><code>aws s3 mb …</code> / listar buckets en el lab</td>
+</tr>
+<tr>
+<td><strong>SDK</strong></td>
+<td>Lo que hace la aplicación en runtime</td>
+<td>La API sube un fichero a S3 al registrar un usuario</td>
+</tr>
+</tbody>
+</table>
+<h4 id="orden-de-trabajo">Orden de trabajo<a class="headerlink" href="#orden-de-trabajo" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Cuenta y región.</strong> En Academy entras a la <em>class</em> correcta, dejas el lab en verde y trabajas en la región del lab. En un proyecto real eliges la cuenta adecuada y la región a propósito (usuarios, dato, precio).</li>
+<li><strong>Servicio.</strong> Eliges EC2, S3, IAM… según el caso de uso; no «AWS en abstracto».</li>
+<li><strong>Automatizar.</strong> Cuando el clic manual ya te sobra, pasas a CLI o SDK (e infraestructura como código más adelante).</li>
+</ol>
+<p>La consola agrupa servicios y el buscador es el atajo para encontrarlos. Distingue servicios <strong>regionales</strong> (EC2, VPC) de otros de alcance <strong>global</strong> (IAM, en buena parte).</p>
+<p>En el lab de Academy, mira la barra superior: <strong>AWS</strong> en verde, presupuesto y región. Si el círculo sigue en rojo, la consola aún no está lista; no inventes otra cuenta «por si acaso».</p>
+<figure>
+<img alt="Barra del Learner Lab con indicador AWS en verde y presupuesto" src="img/capturas/consola-learner-lab.png" width="800" />
+
+<figcaption>Lab listo: círculo verde junto a AWS y región del lab. Fuente: AWS Academy Learner Lab — Student Guide (AWS).</figcaption>
+</figure>
+<h4 id="el-error-clasico-de-la-region">El error clásico de la región<a class="headerlink" href="#el-error-clasico-de-la-region" title="Permanent link">&para;</a></h4>
+<p>Mezclar regiones «porque el tutorial lo hacía ahí» sale caro en tres frentes:</p>
+<ol>
+<li><strong>Latencia.</strong> Si tus usuarios están en España y la API vive al otro lado del Atlántico, cada petición tarda más.</li>
+<li><strong>Coste.</strong> La transferencia de datos <strong>entre regiones</strong> y la salida a internet se cobran; un front en un sitio y un bucket de fotos en otro suma líneas de factura y lío mental.</li>
+<li><strong>Residencia del dato.</strong> En Europa el RGPD y las políticas del centro o del cliente importan: no da igual dejar datos personales en una región de otro continente sin criterio.</li>
+</ol>
+<p>Si despliegas la API en Irlanda y el bucket de fotos en Oregón «porque el tutorial lo hacía ahí», sumas latencia, coste de transferencia entre regiones y un mapa confuso. Empieza <strong>todo</strong> el lab en la <strong>misma</strong> región (la del Learner Lab o la del enunciado), salvo que el propio lab diga lo contrario.</p>
+<figure>
+<img alt="Infraestructura global: región con tres AZ y borde CDN/DNS hacia usuarios" src="../img/diagramas/infraestructura-global.svg" width="800" />
+
+<figcaption>La región agrupa AZ; el borde (CloudFront / Route 53) acerca contenido, no la base de datos transaccional.</figcaption>
+</figure>
+<p>El flujo típico de un primer recurso de cómputo (AMI → instancia → security group → conectar) es el que verás en Foundations con EC2; aquí solo sitúalo en el mapa región/AZ.</p>
+<figure>
+<img alt="Diagrama de primeros pasos con Amazon EC2 en la guía oficial" src="img/capturas/ec2-get-started.png" width="800" />
+
+<figcaption>Primeros pasos con EC2: instancia en una AZ, con security group. Fuente: Amazon EC2 User Guide — Get started (AWS).</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Región ≠ AZ; edge acerca contenido, no la BD transaccional</td>
+<td>Lab: una región, la del Learner Lab; proyecto real: latencia + RGPD + precio</td>
+</tr>
+<tr>
+<td>Consola, CLI y SDK como formas de usar la API</td>
+<td>Consola para aprender; CLI/SDK cuando repitas o integres en la app</td>
+</tr>
+</tbody>
+</table>
+<h3 id="relacion-con-el-resto-del-modulo">Relación con el resto del módulo<a class="headerlink" href="#relacion-con-el-resto-del-modulo" title="Permanent link">&para;</a></h3>
+<p>Este tema no cierra la nube: fija el vocabulario con el que se entiende el resto. Cuando aquí tengas claros región, modelo de servicio y factura, el Tema 2 (identidades) deja de ser una lista de logos, el Tema 3 (VPC) deja de parecer «redes por magia» y el cómputo, el almacenamiento y los datos (Temas 4–6) se eligen con criterio. Los Temas 7 y 8 usan ese mismo mapa para trade-offs de diseño y para escalar sin volar la cuenta del lab.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>Los dominios <em>Cloud Concepts</em> y <em>Billing</em>, más región, AZ y edge, son el marco del examen en este bloque. El CLF-C02 pide <strong>identificar</strong> un beneficio o un servicio con una causa de una frase; no te pide diseñar el <em>landing zone</em> de una empresa ni un plan CAF completo.</p>
+<p>Cuando repases para el examen, asocia cada etiqueta a un ejemplo de app web: «OPEX porque pago horas de instancia», «varias AZ porque un edificio no tumba el servicio», «Spot porque el batch puede interrumpirse». Si solo memorizas nombres, el enunciado del CLF te atrapa con distractores parecidos (híbrida frente a multicloud, región frente a AZ, Free Tier frente a «todo gratis»).</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>En el examen importa la <strong>causa</strong> (OPEX, varias AZ, Spot como modelo de precio), no el eslogan. Las etiquetas CAF o las 7 R solo cuentan si las asocias a un ejemplo concreto. El borde (CDN —<em>content delivery network</em>, red de entrega de contenido— o DNS) acerca contenido; no mueve tu base de datos transaccional. Ampliación, trucos y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-1">Certificación § Tema 1</a>.</p>
+</div>
+<p><strong>Videotutorial (Practitioner).</strong> <a href="https://www.youtube.com/watch?v=Z3yNbQXz_bI">Sesión 1 Cloud Practitioner 2026</a> (~1 h 52 min). Salta al tramo de conceptos / valor / modelos. Vídeo: Profe Santos Cloud (YouTube).</p>
+<p><strong>Serie y tests</strong> → <a href="../99-certificacion/certificacion.html#serie-santos">serie Santos</a> · <a href="../99-certificacion/certificacion.html#tests">tests</a>.</p>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=dxWV4pvGZmU">ATTA AWS Academy 01 Intro</a> (~21 min).</p>
+<iframe src="https://www.youtube.com/embed/dxWV4pvGZmU" title="ATTA AWS Academy 01 Intro — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Conviene fijarte en cómo se organiza Academy y qué vas a tocar en Foundations, todavía sin crear recursos de pago.</p>
+<p>La activación de <strong>Skill Builder</strong> y los <strong>vouchers</strong> de certificación, con sus dos vídeos, están en <a href="../00-acceso/acceso.html">Acceso</a> (sección <a href="../00-acceso/acceso.html#vouchers">Vouchers</a>).</p>
+<p>Los módulos en vídeo del LMS (sistema de gestión del aprendizaje) de Academy (<em>Introducción al curso</em> y M1–M3) se indican en clase / Aules.</p>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr101-consola-y-ecosistema">PR101 — Consola y ecosistema<a class="headerlink" href="#pr101-consola-y-ecosistema" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR101</strong>. (RA1 // c // RA2 // b, c // <strong>PR 0–10</strong>). Entras en la <em>class</em> de Cloud Foundations y reconoces el mapa de servicios en la consola learner <strong>sin</strong> crear recursos de pago.</li>
+</ul>
+<p><strong>Tareas:</strong> completa la <strong>Introducción al curso</strong> del LMS (encuesta previa, vídeo de introducción, <em>¿Cómo completar los ejercicios de laboratorio?</em> y Student Guide); anota la región activa y usa el buscador de servicios; elige <strong>cinco</strong> servicios, cada uno con categoría y una frase de para qué sirve en una app web.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR101.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo: <a href="../90-soluciones/pr/PR101.html">Soluciones · PR101</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Acceso e Introducción al curso</td>
+<td>Class + encuesta previa completada</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Consola sin coste</td>
+<td>Región anotada; sin recursos de pago</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Cinco servicios</td>
+<td>Categoría + caso web claro</td>
+<td>0–4</td>
+</tr>
+<tr>
+<td>Claridad del <code>.md</code></td>
+<td>Estructura legible, sin catálogo interminable</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pr102-modelos">PR102 — Modelos<a class="headerlink" href="#pr102-modelos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR102</strong>. (RA1 // a, b, c // <strong>PR 0–10</strong>). Clasificas cuatro situaciones de una app o centro educativo eligiendo modelo de servicio y de despliegue, y justificas la ventaja frente a comprar hardware.</p>
+</li>
+<li>
+<p>Situaciones: correo del centro; API de un proyecto DAW; front estático; backup.</p>
+</li>
+</ul>
+<p><strong>Tareas:</strong> para cada situación, indica IaaS/PaaS/SaaS y pública/privada/híbrida/multicloud; una frase de ventaja frente a hardware propio; knowledge check del <strong>Módulo 1 - Información general sobre los conceptos de la nube</strong> si está activo en Academy.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR102.md</code>.</p>
+<p>Guía de apoyo: <a href="../90-soluciones/pr/PR102.html">Soluciones · PR102</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cuatro situaciones</td>
+<td>Todas clasificadas</td>
+<td>0–4</td>
+</tr>
+<tr>
+<td>Modelos coherentes</td>
+<td>Servicio y despliegue encajan</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Justificación</td>
+<td>Ventaja vs hardware (no eslogan)</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pr103-estimacion">PR103 — Estimación<a class="headerlink" href="#pr103-estimacion" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR103</strong>. (RA1 // d, e, f // <strong>PR 0–10</strong>). Usas la <a href="https://calculator.aws/#/addService"><strong>AWS Pricing Calculator</strong></a> para comparar coste 24/7 frente a uso parcial y dejas claros los supuestos (calculadora pública; no hace falta iniciar sesión en AWS).</li>
+</ul>
+<p><strong>Tareas:</strong> estima un mes en región europea con instancia pequeña 24/7 + 50 GB de objetos + 10 GB de salida; repite la instancia a <strong>40 h/sem</strong>; documenta supuestos y desglose; completa el lab de costes de Academy M2 si está activo.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR103.md</code> (capturas de la calculadora dentro del desarrollo si las usas).</p>
+<p>Guía de apoyo: <a href="../90-soluciones/pr/PR103.html">Soluciones · PR103</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Escenario 24/7</td>
+<td>Supuestos y desglose</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Escenario 40 h/sem</td>
+<td>Comparación coherente</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Lectura de coste</td>
+<td>Se entiende qué dispara la factura</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Lab M2 (si aplica) / claridad</td>
+<td>Evidencia o nota de no disponible</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pr104-fabrica-global">PR104 — Fábrica global<a class="headerlink" href="#pr104-fabrica-global" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR104</strong>. (RA2 // a, b, c // <strong>PR 0–10</strong>). Relacionas región, AZ y mapa global sin crear recursos: dónde vive la carga y por qué importa la elección.</li>
+</ul>
+<p><strong>Tareas:</strong> compara dos regiones en consola (solo lectura); localiza en el mapa público de infraestructura una región europea con varias AZ; knowledge check del <strong>Módulo 3</strong>; en el <code>.md</code>, explica en pocas frases región frente a AZ.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR104.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo: <a href="../90-soluciones/pr/PR104.html">Soluciones · PR104</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comparación de regiones</td>
+<td>Evidencia sin recursos de pago</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Región europea + AZ</td>
+<td>Localización correcta</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Conceptos</td>
+<td>Región ≠ AZ explicado</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Knowledge check / claridad</td>
+<td>Completado o justificado</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Calidad del entregable</p>
+<p>Prioriza supuestos claros y capturas con leyenda frente a listas interminables de servicios. Apaga lo que crees en el lab.</p>
+</div>
+<hr />
+<h3 id="lectura-recomendada-en-dos-pasadas">Lectura recomendada en dos pasadas<a class="headerlink" href="#lectura-recomendada-en-dos-pasadas" title="Permanent link">&para;</a></h3>
+<p><strong>Primera pasada (Foundations):</strong> nube vs on-premises, IaaS/PaaS/SaaS, pública/híbrida/multicloud, CAPEX/OPEX, región/AZ, herramientas de coste. Sin esto, el resto del módulo parece una lista de marcas.</p>
+<p><strong>Segunda pasada (Practitioner):</strong> 7 R, CAF a alto nivel, On-Demand vs Spot vs Savings Plans, por qué edge ≠ base de datos. El examen premia la etiqueta correcta <em>con</em> una causa de una frase.</p>
+<p>Si en tutoría solo da tiempo a una duda, prioriza <strong>factura + región + modelo de servicio</strong>: son las tres que más veces reaparecen en labs posteriores.</p>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba lo de esta quincena (Foundations). Para estilo examen CLF: <a href="../99-certificacion/certificacion.html#tema-1">Certificación § Tema 1</a>.</p>
+<ol>
+<li><strong>V/F.</strong> En PaaS tú sigues aplicando los parches de seguridad del sistema operativo de la máquina.</li>
+<li>Empareja: <strong>CAPEX</strong> · <strong>OPEX</strong> · <strong>IaaS</strong> · <strong>SaaS</strong> con: (a) factura variable de recursos · (b) comprar torres · (c) VM donde instalas el stack · (d) usas la app lista (correo, CRM).</li>
+<li>Una app con BD en el CPD del cliente y front en AWS: ¿<strong>híbrida</strong> o <strong>multicloud</strong>?</li>
+<li><strong>V/F.</strong> El Free Tier garantiza 0 € en un lab de tres semanas si dejas instancias encendidas.</li>
+<li>Elige la correcta: una <strong>AZ</strong> es…<br />
+   a) otra región · b) un edificio/datacenter dentro de una región · c) un edge de CloudFront</li>
+<li>Nombra tres formas de hablar con AWS que hemos visto en el tema.</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>Falso</strong> — en PaaS el proveedor gestiona el SO/plataforma; tú el código/datos.</p>
+</li>
+<li>
+<p><strong>CAPEX</strong> encaja con (b) comprar torres; <strong>OPEX</strong>, con (a) factura variable de recursos; <strong>IaaS</strong>, con (c) VM donde instalas el stack; <strong>SaaS</strong>, con (d) usar la app lista.</p>
+</li>
+<li>
+<p><strong>Híbrida</strong> (on-prem + nube). Multicloud sería varios proveedores cloud.</p>
+</li>
+<li>
+<p><strong>Falso</strong> — Free Tier tiene límites; recursos fuera de cuota o mal apagados facturan.</p>
+</li>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p>Consola, CLI, SDK/API (IaC/CloudFormation como idea vale como ampliación).</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="on-premises">on-premises</strong>
+Infraestructura y mantenimiento en instalaciones de la organización (o un rack dedicado), no en la nube pública del proveedor. Suele implicar más CAPEX y dimensionar para el pico. En DAW el contraste útil es «el servidor del aula o del CPD del cliente» frente a recursos que creas y borras en la consola AWS.</p>
+<p><strong id="iaas">IaaS</strong>
+<em>Infrastructure as a Service</em>: alquilas capacidad de cómputo, disco y red virtual; tú instalas el sistema operativo y la aplicación, aplicas los parches del SO y mantienes el resto del stack (p. ej. una VM en EC2). Tienes mucho control —puedes instalar casi cualquier stack—, y a cambio asumes los parches del SO, el hardening y buena parte de la alta disponibilidad.</p>
+<p><strong id="paas">PaaS</strong>
+<em>Platform as a Service</em>: el proveedor gestiona SO y plataforma de ejecución; tú aportas código y datos. Hay menos trabajo de administración diario y también menos control fino del entorno. Tiene sentido cuando aceptas las restricciones de la plataforma a cambio de no administrar nginx ni el runtime a mano.</p>
+<p><strong id="saas">SaaS</strong>
+<em>Software as a Service</em>: usas una aplicación completa por red (correo, CRM…). No hosteas la pila; configuras y consumes. En un proyecto DAW suele ser una dependencia (auth, correo, pagos), no el sitio donde despliegas <em>tu</em> API.</p>
+<p><strong id="region">región</strong>
+Área geográfica de AWS con varios centros de datos. Eliges región por latencia, residencia del dato, precio y servicios disponibles. En el Learner Lab usas la región que permite el lab; en un proyecto real decides con criterio (usuarios, RGPD, precio).</p>
+<p><strong id="zona-de-disponibilidad">zona de disponibilidad</strong>
+Uno o más centros de datos aislados dentro de una región, con energía y red propias. Desplegar en varias AZ mejora la tolerancia a fallos de un edificio. Una sola VM «gorda» en una AZ no es el mismo diseño que un balanceador delante de dos AZ.</p>
+<p><strong id="capex">CAPEX</strong>
+Gasto de capital: inviertes <em>antes</em> (comprar servidores, SAI, licencias perpetuas). En on-premises domina; en nube pública el discurso habitual pasa a OPEX, aunque sigan existiendo compromisos (Reserved, Savings Plans).</p>
+<p><strong id="opex">OPEX</strong>
+Gasto operativo: pagas de forma continua por uso o suscripción (horas de instancia, GB-mes, etc.). Facilita probar y tirar un lab, pero castiga el olvido: un recurso encendido sigue facturando.</p>
+<p><strong id="tco">TCO</strong>
+<em>Total cost of ownership</em>: coste total de poseer y operar un sistema, no solo el precio visible de la VM (personal, energía, red, tiempo de espera). Comparar «€/hora de EC2» con «torre ya amortizada» sin TCO es un error de examen y de proyecto.</p>
+<p><strong id="elasticidad">elasticidad</strong>
+Capacidad de subir o bajar recursos en minutos según la demanda, en lugar de comprar hardware «por si acaso». En Foundations se concreta después con Auto Scaling y con apagar entornos de desarrollo (Tema 8).</p>
+<p><strong id="multitenancy">multitenancy</strong>
+Varios clientes comparten la infraestructura física del proveedor (mismos centros de datos), aislados lógicamente. Es la base económica de la nube pública. No implica que tus datos sean visibles a otros tenants: el aislamiento es responsabilidad conjunta (AWS + tu configuración IAM/red).</p>
+<p><strong id="ec2">EC2</strong>
+<em>Elastic Compute Cloud</em>: servicio de máquinas virtuales en AWS. Tú eliges AMI, tamaño y red; aplicas los parches de seguridad del SO. Es el ejemplo típico de IaaS en este módulo.</p>
+<p><strong id="s3">S3</strong>
+<em>Simple Storage Service</em>: almacenamiento de objetos (ficheros + metadatos) accesible por API/HTTP. Sirve para front estático, imágenes, backups y zips; no es un disco de sistema operativo como EBS.</p>
+<p><strong id="rds">RDS</strong>
+<em>Relational Database Service</em>: bases de datos relacionales gestionadas (MySQL, PostgreSQL, etc.). El proveedor mantiene y actualiza el motor; tú gestionas esquemas, datos y accesos. Puede desplegarse en Multi-AZ.</p>
+<p><strong id="egress">egress</strong>
+Salida de datos desde AWS hacia internet u otras regiones. Suele ser una partida de factura distinta del precio de la VM; importa si sirves vídeos o descargas grandes.</p>
+<p><strong id="cli">CLI</strong>
+<em>Command Line Interface</em>: herramienta de terminal (<code>aws …</code>) para llamar a la API de AWS. Misma API que la consola; útil para scripts y tareas repetibles.</p>
+<p><strong id="sdk">SDK</strong>
+<em>Software Development Kit</em>: bibliotecas en el lenguaje de tu aplicación para llamar a la API de AWS desde código (por ejemplo, subir un fichero a S3 desde Node).</p>
+<p><strong id="caf">CAF</strong>
+<em>Cloud Adoption Framework</em>: mapa de perspectivas (negocio, personas, gobierno, plataforma, seguridad, operaciones) para adoptar la nube. En Foundations/CLF se reconoce a alto nivel; no entregas un CAF completo en este módulo.</p>
+<p><strong id="free-tier">Free Tier</strong>
+Cuotas de prueba o uso gratuito limitado de algunos servicios. Tiene techos; fuera de cuota o con recursos mal apagados, la cuenta factura.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../calendario.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Calendario">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Calendario
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02-seguridad-iam/tema2.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 2. Seguridad, IAM y responsabilidad compartida">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                2. Seguridad, IAM y responsabilidad compartida
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

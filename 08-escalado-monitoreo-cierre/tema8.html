@@ -1,0 +1,1802 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ELB, Auto Scaling, CloudWatch y catálogo extra de Practitioner (Foundations Módulo 10 + ampliación).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/08-escalado-monitoreo-cierre/tema8.html">
+      
+      
+        <link rel="prev" href="../07-arquitectura-well-architected/tema7.html">
+      
+      
+        <link rel="next" href="../99-certificacion/certificacion.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Tema 8 — Escalado, monitorización y cierre CLF-C02 - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tema 8 — Escalado, monitorización y cierre CLF-C02 - Introducción a la Nube Pública" />
+<meta property="og:description" content="ELB, Auto Scaling, CloudWatch y catálogo extra de Practitioner (Foundations Módulo 10 + ampliación)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/08-escalado-monitoreo-cierre/tema8.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/08-escalado-monitoreo-cierre/tema8.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Tema 8 — Escalado, monitorización y cierre CLF-C02 - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="ELB, Auto Scaling, CloudWatch y catálogo extra de Practitioner (Foundations Módulo 10 + ampliación)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/08-escalado-monitoreo-cierre/tema8.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-8-escalado-monitorizacion-y-cierre-clf-c02" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tema 8 — Escalado, monitorización y cierre CLF-C02
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema8.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 10)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elastic-load-balancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elastic Load Balancing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elastic Load Balancing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grupo-de-destino-y-comprobacion-de-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grupo de destino y comprobación de estado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitorizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitorización
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-encajan-alb-asg-y-la-alarma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo encajan ALB, ASG y la alarma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-10-ejercicio-de-laboratorio-6-escalado-y-balanceo-de-la-carga-de-su-arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 10: Ejercicio de laboratorio 6 - Escalado y balanceo de la carga de su arquitectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-escala-y-observacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (escala y observación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cierre-del-modulo-sin-3a-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cierre del módulo (sin 3.ª evaluación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr801-escalar-y-observar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR801 — Escalar y observar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ac802-mapa-de-servicios-clf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AC802 — Mapa de servicios CLF
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 10)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elastic-load-balancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elastic Load Balancing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elastic Load Balancing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grupo-de-destino-y-comprobacion-de-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grupo de destino y comprobación de estado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitorizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitorización
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-encajan-alb-asg-y-la-alarma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo encajan ALB, ASG y la alarma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-10-ejercicio-de-laboratorio-6-escalado-y-balanceo-de-la-carga-de-su-arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 10: Ejercicio de laboratorio 6 - Escalado y balanceo de la carga de su arquitectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-escala-y-observacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (escala y observación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cierre-del-modulo-sin-3a-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cierre del módulo (sin 3.ª evaluación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr801-escalar-y-observar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR801 — Escalar y observar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ac802-mapa-de-servicios-clf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AC802 — Mapa de servicios CLF
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-8-escalado-monitorizacion-y-cierre-clf-c02">Tema 8. Escalado, monitorización y cierre CLF-C02<a class="headerlink" href="#tema-8-escalado-monitorizacion-y-cierre-clf-c02" title="Permanent link">&para;</a></h1>
+<p>Si el Tema 7 dice <em>por qué</em> varias zonas de disponibilidad (<strong>AZ</strong>, <em>Availability Zone</em>), este dice <em>cómo</em> reparte el tráfico un <strong><a href="#alb">ALB</a></strong> (<em>Application Load Balancer</em>, balanceador de carga de aplicaciones), <em>cómo</em> un <strong><a href="#asg">ASG</a></strong> (<em>Auto Scaling group</em>, grupo de autoescalado) sigue la demanda y <em>cómo</em> te enteras (<a href="#cloudwatch">CloudWatch</a>) antes que el usuario. Cierra <strong>RA3</strong> y <strong>RA4</strong>, y cierra la <strong>2.ª evaluación</strong> del módulo con la preparación <strong>CLF-C02</strong> (<em>AWS Certified Cloud Practitioner</em>). Núcleo <strong>Foundations Módulo 10</strong>, más el catálogo corto de servicios que el examen nombra y Foundations apenas toca. Los términos clave están en el <a href="#glosario">glosario</a>.</p>
+<p>Piensa este tema como la capa que mantiene viva la materia ya vista: la <a href="../03-redes-entrega-contenido/tema3.html#vpc">VPC</a> (<em>Virtual Private Cloud</em>, nube virtual privada, Tema 3) y el cómputo (Tema 4) son la base; <strong>ELB</strong> (<em>Elastic Load Balancing</em>, balanceo de carga elástico), el ASG y CloudWatch son cómo reparte, escala y observas bajo carga. El catálogo CLF del final es reconocimiento rápido de servicios: una frase de <em>cuándo sí</em> basta más que un listado de nombres.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. Si ya justificaste Multi-AZ en el Tema 7, aquí lo <strong>montas</strong>: tráfico, capacidad y alarmas en la consola del lab.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA3.</strong> <em>Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.</em></p>
+<p><strong>RA4.</strong> <em>Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación<a class="headerlink" href="#criterios-de-evaluacion" title="Permanent link">&para;</a></h3>
+<p><strong>RA3</strong></p>
+<ul>
+<li><strong>e)</strong> Se ha llevado a cabo la configuración y gestión de balanceo de carga y escalado automático.</li>
+<li><strong>f)</strong> Se han desarrollado prácticas relacionadas con la optimización de recursos computacionales.</li>
+</ul>
+<p><strong>RA4</strong></p>
+<ul>
+<li><strong>e)</strong> Se ha hecho uso de herramientas de monitoreo y recomendaciones de optimización.</li>
+<li><strong>f)</strong> Se ha participado en actividades que simulen el análisis y mejora de arquitecturas existentes.</li>
+</ul>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="#elb">ELB</a> (ALB / NLB), comprobaciones de estado (<em>health checks</em>).</li>
+<li>Auto Scaling: mínimo, deseado y máximo; métricas; apagar entornos de desarrollo.</li>
+<li>CloudWatch, CloudTrail, Config, Trusted Advisor, Health.</li>
+<li>Repaso CLF-C02: IA/ML, analítica, integración (reconocer el servicio).</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q10</strong></td>
+<td>ELB + ASG + CloudWatch</td>
+<td><strong>PR801</strong>, <strong>AC802</strong>; Autocheck del tema</td>
+</tr>
+<tr>
+<td><strong>Q11</strong></td>
+<td>Repaso CLF-C02 y cierre de la 2.ª evaluación</td>
+<td>Hub <a href="../99-certificacion/certificacion.html">Certificación</a>; prueba objetiva según Aules</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>¿Qué problema resuelve un <strong>ALB</strong> delante de varias instancias de tu <strong>API</strong> (interfaz de programación de aplicaciones)?</li>
+<li>¿Para qué sirve la <strong>comprobación de estado</strong> (<em>health check</em>) del balanceador?</li>
+<li>En un <strong>ASG</strong>, ¿qué significan mínimo, deseado y máximo en una frase cada uno?</li>
+<li>¿<strong>CloudWatch</strong> o <strong>CloudTrail</strong> si quieres alarmar CPU al 80 %?</li>
+<li>Al acabar el lab, ¿por qué dejar <strong>mínimo = 0</strong> o terminar las instancias evita sorpresas en la factura?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>Reparte el tráfico <strong>HTTP</strong> / <strong>HTTPS</strong> (<em>Hypertext Transfer Protocol</em> / <em>Secure</em>) entre varias instancias y deja de mandar a las que fallan; evita una sola instancia como punto único de fallo.</p>
+</li>
+<li>
+<p>La <strong>comprobación de estado</strong> comprueba si el destino responde (p. ej. <code>/health</code>); si no, el ALB no le envía tráfico.</p>
+</li>
+<li>
+<p><strong>Mínimo:</strong> suelo que no baja; <strong>deseado:</strong> cuántas quieres ahora; <strong>máximo:</strong> techo al escalar.</p>
+</li>
+<li>
+<p><strong>CloudWatch</strong> (métricas y alarmas). CloudTrail audita llamadas a la API de AWS.</p>
+</li>
+<li>
+<p>Con <strong>mínimo = 0</strong> o al terminar las instancias dejas de pagar capacidad ociosa del lab; si no, el ASG o las instancias siguen facturando.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-10">Bloque Foundations (Módulo 10)<a class="headerlink" href="#bloque-foundations-modulo-10" title="Permanent link">&para;</a></h2>
+<h3 id="elastic-load-balancing">Elastic Load Balancing<a class="headerlink" href="#elastic-load-balancing" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> Un <strong><a href="#elb">balanceador de carga</a></strong> reparte peticiones entre varios destinos (instancias, contenedores…) y deja de enviar tráfico a los que fallan la <strong><a href="#health-check">comprobación de estado</a></strong> (<em>health check</em>). Sin esa comprobación, sigues mandando al proceso que ya no responde <code>/health</code>. La familia de servicios se llama <strong>ELB</strong>. Para una API HTTP el tipo habitual es el <strong><a href="#alb">ALB</a></strong> (capa 7: host, ruta (<em>path</em>)). El <strong><a href="#nlb">NLB</a></strong> (<em>Network Load Balancer</em>, balanceador de carga de red) trabaja en capa 4 (TCP/UDP) cuando necesitas muy alto rendimiento o protocolos que no son HTTP. El <em>Gateway Load Balancer</em> (<strong>GWLB</strong>) aparece en catálogos y en el examen como opción para aparatos de red (firewalls o sondas virtuales); en Foundations apenas lo usas. El <em>Classic Load Balancer</em> (<strong>CLB</strong>) es legado: no es la respuesta moderna en el CLF-C02.</p>
+<p><strong>En la práctica.</strong> En un proyecto de DAW el ALB permite reglas del estilo «<code>/api/*</code> hacia el grupo de la API» y «<code>/</code> hacia el front». No sustituye a nginx en todos los casos, pero en Foundations es el punto de entrada gestionado que encaja con varias AZ y con el ASG. El cliente (navegador o app) habla con el nombre <strong>DNS</strong> (<em>Domain Name System</em>, sistema de nombres de dominio) del ALB, no con la IP de una EC2 concreta. Si apuntas un registro A de DNS a la IP pública de una sola instancia, ese registro se queda obsoleto en cuanto la máquina se sustituye o cae; el nombre DNS del ALB se mantiene aunque cambien los destinos detrás.</p>
+<figure>
+<img alt="Idea de balanceo de carga entre destinos" src="img/salvador/elb_1.png" width="640" />
+
+<figcaption>ELB: reparte tráfico y deja fuera lo que falla la comprobación de estado.</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Características ELB (Foundations)</p>
+<ul>
+<li>Distribuye la carga entre varias instancias (o destinos).</li>
+<li>Detecta destinos no sanos (<em>unhealthy</em>) y deja de mandarles tráfico.</li>
+<li>Encaja con varias AZ: si cae una zona, el resto sigue sirviendo.</li>
+</ul>
+</div>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Uso típico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ALB</strong></td>
+<td>HTTP/HTTPS (capa 7): host, ruta y APIs REST de un proyecto de DAW.</td>
+</tr>
+<tr>
+<td><strong>NLB</strong></td>
+<td>TCP/UDP o cargas que piden muy alto rendimiento en capa 4.</td>
+</tr>
+<tr>
+<td><strong>GWLB</strong></td>
+<td><em>Appliances</em> de red; en el CLF basta reconocer el nombre.</td>
+</tr>
+<tr>
+<td><strong>CLB</strong> clásico</td>
+<td>Legado; no es la respuesta moderna en el examen.</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img alt="Tipos / esquema de balanceadores" src="img/salvador/elb_2.png" width="640" />
+
+<figcaption>ALB frente a otros tipos (reconocer en examen).</figcaption>
+</figure>
+<h4 id="grupo-de-destino-y-comprobacion-de-estado">Grupo de destino y comprobación de estado<a class="headerlink" href="#grupo-de-destino-y-comprobacion-de-estado" title="Permanent link">&para;</a></h4>
+<p>El <strong><a href="#target-group">grupo de destino</a></strong> (<em>target group</em>) es la lista de destinos (instancias, IPs…) a los que el ALB envía el tráfico de un <em>listener</em> (el puerto y protocolo por los que el balanceador escucha, por ejemplo 80/HTTP o 443/HTTPS). La <strong>comprobación de estado</strong> pregunta periódicamente a una ruta (por ejemplo <code>/</code> o <code>/health</code>): si la respuesta no es la esperada, el destino pasa a <em>unhealthy</em> y el ALB deja de mandarle peticiones nuevas. Un buen diseño de comprobación mira una ruta que diga «la app está lista», no solo «el puerto TCP está abierto».</p>
+<p>El ALB en <strong>varias AZ</strong> complementa el ASG: si una AZ cae, el balanceador deja de mandar a esa zona y sigue sirviendo con las demás. Para eso necesitas el ALB asociado a subredes en al menos dos AZ; una sola subred no te da alta disponibilidad real aunque tengas dos instancias en la misma zona.</p>
+<figure>
+<img alt="ALB con destinos en varias AZ" src="img/salvador/elb_5.png" width="640" />
+
+<figcaption>Balanceador multi-AZ con comprobaciones de estado.</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Práctica ALB (pasos que verás en consola)</p>
+<ul>
+<li>Elige <strong>al menos dos AZ</strong> (y una subred en cada una): si no, no hay alta disponibilidad real.</li>
+<li>Crea el grupo de destino y registra las instancias; la comprobación de estado debe apuntar a una ruta que tu app responda (p. ej. <code>/</code> o <code>/health</code>).</li>
+<li>Asocia un <strong><a href="../03-redes-entrega-contenido/tema3.html#security-group">SG</a></strong> (grupo de seguridad) al ALB que permita el tráfico web (80/443) según el enunciado; las instancias suelen aceptar tráfico desde el SG del balanceador, no desde todo internet.</li>
+<li>El DNS del ALB es el punto de entrada; deja de apuntar registros A de DNS a una sola EC2.</li>
+</ul>
+</div>
+<figure>
+<img alt="Crear ALB: VPC y dos zonas de disponibilidad" src="img/salvador/elb_6.png" width="720" />
+
+<figcaption>Mapeo de red del ALB: VPC + mínimo dos AZ y subredes.</figcaption>
+</figure>
+<figure>
+<img alt="Grupo de seguridad asociado al balanceador de carga" src="img/salvador/elb_7.png" width="720" />
+
+<figcaption>Al crear el ALB eliges el grupo de seguridad que controla el tráfico hacia el balanceador.</figcaption>
+</figure>
+<figure>
+<img alt="Registro de destinos / target group en el ALB" src="img/salvador/elb_4.png" width="720" />
+
+<figcaption>Target group: dónde manda el balanceador el tráfico sano.</figcaption>
+</figure>
+<p>Cuando solo tienes una EC2 con IP pública y un registro A de DNS apuntando a ella, si cae la máquina cae el servicio. Con un ALB delante, comprobación de estado a <code>/health</code> y dos instancias en AZ distintas, el usuario sigue usando el mismo nombre DNS y tú dejas de depender de una sola instancia. En el lab, a veces compruebas primero que cada instancia sirve la página (por ejemplo una marca personalizada en el HTML) y después pasas el tráfico por el DNS del ALB: así ves que el balanceador reparte y no que «una sola máquina responde por casualidad».</p>
+<figure>
+<img alt="Página de prueba servida desde una instancia EC2" src="img/salvador/elb_3.png" width="720" />
+
+<figcaption>Comprobación previa: la instancia responde en HTTP antes de colgarla detrás del ALB.</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El ALB reparte HTTP/HTTPS y usa comprobaciones de estado.</td>
+<td>En el lab documentas al menos un destino sano (<em>healthy</em>).</td>
+</tr>
+<tr>
+<td>El NLB no es el ALB: capa 4 frente a capa 7.</td>
+<td>Para una API REST eliges ALB salvo que el enunciado diga otra cosa.</td>
+</tr>
+<tr>
+<td>El DNS del ALB sustituye el registro A a una sola EC2.</td>
+<td>Deja de pegar la IP pública de la instancia en el front.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="auto-scaling">Auto Scaling<a class="headerlink" href="#auto-scaling" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> Un <strong><a href="#asg">Auto Scaling Group</a></strong> mantiene un conjunto de instancias EC2 con tres números: <strong>mínimo</strong> (suelo: el grupo no baja de ahí), <strong>deseado</strong> (cuántas quieres ahora) y <strong>máximo</strong> (techo: no escala por encima aunque la métrica diga «más»). Escala según una <strong><a href="#politica-de-escalado">política de escalado</a></strong> ligada a métricas (CPU, peticiones) o a un horario (entorno de desarrollo a cero por la noche). La elasticidad significa que la capacidad <strong>sigue</strong> a la demanda, no una máquina virtual eterna «por si acaso».</p>
+<p><strong>En la práctica.</strong> En una API de prácticas un buen diseño es: mínimo bajo en el lab, deseado acorde a la demo, máximo con techo consciente. Programar un horario que baje a cero por la noche evita la factura del fin de semana. En producción el mínimo suele ser ≥ 2 si quieres sobrevivir a una AZ; en el instituto un mínimo = 2 sin apagar es un error de coste. Optimizar (CE f del RA3) no es poner máximo = 20 «por si acaso» en la cuenta del Learner Lab: es ajustar el tamaño de la instancia, mantener y actualizar la AMI y la app, y dejar un techo que no te arruine el mes.</p>
+<p><strong>Cuándo no subir el máximo del ASG.</strong> Si la base de datos o el ALB no aguantan, o si el lab no tiene presupuesto, subir el máximo solo multiplica la factura. Primero ajusta el tamaño de los recursos y las comprobaciones de estado; después la elasticidad. Una política que escala por CPU al 70 % no arregla una app que responde 500 en <code>/health</code>: el ASG lanzará más instancias no sanas y el ALB seguirá sin mandarles tráfico útil. La política de escalado no sustituye mantener y actualizar la aplicación ni la AMI: solo mueve el número de instancias.</p>
+<figure>
+<img alt="ASG / elasticidad detrás del balanceador" src="img/salvador/elb_9.png" width="640" />
+
+<figcaption>Capacidad que sigue a la demanda (ASG + ELB).</figcaption>
+</figure>
+<p>El ASG suele lanzar instancias a partir de una plantilla de lanzamiento (<em>launch template</em>) con una <a href="../04-computo-serverless/tema4.html#ami">AMI</a> (<em>Amazon Machine Image</em>), un tipo de instancia y un SG. La AMI es la foto del disco desde la que nace cada instancia nueva: si no tiene la app lista (o el <em>user data</em> no la deja lista), el ASG crea máquinas que el ALB marca como no sanas. En ese caso escalas problemas, no capacidad útil. Mientras pruebas, deja el mínimo ≥ 1 según el enunciado; al cerrar <strong>PR801</strong>, baja el mínimo (y el deseado) a <strong>0</strong> o termina las instancias para no dejar factura.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mínimo, deseado y máximo definen el ASG.</td>
+<td>En el lab anotas los tres valores mientras pruebas.</td>
+</tr>
+<tr>
+<td>El ASG no sustituye elegir bien el tipo de instancia.</td>
+<td>Ajusta el tamaño antes de subir el máximo.</td>
+</tr>
+<tr>
+<td>Bajar a mínimo = 0 deja de pagar capacidad ociosa.</td>
+<td>Al cerrar PR801, mínimo = 0 o termina los recursos.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="monitorizacion">Monitorización<a class="headerlink" href="#monitorizacion" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> Observar es cómo detectas CPU al 10 % en un <code>m5.2xlarge</code> (coste) o una instancia no sana (fiabilidad). Cada servicio responde a una pregunta distinta: no uses CloudTrail para mirar la CPU ni Trusted Advisor para auditar quién borró un SG ayer.</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Pregunta que responde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="#cloudwatch">CloudWatch</a></strong></td>
+<td>¿Qué métricas y logs tiene el recurso? ¿Cuándo disparo una alarma?</td>
+</tr>
+<tr>
+<td><strong><a href="#cloudtrail">CloudTrail</a></strong></td>
+<td>¿Quién llamó a la API de AWS y cuándo? (auditoría; Tema 2)</td>
+</tr>
+<tr>
+<td><strong><a href="#config">Config</a></strong></td>
+<td>¿La configuración del recurso sigue cumpliendo la regla (p. ej. SG abierto)?</td>
+</tr>
+<tr>
+<td><strong><a href="#trusted-advisor">Trusted Advisor</a></strong></td>
+<td>¿Hay comprobaciones de coste, seguridad o cuotas que deba mirar?</td>
+</tr>
+<tr>
+<td><strong><a href="#aws-health">AWS Health</a></strong></td>
+<td>¿AWS tiene un incidente en la región o en un servicio que uso?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CloudWatch</strong> trabaja con <strong>métricas</strong> (números en el tiempo: CPU, latencia, <em>UnHealthyHostCount</em>), <strong>alarmas</strong> (umbral + acción: notificar, escalar, etc.) y <strong>logs</strong> (texto de aplicación o servicio). Una alarma útil en lab: CPU alta sostenida, o <em>UnHealthyHostCount</em> mayor que 0. Una alarma ruidosa cada minuto sin umbral ni acción no te ayuda a estudiar ni a operar. CloudWatch sin ALB/ASG igual sirve (métricas de una EC2), pero el valor didáctico del Módulo 10 es ver las <strong>tres</strong> piezas juntas.</p>
+<p><strong>CloudTrail</strong> registra llamadas a la API de AWS: quién creó el ALB, quién cambió el ASG. No es el sitio donde miras <code>CPUUtilization</code>. <strong>Config</strong> evalúa reglas de configuración (por ejemplo «¿hay un SG con 22 abierto a internet?»). <strong>Trusted Advisor</strong> resume recomendaciones según tu plan de Support (coste, seguridad, cuotas…). <strong>AWS Health</strong> te dice si hay un incidente de AWS en la región o en un servicio que usas: útil para no perder media hora depurando tu app cuando el problema es del proveedor.</p>
+<p>CPU al 10 % un mes en <code>m5.2xlarge</code> es un hallazgo de <strong>coste</strong> (y de sostenibilidad del Tema 7), no de «el servidor va fino». En el lab: captura un destino sano y una alarma o una métrica, no solo el diagrama.</p>
+<figure>
+<img alt="ELB/ALB, Auto Scaling y CloudWatch" src="../img/diagramas/escalado-monitoreo.svg" width="800" />
+
+<figcaption>Reparto de tráfico, elasticidad de capacidad y observación: tres piezas que van juntas en Foundations Módulo 10.</figcaption>
+</figure>
+<p>El ALB reparte en capa 7 (host/ruta); CloudWatch te enseña el <em>log stream</em> o la métrica cuando algo falla. Los logs de una función Lambda del Tema 4 también viven en CloudWatch Logs, pero en <strong>PR801</strong> la evidencia pedida es una alarma o métrica de EC2, ALB o grupo de destino, no un volcado de logs de Lambda «porque también es CloudWatch».</p>
+<figure>
+<img alt="Arquitectura de componentes de Application Load Balancer" src="img/capturas/alb-arquitectura.png" width="800" />
+
+<figcaption>Piezas del ALB (listeners, target groups…). Fuente: Elastic Load Balancing Application Guide (AWS).</figcaption>
+</figure>
+<figure>
+<img alt="Log stream de CloudWatch asociado a una función Lambda" src="img/capturas/cloudwatch-log-stream.png" width="800" />
+
+<figcaption>Log stream en CloudWatch Logs. Fuente: AWS Lambda Developer Guide (AWS).</figcaption>
+</figure>
+<p>Para el repaso CLF, Skill Builder concentra cursos y materiales oficiales de preparación (p. ej. <em>Cloud Practitioner Essentials</em>): no confundas ese portal con la consola del lab ni con el LMS de Academy.</p>
+<figure>
+<img alt="Cabecera del portal AWS Skill Builder" src="img/capturas/skillbuilder-clf.png" width="800" />
+
+<figcaption>Portal Skill Builder para la preparación CLF. Fuente: skillbuilder.aws (AWS).</figcaption>
+</figure>
+<h3 id="como-encajan-alb-asg-y-la-alarma">Cómo encajan ALB, ASG y la alarma<a class="headerlink" href="#como-encajan-alb-asg-y-la-alarma" title="Permanent link">&para;</a></h3>
+<p>El ASG lanza instancias en varias AZ según el mínimo, el deseado y el máximo. El ALB solo envía tráfico a las que pasan la comprobación de estado del grupo de destino. CloudWatch alarma si el número de destinos no sanos sube o si la CPU se dispara. Si escalas sin comprobación de estado útil, multiplicas instancias que no sirven. Si pones una alarma sin ALB ni ASG, solo miras una instancia suelta: útil para un lab corto, pero no es el diseño que estudias en el Módulo 10.</p>
+<p>En un proyecto intermodular el flujo mental es: el usuario llega al DNS del ALB; el ALB elige un destino sano; el ASG mantiene suficientes destinos; la alarma te avisa cuando eso se rompe. Si terminas una instancia a propósito (o el lab te pide simular una caída), el ASG debería acercarse otra vez al deseado y el ALB debería dejar de mandar a la caída en cuanto falle la comprobación de estado. PR801 te pide evidencia de las tres piezas y, al cerrar, bajar el mínimo a 0 o terminar recursos para no dejar factura.</p>
+<h3 id="relacion-con-otros-temas">Relación con otros temas<a class="headerlink" href="#relacion-con-otros-temas" title="Permanent link">&para;</a></h3>
+<p>La VPC y las subredes del Tema 3 son el suelo donde colocas el ALB y las instancias del ASG: sin dos AZ y sin SG coherentes, el balanceador no te da la alta disponibilidad que dibujaste en el Tema 7. El cómputo del Tema 4 (EC2, AMI, tipo de instancia) es lo que el ASG lanza; si la AMI o el <em>user data</em> no dejan la app lista, el ALB marca <em>unhealthy</em>. IAM (Tema 2) decide quién puede crear el ALB o cambiar el ASG; CloudTrail registra esas llamadas. RDS Multi-AZ del Tema 6 y el ALB + ASG de este tema responden a preguntas distintas: la BD escribe con conmutación; el front reparte lecturas HTTP. El Well-Architected del Tema 7 te pide justificar el equilibrio entre fiabilidad, coste y complejidad; aquí <strong>ejecutas</strong> ese equilibrio con mínimo, deseado, máximo y una alarma que no sea ruido.</p>
+<h3 id="el-lab-del-modulo-10-ejercicio-de-laboratorio-6-escalado-y-balanceo-de-la-carga-de-su-arquitectura">El lab del Módulo 10: Ejercicio de laboratorio 6 - Escalado y balanceo de la carga de su arquitectura<a class="headerlink" href="#el-lab-del-modulo-10-ejercicio-de-laboratorio-6-escalado-y-balanceo-de-la-carga-de-su-arquitectura" title="Permanent link">&para;</a></h3>
+<p>En tu clase de <em>Cloud Foundations</em>, el lab del <strong>Módulo 10</strong> se llama <strong>Ejercicio de laboratorio 6 - Escalado y balanceo de la carga de su arquitectura</strong>. Trabajas en la <strong>región que indique el lab</strong>. No confundas este laboratorio del módulo con el <em>Learner Lab</em> genérico: aquí sigues el enunciado del Módulo 10 paso a paso.</p>
+<p>Primero creas un <strong>balanceador</strong> (ALB) con un grupo de destino y destinos en <strong>varias AZ</strong>, según el enunciado. Configuras la comprobación de estado hacia una ruta que la aplicación responda. Asocias el SG del balanceador y el de las instancias como indique el lab (el tráfico web suele entrar por el ALB).</p>
+<p>Después <strong>compruebas el estado</strong> de las instancias en el grupo de destino: al menos un destino debe aparecer sano. Sin eso, el ALB no está repartiendo de verdad. Si el enunciado te pide probar la página de cada instancia o del DNS del ALB, hazlo y deja captura.</p>
+<p>Luego configuras un <strong>grupo de Auto Scaling</strong> con <strong>mínimo</strong>, <strong>deseado</strong> y <strong>máximo</strong> coherentes con el enunciado, vinculado al mismo diseño (plantilla de lanzamiento y grupo de destino). Compruebas que el tráfico se reparte entre destinos sanos y que el grupo <strong>reacciona</strong> a la carga o a una instancia caída, según indique el enunciado (más instancias, sustitución, etc.). Añades o documentas una <strong>alarma</strong> de CloudWatch (CPU o destinos no sanos) o una captura de métrica: esa es la evidencia que pide la práctica.</p>
+<p>Al terminar, <strong>bajas el mínimo a 0</strong> o terminas los recursos del lab para no dejar capacidad facturando. En <strong>PR801</strong> dejas capturas del destino sano, de los valores del ASG, de la alarma o métrica y de la limpieza. Respecto al mapa del proyecto de DAW (API detrás de ALB, capacidad elástica, observación), este lab <strong>practica</strong> balanceo, Auto Scaling y una alarma. <strong>Simplifica</strong> el resto del producto (no montas RDS ni el front completo).</p>
+<h3 id="errores-frecuentes-escala-y-observacion">Errores frecuentes (escala y observación)<a class="headerlink" href="#errores-frecuentes-escala-y-observacion" title="Permanent link">&para;</a></h3>
+<p>Si el ALB tiene una comprobación de estado que siempre marca sano aunque la app devuelva 500, sigues enviando tráfico a un proceso roto. Apunta la comprobación a una ruta real y mira el código de respuesta esperado.</p>
+<p>Dejar el ASG con mínimo = 2 al acabar el lab es la forma más habitual de llevarse un susto en la factura del Learner Lab: la capacidad sigue facturando el fin de semana. Baja a mínimo = 0 o termina instancias y deja captura de limpieza.</p>
+<p>Mirar la CPU en <strong>CloudTrail</strong> te deja en la herramienta equivocada: CloudTrail audita llamadas a la API de AWS; la CPU es métrica de CloudWatch. Pegar logs de una Lambda como «observabilidad» de esta práctica tampoco cumple: aquí quieres alarma o métrica de EC2, ALB o grupo de destino.</p>
+<p>Si confundes «aprobar CLF-C02» con «compensar un RA suspendido» en este módulo, el +1 de certificación no te salva un resultado de aprendizaje suspenso: los RA no se compensan.</p>
+<h3 id="cierre-del-modulo-sin-3a-evaluacion">Cierre del módulo (sin 3.ª evaluación)<a class="headerlink" href="#cierre-del-modulo-sin-3a-evaluacion" title="Permanent link">&para;</a></h3>
+<p>La <strong>2.ª evaluación</strong> cierra Temas 5–8. Este tema concentra ELB, ASG, CloudWatch y el repaso de catálogo CLF. No hay «cierre» aparte ni 3.ª evaluación en 2.º de grado superior: el módulo acaba antes de la formación en empresa (FE).</p>
+<p>Para el cierre CLF: <a href="../99-certificacion/certificacion.html">Certificación</a> (serie, tests, Skill Builder). Ocho tarjetas bien hechas (AC802) superan un listado largo de nombres sin frase de uso. Antes del examen, repasa también los dominios del CLF-C02 en el hub: no hace falta memorizar cada servicio de analítica o IA, sí reconocer el nombre cuando el enunciado describe el caso.</p>
+<p>Si llegas a la prueba objetiva de la 2.ª evaluación con el lab hecho y con las capturas de PR801 ordenadas, el tema te habrá servido dos veces: como práctica de consola y como vocabulario del examen. Si solo memorizas siglas sin haber visto un destino sano, en el CLF te confundirán NLB y ALB en cuanto el enunciado hable de ruta o de TCP.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>Con ALB, Auto Scaling y CloudWatch cierras el núcleo Foundations de este tema. El catálogo corto de servicios (IA, analítica, colas, integración de eventos…) y el tono de examen viven en el hub de Certificación. En el examen, una pregunta típica contrapone CloudWatch (métrica/alarma) frente a CloudTrail (auditoría de API), o ALB (HTTP) frente a NLB (TCP). Otra te pide el servicio de recomendaciones (Trusted Advisor) o el panel de incidentes del proveedor (AWS Health). No hace falta profundidad de ML o de <em>data lakes</em>: basta la frase de reconocimiento.</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>La comprobación de estado deja fuera lo que falla; el ASG se entiende con mínimo, deseado y máximo. CloudWatch mira métricas y alarmas; CloudTrail audita la API. En el catálogo basta reconocer el servicio con una frase de <em>cuándo sí</em> y <em>cuándo no</em>. Detalle y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-8">Certificación § Tema 8</a>.</p>
+</div>
+<p>Para seguir hacia el examen, en <a href="../99-certificacion/certificacion.html">Certificación</a> tienes la <a href="../99-certificacion/certificacion.html#serie-santos">serie Santos</a>, los <a href="../99-certificacion/certificacion.html#tests">tests de práctica</a> y el <a href="../99-certificacion/certificacion.html#orden">orden sugerido</a>.</p>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=GqRMAwo6QRA">ALB ASG PublicSubnet</a> (~27 min).</p>
+<iframe src="https://www.youtube.com/embed/GqRMAwo6QRA" title="ALB ASG PublicSubnet — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Qué mirar: comprobación de estado del ALB y mínimo / deseado / máximo del ASG; al acabar, mínimo = 0 o terminar recursos.</p>
+<p><strong>Extra (opcional).</strong> <a href="https://www.youtube.com/watch?v=T_Pz1ksb9ng">CloudWatch - CloudTrail - EventBridge</a> (~22 min) — métrica y alarma frente a auditoría de API. Vídeo: Profe Santos Cloud (YouTube).</p>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr801-escalar-y-observar">PR801 — Escalar y observar<a class="headerlink" href="#pr801-escalar-y-observar" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR801</strong>. (RA3 // e, f // RA4 // e // <strong>PR 0–10</strong>). Completas el lab Academy del Módulo 10 (<strong>Ejercicio de laboratorio 6 - Escalado y balanceo de la carga de su arquitectura</strong>): ALB, ASG y una señal en CloudWatch, sin dejar el lab facturando.</li>
+</ul>
+<p><strong>Tareas:</strong> crea o completa el ALB con destinos en varias AZ; documenta al menos un destino sano; configura el ASG (mínimo, deseado, máximo) según el enunciado; comprueba que el tráfico se reparte y que el grupo reacciona a la carga o a una instancia caída según el lab; deja una alarma CloudWatch (CPU o destinos no sanos) o captura de métrica; al acabar, <strong>mínimo = 0</strong> o termina recursos y deja captura de limpieza.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR801.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo (no sustituye el enunciado): <a href="../90-soluciones/pr/PR801.html">Soluciones · PR801</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALB</td>
+<td>Destino sano documentado</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>ASG</td>
+<td>Mínimo / deseado / máximo coherentes en el lab</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>CloudWatch</td>
+<td>Alarma o métrica</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Limpieza</td>
+<td>Mínimo = 0 o recursos terminados</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ac802-mapa-de-servicios-clf">AC802 — Mapa de servicios CLF<a class="headerlink" href="#ac802-mapa-de-servicios-clf" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.832 3.367 8.668.108a3.15 3.15 0 0 0-3.856 2.226L.943 16.777a3.15 3.15 0 0 0 2.226 3.856l12.163 3.259a3.15 3.15 0 0 0 3.855-2.226l3.87-14.443a3.15 3.15 0 0 0-2.226-3.856M6.332 2.741a1.574 1.574 0 0 1 1.928-1.113l12.163 3.26a1.574 1.574 0 0 1 1.113 1.927l-3.87 14.444a1.574 1.574 0 0 1-1.928 1.113l-12.163-3.26a1.574 1.574 0 0 1-1.113-1.927zm2.634 2.336a.787.787 0 1 0-.407 1.52l9.122 2.444a.787.787 0 1 0 .407-1.52zM6.985 9.434a.787.787 0 0 1 .963-.557l9.123 2.445a.787.787 0 0 1-.408 1.52l-9.122-2.444a.787.787 0 0 1-.556-.964m-.055 3.244a.787.787 0 0 0-.407 1.52l5.32 1.427a.787.787 0 0 0 .408-1.52z"/></svg></span> <strong>AC802</strong>. (RA3 // f // RA4 // f // <strong>AC 0–1</strong>). Preparas ocho tarjetas de reconocimiento (servicio, una frase, dominio CLF-C02). Sin dumps de examen: calidad frente a cantidad.</li>
+</ul>
+<p><strong>Tareas:</strong> elige ocho servicios del catálogo visto en el tema / hub; una frase de <em>cuándo sí</em>; dominio aproximado del CLF-C02.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>AC802.md</code>.</p>
+<p>Guía de apoyo (no sustituye el enunciado): <a href="../90-soluciones/pr/AC802.html">Soluciones · AC802</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ocho tarjetas útiles</td>
+<td>Servicio + frase + dominio; sin dump</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/1</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Cierre Foundations (ELB/ASG/CloudWatch). El catálogo CLF largo y el estilo examen están en <a href="../99-certificacion/certificacion.html#tema-8">Certificación § Tema 8</a>.</p>
+<ol>
+<li>Un <strong>ALB</strong> trabaja sobre todo en…<br />
+   a) capa 3 (IP) · b) <strong>capa 7 (HTTP/HTTPS)</strong> · c) solo como NAT de VPC</li>
+<li>ASG con mínimo = 2 en <strong>dos</strong> AZ: si cae una AZ, ¿qué esperas a alto nivel?</li>
+<li><strong>V/F.</strong> Miras la CPU de la instancia en <strong>CloudTrail</strong>.</li>
+<li>Empareja: <strong>ALB</strong> · <strong>ASG</strong> · <strong>CloudWatch</strong> con: (a) reparte a destinos sanos · (b) mínimo / deseado / máximo · (c) métricas y alarmas</li>
+<li><strong>V/F.</strong> Aprobar CLF-C02 te aprueba automáticamente un RA suspendido en este módulo.</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p>Que el ASG y el ALB sigan sirviendo con capacidad en la AZ viva (si el diseño es multi-AZ); no «todo caído».</p>
+</li>
+<li>
+<p><strong>Falso</strong> — la CPU se mira en CloudWatch; CloudTrail audita la API.</p>
+</li>
+<li>
+<p>El <strong>ALB</strong> encaja con (a) repartir a destinos sanos; el <strong>ASG</strong>, con (b) mínimo / deseado / máximo; <strong>CloudWatch</strong>, con (c) métricas y alarmas.</p>
+</li>
+<li>
+<p><strong>Falso</strong> — los RA no se compensan; el +1 no aprueba un RA.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="elb">ELB</strong>
+<em>Elastic Load Balancing</em> (balanceo de carga elástico): familia de balanceadores de AWS que reparte tráfico entre destinos sanos (ALB, NLB, GWLB…). Sin comprobaciones de estado, puede seguir enviando a un proceso que ya no responde.</p>
+<p><strong id="alb">ALB</strong>
+<em>Application Load Balancer</em> (balanceador de carga de aplicaciones): balanceador de capa 7 (HTTP/HTTPS), con reglas por host y ruta. Habitual delante de APIs web. Encaja con varias AZ y con un ASG detrás.</p>
+<p><strong id="nlb">NLB</strong>
+<em>Network Load Balancer</em> (balanceador de carga de red): balanceador de capa 4 (TCP/UDP) para alto rendimiento o protocolos que no son HTTP.</p>
+<p><strong id="target-group">target group</strong>
+Grupo de destino: conjunto de destinos registrados al que un <em>listener</em> del ALB envía el tráfico.</p>
+<p><strong id="health-check">health check</strong>
+Comprobación de estado: petición periódica del balanceador (o del ASG) para saber si un destino está sano.</p>
+<p><strong id="asg">ASG</strong>
+<em>Auto Scaling Group</em> (grupo de autoescalado): conjunto de instancias EC2 con mínimo, deseado y máximo, que crece o decrece según métricas o horarios.</p>
+<p><strong id="politica-de-escalado">política de escalado</strong>
+Regla que dice cuándo y cómo cambia el deseado del ASG (por métrica, por escalones o por horario).</p>
+<p><strong id="cloudwatch">CloudWatch</strong>
+Servicio de métricas, logs y alarmas. Responde a «¿qué está pasando ahora en el recurso?». No sustituye a CloudTrail.</p>
+<p><strong id="cloudtrail">CloudTrail</strong>
+Registro de llamadas a la API de AWS (quién hizo qué y cuándo). Auditoría, no métrica de CPU.</p>
+<p><strong id="config">Config</strong>
+Servicio que evalúa si la configuración de los recursos cumple reglas (p. ej. SG demasiado abierto).</p>
+<p><strong id="trusted-advisor">Trusted Advisor</strong>
+Comprobaciones recomendadas de coste, seguridad, tolerancia a fallos, rendimiento y cuotas según el plan de Support.</p>
+<p><strong id="aws-health">AWS Health</strong>
+Panel de eventos e incidentes que afectan a servicios o regiones de tu cuenta.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../07-arquitectura-well-architected/tema7.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 7. Arquitectura Well-Architected">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                7. Arquitectura Well-Architected
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../99-certificacion/certificacion.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Certificación">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Certificación
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

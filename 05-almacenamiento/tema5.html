@@ -1,0 +1,1785 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="S3, EBS, EFS, FSx, clases de almacenamiento y movimiento de datos (Foundations Módulo 7).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/05-almacenamiento/tema5.html">
+      
+      
+        <link rel="prev" href="../04-computo-serverless/tema4.html">
+      
+      
+        <link rel="next" href="../06-bases-de-datos/tema6.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Tema 5 — Almacenamiento - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tema 5 — Almacenamiento - Introducción a la Nube Pública" />
+<meta property="og:description" content="S3, EBS, EFS, FSx, clases de almacenamiento y movimiento de datos (Foundations Módulo 7)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/05-almacenamiento/tema5.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/05-almacenamiento/tema5.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Tema 5 — Almacenamiento - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="S3, EBS, EFS, FSx, clases de almacenamiento y movimiento de datos (Foundations Módulo 7)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/05-almacenamiento/tema5.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-5-almacenamiento" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tema 5 — Almacenamiento
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema5.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 7)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 7)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amazon-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon S3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clases-de-almacenamiento-y-ciclo-de-vida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clases de almacenamiento y ciclo de vida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versionado-y-borrados-por-que-importa-en-un-proyecto-de-daw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versionado y borrados (por qué importa en un proyecto de DAW)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguridad-en-s3-enlace-con-el-tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad en S3 (enlace con el Tema 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-ebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon EBS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efs-fsx-y-movimiento-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EFS, FSx y movimiento de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (almacenamiento)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-7-ejercicio-de-laboratorio-4-trabajo-con-ebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 7: Ejercicio de laboratorio 4 — Trabajo con EBS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr501-objetos-y-bloques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR501 — Objetos y bloques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 7)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 7)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amazon-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon S3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clases-de-almacenamiento-y-ciclo-de-vida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clases de almacenamiento y ciclo de vida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versionado-y-borrados-por-que-importa-en-un-proyecto-de-daw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versionado y borrados (por qué importa en un proyecto de DAW)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguridad-en-s3-enlace-con-el-tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad en S3 (enlace con el Tema 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-ebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon EBS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efs-fsx-y-movimiento-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EFS, FSx y movimiento de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (almacenamiento)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-otros-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con otros temas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-7-ejercicio-de-laboratorio-4-trabajo-con-ebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 7: Ejercicio de laboratorio 4 — Trabajo con EBS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr501-objetos-y-bloques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR501 — Objetos y bloques
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-5-almacenamiento">Tema 5. Almacenamiento<a class="headerlink" href="#tema-5-almacenamiento" title="Permanent link">&para;</a></h1>
+<p>En una app web hay <strong>tres</strong> estilos de almacenamiento que conviene no mezclar: el disco de la máquina virtual, una carpeta de red compartida y un <strong>objeto</strong> al que se llega por HTTP (<em>Hypertext Transfer Protocol</em>, protocolo de transferencia de hipertexto). Subir el <code>uploads/</code> de Express a <a href="#s3">S3</a> (<em>Simple Storage Service</em>, servicio simple de almacenamiento) no es lo mismo que montar un volumen <a href="#ebs">EBS</a> (<em>Elastic Block Store</em>, almacenamiento de bloques elástico) en la <a href="../04-computo-serverless/tema4.html#ec2">EC2</a> (<em>Elastic Compute Cloud</em>, nube elástica de cómputo). Este tema corresponde al <strong>Módulo 7</strong> de <em>AWS Academy Cloud Foundations</em>. Los términos clave están en el <a href="#glosario">glosario</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. Si tu API ya corre en EC2 o Lambda, aquí decides <strong>dónde viven los ficheros</strong> y qué pasa si borras la instancia.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA4.</strong> <em>Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion-ra4">Criterios de evaluación (RA4)<a class="headerlink" href="#criterios-de-evaluacion-ra4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>a)</strong> Se ha realizado la diferenciación entre tecnologías de almacenamiento en la nube.</li>
+<li><strong>c)</strong> Se ha trabajado en la resolución de problemas prácticos sobre almacenamiento y bases de datos.</li>
+</ul>
+<p>Bases de datos: Tema 6.</p>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Objeto (<a href="#s3">S3</a>), bloque (<a href="#ebs">EBS</a>), fichero (<a href="#efs">EFS</a> / <a href="#fsx">FSx</a>).</li>
+<li>Clases S3, ciclo de vida, versionado, <em>Block Public Access</em>.</li>
+<li>Instantáneas, <em>instance store</em>, copia de seguridad y movimiento de datos (Snow, Gateway, DataSync).</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q7</strong></td>
+<td>S3 vs EBS/EFS + ciclo de vida</td>
+<td><strong>PR501</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>¿<strong>S3</strong> es el disco del sistema operativo (<strong>SO</strong>) de la EC2, o un almacén de <strong>objetos</strong> por API (<em>Application Programming Interface</em>, interfaz de programación de aplicaciones) / HTTP?</li>
+<li>¿Cuándo usarías <strong>EBS</strong> frente a subir ficheros a un <em>bucket</em>?</li>
+<li>Dos EC2 en <strong>AZ</strong> distintas (<em>Availability Zone</em>, zona de disponibilidad) necesitan la <strong>misma carpeta</strong> montada: ¿EBS o <strong>EFS</strong> (<em>Elastic File System</em>, sistema de ficheros elástico)?</li>
+<li>Si terminas la instancia, ¿qué suele pasar con los datos solo en el disco raíz si no hiciste instantánea?</li>
+<li>¿Por qué la <strong>transferencia de datos de salida</strong> (lo que AWS llama <em>egress</em>) puede disparar la factura aunque el almacenamiento «parezca barato»?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p><strong>S3</strong> es almacén de <strong>objetos</strong> (API/HTTP), no el disco del SO de la EC2.</p>
+</li>
+<li>
+<p><strong>EBS</strong> cuando el SO o la app necesitan un <strong>volumen de bloque</strong> montado en esa máquina virtual (disco del sistema, datos de una sola instancia).</p>
+</li>
+<li>
+<p><strong>EFS</strong> (fichero de red montable en varias EC2). EBS es de una instancia (salvo patrones avanzados fuera de este módulo).</p>
+</li>
+<li>
+<p>Los datos del disco raíz <strong>se pierden</strong> al <em>terminate</em> si no hay instantánea o AMI (<em>Amazon Machine Image</em>, imagen de máquina de Amazon) que los preserve (salvo volúmenes que el enunciado diga conservar).</p>
+</li>
+<li>
+<p>La <strong>salida de datos</strong> factura el tráfico que sale hacia internet o hacia los clientes; un <em>bucket</em> «barato» sirviendo mucho sin <strong>CDN</strong> (<em>Content Delivery Network</em>, red de distribución de contenidos) puede salir caro en red.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-7">Bloque Foundations (Módulo 7)<a class="headerlink" href="#bloque-foundations-modulo-7" title="Permanent link">&para;</a></h2>
+<p>Antes de memorizar logos, fija el <strong>estilo de acceso</strong>. En un proyecto de DAW decides tres cosas distintas: ¿guardo un fichero con una URL o una API (foto de perfil, ZIP, front estático)? ¿necesito un disco que el SO vea como dispositivo de bloque (sistema de la máquina virtual, logs locales)? ¿varias instancias deben montar la <strong>misma</strong> carpeta a la vez (<code>uploads/</code> compartido entre dos nodos detrás del balanceador)? Esas tres preguntas apuntan a <a href="#almacenamiento-de-objetos">almacenamiento de objetos</a>, <a href="#almacenamiento-de-bloques">de bloques</a> o <a href="#almacenamiento-de-archivos">de archivos</a>, y casi nunca al mismo servicio.</p>
+<table>
+<thead>
+<tr>
+<th>Estilo</th>
+<th>Unidad</th>
+<th>Servicio</th>
+<th>Cómo se accede</th>
+<th>¿Se comparte entre instancias?</th>
+<th>Ámbito típico</th>
+<th>Caso del proyecto de DAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Objeto</strong></td>
+<td>Objeto + metadatos</td>
+<td><strong>S3</strong></td>
+<td>API / SDK (<em>Software Development Kit</em>, kit de desarrollo) / HTTP (no se monta como disco)</td>
+<td>Sí: todas las instancias hablan del mismo <em>bucket</em></td>
+<td>Región</td>
+<td>Fotos de usuario, front estático, copias de seguridad de la base de datos (<strong>BD</strong>) exportadas</td>
+</tr>
+<tr>
+<td><strong>Bloque</strong></td>
+<td>Volumen</td>
+<td><strong>EBS</strong></td>
+<td>Montado en el SO de <strong>una</strong> EC2</td>
+<td>No (una instancia; misma AZ)</td>
+<td>Una AZ</td>
+<td>Disco del sistema, <em>swap</em>, datos locales de esa máquina virtual</td>
+</tr>
+<tr>
+<td><strong>Archivo</strong></td>
+<td>Ficheros <strong>NFS</strong> / <strong>SMB</strong> (<em>Network File System</em> / <em>Server Message Block</em>, sistemas de ficheros en red)</td>
+<td><strong>EFS</strong>, <strong>FSx</strong></td>
+<td>Carpeta de red montada</td>
+<td>Sí (varias EC2 a la vez)</td>
+<td>Región (varias AZ)</td>
+<td><code>uploads/</code> compartido si aún no pasaste a S3</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img alt="Comparativa de estilos de almacenamiento en AWS" src="img/salvador/s3_1.jpg" width="720" />
+
+<figcaption>Bloque / fichero / objeto: elige por cómo accede la app.</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Ventajas por estilo (resumen)</p>
+<ul>
+<li><strong>Bloque (EBS):</strong> rendimiento de disco para una máquina virtual; el SO lo trata como volumen local.</li>
+<li><strong>Objeto (S3):</strong> integración por API y suele encajar mejor para ficheros servidos por HTTP y front estático.</li>
+<li><strong>Archivo (EFS):</strong> varias EC2 montan la misma carpeta sin montar una sincronización a mano.</li>
+</ul>
+</div>
+<figure>
+<img alt="Almacenamiento: S3 (objeto), EBS (bloque) y EFS (archivo)" src="../img/diagramas/almacenamiento-opciones.svg" width="800" />
+
+<figcaption>Tres estilos de acceso: API de objetos, disco de la máquina virtual o carpeta NFS compartida.</figcaption>
+</figure>
+<p>Si guardas las fotos de perfil en <code>public/uploads</code> dentro de la EC2, se pierden al terminar la instancia y no escalan a dos nodos detrás del <strong>ALB</strong> (<em>Application Load Balancer</em>, balanceador de carga de aplicaciones): cada máquina tiene su disco. Con subida por SDK a S3 y URL firmada o CloudFront, el código deja de tratar el disco local como almacén duradero de usuario. Ese cambio es el que más veces falla en un proyecto intermodular cuando «en mi instancia sí se veía la foto».</p>
+<table>
+<thead>
+<tr>
+<th>Examen <strong>CLF</strong> (<em>AWS Certified Cloud Practitioner</em>, CLF-C02)</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hay que distinguir almacenamiento de objetos, de bloques y de ficheros.</td>
+<td>En el proyecto decides dónde van las fotos, el disco de la máquina virtual y un <code>uploads/</code> compartido.</td>
+</tr>
+<tr>
+<td>S3 no es el disco del sistema operativo.</td>
+<td>No montes S3 como si fuera el directorio de datos de MySQL (<code>/var/lib/mysql</code>).</td>
+</tr>
+<tr>
+<td>Un volumen EBS vive en una AZ; EFS sirve a varias EC2.</td>
+<td>Dibuja el <strong>ASG</strong> (<em>Auto Scaling group</em>, grupo de autoescalado) antes de elegir una carpeta solo en el disco local.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="amazon-s3">Amazon S3<a class="headerlink" href="#amazon-s3" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> <strong><a href="#s3">Amazon S3</a></strong> es <a href="#almacenamiento-de-objetos">almacenamiento de objetos</a>: guardas bytes con una <strong><a href="#clave-s3">clave</a></strong> (<em>key</em>) dentro de un <strong><a href="#bucket">bucket</a></strong> (contenedor con nombre único a escala global), y hablas con él por API o SDK (o <a href="#url-prefirmada">URL prefirmada</a>), no como si fuera la unidad <code>C:</code> o un <code>/mnt</code> con rutas y permisos de fichero al estilo Unix (<strong>POSIX</strong>: la app espera rutas, propietarios y permisos de archivo como en Linux). Cada <strong><a href="#objeto">objeto</a></strong> lleva datos y metadatos. El <em>bucket</em> vive en una <strong>región</strong>; no «montas» S3 en el SO de la EC2 en el sentido Foundations.</p>
+<p><strong>En la práctica.</strong> En un proyecto de DAW el controlador recibe el fichero en una petición <em>multipart/form-data</em> (el formulario envía el archivo junto con el resto de campos), el SDK hace <code>PutObject</code>, y la BD solo guarda la clave o la URL. El navegador no necesita NFS. Si mañana hay dos instancias detrás del ALB, <strong>ambas</strong> hablan con el mismo <em>bucket</em>: no hay divergencia de <code>uploads/</code> locales. El front estático (HTML, JS, CSS) también puede vivir en S3 y servirse con CloudFront (Tema 3). Los <em>dumps</em> de la base o los logs rotados que ya no caben en el disco de la máquina virtual suelen ir a S3 como objetos.</p>
+<p>Según la documentación de AWS, S3 está diseñado para una <strong>durabilidad</strong> muy alta de los objetos (el documento oficial habla de once nueves, 99,999999999 %). Eso no es lo mismo que <strong>disponibilidad</strong> inmediata en todas las clases: Glacier y clases frías cambian el tiempo y el coste de <strong>recuperar</strong> el objeto, no «borran» la promesa de no perderlo.</p>
+<figure>
+<img alt="Clases de almacenamiento S3 / ciclo de vida (visión de consola)" src="img/salvador/s3_20.png" width="640" />
+
+<figcaption>Clases y ciclo de vida: Standard es lo habitual; Glacier no es «disco barato con acceso inmediato».</figcaption>
+</figure>
+<h4 id="clases-de-almacenamiento-y-ciclo-de-vida">Clases de almacenamiento y ciclo de vida<a class="headerlink" href="#clases-de-almacenamiento-y-ciclo-de-vida" title="Permanent link">&para;</a></h4>
+<p>Una <strong><a href="#clase-de-almacenamiento">clase de almacenamiento</a></strong> dice, a grandes rasgos, <strong>con qué frecuencia</strong> esperas leer el objeto y <strong>cuánto te cuesta</strong> (o cuánto tarda) recuperarlo. No memorices céntimos: entiende el equilibrio entre frecuencia de acceso y coste (o tiempo) de recuperación.</p>
+<ul>
+<li><strong><a href="#s3-standard">S3 Standard</a>.</strong> Acceso frecuente. Es la clase por defecto de las fotos que se muestran en la app y del front que se abre cada día.</li>
+<li><strong><a href="#s3-standard-ia">S3 Standard-IA</a></strong> (<em>Infrequent Access</em>, acceso poco frecuente). Objetos que se guardan mucho tiempo y se leen de vez en cuando. Suele haber un coste por recuperación: no conviene si lees el mismo objeto a cada rato.</li>
+<li><strong><a href="#s3-intelligent-tiering">S3 Intelligent-Tiering</a>.</strong> AWS mueve el objeto entre capas según el patrón de acceso. Encaja cuando no quieres decidir a mano qué es «frío».</li>
+<li><strong><a href="#glacier">Amazon S3 Glacier</a></strong> (y variantes de archivo). Archivo a largo plazo: copias de seguridad que casi no abres. Recuperar puede llevar minutos u horas según la opción; no sirve para servir la foto del perfil en la página de login.</li>
+</ul>
+<p>El <strong><a href="#ciclo-de-vida">ciclo de vida</a></strong> (<em>lifecycle</em>) es el conjunto de reglas que, pasado un tiempo, cambian de clase o expiran objetos y versiones. Sirve para enfriar lo que nadie pide y para no dejar versiones viejas creciendo sin tope. En Foundations reconoces el mecanismo; en un <em>bucket</em> de prácticas sin reglas, el «todo lo dejo en Standard por si acaso» acumula coste de almacenamiento.</p>
+<p>Tras un <code>PutObject</code> correcto, una lectura inmediata del mismo objeto debe ver los datos nuevos: S3 ofrece consistencia fuerte de lectura tras escritura. En clase no hace falta «esperar unos segundos» a que se propague el objeto.</p>
+<figure>
+<img alt="Diagrama de consistencia fuerte de lectura tras escritura en Amazon S3" src="img/capturas/s3-consistency1.png" width="800" />
+
+<figcaption>Lectura tras escritura en el mismo objeto. Fuente: Amazon S3 User Guide (AWS).</figcaption>
+</figure>
+<p>Web estática en S3 (HTML/JS): patrón útil para una <strong>SPA</strong> (<em>Single Page Application</em>, aplicación de una sola página). La API sigue en otro sitio (API Gateway + Lambda, o EC2). No es un <strong>CMS</strong> (gestor de contenidos).</p>
+<h4 id="versionado-y-borrados-por-que-importa-en-un-proyecto-de-daw">Versionado y borrados (por qué importa en un proyecto de DAW)<a class="headerlink" href="#versionado-y-borrados-por-que-importa-en-un-proyecto-de-daw" title="Permanent link">&para;</a></h4>
+<p>Imagina que en el <em>bucket</em> de fotos del proyecto alguien sobrescribe <code>avatar/user-42.jpg</code> con un fichero vacío o borra la clave «para limpiar». Sin <strong><a href="#versionado">versionado</a></strong>, esa versión buena puede haberse ido. Con versionado activado, S3 conserva versiones anteriores: un <code>delete</code> suele crear un <em>delete marker</em> en lugar de destruir del todo el historial, y puedes recuperar la versión previa. Eso salva un borrado accidental en prácticas y también en un proyecto intermodular cuando un script de despliegue pisa objetos.</p>
+<p>Tenerlo activado <strong>cuesta</strong> almacenamiento: cada versión y cada marcador ocupan (y facturan) hasta que una regla de ciclo de vida expire lo viejo. Sin <em>lifecycle</em>, el <em>bucket</em> de «pruebas» crece sin control aunque «casi no subas nada nuevo». En Foundations basta reconocer el mecanismo y lo que ganas (recuperación) frente a lo que pagas (espacio de residuales).</p>
+<h4 id="seguridad-en-s3-enlace-con-el-tema-2">Seguridad en S3 (enlace con el Tema 2)<a class="headerlink" href="#seguridad-en-s3-enlace-con-el-tema-2" title="Permanent link">&para;</a></h4>
+<p><strong><a href="#block-public-access">Block Public Access</a></strong> (<em>bloqueo de acceso público</em>) está pensado para que, por defecto, el <em>bucket</em> <strong>no</strong> sea público. Un 403 al abrir la URL del objeto con BPA (<em>Block Public Access</em>) activo es el resultado <strong>correcto</strong> si el objeto no debe verse en abierto: no es un «fallo del lab».</p>
+<p>La <strong><a href="#politica-de-bucket">política de bucket</a></strong> es un documento JSON adjunto al <em>bucket</em> que permite o deniega acciones sobre ese recurso (como las <a href="../02-seguridad-iam/tema2.html#politica">políticas</a> IAM del Tema 2, pero ancladas al <em>bucket</em>). IAM decide <strong>quién</strong> (usuario, rol); la política de bucket decide <strong>qué se puede hacer sobre este <em>bucket</em></strong>. Ambas se evalúan juntas: un <em>deny</em> explícito gana.</p>
+<p>Para servir una <strong>foto privada</strong> sin abrir el <em>bucket</em> al mundo, la forma correcta es una <strong><a href="#url-prefirmada">URL prefirmada</a></strong> (<em>presigned URL</em>): la API (con un rol IAM) genera un enlace con caducidad; el navegador descarga un rato y el enlace caduca. CloudFront con origen restringido es la variante a escala. Abrir el <em>bucket</em> «para que se vea el lab» es la misma mala práctica que viste en el Tema 2 con <em>buckets</em> públicos.</p>
+<p><strong>Cuándo no usar S3 como «disco».</strong> No montes S3 como si fuera <code>/var/lib/mysql</code> ni esperes bloqueos POSIX de fichero para una base embebida. Tampoco abras el <em>bucket</em> al mundo para la demo: usa URLs prefirmadas o un origen CloudFront con política clara.</p>
+<p>Si el acceso a S3 sale «por internet» desde una EC2 en <strong>VPC</strong> (<em>Virtual Private Cloud</em>, nube virtual privada) privada, en arquitecturas avanzadas aparece el <em>endpoint</em> / PrivateLink. Nivel Foundations: entiende que S3 es un servicio <strong>regional</strong> con API, no un disco montado.</p>
+<figure>
+<img alt="Arquitectura de acceso a S3 desde VPC con endpoints" src="img/capturas/s3-acceso-privado-arquitectura.png" width="800" />
+
+<figcaption>Acceso a S3 desde una VPC (patrón de la guía de consola). Fuente: AWS Management Console Getting Started Guide (AWS).</figcaption>
+</figure>
+<figure>
+<img alt="Políticas / acceso a objetos (contexto S3)" src="img/salvador/s3_17.png" width="640" />
+
+<figcaption>Acceso a objetos: política y Block Public Access van juntos.</figcaption>
+</figure>
+<h3 id="amazon-ebs">Amazon EBS<a class="headerlink" href="#amazon-ebs" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> <strong><a href="#ebs">Amazon EBS</a></strong> es el <a href="#almacenamiento-de-bloques">almacenamiento de bloques</a> de una instancia EC2: un <strong><a href="#volumen-ebs">volumen</a></strong> que el SO monta como disco. El volumen vive en <strong>una</strong> AZ (ver <a href="../03-redes-entrega-contenido/tema3.html">Tema 3</a>). Por eso el volumen y la instancia tienen que estar en la <strong>misma AZ</strong>: si no, no puedes adjuntarlo. Los tipos habituales en Foundations son <strong><a href="#gp3">gp3</a></strong> (propósito general, buen equilibrio) e <strong><a href="#io2">io2</a></strong> (más <a href="#iops">IOPS</a> —<em>Input/Output Operations Per Second</em>, operaciones de entrada/salida por segundo— cuando la carga de disco lo exige).</p>
+<p><strong>En la práctica.</strong> El disco raíz de la EC2 donde corre tu API Node o PHP es EBS. Ahí viven el SO (que <strong>tú</strong> parcheas), el entorno de ejecución (Node, PHP…) y, si no has sacado las fotos a S3, los ficheros locales. Si terminas la instancia y no hay instantánea ni volumen conservado, esos datos locales desaparecen con el diseño habitual del lab. Un volumen huérfano que dejas tras <em>terminate</em> <strong>sigue facturando</strong>: hay que borrarlo o asociarlo a otra instancia.</p>
+<figure>
+<img alt="Volumen EBS asociado a una instancia" src="img/salvador/s3_2.jpg" width="720" />
+
+<figcaption>EBS: volumen de bloque ligado a EC2 (misma AZ).</figcaption>
+</figure>
+<div class="admonition success">
+<p class="admonition-title">Ventajas EBS</p>
+<ul>
+<li>Replicación dentro de la AZ; el volumen puede persistir aunque pares la instancia (según configuración).</li>
+<li>Cifrado sencillo; se puede <strong>aumentar</strong> el tamaño (no reducir).</li>
+<li>Un volumen EBS solo se asocia a una instancia de <strong>su misma AZ</strong> (multi-attach avanzado queda fuera de Foundations).</li>
+</ul>
+</div>
+<figure>
+<img alt="Crear volumen EBS: tipo gp3, tamaño, AZ y etiqueta" src="img/salvador/s3_3.png" width="720" />
+
+<figcaption>Volumen EBS: tipo, GiB, IOPS y **misma AZ** que la instancia a la que lo vas a asociar.</figcaption>
+</figure>
+<p>La <strong><a href="#instantanea">instantánea</a></strong> (<em>snapshot</em>) es una copia del volumen en un momento concreto, almacenada de forma durable (el servicio la respalda hacia S3). Sirve para recuperar el volumen o crear uno nuevo a partir de ese punto. No sustituye un plan de copia de seguridad de la aplicación: si MySQL estaba a medias de una escritura, la copia refleja ese estado. Antes de una instantánea crítica, conviene un estado coherente de la app (o aceptas el riesgo).</p>
+<p><strong><a href="#instance-store">Instance store</a></strong> es disco local del host físico: puede ser rápido, pero es <strong>efímero</strong>. Si paras o terminas la instancia, esos datos no están pensados como almacén durable. No guardes ahí la única copia de un entregable o de un <em>dump</em> de la BD.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Un volumen EBS vive en una AZ y se adjunta a una instancia de esa misma AZ.</td>
+<td>En el lab creas el volumen en la AZ de la EC2 que vas a usar.</td>
+</tr>
+<tr>
+<td>La instantánea es una copia del volumen, no un plan completo de copia de seguridad de la aplicación.</td>
+<td>Haz la instantánea con la app en estado coherente, o acepta el riesgo de datos a medias.</td>
+</tr>
+<tr>
+<td>El <em>instance store</em> es efímero.</td>
+<td>No uses <em>instance store</em> como única copia de un entregable o de un <em>dump</em>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="efs-fsx-y-movimiento-de-datos">EFS, FSx y movimiento de datos<a class="headerlink" href="#efs-fsx-y-movimiento-de-datos" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso — EFS.</strong> <strong><a href="#efs">Amazon EFS</a></strong> (<em>Elastic File System</em>, sistema de ficheros elástico) es <a href="#almacenamiento-de-archivos">almacenamiento de archivos</a> gestionado con <strong><a href="#nfs">NFS</a></strong> (<em>Network File System</em>, sistema de ficheros en red): <strong>varias</strong> EC2 pueden montar el mismo directorio a la vez, incluso en AZ distintas de la región.</p>
+<p><strong>En la práctica — EFS.</strong> Encaja si tienes dos instancias detrás del ALB y aún quieres un <code>uploads/</code> montado como carpeta compartida. No sustituye a S3 cuando el objetivo es servir objetos por HTTP a escala web (CDN, URLs, políticas de <em>bucket</em>). EFS encaja bien cuando la app espera rutas y permisos de fichero de tipo Unix (POSIX) y varios procesos escriben en la misma jerarquía de ficheros.</p>
+<figure>
+<img alt="Amazon EFS montado desde varias instancias" src="img/salvador/s3_9.png" width="720" />
+
+<figcaption>EFS: carpeta compartida entre EC2.</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Características EFS (resumen)</p>
+<ul>
+<li>NFS gestionado; crece y decrece sin tener que dimensionar de antemano un disco de tamaño fijo.</li>
+<li>Varias EC2 (incluso en AZ distintas de la región) montan el <strong>mismo</strong> sistema de ficheros.</li>
+<li>Encaja en <code>uploads/</code> compartidos; no sustituye a S3 para objetos servidos por HTTP a escala.</li>
+</ul>
+</div>
+<figure>
+<img alt="Montaje / acceso EFS desde instancias" src="img/salvador/s3_11.png" width="720" />
+
+<figcaption>Varias instancias montan el mismo EFS (idea de práctica).</figcaption>
+</figure>
+<p><strong>Qué es en este caso — FSx.</strong> <strong><a href="#fsx">Amazon FSx</a></strong> agrupa sistemas de ficheros gestionados para cargas que necesitan <strong>Windows</strong> (<a href="#smb">SMB</a>), <strong>Lustre</strong> (alto rendimiento) u otras variantes (NetApp…). En el CLF basta reconocer el nombre y el caso: «necesito un servidor de ficheros Windows en AWS» → FSx; no montes un EBS compartido a mano como si fuera esa solución.</p>
+<p><strong>En la práctica — FSx.</strong> En un proyecto de DAW en Linux con Node suele bastar S3 o EFS. FSx aparece cuando el enunciado o el cliente arrastra un entorno Windows o un software que exige ese protocolo.</p>
+<p><strong>Storage Gateway</strong>, la familia <strong><a href="#snow-family">Snow</a></strong> (dispositivo físico para mover muchos terabytes sin depender solo de la red), <strong>AWS Backup</strong> y <strong><a href="#datasync">DataSync</a></strong> sirven para reconocer <em>cuándo</em> una <strong>VPN</strong> (red privada virtual, <em>virtual private network</em>) no basta para migrar un <strong>CPD</strong> (centro de proceso de datos) grande: Gateway acerca un «disco o fichero» híbrido; Snow mueve datos por envío físico; DataSync automatiza copias entre almacenes en tus propias instalaciones (<em>on-premises</em>) y AWS.</p>
+<h3 id="errores-frecuentes-almacenamiento">Errores frecuentes (almacenamiento)<a class="headerlink" href="#errores-frecuentes-almacenamiento" title="Permanent link">&para;</a></h3>
+<p>Si dejas los <em>uploads</em> solo en el EBS de una instancia detrás de un ASG, cada nodo ve un disco distinto. El usuario sube la foto en la instancia A y la descarga llega a la B, que no tiene el fichero. En su lugar sube a S3 (o monta EFS si aún necesitas carpeta compartida) y guarda en la BD solo la clave.</p>
+<p>Otra confusión habitual es tratar Glacier como «barato y al momento». El coste y el tiempo de <strong>recuperación</strong> no son los de Standard: la página de login no puede esperar una restauración de archivo. Deja en clase caliente lo que se lee en la app y archiva solo lo que casi no abres.</p>
+<p>Si mides solo GB-mes y olvidas la <strong>salida de datos</strong>, servir muchos GB desde el <em>bucket</em> hacia internet factura transferencia aunque el almacenamiento parezca barato. Estima el tráfico (Pricing Calculator), pon CloudFront delante de los estáticos y no abras descargas masivas sin CDN.</p>
+<p>Tras un <em>terminate</em>, un volumen EBS huérfano <strong>sigue facturando</strong> aunque nadie lo monte. Al cerrar el lab, borra volúmenes e instantáneas en el orden que marque el enunciado.</p>
+<p>Abrir el <em>bucket</em> al mundo «para la demo» permite que cualquiera liste o descargue objetos y contradice Block Public Access y el Tema 2. Sirve la foto con URL prefirmada o con CloudFront y origen privado.</p>
+<h3 id="relacion-con-otros-temas">Relación con otros temas<a class="headerlink" href="#relacion-con-otros-temas" title="Permanent link">&para;</a></h3>
+<p>S3 + CloudFront (Tema 3) para estáticos. EBS nace con EC2 (Tema 4): sin AZ y security group claros no hay volumen usable. Las bases de datos (Tema 6) no se sustituyen por un bucket: el bucket guarda objetos, no transacciones SQL. IAM (Tema 2) decide quién puede hacer <code>s3:GetObject</code> o adjuntar un volumen.</p>
+<h3 id="el-lab-del-modulo-7-ejercicio-de-laboratorio-4-trabajo-con-ebs">El lab del Módulo 7: Ejercicio de laboratorio 4 — Trabajo con EBS<a class="headerlink" href="#el-lab-del-modulo-7-ejercicio-de-laboratorio-4-trabajo-con-ebs" title="Permanent link">&para;</a></h3>
+<p>En tu clase de <em>Cloud Foundations</em>, el lab del <strong>Módulo 7</strong> se llama <strong>Ejercicio de laboratorio 4 — Trabajo con EBS</strong>. Trabajas en la <strong>región que indique el lab</strong>. El hilo es de <strong>bloque</strong>, no de S3: creas un volumen, lo adjuntas a una EC2, le das formato, lo montas, y practicas crear y restaurar una <strong>instantánea</strong>.</p>
+<p>Primero <strong>creas el volumen</strong> en la <strong>misma AZ</strong> que la instancia a la que lo vas a asociar. Si eliges otra AZ, el adjunto falla: el volumen EBS no cruza zonas. Eliges tipo (a menudo gp3) y tamaño según el enunciado.</p>
+<p>Después <strong>adjuntas</strong> el volumen a la instancia. Hasta aquí AWS ha conectado el dispositivo; el sistema operativo aún no tiene un sistema de ficheros usable en ese disco.</p>
+<p>Luego <strong>das formato</strong> (creas el sistema de ficheros en el dispositivo) y <strong>montas</strong> el volumen en una ruta del SO. Sin formato, el SO no puede tratar el volumen como carpeta con ficheros; sin montaje, el dispositivo existe pero no lo usas en una ruta. Ahí escribes datos de prueba para comprobar que el disco extra funciona aparte del disco raíz.</p>
+<p>Por último <strong>creas una instantánea</strong> del volumen y <strong>restauras</strong> a partir de ella (nuevo volumen desde la instantánea, o el flujo que marque el lab). La instantánea sirve para recuperar un punto en el tiempo si borras datos o quieres clonar el volumen; no sustituye un plan de backup de aplicación completo, pero en Foundations es la pieza que debes saber explicar.</p>
+<p>Respecto al patrón del proyecto de DAW (fotos en S3, disco de la máquina virtual en EBS, carpeta compartida en EFS), este lab <strong>practica</strong> EBS de verdad: AZ, formato, montaje e instantánea. <strong>No</strong> sustituye el diseño de <em>uploads</em> en S3: en el <code>.md</code> de <strong>PR501</strong> deja claro qué parte del mapa de almacenamiento has tocado y por qué el volumen no es el sitio donde escalar las fotos del usuario entre dos nodos.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>El examen premia elegir el <strong>estilo</strong> de almacén (objeto, bloque o fichero) y no olvidar la <strong>salida de datos</strong> en la factura. Glacier es una clase o archivo de S3, no un disco del sistema operativo. Storage Gateway, Snow y DataSync aparecen como respuestas cuando el escenario describe migración masiva o híbrido, no cuando solo hay que subir una foto desde la API.</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>S3 no sustituye el EBS del sistema operativo; EFS no es lo mismo que un volumen de una sola máquina virtual. Si sirves mucho tráfico desde un <em>bucket</em> sin CDN, el coste que dispara suele ser la salida de datos. Ampliación y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-5">Certificación § Tema 5</a>.</p>
+</div>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=OkGNAHtVCq8">ATTA AWS Academy 02 S3</a> (~12 min).</p>
+<iframe src="https://www.youtube.com/embed/OkGNAHtVCq8" title="ATTA AWS Academy 02 S3 — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Qué mirar: subida de objeto y <em>Block Public Access</em>; el 403 demuestra que el bloqueo funciona, no es un fallo del lab.</p>
+<p><strong>Extra (opcional).</strong> <a href="https://www.youtube.com/watch?v=GMsD5XIfRLc">S3 Static Web</a> (~8 min) — hosting estático mínimo. Vídeo: Profe Santos Cloud (YouTube).</p>
+<p><strong>Extra.</strong> <a href="https://www.youtube.com/watch?v=HTmkUgp3XdY">Web estática en S3</a> — bucket, <em>static website hosting</em> y prueba del endpoint.</p>
+<iframe src="https://www.youtube.com/embed/HTmkUgp3XdY" title="Web estática en S3" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<figure>
+<img alt="Consola S3 / bucket" src="img/salvador/s3_18.png" width="640" />
+
+<figcaption>Trabajo con buckets S3 en consola.</figcaption>
+</figure>
+<figure>
+<img alt="Hosting estático / web en S3" src="img/salvador/s3_21.png" width="640" />
+
+<figcaption>Web estática sobre S3 (paso de práctica).</figcaption>
+</figure>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr501-objetos-y-bloques">PR501 — Objetos y bloques<a class="headerlink" href="#pr501-objetos-y-bloques" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR501</strong>. (RA4 // a, c // <strong>PR 0–10</strong>). Completas el lab Academy del Módulo 7 (<strong>Ejercicio de laboratorio 4 — Trabajo con EBS</strong>) y dejas claro, en el <code>.md</code>, la diferencia entre almacén de <strong>bloques</strong> (lo que has montado) y almacén de <strong>objetos</strong> (dónde irían las fotos de la API en un buen diseño).</li>
+</ul>
+<p><strong>Tareas:</strong> crea el volumen en la misma AZ que la instancia; adjúntalo; dale formato y móntalo; crea y restaura una instantánea según el enunciado; en el desarrollo explica objeto frente a bloque (por qué las fotos del usuario no deberían vivir solo en ese volumen si mañana hay dos EC2); al terminar, elimina los recursos del lab.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR501.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo (no sustituye el enunciado): <a href="../90-soluciones/pr/PR501.html">Soluciones · PR501</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lab EBS</td>
+<td>Volumen, attach, formato/montaje, instantánea</td>
+<td>0–4</td>
+</tr>
+<tr>
+<td>Concepto (objeto/bloque)</td>
+<td>Explicación coherente en el <code>.md</code></td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Limpieza</td>
+<td>Recursos de lab eliminados</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Claridad</td>
+<td>Capturas con leyenda / <code>.md</code> ordenado</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba almacenamiento de este tema. CLF: <a href="../99-certificacion/certificacion.html#tema-5">Certificación § Tema 5</a>.</p>
+<ol>
+<li>El disco del sistema operativo (SO) de una EC2 se diseña normalmente con…<br />
+   a) S3 Standard · b) <strong>EBS</strong> · c) Glacier Deep Archive</li>
+<li><strong>V/F.</strong> EFS puede montarse en varias EC2 (misma región) a la vez.</li>
+<li>Una foto a la que casi nadie accede en un año: ¿clase/archivo <strong>caliente</strong> o <strong>fría/archivo</strong> (idea)?</li>
+<li><strong>V/F.</strong> Un snapshot de EBS «vive solo» en la AZ del volumen y no se puede usar para recuperar en la región.</li>
+<li>Empareja: <strong>S3</strong> · <strong>EBS</strong> · <strong>salida de datos</strong> con: (a) objetos por API/HTTP · (b) volumen de bloque · (c) tráfico de salida que factura</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>b</strong> (EBS).</p>
+</li>
+<li>
+<p><strong>Verdadero</strong>.</p>
+</li>
+<li>
+<p><strong>Fría/archivo</strong> (Glacier / clase fría — idea, no el céntimo exacto).</p>
+</li>
+<li>
+<p><strong>Falso</strong> — la instantánea es recurso de región (idea Foundations: no la trates como «solo disco local de la AZ»).</p>
+</li>
+<li>
+<p><strong>S3</strong> encaja con (a) objetos por API/HTTP; <strong>EBS</strong>, con (b) volumen de bloque; la <strong>salida de datos</strong>, con (c) el tráfico de salida que factura.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="almacenamiento-de-objetos">almacenamiento de objetos</strong>
+Modelo en el que guardas ficheros como objetos (datos + metadatos) accesibles por API/HTTP, no como bloques de un disco montado. En AWS, el servicio central es S3.</p>
+<p><strong id="almacenamiento-de-bloques">almacenamiento de bloques</strong>
+Volúmenes que el sistema operativo monta como disco. En EC2, el servicio habitual es EBS.</p>
+<p><strong id="almacenamiento-de-archivos">almacenamiento de archivos</strong>
+Sistema de ficheros en red (NFS, SMB…) montable por una o varias instancias. En AWS: EFS o FSx según el caso.</p>
+<p><strong id="s3">S3</strong>
+<em>Simple Storage Service</em> (servicio simple de almacenamiento): almacenamiento de objetos accesible por API/HTTP. Ideal para ficheros, copias de seguridad de objetos y front estático; no sustituye el disco del sistema de una máquina virtual.</p>
+<p><strong id="bucket">bucket</strong>
+Contenedor de objetos en S3. El nombre es único a escala global; el bucket se crea en una región.</p>
+<p><strong id="objeto">objeto</strong>
+Unidad almacenada en S3: datos + metadatos, identificada por una clave dentro del bucket.</p>
+<p><strong id="clave-s3">clave S3</strong>
+<em>Key</em>: identificador del objeto dentro del bucket (ruta lógica, p. ej. <code>uploads/user-42/foto.jpg</code>).</p>
+<p><strong id="clase-de-almacenamiento">clase de almacenamiento</strong>
+Nivel de S3 que equilibra frecuencia de acceso, coste de almacenamiento y coste o tiempo de recuperación (Standard, Standard-IA, Intelligent-Tiering, Glacier…).</p>
+<p><strong id="s3-standard">S3 Standard</strong>
+Clase de acceso frecuente; la habitual para objetos que se leen en la app a diario.</p>
+<p><strong id="s3-standard-ia">S3 Standard-IA</strong>
+<em>Infrequent Access</em> (acceso poco frecuente): almacenamiento más pensado para datos tocados de vez en cuando, con coste de recuperación al leer.</p>
+<p><strong id="s3-intelligent-tiering">S3 Intelligent-Tiering</strong>
+Clase que mueve objetos entre capas según el patrón de acceso, sin que tú elijas a mano cada cambio.</p>
+<p><strong id="glacier">Glacier</strong>
+Familia de archivo de S3 para retención larga con acceso no inmediato; recuperar lleva tiempo según la opción.</p>
+<p><strong id="ciclo-de-vida">ciclo de vida</strong>
+<em>Lifecycle</em>: reglas que transicionan o expirar objetos y versiones con el tiempo.</p>
+<p><strong id="versionado">versionado</strong>
+Función de S3 que conserva versiones de un objeto ante sobrescrituras y borrados (marcadores de borrado).</p>
+<p><strong id="url-prefirmada">URL prefirmada</strong>
+<em>Presigned URL</em>: enlace temporal firmado que permite leer (o escribir) un objeto privado sin abrir el bucket al público.</p>
+<p><strong id="politica-de-bucket">política de bucket</strong>
+Documento JSON en el bucket que permite o deniega acciones sobre ese recurso; se combina con IAM.</p>
+<p><strong id="block-public-access">Block Public Access</strong>
+Controles que bloquean el acceso público al bucket o a la cuenta; con ellos activos, una URL pública suele devolver 403.</p>
+<p><strong id="ebs">EBS</strong>
+<em>Elastic Block Store</em> (almacenamiento de bloques elástico): volúmenes de bloque para instancias EC2. Se montan en el SO; viven en una sola AZ.</p>
+<p><strong id="volumen-ebs">volumen EBS</strong>
+Disco de bloque concreto (tamaño, tipo, AZ) que se adjunta a una instancia.</p>
+<p><strong id="gp3">gp3</strong>
+Tipo de volumen EBS de propósito general habitual en labs y muchas cargas.</p>
+<p><strong id="io2">io2</strong>
+Tipo de volumen EBS orientado a más IOPS cuando la carga de disco lo exige.</p>
+<p><strong id="iops">IOPS</strong>
+<em>Input/Output Operations Per Second</em> (operaciones de entrada/salida por segundo): medida de rendimiento de disco.</p>
+<p><strong id="instantanea">instantánea</strong>
+<em>Snapshot</em>: copia de un volumen EBS en un momento; base para restaurar o crear volúmenes nuevos.</p>
+<p><strong id="instance-store">instance store</strong>
+Disco local del host: efímero; no es almacén durable tras <em>stop</em>/<em>terminate</em>.</p>
+<p><strong id="efs">EFS</strong>
+<em>Elastic File System</em> (sistema de ficheros elástico): NFS gestionado, compartible por varias instancias en la región.</p>
+<p><strong id="nfs">NFS</strong>
+<em>Network File System</em> (sistema de ficheros en red): protocolo típico de montaje de EFS en Linux.</p>
+<p><strong id="fsx">FSx</strong>
+Familia de sistemas de ficheros gestionados (Windows/SMB, Lustre, etc.) para cargas que EFS no cubre igual.</p>
+<p><strong id="smb">SMB</strong>
+<em>Server Message Block</em>: protocolo de ficheros habitual en entornos Windows; aparece con FSx para Windows.</p>
+<p><strong id="storage-gateway">Storage Gateway</strong>
+Servicio híbrido que presenta almacenamiento AWS (objetos, ficheros, volúmenes) hacia entornos en tus propias instalaciones (<em>on-premises</em>) o en el CPD propio.</p>
+<p><strong id="snow-family">Snow Family</strong>
+Dispositivos físicos de AWS para transferir grandes volúmenes de datos cuando la red no basta.</p>
+<p><strong id="datasync">DataSync</strong>
+Servicio para automatizar y acelerar copias de datos entre almacenes locales (en el CPD propio) y AWS (u otros destinos soportados).</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../04-computo-serverless/tema4.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 4. Cómputo: EC2, Lambda y contenedores">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                4. Cómputo: EC2, Lambda y contenedores
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../06-bases-de-datos/tema6.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 6. Bases de datos">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                6. Bases de datos
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

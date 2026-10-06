@@ -1,0 +1,1712 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pilares del AWS Well-Architected Framework, desacoplo y resiliencia a nivel Foundations (Módulo 9).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/07-arquitectura-well-architected/tema7.html">
+      
+      
+        <link rel="prev" href="../06-bases-de-datos/tema6.html">
+      
+      
+        <link rel="next" href="../08-escalado-monitoreo-cierre/tema8.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Tema 7 — Arquitectura Well-Architected - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tema 7 — Arquitectura Well-Architected - Introducción a la Nube Pública" />
+<meta property="og:description" content="Pilares del AWS Well-Architected Framework, desacoplo y resiliencia a nivel Foundations (Módulo 9)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/07-arquitectura-well-architected/tema7.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/07-arquitectura-well-architected/tema7.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Tema 7 — Arquitectura Well-Architected - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Pilares del AWS Well-Architected Framework, desacoplo y resiliencia a nivel Foundations (Módulo 9)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/07-arquitectura-well-architected/tema7.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-7-arquitectura-well-architected" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tema 7 — Arquitectura Well-Architected
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema7.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 9)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 9)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excelencia-operativa_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excelencia operativa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiabilidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fiabilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eficiencia-del-rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eficiencia del rendimiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizacion-de-costes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimización de costes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sostenibilidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sostenibilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patrones-de-resiliencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patrones de resiliencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#well-architected-tool-y-trusted-advisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Well-Architected Tool y Trusted Advisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-modulo-9-en-academy-sin-laboratorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El Módulo 9 en Academy (sin laboratorio)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-diseno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (diseño)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-temas-36-y-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con Temas 3–6 y 8
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr701-mejorar-un-diagrama-fragil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR701 — Mejorar un diagrama frágil
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-un-diseno-fragil-en-cinco-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer un diseño frágil en cinco minutos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 9)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 9)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excelencia-operativa_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excelencia operativa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiabilidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fiabilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eficiencia-del-rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eficiencia del rendimiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizacion-de-costes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimización de costes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sostenibilidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sostenibilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patrones-de-resiliencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patrones de resiliencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#well-architected-tool-y-trusted-advisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Well-Architected Tool y Trusted Advisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-modulo-9-en-academy-sin-laboratorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El Módulo 9 en Academy (sin laboratorio)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-frecuentes-diseno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errores frecuentes (diseño)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-temas-36-y-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con Temas 3–6 y 8
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr701-mejorar-un-diagrama-fragil" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR701 — Mejorar un diagrama frágil
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-un-diseno-fragil-en-cinco-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer un diseño frágil en cinco minutos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-7-arquitectura-well-architected">Tema 7. Arquitectura Well-Architected<a class="headerlink" href="#tema-7-arquitectura-well-architected" title="Permanent link">&para;</a></h1>
+<p>Una sola <a href="../04-computo-serverless/tema4.html#ec2">EC2</a> (<em>Elastic Compute Cloud</em>, nube elástica de cómputo) con MySQL local, una <a href="../04-computo-serverless/tema4.html#ami">AMI</a> (<em>Amazon Machine Image</em>, imagen de máquina de Amazon) hecha a mano y el puerto 3306 abierto al mundo <strong>funciona</strong> hasta el primer pico o el primer disco lleno. El <strong><a href="#well-architected">Well-Architected Framework</a></strong> (<em>marco de buena arquitectura</em>, a menudo abreviado <strong>WA</strong>) es un vocabulario compartido para revisar una carga y decidir <strong>qué ganas y qué pagas</strong> cuando cambias el diseño: más zonas de disponibilidad (<strong>AZ</strong>, <em>Availability Zone</em>) mejoran la fiabilidad y suelen subir el coste; endurecer el <a href="../03-redes-entrega-contenido/tema3.html#security-group">SG</a> (grupo de seguridad, <em>security group</em>) mejora la seguridad y a veces complica el acceso desde el aula. Este tema corresponde al <strong>Módulo 9</strong> de <em>AWS Academy Cloud Foundations</em>. Nivel Practitioner: pilares y patrones cortos. Los términos clave están en el <a href="#glosario">glosario</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. Antes de escalar (Tema 8), nombra <strong>por qué</strong> una AZ sola o un disco lleno te tumba el servicio: aquí justificas el equilibrio entre fiabilidad, coste y complejidad.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA4.</strong> <em>Gestiona servicios de almacenamiento y bases de datos en la nube, seleccionando tecnologías adecuadas para casos específicos, y diseña arquitecturas escalables y resilientes utilizando herramientas de monitoreo y optimización para mejorar el rendimiento.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion-ra4">Criterios de evaluación (RA4)<a class="headerlink" href="#criterios-de-evaluacion-ra4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>d)</strong> Se ha diseñado arquitecturas escalables y resilientes basadas en las mejores prácticas.</li>
+<li><strong>f)</strong> Se ha participado en actividades que simulen el análisis y mejora de arquitecturas existentes.</li>
+</ul>
+<p>La monitorización fina es el Tema 8. Aquí CloudWatch aparece como práctica de <strong>excelencia operativa</strong>.</p>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Seis pilares y tensiones entre ellos.</li>
+<li>Varias AZ, desacoplo (<a href="#sns">SNS</a>/<a href="#sqs">SQS</a>), <a href="#iac">IaC</a> como idea.</li>
+<li>Well-Architected Tool y Trusted Advisor: existen; no son el entregable principal de PR701.</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q9</strong></td>
+<td>Pilares WA + equilibrios Multi-AZ</td>
+<td><strong>PR701</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>¿Para qué sirve el <strong>Well-Architected Framework</strong> en Foundations: argumentar cambios con pilares o memorizar logos de servicios?</li>
+<li>Poner la <strong>API</strong> (interfaz de programación de aplicaciones) en <strong>dos AZ</strong> mejora un pilar y suele empeorar otro: ¿cuáles?</li>
+<li>¿<strong>SQS</strong> o <strong>SNS</strong> si un worker debe procesar «generar PDF» cuando pueda?</li>
+<li>Da un ejemplo de cambio en una app de un proyecto de DAW y el <strong>pilar</strong> que mejora (una frase).</li>
+<li>¿Este módulo te pide diseñar un entorno de varias cuentas (<em>landing zone</em>) completo?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>Sirve para <strong>argumentar cambios</strong> etiquetando pilares (qué mejora y qué empeora), no para memorizar logos.</p>
+</li>
+<li>
+<p>Mejora <strong>fiabilidad</strong>; suele empeorar <strong>coste</strong> (y a veces la complejidad del trabajo de administración).</p>
+</li>
+<li>
+<p><strong>SQS</strong>: cola de trabajo para que el worker procese cuando pueda. SNS sería publicación/suscripción hacia varios destinatarios.</p>
+</li>
+<li>
+<p>Ejemplo: pasar MySQL local a <strong>RDS Multi-AZ</strong> mejora el pilar <strong>fiabilidad</strong> (aceptas más coste).</p>
+</li>
+<li>
+<p><strong>No.</strong> Este módulo no pide un entorno de varias cuentas (<em>landing zone</em>).</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-9">Bloque Foundations (Módulo 9)<a class="headerlink" href="#bloque-foundations-modulo-9" title="Permanent link">&para;</a></h2>
+<p>Los <strong>seis pilares</strong> del Well-Architected Framework son ejes de revisión de una carga en la nube: excelencia operativa, seguridad, fiabilidad, eficiencia del rendimiento, optimización de costes y sostenibilidad. No son una lista mágica de casillas: son preguntas sistemáticas. ¿Cómo desplegamos y qué aprendemos del incidente? ¿Quién accede a los datos? ¿Qué pasa si cae una AZ? ¿El tamaño del recurso encaja? ¿Pagamos ociosidad? ¿Usamos energía con sentido? Para una API de un proyecto de DAW sirven para <strong>argumentar</strong> un cambio («paso a Multi-AZ») sin pretender un diagrama de cuarenta cajas.</p>
+<table>
+<thead>
+<tr>
+<th>Pilar</th>
+<th>Pregunta que te haces</th>
+<th>Ejemplo en una API de un proyecto de DAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Excelencia operativa</strong></td>
+<td>¿Cómo desplegamos, observamos y aprendemos cuando algo falla?</td>
+<td>Plantillas repetibles, alarmas de CloudWatch y un procedimiento breve tras un incidente.</td>
+</tr>
+<tr>
+<td><strong>Seguridad</strong></td>
+<td>¿Quién accede a los datos y cómo detectamos lo anómalo?</td>
+<td>IAM de mínimo privilegio, HTTPS y un SG que no abre 3306 a internet.</td>
+</tr>
+<tr>
+<td><strong>Fiabilidad</strong></td>
+<td>¿Qué pasa si se cae una AZ o un disco?</td>
+<td>ALB con instancias en dos AZ y RDS con Multi-AZ.</td>
+</tr>
+<tr>
+<td><strong>Eficiencia del rendimiento</strong></td>
+<td>¿El tipo y el tamaño del recurso encajan con la carga?</td>
+<td>Elegir familia de instancia razonable y añadir caché solo si el acceso lo pide.</td>
+</tr>
+<tr>
+<td><strong>Optimización de costes</strong></td>
+<td>¿Pagamos capacidad encendida sin uso?</td>
+<td>Apagar el entorno de desarrollo de noche o usar Spot en trabajos por lotes.</td>
+</tr>
+<tr>
+<td><strong>Sostenibilidad</strong></td>
+<td>¿La energía y el hardware se usan con sentido?</td>
+<td>Ajustar el tamaño de los recursos y reducir instancias ociosas.</td>
+</tr>
+</tbody>
+</table>
+<p>Multi-AZ <strong>mejora la fiabilidad</strong> y <strong>sube el coste</strong>. Eso es evaluable en PR701. Un diagrama enorme sin justificar el equilibrio no lo es.</p>
+<p>Cuando compares dos diseños en el CLF o en PR701, escribe la frase completa: «Paso la BD a RDS Multi-AZ: gano fiabilidad; pago más por la instancia de reserva y un poco más de complejidad de red». Esa frase es el entregable. Un logo de RDS sin el pilar y sin el coste aceptado no demuestra el CE f.</p>
+<p>Otra tensión habitual es seguridad frente a comodidad en el aula. Abrir 3306 «solo un rato» para el cliente SQL del portátil parece inocente y deja el hábito en el repo. La alternativa Foundations (SG desde la API, un servidor bastión —EC2 en subred pública solo como puerta SSH a la red privada— o una VPN, red privada virtual) es menos cómoda el primer día y más defendible en un proyecto intermodular. Etiquetas el cambio como seguridad; aceptas complejidad de acceso.</p>
+<p>El desacoplo también tensiona excelencia operativa: una cola SQS implica un worker, reintentos y, a veces, una cola de mensajes fallidos. Ganas resiliencia del HTTP; pagas un componente más que vigilar. En Foundations no montas todo eso en consola para PR701; sí debes poder decirlo en prosa.</p>
+<p>Los pilares <strong>se tensan</strong> entre sí. Más AZ y más alarmas mejoran fiabilidad y excelencia operativa; también suman factura y complejidad. Ajustar el tamaño de los recursos mejora coste y sostenibilidad; mal hecho, empeora el rendimiento. En el entregable no busques el diagrama perfecto: busca <strong>justificar</strong> lo que ganas y lo que pagas.</p>
+<p>Cuando la API y MySQL viven en la misma EC2, con AMI manual y SG abierto, un <em>terminate</em> o un disco lleno tumba todo a la vez. Un diseño más sólido separa el cómputo detrás de un <strong>ALB</strong> (<em>Application Load Balancer</em>, balanceador de carga de aplicaciones), reparte instancias en dos AZ, mueve la BD a <a href="../06-bases-de-datos/tema6.html#rds">RDS</a> (<em>Relational Database Service</em>) con Multi-AZ, encola trabajos largos y pone alarmas. Cada uno de esos cambios se puede etiquetar con un <strong>pilar</strong>; ese es el ejercicio del CE f.</p>
+<h3 id="excelencia-operativa_1">Excelencia operativa<a class="headerlink" href="#excelencia-operativa_1" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> El pilar de <strong>excelencia operativa</strong> pregunta cómo ejecutas y evolucionas la carga: despliegues repetibles, observación (métricas, logs, alarmas) y aprendizaje tras incidentes. No es «tener muchas consolas abiertas»: es poder responder qué cambió, quién lo desplegó y cómo te enteras si la API deja de responder.</p>
+<p><strong>En la práctica.</strong> En Foundations no montas un centro de operaciones. Sí puedes decir: «si la API cae, CloudWatch me avisa» o «la infraestructura se describe en CloudFormation para no depender de clics olvidados». La <strong><a href="#iac">IaC</a></strong> (<em>Infrastructure as Code</em>, infraestructura como código) es la idea de definir recursos en ficheros y desplegarlos igual en otro entorno. Conoces la idea; no entregas plantillas de trescientas líneas. Una guía operativa breve (<em>runbook</em>) de media página («si la alarma de 5xx salta, mira el ASG y el estado de RDS») ya cuenta como excelencia operativa en un proyecto de DAW.</p>
+<h3 id="seguridad">Seguridad<a class="headerlink" href="#seguridad" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> El pilar de <strong>seguridad</strong> cubre identidad, protección de datos, detección y respuesta: quién puede hacer qué, qué viaja cifrado y qué queda expuesto. Enlaza con el modelo de responsabilidad compartida del Tema 2: AWS cuida la nube; tú configuras identidades, SG y secretos.</p>
+<p><strong>En la práctica.</strong> Un SG con 3306 a <code>0.0.0.0/0</code> es una mala práctica de seguridad (y a menudo también de fiabilidad, porque el motor queda a merced de internet). Mínimo privilegio IAM (<em>Identity and Access Management</em>), <strong>HTTPS</strong> (<em>Hypertext Transfer Protocol Secure</em>) delante del ALB y secretos fuera del repositorio son cambios que etiquetas aquí. Cifrar un volumen <strong>EBS</strong> (<em>Elastic Block Store</em>) o forzar TLS en tránsito también caen en este pilar. Si en PR701 mueves MySQL a RDS en subred privada, el beneficio principal suele ser seguridad (aislamiento) aunque también ganes en fiabilidad.</p>
+<h3 id="fiabilidad_1">Fiabilidad<a class="headerlink" href="#fiabilidad_1" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> El pilar de <strong>fiabilidad</strong> pregunta si la carga aguanta fallos de componentes y de AZ, y si se recupera sin intervención heroica. Una arquitectura fiable no promete que nada falle: promete que el fallo de una pieza no tumba el servicio entero (o que la recuperación está ensayada).</p>
+<p><strong>En la práctica.</strong> Una sola AZ es un punto único de fallo del edificio. Dos AZ detrás de un ALB, RDS Multi-AZ y colas para trabajos no críticos del HTTP mejoran fiabilidad. Aceptas más coste y un poco más de complejidad de red. Las copias de seguridad y las instantáneas también son fiabilidad: si borras una tabla a las tres de la madrugada, ¿puedes volver atrás?</p>
+<h3 id="eficiencia-del-rendimiento">Eficiencia del rendimiento<a class="headerlink" href="#eficiencia-del-rendimiento" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> El pilar de <strong>eficiencia del rendimiento</strong> pregunta si eliges el tipo correcto de recurso y si usas bien la capacidad (caché, almacenamiento adecuado, familia de instancia). No es sinónimo de «más grande»: es «adecuado a la carga real».</p>
+<p><strong>En la práctica.</strong> Un <code>t3.large</code> 24/7 para una API de prácticas con pico a las 11:00 suele ser sobredimensionado. Ajustar el tamaño de los recursos (o apagar fuera de horario) conecta también con coste. No etiquetes todo como «rendimiento» solo porque hayas cambiado de tipo de instancia: di si el cuello era CPU, latencia o diseño (por ejemplo, faltaba una cola y el HTTP esperaba al PDF).</p>
+<h3 id="optimizacion-de-costes">Optimización de costes<a class="headerlink" href="#optimizacion-de-costes" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> El pilar de <strong>optimización de costes</strong> pregunta si pagas solo por lo que necesitas y si conoces el desglose. En el lab, el coste «invisible» suele ser la instancia o el volumen que nadie terminó.</p>
+<p><strong>En la práctica.</strong> Instancias de lab olvidadas, volúmenes EBS huérfanos y Multi-AZ «por costumbre» en un entorno de media hora disparan la factura. Spot encaja en trabajos por lotes que toleran interrupción; no en el checkout de la demo. En PR701, cuando mejores fiabilidad con Multi-AZ, declara el coste que aceptas: eso es el equilibrio que el CE f pide ver.</p>
+<h3 id="sostenibilidad_1">Sostenibilidad<a class="headerlink" href="#sostenibilidad_1" title="Permanent link">&para;</a></h3>
+<p><strong>Qué es en este caso.</strong> El pilar de <strong>sostenibilidad</strong> pregunta por el impacto ambiental del uso de recursos: menos capacidad ociosa, mejor aprovechamiento del hardware y patrones eficientes. AWS lo añadió como sexto pilar; en Foundations no hace falta un estudio de huella de carbono, sí hace falta no dejar capacidad encendida sin uso.</p>
+<p><strong>En la práctica.</strong> Apagar entornos que no usas y ajustar tamaños cuenta más que un párrafo genérico sobre el planeta. Suele ir de la mano del pilar de costes cuando reduces ociosidad: la misma acción (parar la EC2 de desarrollo por la noche) mejora ambos.</p>
+<table>
+<thead>
+<tr>
+<th>Examen <strong>CLF</strong> (<em>AWS Certified Cloud Practitioner</em>, CLF-C02)</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hay que etiquetar el escenario con un pilar.</td>
+<td>En PR701 cada mejora lleva pilar y lo que empeora.</td>
+</tr>
+<tr>
+<td>SQS es cola de trabajo; SNS es publicación/suscripción.</td>
+<td>Tras un pedido, «generar PDF» pasa a SQS, no a SNS por defecto.</td>
+</tr>
+<tr>
+<td>Varias AZ apuntan a fiabilidad, no a «más barato».</td>
+<td>Dibuja dos AZ solo si justificas el coste.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patrones-de-resiliencia">Patrones de resiliencia<a class="headerlink" href="#patrones-de-resiliencia" title="Permanent link">&para;</a></h3>
+<p>La <strong><a href="#resiliencia">resiliencia</a></strong> es la capacidad de la carga para seguir prestando servicio (o recuperarse) cuando fallan componentes. En Foundations se concreta en patrones que ya has tocado por piezas:</p>
+<p><strong>Varias AZ en el plano de aplicación.</strong> El ALB reparte tráfico hacia instancias en al menos dos AZ. Si una zona cae, las de la otra siguen atendiendo (si el <strong>ASG</strong> —<em>Auto Scaling group</em>, grupo de autoescalado— o el diseño mantienen capacidad; el detalle de autoescalado es el Tema 8). En el diseño frágil de PR701 hay una sola EC2 en una AZ: el primer cambio de fiabilidad suele ser «dos AZ detrás del balanceador».</p>
+<p><strong>Desacoplo con cola de trabajo.</strong> <strong><a href="#desacoplo">Desacoplar</a></strong> significa que el productor no exige que el consumidor esté vivo en el mismo instante. <strong><a href="#sqs">Amazon SQS</a></strong> (<em>Simple Queue Service</em>, servicio simple de colas) es una <strong>cola de trabajo</strong>: el <code>POST /pedidos</code> responde 201 y encola «generar factura PDF»; el worker procesa cuando pueda. Si el worker cae, los mensajes esperan; el usuario ya tiene el pedido. Sin cola, el HTTP espera al PDF y el <em>timeout</em> tumba la experiencia en el pico de la demo. Ese patrón también protege el rendimiento percibido: la API responde rápido aunque el PDF tarde.</p>
+<p><strong>Publicación/suscripción.</strong> <strong><a href="#sns">Amazon SNS</a></strong> (<em>Simple Notification Service</em>, servicio simple de notificaciones) publica un evento a <strong>varios</strong> suscriptores (correo, cola, función…). Encaja cuando varios destinos deben reaccionar al mismo hecho («pedido pagado» hacia correo al cliente, mensaje a almacén, métrica). No es la misma semántica que «un worker procesará este trabajo cuando pueda»: eso es SQS. En el CLF, si el enunciado dice «varios equipos deben enterarse», piensa SNS; si dice «un proceso procesará el mensaje más tarde», piensa SQS.</p>
+<p><strong>Sin estado en la instancia.</strong> Si las sesiones o los <em>uploads</em> viven solo en el disco de una EC2, la siguiente instancia detrás del ALB no los ve. Fotos en S3 y sesión en un almacén compartido (o un token JWT —<em>JSON Web Token</em>— sin estado en el servidor) son el patrón; enlaza con los Temas 5 y 6. Sustituir instancias enfermas (idea del Tema 8) solo funciona si la instancia es sustituible: si guarda datos locales, no se puede sustituir sin perderlos.</p>
+<p><strong>Multi-AZ en la BD.</strong> RDS Multi-AZ hace <strong>conmutación por error</strong> (<em>failover</em>): si cae la instancia principal, el servicio pasa a la de reserva. Mejora fiabilidad; sube coste. No escala por sí solo las consultas de informes (eso sería una réplica de lectura). En el diseño frágil, MySQL en la misma EC2 acopla el fallo del cómputo y el de los datos: separar a RDS ya es un salto; activar Multi-AZ es el siguiente.</p>
+<p><strong>IaC.</strong> CloudFormation o CDK describen la infraestructura para repetirla. En este módulo <em>conoces</em> la idea; sustituye la AMI «que solo tiene mi compañero» por un proceso repetible cuando justifiques excelencia operativa. No hace falta entregar la plantilla: hace falta decir por qué la AMI manual es frágil (no se versiona igual, no se revisa en PR, diverge entre alumnos).</p>
+<figure>
+<img alt="Patrón resiliente: ALB, EC2 en dos AZ, SQS, workers, RDS Multi-AZ y CloudWatch" src="../img/diagramas/arquitectura-resiliente.svg" width="800" />
+
+<figcaption>Varias AZ, desacoplo con cola SQS y base gestionada Multi-AZ.</figcaption>
+</figure>
+<p>El análisis de PR701 (CE f) es decir <strong>qué pilar mejora</strong> si pasas de una EC2 con MySQL local a ALB + varias AZ + RDS, y qué aceptas a cambio.</p>
+<h3 id="well-architected-tool-y-trusted-advisor">Well-Architected Tool y Trusted Advisor<a class="headerlink" href="#well-architected-tool-y-trusted-advisor" title="Permanent link">&para;</a></h3>
+<p>La <strong><a href="#well-architected-tool">Well-Architected Tool</a></strong> es un cuestionario en la consola organizado por pilares. Sirve para revisar una carga con preguntas guiadas (PERF, COST, SEC…). Creas un <em>workload</em> (la carga que describes), respondes y obtienes riesgos altos o medios por pilar. En muchas preguntas aparece el enlace a comprobaciones de <strong><a href="#trusted-advisor">Trusted Advisor</a></strong>, el servicio que sugiere mejoras de coste, seguridad, tolerancia a fallos y rendimiento según el plan de Support. Trusted Advisor no sustituye al marco WA: son comprobaciones automáticas; el marco es el vocabulario para discutir el diseño completo.</p>
+<p>En Foundations basta saber que existen y para qué sirven. No son el entregable de PR701: la práctica de clase es el análisis en prosa. Si abres la Tool por curiosidad, no hace falta dejar un <em>workload</em> de lab colgado en la cuenta.</p>
+<figure>
+<img alt="AWS Well-Architected Tool con pregunta PERF y recursos de ayuda" src="img/capturas/wa-tool-pregunta.png" width="800" />
+
+<figcaption>Pregunta de un pilar en la Well-Architected Tool. Fuente: AWS Well-Architected Tool User Guide (AWS).</figcaption>
+</figure>
+<figure>
+<img alt="Pregunta COST 5 con pestaña Trusted Advisor checks" src="img/capturas/wa-tool-trusted-advisor.png" width="800" />
+
+<figcaption>Trusted Advisor integrado en la revisión de coste. Fuente: AWS Well-Architected Tool User Guide (AWS).</figcaption>
+</figure>
+<h3 id="el-modulo-9-en-academy-sin-laboratorio">El Módulo 9 en Academy (sin laboratorio)<a class="headerlink" href="#el-modulo-9-en-academy-sin-laboratorio" title="Permanent link">&para;</a></h3>
+<p>En <em>AWS Academy Cloud Foundations</em>, el <strong>Módulo 9 - Arquitectura en la nube</strong> <strong>no</strong> tiene ejercicio de laboratorio. Incluye secciones de teoría (principios de diseño del marco de buena arquitectura, los pilares, fiabilidad y disponibilidad, Trusted Advisor), el <em>Student Guide</em> y la <strong>evaluación de conocimientos</strong> del módulo. No vas a pulsar <em>Start Lab</em> aquí: el trabajo práctico de la quincena es de análisis.</p>
+<p>La práctica de clase en este tema es <strong>PR701</strong>: partiendo de un diseño frágil, propones mejoras etiquetadas por pilar. Si haces la evaluación de conocimientos del Módulo 9, te ayuda a fijar vocabulario (por ejemplo distinguir SQS de SNS o asociar «varias AZ» a fiabilidad); no sustituye el entregable de las cinco mejoras. En el <code>.md</code> de PR701 puedes anotar si completaste esa evaluación; no es obligatoria para la rúbrica.</p>
+<h3 id="errores-frecuentes-diseno">Errores frecuentes (diseño)<a class="headerlink" href="#errores-frecuentes-diseno" title="Permanent link">&para;</a></h3>
+<p>En un proyecto intermodular, el diseño frágil del enunciado de PR701 se parece a lo que montas la primera semana «para que compile»: una máquina, una base y un puerto abierto. El marco WA no te castiga por haber empezado así; te da nombres para decidir el siguiente paso sin improvisar. Cinco mejoras bien argumentadas valen más que un diagrama bonito sin pilares.</p>
+<p>Si intentas «mejorar todo» a la vez sin decir qué pilar priorizas, el entregable se vuelve una lista de deseos. Elige cinco cambios distintos y, en cada uno, nombra el pilar principal y lo que empeora (coste, complejidad).</p>
+<p>Usar SNS cuando necesitabas una cola de trabajo (o al revés) mezcla dos ideas distintas: la publicación/suscripción avisa a varios destinos; la cola guarda trabajos para un consumidor. Para «generar PDF cuando el worker pueda», SQS es la opción adecuada.</p>
+<p>Declarar sostenibilidad sin ajustar tamaños ni apagar recursos ociosos deja el pilar en una frase vacía. En Foundations, reducir ociosidad es la prueba más creíble de ese pilar (y suele alinear con costes).</p>
+<p>Proponer un entorno de varias cuentas o una malla de microservicios para una API de prácticas se sale del Módulo 9. Quédate en piezas Foundations: ALB, varias AZ, RDS, S3, IAM, SQS, CloudWatch.</p>
+<h3 id="relacion-con-temas-36-y-8">Relación con Temas 3–6 y 8<a class="headerlink" href="#relacion-con-temas-36-y-8" title="Permanent link">&para;</a></h3>
+<p>Sin VPC multi-AZ (Tema 3), RDS Multi-AZ (Tema 6) y ALB/ASG (Tema 8), el discurso Well-Architected se queda en nombres sin piezas. Este tema <strong>nombra</strong> el equilibrio; los anteriores dan los bloques. El Tema 8 profundiza en escalado y monitorización: aquí solo situamos CloudWatch como excelencia operativa.</p>
+<p>Si en el Tema 5 dejaste las fotos en el disco de la EC2, el pilar de fiabilidad (y a veces el de rendimiento) te empuja a S3. Si en el Tema 6 dejaste MySQL en la misma máquina que Express, fiabilidad y seguridad te empujan a RDS. PR701 es el momento de reunir esas decisiones en cinco frases con pilares, no de descubrir los servicios por primera vez.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>El Practitioner no pide un diagrama de cuarenta cajas: pide <strong>etiquetar</strong> el escenario con un pilar y no confundir una cola de trabajo (SQS) con una publicación/suscripción (SNS). Tampoco diseñas entornos de varias cuentas en este módulo. Preguntas típicas: «una empresa quiere reducir el tiempo de recuperación si falla una AZ» apunta a fiabilidad / Multi-AZ; «quiere cifrar datos en reposo» apunta a seguridad; «quiere pagar menos por instancias ociosas» apunta a optimización de costes (y a menudo sostenibilidad). Si el enunciado describe un mensaje que varios sistemas deben recibir, SNS; si describe un trabajo que un proceso procesará más tarde, SQS.</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>Cifrar datos apunta a seguridad; las alarmas, a excelencia operativa; Spot o ajustar tamaños, a coste; varias AZ, a fiabilidad. SQS encaja cuando un worker procesará el mensaje; SNS, cuando varios suscriptores reaccionan al mismo evento. Ampliación y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-7">Certificación § Tema 7</a>.</p>
+</div>
+<p><strong>Videotutorial (Practitioner).</strong> <a href="https://www.youtube.com/watch?v=S9NTua9mg9k">AWS Well Architecting Framework</a> (~1 h 52 min) — pilares del Well-Architected Framework. Vídeo: Profe Santos Cloud (YouTube).</p>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=M2Diq9qCi4s">AWS Architectura Discussions</a> (~34 min).</p>
+<iframe src="https://www.youtube.com/embed/M2Diq9qCi4s" title="AWS Architectura Discussions — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Qué mirar: equilibrios (AZ, estado, coste); úsalo como vocabulario para PR701.</p>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr701-mejorar-un-diagrama-fragil">PR701 — Mejorar un diagrama frágil<a class="headerlink" href="#pr701-mejorar-un-diagrama-fragil" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR701</strong>. (RA4 // d, f // <strong>PR 0–10</strong>). Partes de un diseño frágil (una EC2 <code>t3.large</code> en una AZ, MySQL en la misma instancia, AMI manual, SG <code>0.0.0.0/0</code> en 3306, copias de seguridad en <code>/home</code>) y propones <strong>cinco</strong> mejoras en prosa, cada una etiquetada por pilar, sin montar el diagrama completo en consola.</li>
+</ul>
+<p><strong>Tareas:</strong> escribe cinco mejoras distintas. En cada una, en párrafos (no en una fórmula fija): el problema, el servicio o la práctica de Foundations, el pilar principal y qué mejora (y qué empeora: coste, complejidad). Opcional: haz la evaluación de conocimientos del Módulo 9 para fijar vocabulario.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR701.md</code>.</p>
+<p>Guía de apoyo (no sustituye el enunciado): <a href="../90-soluciones/pr/PR701.html">Soluciones · PR701</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cinco mejoras</td>
+<td>Completas y distintas</td>
+<td>0–4</td>
+</tr>
+<tr>
+<td>Pilares</td>
+<td>Etiqueta correcta por mejora</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Equilibrio</td>
+<td>Qué mejora y qué empeora</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Claridad</td>
+<td>Prosa legible</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="como-leer-un-diseno-fragil-en-cinco-minutos">Cómo leer un diseño frágil en cinco minutos<a class="headerlink" href="#como-leer-un-diseno-fragil-en-cinco-minutos" title="Permanent link">&para;</a></h3>
+<p>Empieza repasando el diseño: ¿una sola AZ? ¿estado en el disco local? ¿secretos en la AMI? ¿SG abierto? ¿sin alarmas? Prioriza <strong>seguridad</strong> y <strong>fiabilidad</strong> antes que adornos de rendimiento. Propón el cambio mínimo Foundations (RDS, Multi-AZ, ALB, S3, IAM, CloudWatch, SQS). Declara el coste o la complejidad que aceptas a cambio. Eso es el espíritu de PR701 y de muchas preguntas CLF del dominio de conceptos y arquitectura ligera.</p>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba pilares y desacoplo de este tema. CLF: <a href="../99-certificacion/certificacion.html#tema-7">Certificación § Tema 7</a>.</p>
+<ol>
+<li>Cifrar <strong>EBS</strong> (<em>Elastic Block Store</em>) y forzar HTTPS: pilar que etiquetas primero…<br />
+   a) sostenibilidad · b) <strong>seguridad</strong> · c) coste</li>
+<li>Pasar de una AZ a dos con ALB: efecto <em>principal</em>…<br />
+   a) <strong>fiabilidad</strong> · b) sostenibilidad · c) «más barato siempre»</li>
+<li><strong>V/F.</strong> SQS encaja para que un pico de pedidos no tumbe al worker que genera PDFs.</li>
+<li>CloudFormation es…<br />
+   a) un pilar Well-Architected · b) una <strong>práctica / IaC</strong> que ayuda a la excelencia operativa</li>
+<li><strong>V/F.</strong> Este módulo exige montar un entorno de varias cuentas (<em>landing zone</em>).</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>a</strong>.</p>
+</li>
+<li>
+<p><strong>Verdadero</strong> (cola de trabajo).</p>
+</li>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>Falso</strong>.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="well-architected">Well-Architected</strong>
+<em>AWS Well-Architected Framework</em> (marco de buena arquitectura): conjunto de seis pilares para revisar cargas en la nube. Nivel Practitioner: reconocer el pilar ante un escenario y argumentar el equilibrio.</p>
+<p><strong id="excelencia-operativa">excelencia operativa</strong>
+Pilar que cubre despliegue, observación y aprendizaje tras incidentes.</p>
+<p><strong id="seguridad-pilar">seguridad (pilar)</strong>
+Pilar de identidad, protección de datos y detección.</p>
+<p><strong id="fiabilidad">fiabilidad</strong>
+Pilar de tolerancia a fallos y recuperación (varias AZ, conmutación, copias).</p>
+<p><strong id="eficiencia-rendimiento">eficiencia del rendimiento</strong>
+Pilar de elección y uso adecuado de tipos de recurso.</p>
+<p><strong id="optimizacion-costes">optimización de costes</strong>
+Pilar de evitar gasto inútil y conocer el desglose.</p>
+<p><strong id="sostenibilidad">sostenibilidad</strong>
+Pilar de uso eficiente de recursos y menor ociosidad.</p>
+<p><strong id="resiliencia">resiliencia</strong>
+Capacidad de seguir prestando servicio o recuperarse cuando fallan componentes.</p>
+<p><strong id="desacoplo">desacoplo</strong>
+Diseño en el que productor y consumidor no tienen que estar disponibles a la vez (p. ej. con una cola).</p>
+<p><strong id="sqs">SQS</strong>
+<em>Simple Queue Service</em> (servicio simple de colas): cola de mensajes para trabajos. El productor encola aunque el worker esté caído o saturado.</p>
+<p><strong id="sns">SNS</strong>
+<em>Simple Notification Service</em> (servicio simple de notificaciones): publicación/suscripción hacia varios destinos.</p>
+<p><strong id="iac">IaC</strong>
+<em>Infrastructure as Code</em> (infraestructura como código): definir infraestructura en ficheros (p. ej. CloudFormation) para desplegar de forma repetible.</p>
+<p><strong id="well-architected-tool">Well-Architected Tool</strong>
+Cuestionario en consola por pilares para revisar una carga; a menudo enlaza con Trusted Advisor.</p>
+<p><strong id="trusted-advisor">Trusted Advisor</strong>
+Servicio de recomendaciones (coste, seguridad, tolerancia a fallos, rendimiento…) según el plan de Support.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../06-bases-de-datos/tema6.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 6. Bases de datos">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                6. Bases de datos
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 8. Escalado, monitorización y cierre CLF-C02">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                8. Escalado, monitorización y cierre CLF-C02
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>
