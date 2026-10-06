@@ -336,7 +336,7 @@ En una API de prácticas el coste dominante suele ser **cómputo encendido** (o 
 | --- | --- |
 | [**AWS Pricing Calculator**](https://calculator.aws/#/addService) | Antes de montar: estimas con supuestos (pública, sin iniciar sesión) |
 | **AWS Budgets** | Durante: aviso cuando te sales del tope |
-| **Cost Explorer** | Después: qué ha costado de verdad |
+| **Cost Explorer** | A posteriori: qué ha costado de verdad |
 | **[Free Tier](#free-tier)** | Cuotas de prueba, no «todo vale 0 €» |
 | **Tags** | Etiquetas para repartir coste por proyecto o alumno |
 
@@ -470,7 +470,7 @@ Cuando repases para el examen, asocia cada etiqueta a un ejemplo de app web: «O
 
 Vídeo: Profe Santos Cloud (YouTube). Conviene fijarte en cómo se organiza Academy y qué vas a tocar en Foundations, todavía sin crear recursos de pago.
 
-**Extra (opcional).** [AWS Academy · Skill Builder](https://www.youtube.com/watch?v=ce_5LCWjzGs) (~16 min) — cuándo activar Skill Builder frente al LMS. Vídeo: Profe Santos Cloud (YouTube).
+La activación de **Skill Builder** y los **vouchers** de certificación, con sus dos vídeos, están en [Acceso](../00-acceso/acceso.md) (sección [Vouchers](../00-acceso/acceso.md#vouchers)).
 
 Los módulos en vídeo del LMS (sistema de gestión del aprendizaje) de Academy (*Introducción al curso* y M1–M3) se indican en clase / Aules.
 
@@ -576,7 +576,7 @@ Comprueba lo de esta quincena (Foundations). Para estilo examen CLF: [Certificac
 4. **V/F.** El Free Tier garantiza 0 € en un lab de tres semanas si dejas instancias encendidas.
 5. Elige la correcta: una **AZ** es…  
    a) otra región · b) un edificio/datacenter dentro de una región · c) un edge de CloudFront
-6. Nombra tres formas de hablar con AWS que hemos visto (sin inventar productos).
+6. Nombra tres formas de hablar con AWS que hemos visto en el tema.
 
 <details markdown="1">
 <summary>Soluciones</summary>

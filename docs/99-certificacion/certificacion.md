@@ -52,6 +52,8 @@ Repaso rápido en inglés:
 - Portal: [skillbuilder.aws](https://skillbuilder.aws/). Activa la cuenta desde Academy / [Acceso](../00-acceso/acceso.md) (Builder ID).
 - Guía del examen: [AWS Certified Cloud Practitioner (CLF-C02)](https://aws.amazon.com/certification/certified-cloud-practitioner/).
 
+Cómo conseguir el **voucher** del CLF sin pagar el examen: [Vouchers de certificación](../00-acceso/acceso.md#vouchers) (examen de práctica oficial en Skill Builder).
+
 Si el centro publica un PDF de preparación en Aules, úsalo desde allí. En este sitio no hay un fichero de preparación autorizado.
 
 ## Orden sugerido { #orden }
