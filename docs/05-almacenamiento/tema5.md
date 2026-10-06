@@ -1,11 +1,11 @@
 ---
 title: Tema 5 — Almacenamiento
-description: S3, EBS, EFS, FSx, clases de almacenamiento y backup (Foundations M7).
+description: S3, EBS, EFS, FSx, clases de almacenamiento y movimiento de datos (Foundations Módulo 7).
 ---
 
 # Tema 5. Almacenamiento
 
-En una app web hay **tres** estilos de almacenamiento que la gente mezcla: el disco de la VM, una carpeta de red compartida y un **objeto** al que se llega por HTTP. Subir el `uploads/` de Express a [S3](#s3) no es lo mismo que montar un [EBS](#ebs). **Foundations M7.** Ver [glosario](#glosario).
+En una app web hay **tres** estilos de almacenamiento que conviene no mezclar: el disco de la máquina virtual, una carpeta de red compartida y un **objeto** al que se llega por HTTP. Subir el `uploads/` de Express a [S3](#s3) no es lo mismo que montar un volumen [EBS](#ebs) en la [EC2](../04-computo-serverless/tema4.md#ec2). Este tema corresponde al **Módulo 7** de *AWS Academy Cloud Foundations*. Los términos clave están en el [glosario](#glosario).
 
 !!! tip "Al empezar"
     Empieza por el [cuestionario inicial](#cuestionario-inicial). Si tu API ya corre en EC2 o Lambda, aquí decides **dónde viven los ficheros** y qué pasa si borras la instancia.
@@ -23,15 +23,15 @@ Bases de datos: Tema 6.
 
 ### Contenidos
 
-* Objeto (S3), bloque (EBS), fichero (EFS / FSx).
-* Clases S3, lifecycle, versionado, *block public access*.
-* Snapshots, instance store, backup y movimiento de datos (Snow, Gateway).
+* Objeto ([S3](#s3)), bloque ([EBS](#ebs)), fichero ([EFS](#efs) / [FSx](#fsx)).
+* Clases S3, ciclo de vida, versionado, *Block Public Access*.
+* Instantáneas, *instance store*, copia de seguridad y movimiento de datos (Snow, Gateway, DataSync).
 
 ### Programación de aula (orientativa)
 
 | Quincena | En tutoría | Trabajo autónomo / evidencias |
 | --- | --- | --- |
-| **Q7** | S3 vs EBS/EFS + lifecycle | **PR501**; Autocheck del tema |
+| **Q7** | S3 vs EBS/EFS + ciclo de vida | **PR501**; Autocheck del tema |
 
 ---
 
@@ -43,7 +43,7 @@ Bases de datos: Tema 6.
     1. ¿**S3** es el disco del sistema operativo de la EC2, o un almacén de **objetos** por API/HTTP?
     2. ¿Cuándo usarías **EBS** frente a subir ficheros a un bucket?
     3. Dos EC2 en AZ distintas necesitan la **misma carpeta** montada: ¿EBS o **EFS**?
-    4. Si terminas la instancia, ¿qué suele pasar con los datos solo en el disco raíz si no hiciste snapshot?
+    4. Si terminas la instancia, ¿qué suele pasar con los datos solo en el disco raíz si no hiciste instantánea?
     5. ¿Por qué la **salida de datos** (egress) puede disparar la factura aunque el almacenamiento «parezca barato»?
 
 Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque **Soluciones (autoevaluación)** debajo o el índice en [Soluciones](../90-soluciones/soluciones.md).
@@ -57,23 +57,23 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 3. **EFS** (fichero de red montable en varias EC2). EBS es de una instancia (salvo patrones avanzados fuera de este módulo).
 
-4. Los datos del disco raíz **se pierden** al terminate si no hay snapshot/AMI que los preserve (salvo volúmenes que el enunciado diga conservar).
+4. Los datos del disco raíz **se pierden** al *terminate* si no hay instantánea o AMI que los preserve (salvo volúmenes que el enunciado diga conservar).
 
-5. El **egress** factura el tráfico que sale hacia internet/clientes; un bucket «barato» sirviendo mucho sin CDN puede salir caro en red.
+5. El **egress** factura el tráfico que sale hacia internet o hacia los clientes; un bucket «barato» sirviendo mucho sin CDN puede salir caro en red.
 
 </details>
 
 ---
 
-## Bloque Foundations (M7)
+## Bloque Foundations (Módulo 7)
 
-Antes de memorizar logos, fija el **estilo de acceso**. En desarrollo web decides: ¿guardo un fichero con una URL/API (foto de perfil, ZIP, front estático)? ¿necesito un disco que el SO vea como `/dev/xvdf` (sistema de la VM)? ¿varias instancias deben montar la **misma** carpeta a la vez (`uploads/` compartido)? Esas tres preguntas apuntan a objeto, bloque o fichero —y casi nunca al mismo servicio.
+Antes de memorizar logos, fija el **estilo de acceso**. En un proyecto de DAW decides tres cosas distintas: ¿guardo un fichero con una URL o una API (foto de perfil, ZIP, front estático)? ¿necesito un disco que el sistema operativo vea como dispositivo de bloque (sistema de la VM, logs locales)? ¿varias instancias deben montar la **misma** carpeta a la vez (`uploads/` compartido entre dos nodos detrás del balanceador)? Esas tres preguntas apuntan a [almacenamiento de objetos](#almacenamiento-de-objetos), [de bloques](#almacenamiento-de-bloques) o [de archivos](#almacenamiento-de-archivos), y casi nunca al mismo servicio.
 
-| Estilo | Unidad | Servicio | ¿Se monta en el SO? | Caso web |
-| --- | --- | --- | --- | --- |
-| **Objeto** | Objeto + metadatos, HTTP | **S3** | No (API / SDK) | Imágenes, zips, front estático |
-| **Bloque** | Volumen | **EBS** | Sí (disco de EC2) | Disco del sistema, datos de una sola VM |
-| **Fichero** | NFS/SMB | **EFS**, **FSx** | Sí (carpeta de red) | Varias instancias leyendo el mismo `uploads/` |
+| Estilo | Unidad | Servicio | Cómo se accede | ¿Se comparte entre instancias? | Ámbito típico | Caso del proyecto de DAW |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Objeto** | Objeto + metadatos | **S3** | API / SDK / HTTP (no se monta como disco) | Sí: todas las instancias hablan del mismo *bucket* | Región | Fotos de usuario, front estático, backups de BD exportados |
+| **Bloque** | Volumen | **EBS** | Montado en el SO de **una** EC2 | No (una instancia; misma AZ) | Una AZ | Disco del sistema, swap, datos locales de esa VM |
+| **Archivo** | Ficheros NFS/SMB | **EFS**, **FSx** | Carpeta de red montada | Sí (varias EC2 a la vez) | Región (varias AZ) | `uploads/` compartido si aún no pasaste a S3 |
 
 <figure markdown="span">
 ![Comparativa de estilos de almacenamiento en AWS](img/salvador/s3_1.jpg){ width="720" }
@@ -81,49 +81,83 @@ Antes de memorizar logos, fija el **estilo de acceso**. En desarrollo web decide
 </figure>
 
 !!! tip "Ventajas por estilo (resumen)"
-    - **Bloque (EBS):** más rendimiento para el disco de una VM.
-    - **Objeto (S3):** sencillo de integrar por API y suele ser más barato para ficheros/front.
-    - **Fichero (EFS):** varias EC2 montan la misma carpeta.
+    - **Bloque (EBS):** rendimiento de disco para una VM; el SO lo trata como volumen local.
+    - **Objeto (S3):** integración por API y suele encajar mejor para ficheros servidos por HTTP y front estático.
+    - **Archivo (EFS):** varias EC2 montan la misma carpeta sin reinventar sincronización.
 
 <figure markdown="span">
 ![Almacenamiento: S3 (objeto), EBS (bloque) y EFS (archivo)](../img/diagramas/almacenamiento-opciones.svg){ width="800" }
 <figcaption>Tres estilos de acceso: API de objetos, disco de la VM o carpeta NFS compartida.</figcaption>
 </figure>
 
-**Antes / después.** Antes: fotos de perfil en `public/uploads` dentro de la EC2 (se pierden al terminar la instancia; no escalan a dos nodos). Después: subida con SDK a S3 y URL firmada o CloudFront. El código deja de tratar el disco local como almacén duradero de usuario.
+Si guardas las fotos de perfil en `public/uploads` dentro de la EC2, se pierden al terminar la instancia y no escalan a dos nodos detrás del ALB: cada máquina tiene su disco. Con subida por SDK a S3 y URL firmada o CloudFront, el código deja de tratar el disco local como almacén duradero de usuario. Ese cambio es el que más veces falla en un proyecto intermodular cuando «en mi instancia sí se veía la foto».
+
+| Examen CLF | Clase DAW / empresa |
+| --- | --- |
+| Distinguir objeto / bloque / fichero | Decidir dónde van las fotos, el disco de la VM y un `uploads/` compartido |
+| S3 no es el disco del SO | No montar S3 como si fuera `/var/lib/mysql` |
+| EBS = una AZ; EFS = varias EC2 | Dibujar el ASG antes de elegir carpeta local |
 
 ### Amazon S3
 
-**[Amazon S3](#s3)** (*Simple Storage Service*) es almacenamiento de **objetos**: guardas bytes con una clave dentro de un *bucket*, y hablas con él por API/SDK (o URL firmada), no como si fuera la unidad `C:`. Buckets (nombre globalmente único), objetos, prefijos. **Clases** (Standard, IA, Glacier…): precio frente a tiempo de acceso. **Lifecycle** para enfriar lo que nadie pide. Versionado. *Block public access* por defecto: un 403 en la URL es el resultado **correcto** si el objeto no debe ser público.
+**Qué es en este caso.** **[Amazon S3](#s3)** (*Simple Storage Service*, servicio simple de almacenamiento) es [almacenamiento de objetos](#almacenamiento-de-objetos): guardas bytes con una **[clave](#clave-s3)** (*key*) dentro de un **[bucket](#bucket)** (contenedor con nombre único a escala global), y hablas con él por API o SDK (o [URL prefirmada](#url-prefirmada)), no como si fuera la unidad `C:` o un `/mnt` POSIX completo. Cada **[objeto](#objeto)** lleva datos y metadatos. El bucket vive en una **región**; no «montas» S3 en el sistema operativo de la EC2 en el sentido Foundations.
+
+**En la práctica.** En un proyecto de DAW el controlador recibe el *multipart*, el SDK hace `PutObject`, y la base de datos solo guarda la clave o la URL. El navegador no necesita NFS. Si mañana hay dos instancias detrás del ALB, **ambas** hablan con el mismo bucket: no hay divergencia de `uploads/` locales. El front estático (HTML, JS, CSS) también puede vivir en S3 y servirse con CloudFront (Tema 3). Los dumps de la base o los logs rotados que ya no caben en el disco de la VM suelen ir a S3 como objetos.
+
+Según la documentación de AWS, S3 está diseñado para una **durabilidad** muy alta de los objetos (el documento oficial habla de once nueves, 99,999999999 %). Eso no es lo mismo que **disponibilidad** inmediata en todas las clases: Glacier y clases frías cambian el tiempo y el coste de **recuperar** el objeto, no «borran» la promesa de no perderlo.
 
 <figure markdown="span">
 ![Clases de almacenamiento S3 / ciclo de vida (visión de consola)](img/salvador/s3_20.png){ width="640" }
 <figcaption>Clases y ciclo de vida: Standard es lo habitual; Glacier no es «disco barato con acceso inmediato».</figcaption>
 </figure>
 
-En código DAW suele verse así: el controlador recibe el multipart, el SDK hace `PutObject`, y la base solo guarda la clave o la URL. El navegador no necesita NFS. Si mañana hay dos instancias detrás del ALB, **ambas** hablan con el mismo bucket: no hay divergencia de `uploads/` locales.
+#### Clases de almacenamiento y ciclo de vida
 
-Tras un `PutObject` correcto, una lectura inmediata del mismo objeto debe ver los datos nuevos: S3 ofrece consistencia fuerte de lectura tras escritura. En clase: no inventes «espera unos segundos» como si fuera 2015.
+Una **[clase de almacenamiento](#clase-de-almacenamiento)** dice, a grandes rasgos, **con qué frecuencia** esperas leer el objeto y **cuánto te cuesta** (o cuánto tarda) recuperarlo. No memorices céntimos: entiende el trade-off.
+
+- **[S3 Standard](#s3-standard).** Acceso frecuente. Es la clase por defecto de las fotos que se muestran en la app y del front que se abre cada día.
+- **[S3 Standard-IA](#s3-standard-ia)** (*Infrequent Access*, acceso poco frecuente). Objetos que se guardan mucho tiempo y se leen de vez en cuando. Suele haber un coste por recuperación: no conviene si lees el mismo objeto a cada rato.
+- **[S3 Intelligent-Tiering](#s3-intelligent-tiering).** AWS mueve el objeto entre capas según el patrón de acceso. Encaja cuando no quieres decidir a mano qué es «frío».
+- **[Amazon S3 Glacier](#glacier)** (y variantes de archivo). Archivo a largo plazo: backups que casi no abres. Recuperar puede llevar minutos u horas según la opción; no sirve para servir la foto del perfil en la página de login.
+
+El **[ciclo de vida](#ciclo-de-vida)** (*lifecycle*) es el conjunto de reglas que, pasado un tiempo, cambian de clase o expiran objetos y versiones. Sirve para enfriar lo que nadie pide y para no dejar versiones viejas creciendo sin tope. En Foundations reconoces el mecanismo; en un bucket de prácticas sin reglas, el «todo lo dejo en Standard por si acaso» acumula coste de almacenamiento.
+
+Tras un `PutObject` correcto, una lectura inmediata del mismo objeto debe ver los datos nuevos: S3 ofrece consistencia fuerte de lectura tras escritura. En clase no hace falta «esperar unos segundos» como si fuera 2015.
 
 <figure markdown="span">
 ![Diagrama de consistencia fuerte de lectura tras escritura en Amazon S3](img/capturas/s3-consistency1.png){ width="800" }
 <figcaption>Lectura tras escritura en el mismo objeto. Fuente: Amazon S3 User Guide (AWS).</figcaption>
 </figure>
 
-Web estática en S3 (HTML/JS): patrón útil para un SPA. El API sigue en otro sitio (Gateway + Lambda, o EC2). No es un CMS.
+Web estática en S3 (HTML/JS): patrón útil para un SPA. La API sigue en otro sitio (API Gateway + Lambda, o EC2). No es un CMS.
 
-**Cuándo NO usar S3 como «disco».** No montes S3 como si fuera `/var/lib/mysql` ni esperes bloqueos POSIX de fichero para una base embebida. Tampoco abras el bucket al mundo para «que se vea el lab»: usa URLs firmadas o un origen CloudFront con política clara.
+#### Seguridad en S3 (enlace con el Tema 2)
 
-Si el acceso a S3 sale «por internet» desde una EC2 en VPC privada, en arquitecturas avanzadas aparece el endpoint/PrivateLink. Nivel Foundations: entiende que S3 es un servicio *regional* con API, no un disco montado.
+**[Block Public Access](#block-public-access)** (*bloqueo de acceso público*) está pensado para que, por defecto, el bucket **no** sea público. Un 403 al abrir la URL del objeto con BPA activo es el resultado **correcto** si el objeto no debe verse en abierto: no es un «fallo del lab».
+
+La **[política de bucket](#politica-de-bucket)** es un documento JSON adjunto al *bucket* que permite o deniega acciones sobre ese recurso (como las [políticas](../02-seguridad-iam/tema2.md#politica) IAM del Tema 2, pero ancladas al bucket). IAM decide **quién** (usuario, rol); la política de bucket decide **qué se puede hacer sobre este bucket**. Ambas se evalúan juntas: un *deny* explícito gana.
+
+Para servir una **foto privada** sin abrir el bucket al mundo, la vía sana es una **[URL prefirmada](#url-prefirmada)** (*presigned URL*): la API (con un rol IAM) genera un enlace con caducidad; el navegador descarga un rato y el enlace caduca. CloudFront con origen restringido es la variante a escala. Abrir el bucket «para que se vea el lab» es el mismo anti-patrón que viste en el Tema 2 con buckets públicos.
+
+**Cuándo no usar S3 como «disco».** No montes S3 como si fuera `/var/lib/mysql` ni esperes bloqueos POSIX de fichero para una base embebida. Tampoco abras el bucket al mundo para la demo: usa URLs prefirmadas o un origen CloudFront con política clara.
+
+Si el acceso a S3 sale «por internet» desde una EC2 en VPC privada, en arquitecturas avanzadas aparece el *endpoint* / PrivateLink. Nivel Foundations: entiende que S3 es un servicio **regional** con API, no un disco montado.
 
 <figure markdown="span">
 ![Arquitectura de acceso a S3 desde VPC con endpoints](img/capturas/s3-acceso-privado-arquitectura.png){ width="800" }
 <figcaption>Acceso a S3 desde una VPC (patrón de la guía de consola). Fuente: AWS Management Console Getting Started Guide (AWS).</figcaption>
 </figure>
 
+<figure markdown="span">
+![Políticas / acceso a objetos (contexto S3)](img/salvador/s3_17.png){ width="640" }
+<figcaption>Acceso a objetos: política y Block Public Access van juntos.</figcaption>
+</figure>
+
 ### Amazon EBS
 
-**[Amazon EBS](#ebs)** (*Elastic Block Store*) es el **disco de bloque** de una instancia EC2: se monta en el sistema operativo como un volumen. Vive en **una** AZ. Snapshots hacia S3. Tipos gp/io (IOPS). **Instance store:** disco del host, efímero; no lo uses como única copia del TFG.
+**Qué es en este caso.** **[Amazon EBS](#ebs)** (*Elastic Block Store*, almacenamiento de bloques elástico) es el [almacenamiento de bloques](#almacenamiento-de-bloques) de una instancia EC2: un **[volumen](#volumen-ebs)** que el sistema operativo monta como disco. El volumen vive en **una** [AZ](../03-redes-entrega-contenido/tema3.md) (*Availability Zone*, zona de disponibilidad). Por eso el volumen y la instancia tienen que estar en la **misma AZ**: si no, no puedes adjuntarlo. Los tipos habituales en Foundations son **[gp3](#gp3)** (propósito general, buen equilibrio) e **[io2](#io2)** (más [IOPS](#iops) —*Input/Output Operations Per Second*, operaciones de entrada/salida por segundo— cuando la carga de disco lo exige).
+
+**En la práctica.** El disco raíz de la EC2 donde corre tu API Node o PHP es EBS. Ahí viven el SO (que **tú** parcheas), el runtime y, si no has sacado las fotos a S3, los ficheros locales. Si terminas la instancia y no hay instantánea ni volumen conservado, esos datos locales desaparecen con el diseño habitual del lab. Un volumen huérfano que dejas tras *terminate* **sigue facturando**: hay que borrarlo o asociarlo a otra instancia.
 
 <figure markdown="span">
 ![Volumen EBS asociado a una instancia](img/salvador/s3_2.jpg){ width="720" }
@@ -131,22 +165,30 @@ Si el acceso a S3 sale «por internet» desde una EC2 en VPC privada, en arquite
 </figure>
 
 !!! success "Ventajas EBS"
-    - Replicación dentro de la AZ; persistencia aunque pares la instancia (según configuración).
+    - Replicación dentro de la AZ; el volumen puede persistir aunque pares la instancia (según configuración).
     - Cifrado sencillo; se puede **aumentar** el tamaño (no reducir).
-    - Un volumen EBS solo se asocia a una instancia de **su misma AZ**.
+    - Un volumen EBS solo se asocia a una instancia de **su misma AZ** (multi-attach avanzado queda fuera de Foundations).
 
 <figure markdown="span">
 ![Crear volumen EBS: tipo gp3, tamaño, AZ y etiqueta](img/salvador/s3_3.png){ width="720" }
 <figcaption>Volumen EBS: tipo, GiB, IOPS y **misma AZ** que la instancia a la que lo vas a asociar.</figcaption>
 </figure>
 
-Multi-attach avanzado queda fuera. La regla Foundations: un volumen ≈ una instancia.
+La **[instantánea](#instantanea)** (*snapshot*) es una copia del volumen en un momento concreto, almacenada de forma durable (el servicio la respalda hacia S3). Sirve para recuperar el volumen o crear uno nuevo a partir de ese punto. No es un «backup mágico» de la aplicación: si MySQL estaba a medias de una escritura, la copia refleja ese estado. Antes de una instantánea crítica, conviene un estado coherente de la app (o aceptas el riesgo).
 
-Si terminas la EC2 y dejas el volumen, **sigue facturando**. El snapshot es la copia durable hacia S3; el volumen huérfano es un clásico de lab caro.
+**[Instance store](#instance-store)** es disco local del host físico: puede ser rápido, pero es **efímero**. Si paras o terminas la instancia, esos datos no están pensados como almacén durable. No guardes ahí la única copia de un entregable o de un dump de base de datos.
 
-### EFS / FSx y movimiento
+| Examen CLF | Clase DAW / empresa |
+| --- | --- |
+| EBS en una AZ; adjunto a una instancia | Crear el volumen en la AZ de la EC2 del lab |
+| Snapshot ≠ backup de aplicación | Instantánea coherente o aceptar riesgo |
+| Instance store es efímero | No usar instance store como única copia |
 
-**[Amazon EFS](#efs)** ofrece un sistema de ficheros **NFS** elástico: **varias** EC2 pueden montar el mismo directorio a la vez (incluso en AZ distintas de la región). **FSx:** Windows / Lustre / NetApp (nombres de examen).
+### EFS, FSx y movimiento de datos
+
+**Qué es en este caso — EFS.** **[Amazon EFS](#efs)** (*Elastic File System*, sistema de ficheros elástico) es [almacenamiento de archivos](#almacenamiento-de-archivos) gestionado con **[NFS](#nfs)** (*Network File System*, sistema de ficheros en red): **varias** EC2 pueden montar el mismo directorio a la vez, incluso en AZ distintas de la región.
+
+**En la práctica — EFS.** Encaja si tienes dos instancias detrás del ALB y aún quieres un `uploads/` montado como carpeta compartida. No sustituye a S3 cuando el objetivo es servir objetos por HTTP a escala web (CDN, URLs, políticas de bucket). EFS brilla cuando la app espera rutas POSIX y varios procesos escriben en la misma jerarquía de ficheros.
 
 <figure markdown="span">
 ![Amazon EFS montado desde varias instancias](img/salvador/s3_9.png){ width="720" }
@@ -154,7 +196,7 @@ Si terminas la EC2 y dejas el volumen, **sigue facturando**. El snapshot es la c
 </figure>
 
 !!! note "Características EFS (resumen)"
-    - NFS gestionado; crece y decrece sin dimensionar a ojo el LUN.
+    - NFS gestionado; crece y decrece sin dimensionar a ojo un LUN fijo.
     - Varias EC2 (incluso en AZ distintas de la región) montan el **mismo** sistema de ficheros.
     - Encaja en `uploads/` compartidos; no sustituye a S3 para objetos servidos por HTTP a escala.
 
@@ -163,28 +205,47 @@ Si terminas la EC2 y dejas el volumen, **sigue facturando**. El snapshot es la c
 <figcaption>Varias instancias montan el mismo EFS (idea de práctica).</figcaption>
 </figure>
 
-<figure markdown="span">
-![Políticas / acceso a objetos (contexto S3)](img/salvador/s3_17.png){ width="640" }
-<figcaption>Acceso a objetos: política y *block public access* van juntos.</figcaption>
-</figure>
+**Qué es en este caso — FSx.** **[Amazon FSx](#fsx)** agrupa sistemas de ficheros gestionados para cargas que necesitan **Windows** ([SMB](#smb) —*Server Message Block*—), **Lustre** (alto rendimiento) u otras variantes (NetApp…). En el CLF basta reconocer el nombre y el caso: «necesito un file server Windows en AWS» → FSx, no inventar un EBS compartido a mano.
 
-**Storage Gateway**, familia **Snow** (dispositivo físico para muchos TB), **AWS Backup**, DataSync: reconocer *cuándo* un VPN no basta para 80 TB.
+**En la práctica — FSx.** En un proyecto de DAW en Linux con Node suele bastar S3 o EFS. FSx aparece cuando el enunciado o el cliente arrastra un entorno Windows o un software que exige ese protocolo.
+
+**Storage Gateway**, la familia **[Snow](#snow-family)** (dispositivo físico para mover muchos terabytes sin depender solo de la red), **AWS Backup** y **[DataSync](#datasync)** sirven para reconocer *cuándo* una VPN no basta para migrar un CPD grande: Gateway acerca un «disco o fichero» híbrido; Snow mueve datos por envío físico; DataSync automatiza copias entre almacenes on-premises y AWS.
 
 ### Errores frecuentes (almacenamiento)
 
-- Guardar uploads solo en el EBS de una instancia detrás de un ASG (cada nodo ve un disco distinto).
-- Confundir Glacier «barato» con «acceso inmediato».
-- Medir solo GB-mes y olvidar **egress** al servir ficheros grandes a internet.
+Guardar los *uploads* solo en el EBS de una instancia detrás de un ASG falla porque **cada nodo ve un disco distinto**: el usuario sube la foto en la instancia A y la descarga llega a la B, que no tiene el fichero. Evítalo subiendo a S3 (o montando EFS si aún necesitas carpeta compartida) y guardando en la BD solo la clave.
+
+Confundir Glacier «barato» con «acceso inmediato» falla porque el coste y el tiempo de **recuperación** no son los de Standard: la página de login no puede esperar una restauración de archivo. Evítalo dejando en clase caliente lo que se lee en la app y archivando solo lo que casi no abres.
+
+Medir solo GB-mes y olvidar el **egress** falla porque servir muchos GB desde el bucket hacia internet factura salida de datos aunque el almacenamiento parezca barato. Evítalo estimando tráfico (Pricing Calculator), poniendo CloudFront delante de estáticos y no abriendo descargas masivas sin CDN.
+
+Dejar un volumen EBS huérfano tras *terminate* falla porque **sigue facturando** aunque nadie lo monte. Evítalo borrando volúmenes e instantáneas de lab al cerrar, en el orden que marque el enunciado.
+
+Abrir el bucket al mundo «para la demo» falla porque cualquiera puede listar o descargar objetos y además contradice Block Public Access y el Tema 2. Evítalo con URL prefirmada o CloudFront con origen privado.
 
 ### Relación con otros temas
 
-S3 + CloudFront (Tema 3) para estáticos. EBS nace con EC2 (Tema 4). Las bases (Tema 6) no se sustituyen por un bucket: el bucket guarda objetos, no transacciones SQL.
+S3 + CloudFront (Tema 3) para estáticos. EBS nace con EC2 (Tema 4): sin AZ y security group claros no hay volumen usable. Las bases de datos (Tema 6) no se sustituyen por un bucket: el bucket guarda objetos, no transacciones SQL. IAM (Tema 2) decide quién puede hacer `s3:GetObject` o adjuntar un volumen.
+
+### El lab del Módulo 7: Ejercicio de laboratorio 4 — Trabajo con EBS
+
+En tu clase de *Cloud Foundations*, el lab del **Módulo 7** se llama **Ejercicio de laboratorio 4 — Trabajo con EBS**. Trabajas en la **región que indique el lab**. El hilo es de **bloque**, no de S3: creas un volumen, lo adjuntas a una EC2, le das formato, lo montas, y practicas crear y restaurar una **instantánea**.
+
+Primero **creas el volumen** en la **misma AZ** que la instancia a la que lo vas a asociar. Si eliges otra AZ, el adjunto falla: el volumen EBS no cruza zonas. Eliges tipo (a menudo gp3) y tamaño según el enunciado.
+
+Después **adjuntas** el volumen a la instancia. Hasta aquí AWS ha conectado el dispositivo; el sistema operativo aún no tiene un sistema de ficheros usable en ese disco.
+
+Luego **das formato** (creas el sistema de ficheros en el dispositivo) y **montas** el volumen en una ruta del SO. Sin formato, el SO no puede tratar el volumen como carpeta con ficheros; sin montaje, el dispositivo existe pero no lo usas en una ruta. Ahí escribes datos de prueba para comprobar que el disco extra funciona aparte del disco raíz.
+
+Por último **creas una instantánea** del volumen y **restauras** a partir de ella (nuevo volumen desde la instantánea, o el flujo que marque el lab). La instantánea sirve para recuperar un punto en el tiempo si borras datos o quieres clonar el volumen; no sustituye un plan de backup de aplicación completo, pero en Foundations es la pieza que debes saber explicar.
+
+Respecto al patrón del proyecto de DAW (fotos en S3, disco de la VM en EBS, carpeta compartida en EFS), este lab **practica** EBS de verdad: AZ, formato, montaje e instantánea. **No** sustituye el diseño de *uploads* en S3: en el `.md` de **PR501** deja claro qué parte del mapa de almacenamiento has tocado y por qué el volumen no es el sitio donde escalar las fotos del usuario entre dos nodos.
 
 ---
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-El examen premia elegir el **estilo** de almacén (objeto, bloque o fichero) y no olvidar la **salida de datos** en la factura. Glacier es una clase o archivo de S3, no un disco de SO.
+El examen premia elegir el **estilo** de almacén (objeto, bloque o fichero) y no olvidar la **salida de datos** en la factura. Glacier es una clase o archivo de S3, no un disco de SO. Storage Gateway, Snow y DataSync aparecen como respuestas cuando el escenario describe migración masiva o híbrido, no cuando solo hay que subir una foto desde la API.
 
 !!! tip "Para el CLF"
     S3 no sustituye el EBS del sistema operativo; EFS no es lo mismo que un volumen de una sola VM. Si sirves mucho tráfico desde un bucket sin CDN, el coste que dispara suele ser el egress. Ampliación y **autocheck certificación** en [Certificación § Tema 5](../99-certificacion/certificacion.md#tema-5).
@@ -197,7 +258,7 @@ El examen premia elegir el **estilo** de almacén (objeto, bloque o fichero) y n
 
 <iframe src="https://www.youtube.com/embed/OkGNAHtVCq8" title="ATTA AWS Academy 02 S3 — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
 
-Vídeo: Profe Santos Cloud (YouTube). Qué mirar: subida de objeto y *block public access*; el 403 es evidencia, no un fallo del lab.
+Vídeo: Profe Santos Cloud (YouTube). Qué mirar: subida de objeto y *Block Public Access*; el 403 es evidencia, no un fallo del lab.
 
 **Extra (opcional).** [S3 Static Web](https://www.youtube.com/watch?v=GMsD5XIfRLc) (~8 min) — hosting estático mínimo. Vídeo: Profe Santos Cloud (YouTube).
 
@@ -215,7 +276,7 @@ Vídeo: Profe Santos Cloud (YouTube). Qué mirar: subida de objeto y *block publ
 <figcaption>Web estática sobre S3 (paso de práctica).</figcaption>
 </figure>
 
-El M7 del LMS Academy se indica en clase / Aules.
+Abre el **Módulo 7** en tu clase de *Cloud Foundations* y sigue el **Ejercicio de laboratorio 4 — Trabajo con EBS**. Usa la región del lab.
 
 ---
 
@@ -223,14 +284,9 @@ El M7 del LMS Academy se indica en clase / Aules.
 
 ### PR501 — Objetos y bloques
 
-* :simple-neutralinojs: **PR501**. (RA4 // a, c // **PR 0–10**). Distingues almacén de objetos y de bloque con **una** evidencia del lab Academy M7 (S3 o EBS), sin dejar recursos vivos.
+* :simple-neutralinojs: **PR501**. (RA4 // a, c // **PR 0–10**). Completas el lab Academy del Módulo 7 (**Ejercicio de laboratorio 4 — Trabajo con EBS**) y dejas claro, en el `.md`, la diferencia entre almacén de **bloques** (lo que has montado) y almacén de **objetos** (dónde irían las fotos de la API en un diseño sano).
 
-  Completa **una** de estas vías:
-
-  - Sube un fichero a S3, deja *block public access*, prueba la URL y explica el 403.
-  - O: volumen EBS, montaje, snapshot y borrado del volumen (e instancia) de lab.
-
-  **Tareas:** documenta la vía elegida con capturas en el desarrollo; anota la clase S3 si el lab la pide; al terminar, *delete* de lo creado.
+  **Tareas:** crea el volumen en la misma AZ que la instancia; adjúntalo; dale formato y móntalo; crea y restaura una instantánea según el enunciado; en el desarrollo explica objeto frente a bloque (por qué las fotos del usuario no deberían vivir solo en ese volumen si mañana hay dos EC2); al terminar, elimina los recursos del lab.
 
   **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR501.md` (o ZIP + `img/` si hay capturas).
 
@@ -238,19 +294,21 @@ El M7 del LMS Academy se indica en clase / Aules.
 
 | Criterio | Descripción | Puntos |
 | --- | --- | --- |
-| Evidencia S3 o EBS | Una vía completa y correcta | 0–4 |
-| Concepto (objeto/bloque) | Explicación coherente (403 / snapshot) | 0–3 |
+| Lab EBS | Volumen, attach, formato/montaje, instantánea | 0–4 |
+| Concepto (objeto/bloque) | Explicación coherente en el `.md` | 0–3 |
 | Limpieza | Recursos de lab eliminados | 0–2 |
 | Claridad | Capturas con leyenda / `.md` ordenado | 0–1 |
 | **Total** | | **/10** |
 
 ---
 
-### Versionado y borrados (por qué importa en un TFG)
+### Versionado y borrados (por qué importa en un proyecto de DAW)
 
-Con versionado en S3, un `delete` no siempre destruye el objeto: puede dejar un *delete marker*. Eso salva un borrado accidental en prácticas… y también deja residuos que facturan. Lifecycle rules existen para pasar a clases frías o expirar versiones viejas. En Foundations basta reconocer el mecanismo; en un proyecto real, sin lifecycle, el bucket de «pruebas» crece sin control.
+Imagina que en el bucket de fotos del proyecto alguien sobrescribe `avatar/user-42.jpg` con un fichero vacío o borra la clave «para limpiar». Sin **[versionado](#versionado)**, esa versión buena puede haberse ido. Con versionado activado, S3 conserva versiones anteriores: un `delete` suele crear un *delete marker* en lugar de destruir del todo el historial, y puedes recuperar la versión previa. Eso salva un borrado accidental en prácticas y también en un proyecto intermodular cuando un script de despliegue pisa objetos.
 
-EBS: snapshot ≠ backup mágico de la aplicación. Es copia del volumen en un momento; la app debe estar en estado coherente (o aceptas el riesgo). Instance store desaparece al parar/terminar: no guardes ahí el único ZIP del TFG.
+Tenerlo activado **cuesta** almacenamiento: cada versión y cada marcador ocupan (y facturan) hasta que una regla de ciclo de vida expire lo viejo. Sin *lifecycle*, el bucket de «pruebas» crece sin control aunque «casi no subas nada nuevo». En Foundations basta reconocer el mecanismo y el trade-off: recuperación frente a coste de residuales.
+
+En EBS, la instantánea es la pieza análoga de «punto en el tiempo» del volumen. Instance store desaparece al parar o terminar: no guardes ahí la única copia de un entregable o de un dump.
 
 ---
 
@@ -274,7 +332,7 @@ Comprueba almacenamiento de este tema. CLF: [Certificación § Tema 5](../99-cer
 
 3. **Fría/archivo** (Glacier / clase fría — idea, no el céntimo exacto).
 
-4. **Falso** — el snapshot es recurso de región (idea Foundations: no lo trates como «solo disco local de la AZ»).
+4. **Falso** — la instantánea es recurso de región (idea Foundations: no la trates como «solo disco local de la AZ»).
 
 5. **S3** encaja con (a) objetos por API/HTTP; **EBS**, con (b) volumen de bloque; el **egress**, con (c) el tráfico de salida que factura.
 
@@ -285,12 +343,95 @@ Comprueba almacenamiento de este tema. CLF: [Certificación § Tema 5](../99-cer
 
 ## Glosario
 
+**almacenamiento de objetos**{: #almacenamiento-de-objetos}
+Modelo en el que guardas ficheros como objetos (datos + metadatos) accesibles por API/HTTP, no como bloques de un disco montado. En AWS, el servicio central es S3.
+
+**almacenamiento de bloques**{: #almacenamiento-de-bloques}
+Volúmenes que el sistema operativo monta como disco. En EC2, el servicio habitual es EBS.
+
+**almacenamiento de archivos**{: #almacenamiento-de-archivos}
+Sistema de ficheros en red (NFS, SMB…) montable por una o varias instancias. En AWS: EFS o FSx según el caso.
+
 **S3**{: #s3}
-*Simple Storage Service*: almacenamiento de objetos accesible por API/HTTP. Ideal para ficheros, backups de objetos y front estático; no sustituye el disco del sistema de una VM. El acceso público es una decisión explícita (y peligrosa si se deja abierta «para la demo»).
+*Simple Storage Service* (servicio simple de almacenamiento): almacenamiento de objetos accesible por API/HTTP. Ideal para ficheros, backups de objetos y front estático; no sustituye el disco del sistema de una VM.
+
+**bucket**{: #bucket}
+Contenedor de objetos en S3. El nombre es único a escala global; el bucket se crea en una región.
+
+**objeto**{: #objeto}
+Unidad almacenada en S3: datos + metadatos, identificada por una clave dentro del bucket.
+
+**clave S3**{: #clave-s3}
+*Key*: identificador del objeto dentro del bucket (ruta lógica, p. ej. `uploads/user-42/foto.jpg`).
+
+**clase de almacenamiento**{: #clase-de-almacenamiento}
+Nivel de S3 que equilibra frecuencia de acceso, coste de almacenamiento y coste o tiempo de recuperación (Standard, Standard-IA, Intelligent-Tiering, Glacier…).
+
+**S3 Standard**{: #s3-standard}
+Clase de acceso frecuente; la habitual para objetos que se leen en la app a diario.
+
+**S3 Standard-IA**{: #s3-standard-ia}
+*Infrequent Access* (acceso poco frecuente): almacenamiento más pensado para datos tocados de vez en cuando, con coste de recuperación al leer.
+
+**S3 Intelligent-Tiering**{: #s3-intelligent-tiering}
+Clase que mueve objetos entre capas según el patrón de acceso, sin que tú elijas a mano cada cambio.
+
+**Glacier**{: #glacier}
+Familia de archivo de S3 para retención larga con acceso no inmediato; recuperar lleva tiempo según la opción.
+
+**ciclo de vida**{: #ciclo-de-vida}
+*Lifecycle*: reglas que transicionan o expirar objetos y versiones con el tiempo.
+
+**versionado**{: #versionado}
+Función de S3 que conserva versiones de un objeto ante sobrescrituras y borrados (marcadores de borrado).
+
+**URL prefirmada**{: #url-prefirmada}
+*Presigned URL*: enlace temporal firmado que permite leer (o escribir) un objeto privado sin abrir el bucket al público.
+
+**política de bucket**{: #politica-de-bucket}
+Documento JSON en el bucket que permite o deniega acciones sobre ese recurso; se combina con IAM.
+
+**Block Public Access**{: #block-public-access}
+Controles que bloquean el acceso público al bucket o a la cuenta; con ellos activos, una URL pública suele devolver 403.
 
 **EBS**{: #ebs}
-*Elastic Block Store*: volúmenes de bloque para instancias EC2. Se montan en el SO; suelen vivir en una sola AZ. Son el disco de la VM: sistema, swap o datos locales —no el almacén compartido de un ASG con varios nodos.
+*Elastic Block Store* (almacenamiento de bloques elástico): volúmenes de bloque para instancias EC2. Se montan en el SO; viven en una sola AZ.
+
+**volumen EBS**{: #volumen-ebs}
+Disco de bloque concreto (tamaño, tipo, AZ) que se adjunta a una instancia.
+
+**gp3**{: #gp3}
+Tipo de volumen EBS de propósito general habitual en labs y muchas cargas.
+
+**io2**{: #io2}
+Tipo de volumen EBS orientado a más IOPS cuando la carga de disco lo exige.
+
+**IOPS**{: #iops}
+*Input/Output Operations Per Second* (operaciones de entrada/salida por segundo): medida de rendimiento de disco.
+
+**instantánea**{: #instantanea}
+*Snapshot*: copia de un volumen EBS en un momento; base para restaurar o crear volúmenes nuevos.
+
+**instance store**{: #instance-store}
+Disco local del host: efímero; no es almacén durable tras *stop*/*terminate*.
 
 **EFS**{: #efs}
-*Elastic File System*: sistema de ficheros NFS gestionado, compartible por varias instancias a la vez en la región. Encaja cuando varias EC2 necesitan la misma carpeta montada; no sustituye a S3 para objetos servidos por HTTP a escala web.
+*Elastic File System* (sistema de ficheros elástico): NFS gestionado, compartible por varias instancias en la región.
 
+**NFS**{: #nfs}
+*Network File System* (sistema de ficheros en red): protocolo típico de montaje de EFS en Linux.
+
+**FSx**{: #fsx}
+Familia de sistemas de ficheros gestionados (Windows/SMB, Lustre, etc.) para cargas que EFS no cubre igual.
+
+**SMB**{: #smb}
+*Server Message Block*: protocolo de ficheros habitual en entornos Windows; aparece con FSx para Windows.
+
+**Storage Gateway**{: #storage-gateway}
+Servicio híbrido que presenta almacenamiento AWS (objetos, ficheros, volúmenes) hacia entornos on-premises.
+
+**Snow Family**{: #snow-family}
+Dispositivos físicos de AWS para transferir grandes volúmenes de datos cuando la red no basta.
+
+**DataSync**{: #datasync}
+Servicio para automatizar y acelerar copias de datos entre almacenes on-premises y AWS (u otros destinos soportados).
