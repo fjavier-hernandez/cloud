@@ -150,7 +150,7 @@ Cuando Foundations habla de nube pública, suele apuntar a cinco rasgos. No son 
 
 **Acceso por red.** Llegas por HTTPS, API o consola. No hace falta «estar en el CPD» ni enchufar un cable al rack. Eso es lo que permite estudiar semipresencial con el Learner Lab desde casa.
 
-**Recursos agrupados ([multitenancy](#multitenancy)).** El hardware físico es del proveedor; muchos clientes comparten la fábrica, aislados lógicamente. Por eso el precio baja respecto a comprar torres «por si acaso», y por eso la seguridad de tu cuenta (IAM, red) importa tanto: el aislamiento no es magia, es configuración.
+**Recursos agrupados ([multitenancy](#multitenancy)).** El hardware físico es del proveedor; muchos clientes comparten los mismos centros de datos, aislados lógicamente. Por eso el precio baja respecto a comprar torres «por si acaso», y por eso la seguridad de tu cuenta (IAM, red) importa tanto: el aislamiento no es magia, es configuración.
 
 **[Elasticidad](#elasticidad).** Subes o bajas capacidad en minutos, no en plazos de pedido de hardware. En clase lo notarás cuando montas y borras un lab; en producción lo verás con Auto Scaling (Tema 8).
 
@@ -166,19 +166,19 @@ En un equipo DAW esto se nota el día del incidente: en IaaS alguien entra por S
 
 **Qué es en este caso.** Alquilas capacidad de cómputo, disco y red virtual. Tú instalas el sistema operativo, el runtime (Node, JVM, PHP…), el servidor web y la aplicación. El proveedor se ocupa del hardware y del hipervisor. El ejemplo típico en AWS es una instancia **[EC2](#ec2)** con tu API.
 
-**En la práctica.** Ganas control: puedes instalar casi cualquier stack y depurar como en un VPS. A cambio asumes parches del SO, hardening, backups de lo que corra en disco y buena parte de la alta disponibilidad. Si dejas la instancia encendida, factura. Un Docker en EC2 **sigue siendo IaaS** a efectos de parches: el SO de la máquina es tuyo.
+**En la práctica.** Controlas el entorno: puedes instalar casi cualquier stack y depurar como en un VPS, porque entras al sistema operativo. A cambio, los parches del SO, el hardening, los backups de lo que corra en disco y buena parte de la alta disponibilidad pasan a ser tuyos. Si dejas la instancia encendida, la cuenta sigue facturando. Un Docker en EC2 **sigue siendo IaaS** a efectos de parches: el SO de la máquina es tuyo.
 
 #### PaaS — Platform as a Service
 
 **Qué es en este caso.** El proveedor gestiona el sistema operativo y buena parte de la plataforma de ejecución. Tú aportas **código y datos**. Un motor de base de datos gestionado ([RDS](#rds)) es el ejemplo que más verás en este módulo: el proveedor parchea el motor; tú sigues con esquemas, usuarios y consultas.
 
-**En la práctica.** Menos operación diaria, menos control fino del entorno. Encaja cuando aceptas las restricciones de la plataforma a cambio de no administrar nginx ni el runtime a mano. No llames «PaaS» a cualquier cosa «en la nube»: EC2 con tu stack no lo es.
+**En la práctica.** Reduces la operación diaria —el proveedor parchea SO y plataforma—, pero también pierdes control fino del entorno: no eliges cada paquete del sistema como en una EC2. Ese trato merece la pena cuando aceptas las restricciones de la plataforma a cambio de no administrar nginx ni el runtime a mano. No llames «PaaS» a cualquier cosa «en la nube»: EC2 con tu stack no lo es.
 
 #### SaaS — Software as a Service
 
 **Qué es en este caso.** Usas una aplicación completa por red: correo, CRM, wiki gestionada. Configuras y consumes; no hosteas la pila.
 
-**En la práctica.** En un proyecto DAW suele ser una **dependencia** (auth, correo, pagos), no el sitio donde despliegas *tu* API. Confundir «uso Gmail» con «mi API corre en AWS» es un error típico de examen y de conversación con el cliente.
+**En la práctica.** En un proyecto DAW el SaaS suele ser una **dependencia** —login de terceros, correo del centro, pasarela de pagos—, no el sitio donde despliegas *tu* API. Confundir «uso el correo del centro» con «mi API corre en AWS» es un error típico de examen y de conversación con el cliente: en un caso consumes una app ajena; en el otro operas tu código.
 
 <figure markdown="span">
 ![Comparativa Tradicional / IaaS / PaaS / SaaS: capas bajo tu control frente al proveedor](img/salvador/nube_6.png){ width="720" }
@@ -193,7 +193,7 @@ En un equipo DAW esto se nota el día del incidente: en IaaS alguien entra por S
 
 Subir de IaaS a SaaS **reduce operación** y **reduce control**. Un front estático en almacenamiento de objetos (S3) no es IaaS: no hay SO que parchear. Una API con estado y un cron pesado **tampoco** es candidata automática a una función de pocos minutos de ejecución.
 
-**Antes / después (proyecto DAW).** Antes: un VPS alquilado donde instalas nginx, Node, MySQL y renovas certificados a mano (cerca de IaaS). Después: front en hosting estático u objetos, API en un entorno PaaS o en funciones, base en RDS. Ganas tiempo de desarrollo; pierdes el «SSH y arreglo todo» —y eso es una decisión consciente, no un fallo.
+**Antes / después (proyecto DAW).** Antes sueles tener un VPS alquilado donde instalas nginx, Node y MySQL y renuevas certificados a mano (cerca de IaaS). Después puedes dejar el front en hosting estático u objetos, la API en un entorno PaaS o en funciones, y la base en RDS. Ganas tiempo de desarrollo porque el proveedor asume más operación; a cambio pierdes el «entro por SSH y lo arreglo todo». Esa pérdida de control es una decisión consciente, no un fallo del diseño.
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
@@ -208,36 +208,36 @@ Subir de IaaS a SaaS **reduce operación** y **reduce control**. Un front estát
 
 ### Modelos de despliegue
 
-Además del «qué gestionas» (IaaS / PaaS / SaaS) está el «**dónde** vive la capacidad»: ¿en un proveedor de internet, en una fábrica solo tuya, o en una mezcla? Confundir **híbrida** con **multicloud** es un error típico de examen y de diseño: la primera mezcla on-prem (o privada) con pública; la segunda usa **varias** nubes públicas a la vez.
+Además del «qué gestionas» (IaaS / PaaS / SaaS) está el «**dónde** vive la capacidad»: ¿en un proveedor de internet, en una infraestructura dedicada solo a tu organización, o en una mezcla? Confundir **híbrida** con **multicloud** es un error típico de examen y de diseño: la primera mezcla on-prem (o privada) con pública; la segunda usa **varias** nubes públicas a la vez.
 
 #### Nube pública
 
 **Qué es en este caso.** La capacidad la ofrece un proveedor por internet. Este módulo trabaja casi siempre aquí: **AWS**.
 
-**En la práctica.** Creas recursos en el Learner Lab, pagas (o consumes créditos) por uso y eliges región. Ventaja: agilidad y catálogo. Límite: dependencia del proveedor y curva de aprendizaje.
+**En la práctica.** En el Learner Lab creas recursos, consumes créditos por uso y trabajas en la región que permite el lab. La agilidad viene de levantar una API o un bucket en minutos y de tener un catálogo amplio de servicios; el límite es que dependes del proveedor (precios, cuotas, cambios de consola) y de que hace falta aprender la plataforma.
 
 #### Nube privada
 
-**Qué es en este caso.** La «fábrica» está dedicada a una organización (a veces con software tipo OpenStack). Más control del recurso; no compartes el host con terceros desconocidos.
+**Qué es en este caso.** La infraestructura (centros de datos, cómputo, red) está dedicada a una organización, a veces con software tipo OpenStack. Ganas control del recurso porque no compartes el host con terceros desconocidos.
 
-**En la práctica.** Suele implicar más [CAPEX](#capex) y personal cualificado. En este módulo solo la nombramos para no confundir «nube» con «marca AWS». No se instala ni se practica.
+**En la práctica.** Suele implicar más [CAPEX](#capex) —compras o amortizas hardware— y personal que sepa operar esa plataforma. En este módulo solo la nombramos para no confundir «nube» con «marca AWS». No se instala ni se practica.
 
 #### Nube híbrida
 
-**Qué es en este caso.** Combina on-premises (o privada) **y** nube pública. Ejemplo: base de datos sensible en el CPD del cliente y front o pico de tráfico en AWS.
+**Qué es en este caso.** Combina on-premises (o privada) **y** nube pública. Por ejemplo, la base de datos sensible se queda en el CPD del cliente y el front o el pico de tráfico salen a AWS.
 
-**En la práctica.** Aparece en empresas e institutos con legado. La red y la identidad se complican (VPN, directorios). No es «un poco de cada proveedor cloud»: eso sería otra cosa.
+**En la práctica.** Aparece en empresas e institutos con legado: no todo se puede (o se quiere) sacar a la nube de golpe. La red y la identidad se complican —VPN, directorios, quién autentica a quién—. No es «un poco de cada proveedor cloud»: eso sería multicloud.
 
 #### Multicloud
 
 **Qué es en este caso.** Usas **varias** nubes públicas a la vez (por ejemplo AWS y otro proveedor).
 
-**En la práctica.** Puedes repartir riesgo o elegir el servicio más barato de cada uno, pero necesitas conocer más de una plataforma y la operación se complica. Este módulo se centra en AWS; multicloud suele ser decisión de empresa, no de un lab de Foundations.
+**En la práctica.** Puedes repartir riesgo o elegir el servicio más barato de cada proveedor, pero tienes que conocer más de una plataforma y la operación (identidades, redes, facturas) se complica. Este módulo se centra en AWS; multicloud suele ser decisión de empresa, no de un lab de Foundations.
 
 | Tipo | Idea | Cuándo aparece en un proyecto |
 | --- | --- | --- |
 | **Pública** | Capacidad de un proveedor, internet | Este módulo (AWS) |
-| **Privada** | Fábrica dedicada a una organización | Stack interno; fuera del alcance práctico del módulo |
+| **Privada** | Infraestructura dedicada a una organización | Stack interno; fuera del alcance práctico del módulo |
 | **Híbrida** | On-prem (o privada) + pública | Datos sensibles en casa, pico en AWS |
 | **Multicloud** | Varias nubes públicas | AWS + otro proveedor; más operación |
 
@@ -291,7 +291,7 @@ Imagina un monolito PHP con MySQL en un hosting compartido. Hay al menos tres ca
 
 **Qué es en este caso.** Llevas PHP y MySQL **tal cual** a una máquina [EC2](#ec2): misma app, mismo motor, otro sitio donde corre.
 
-**En la práctica.** Es rápido: en pocas horas puedes tener la web respondiendo. Sigues parcheando el sistema operativo, haciendo backups a mano (o con scripts tuyos) y dependiendo de **una sola máquina** si no diseñas más. Si esa instancia cae, cae el servicio. Encaja para probar en el lab o para un *lift-and-shift* urgente; no resuelve solo la operación.
+**En la práctica.** Es el camino más rápido: en pocas horas puedes tener la web respondiendo porque apenas cambias la app. A cambio sigues parcheando el sistema operativo, haciendo backups a mano (o con scripts tuyos) y, si no diseñas más, dependiendo de **una sola máquina**. Si esa instancia cae, cae el servicio. Sirve para probar en el lab o para un *lift-and-shift* urgente; no resuelve sola la operación a medio plazo.
 
 ##### Replatform
 
@@ -303,7 +303,7 @@ Imagina un monolito PHP con MySQL en un hosting compartido. Hay al menos tres ca
 
 **Qué es en este caso.** Rediseñas: API (por ejemplo con funciones), front en [S3](#s3) y base gestionada o NoSQL según el caso.
 
-**En la práctica.** Es **otro proyecto**, no el primer lab de Foundations. Ganas encaje con servicios gestionados y escalado fino; pagas tiempo de desarrollo, pruebas y un modelo mental distinto (estado, permisos IAM, cold start, etc.). El examen CLF te pide la etiqueta; en clase o en la empresa justificas el **porqué** con riesgo, coste y calendario.
+**En la práctica.** Es **otro proyecto**, no el primer lab de Foundations. Encajas mejor con servicios gestionados y con un escalado más fino, pero pagas tiempo de desarrollo, pruebas y un modelo mental distinto: estado de la app, permisos IAM, *cold start* de las funciones, etc. El examen CLF te pide la etiqueta; en clase o en la empresa justificas el **porqué** con riesgo, coste y calendario.
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
@@ -348,16 +348,16 @@ Planes de **Support** (básico incluido frente a planes de pago) y **Trusted Adv
 
 **On-Demand.** Pagas por hora o segundo sin compromiso. Flexibilidad máxima; es lo habitual en el lab Academy (junto con Free Tier cuando aplique).
 
-**Savings Plans / Reserved.** Compromiso a cambio de descuento en el €/hora. Encajan en cargas estables a medio plazo; no los «actives» en una cuenta de clase sin criterio.
+**Savings Plans / Reserved.** Te comprometes a un uso a medio plazo y, a cambio, bajas el €/hora. Encajan en cargas estables; no actives esos planes en una cuenta de clase sin criterio.
 
-**Spot.** Capacidad sobrante, más barata e **interrumpible**. Encaja en batch que puede pararse; no en el checkout de una tienda.
+**Spot.** Usas capacidad sobrante del proveedor: sale más barata, pero AWS puede **interrumpir** la instancia. Sirve para trabajos por lotes que pueden pararse y retomarse; no para el checkout de una tienda.
 
 <figure markdown="span">
 ![On-Demand frente a Reserved (sin/parcial/total anticipo): menos compromiso, más €/hora](img/salvador/nube_precios_ec2.png){ width="640" }
 <figcaption>On-Demand es lo habitual en lab; Reserved/Savings Plans bajan el €/hora a cambio de compromiso.</figcaption>
 </figure>
 
-**Checklist de lab (coste).** Antes de crear: región del lab o del enunciado. Durante: tags si el lab lo pide. Al terminar: **terminar** instancias, borrar volúmenes y balanceadores de prueba. Estimar en la calculadora no evita tener que apagar lo que creaste.
+**Checklist de lab (coste).** Antes de crear nada, confirma la región del lab o del enunciado. Mientras trabajas, aplica tags si el lab lo pide. Al terminar, **termina** las instancias y borra volúmenes y balanceadores de prueba. Estimar en la calculadora no evita tener que apagar lo que creaste.
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
@@ -387,11 +387,11 @@ Las ubicaciones de **borde** (*edge*) acercan **contenido** (CDN, parte del DNS)
 
 AWS expone una **API**. Tú puedes hablarle de tres maneras habituales; el efecto sobre la cuenta es el mismo tipo de llamada, cambia la herramienta.
 
-**Consola de administración.** Interfaz web: buscas el servicio, pulsas botones, ves el resultado. Ideal para **aprender**, explorar un servicio nuevo y comprobar el estado del lab. Es lenta si repites la misma tarea veinte veces.
+**Consola de administración.** Es la interfaz web: buscas el servicio, pulsas botones y ves el resultado. Encaja bien para **aprender**, explorar un servicio nuevo y comprobar el estado del lab; se hace lenta si repites la misma tarea veinte veces.
 
-**CLI (*Command Line Interface*).** Terminal con el comando `aws`. Misma API, en script. Útil para tareas rápidas y automatizar lo que ya entiendes. Ejemplo: crear un bucket vacío con `aws s3 mb s3://mi-bucket` (en el lab, con el nombre y la región que indique el enunciado).
+**CLI (*Command Line Interface*).** Es la terminal con el comando `aws`: llama a la misma API que la consola, pero en script. Sirve para tareas rápidas y para automatizar lo que ya entiendes. Por ejemplo, en el lab puedes crear un bucket vacío con `aws s3 mb s3://mi-bucket` (con el nombre y la región que indique el enunciado).
 
-**SDK (*Software Development Kit*).** Bibliotecas en el lenguaje de tu app (JavaScript, Java, Python…). Es lo que usa **tu código** en producción: por ejemplo, subir la foto de un usuario a un bucket S3 desde la API Node. No «entra a la consola»; firma peticiones con credenciales (en el módulo lo verás con IAM).
+**SDK (*Software Development Kit*).** Son bibliotecas en el lenguaje de tu app (JavaScript, Java, Python…). Es lo que usa **tu código** en producción: por ejemplo, subir la foto de un usuario a un bucket S3 desde la API Node. La app no «entra a la consola»; firma peticiones con credenciales (en el módulo lo verás con IAM).
 
 | Herramienta | Cuándo usarla | Ejemplo DAW |
 | --- | --- | --- |
@@ -401,11 +401,11 @@ AWS expone una **API**. Tú puedes hablarle de tres maneras habituales; el efect
 
 #### Orden de trabajo
 
-1. **Cuenta y región.** En Academy: *class* correcta, lab en verde, región del lab. En un proyecto real: cuenta adecuada y región elegida a propósito.
-2. **Servicio.** Eliges EC2, S3, IAM… según el caso; no «AWS en abstracto».
-3. **Automatizar.** Cuando el clic manual ya te sobra, CLI o SDK (e IaC más adelante).
+1. **Cuenta y región.** En Academy entras a la *class* correcta, dejas el lab en verde y trabajas en la región del lab. En un proyecto real eliges la cuenta adecuada y la región a propósito (usuarios, dato, precio).
+2. **Servicio.** Eliges EC2, S3, IAM… según el caso de uso; no «AWS en abstracto».
+3. **Automatizar.** Cuando el clic manual ya te sobra, pasas a CLI o SDK (e infraestructura como código más adelante).
 
-La consola agrupa servicios; el buscador es el atajo. Distingue servicios **regionales** (EC2, VPC) de otros de alcance **global** (IAM, en buena parte).
+La consola agrupa servicios y el buscador es el atajo para encontrarlos. Distingue servicios **regionales** (EC2, VPC) de otros de alcance **global** (IAM, en buena parte).
 
 En el lab de Academy, mira la barra superior: **AWS** en verde, presupuesto y región. Si el círculo sigue en rojo, la consola aún no está lista; no inventes otra cuenta «por si acaso».
 
@@ -468,7 +468,7 @@ Cuando repases para el examen, ancla cada etiqueta a un ejemplo de app web: «OP
 
 <iframe src="https://www.youtube.com/embed/dxWV4pvGZmU" title="ATTA AWS Academy 01 Intro — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
 
-Vídeo: Profe Santos Cloud (YouTube). Qué mirar: cómo se organiza Academy y qué vas a tocar en Foundations (sin crear recursos de pago todavía).
+Vídeo: Profe Santos Cloud (YouTube). Conviene fijarte en cómo se organiza Academy y qué vas a tocar en Foundations, todavía sin crear recursos de pago.
 
 **Extra (opcional).** [AWS Academy · Skill Builder](https://www.youtube.com/watch?v=ce_5LCWjzGs) (~16 min) — cuándo activar Skill Builder frente al LMS. Vídeo: Profe Santos Cloud (YouTube).
 
@@ -604,10 +604,10 @@ Comprueba lo de esta quincena (Foundations). Para estilo examen CLF: [Certificac
 Infraestructura y operación en instalaciones de la organización (o un rack dedicado), no en la nube pública del proveedor. Suele implicar más CAPEX y dimensionar para el pico. En DAW el contraste útil es «el servidor del aula o del CPD del cliente» frente a recursos que creas y borras en la consola AWS.
 
 **IaaS**{: #iaas}
-*Infrastructure as a Service*: alquilas capacidad de cómputo, disco y red virtual; tú instalas y parcheas el sistema operativo y la aplicación (p. ej. una VM en EC2). Ganas control (puedes instalar casi cualquier stack); asumes parches, hardening y buena parte de la alta disponibilidad.
+*Infrastructure as a Service*: alquilas capacidad de cómputo, disco y red virtual; tú instalas y parcheas el sistema operativo y la aplicación (p. ej. una VM en EC2). Tienes mucho control —puedes instalar casi cualquier stack—, y a cambio asumes parches, hardening y buena parte de la alta disponibilidad.
 
 **PaaS**{: #paas}
-*Platform as a Service*: el proveedor gestiona SO y plataforma de ejecución; tú aportas código y datos. Menos operación, menos control fino del entorno. Encaja cuando aceptas las restricciones de la plataforma a cambio de no administrar nginx ni el runtime a mano.
+*Platform as a Service*: el proveedor gestiona SO y plataforma de ejecución; tú aportas código y datos. Hay menos operación diaria y también menos control fino del entorno. Tiene sentido cuando aceptas las restricciones de la plataforma a cambio de no administrar nginx ni el runtime a mano.
 
 **SaaS**{: #saas}
 *Software as a Service*: usas una aplicación completa por red (correo, CRM…). No hosteas la pila; configuras y consumes. En un proyecto DAW suele ser una dependencia (auth, correo, pagos), no el sitio donde despliegas *tu* API.
@@ -631,13 +631,13 @@ Gasto operativo: pagas de forma continua por uso o suscripción (horas de instan
 Capacidad de subir o bajar recursos en minutos según la demanda, en lugar de comprar hardware «por si acaso». En Foundations se concreta después con Auto Scaling y con apagar entornos de desarrollo (Tema 8).
 
 **multitenancy**{: #multitenancy}
-Varios clientes comparten la fábrica física del proveedor, aislados lógicamente. Es la base económica de la nube pública. No implica que tus datos sean visibles a otros tenants: el aislamiento es responsabilidad conjunta (AWS + tu configuración IAM/red).
+Varios clientes comparten la infraestructura física del proveedor (mismos centros de datos), aislados lógicamente. Es la base económica de la nube pública. No implica que tus datos sean visibles a otros tenants: el aislamiento es responsabilidad conjunta (AWS + tu configuración IAM/red).
 
 **EC2**{: #ec2}
 *Elastic Compute Cloud*: servicio de máquinas virtuales en AWS. Tú eliges AMI, tamaño y red; parcheas el SO. Es el ejemplo típico de IaaS en este módulo.
 
 **S3**{: #s3}
-*Simple Storage Service*: almacenamiento de objetos (ficheros + metadatos) accesible por API/HTTP. Encaja para front estático, imágenes, backups y zips; no es un disco de sistema operativo como EBS.
+*Simple Storage Service*: almacenamiento de objetos (ficheros + metadatos) accesible por API/HTTP. Sirve para front estático, imágenes, backups y zips; no es un disco de sistema operativo como EBS.
 
 **RDS**{: #rds}
 *Relational Database Service*: bases de datos relacionales gestionadas (MySQL, PostgreSQL, etc.). El proveedor parchea el motor; tú gestionas esquemas, datos y accesos. Puede desplegarse en Multi-AZ.
