@@ -8,7 +8,7 @@ hide: toc
 
 Apuntes y organización del módulo optativo **Introducción a la nube pública** del CFGS de *Desarrollo de Aplicaciones Web* (DAW), modalidad **semipresencial**, en el marco de la [Ley Orgánica 3/2022](https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-5139) y el [Real Decreto 659/2023](https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-16889), impartido en el [IES Macià Abela](https://portal.edu.gva.es/iesmaciaabela/) de Crevillent.
 
-**Curso 2026-2027.** Empieza por **[Acceso](00-acceso/acceso.md)**: solo sirve para entrar en Academy, el laboratorio y Skill Builder. El **[Tema 1](01-fundamentos-nube-aws/tema1.md)** ya es contenido del módulo (mapa de Cloud Foundations). En la navegación tienes el resto de temas; la preparación del examen **Cloud Practitioner (CLF-C02)** está en **[Certificación](99-certificacion/certificacion.md)**. El hilo del curso es **AWS Academy Cloud Foundations**, con ampliación hacia ese mismo examen.
+**Curso 2026-2027.** Empieza por **[Acceso](00-acceso/acceso.md)**: entrar en Academy, el laboratorio de prácticas y Skill Builder, activar la suscripción y, si aplica, obtener los [vouchers de certificación](00-acceso/acceso.md#vouchers). El **[Tema 1](01-fundamentos-nube-aws/tema1.md)** ya es contenido del módulo (mapa de Cloud Foundations). En la navegación tienes el resto de temas; la preparación del examen **Cloud Practitioner (CLF-C02)** está en **[Certificación](99-certificacion/certificacion.md)**. El hilo del curso es **AWS Academy Cloud Foundations**, con ampliación hacia ese mismo examen.
 
 ## Resultados de aprendizaje
 
@@ -32,29 +32,29 @@ Apuntes y organización del módulo optativo **Introducción a la nube pública*
 
     En el grupo **semipresencial INP** la sesión de centro es una **tutoría colectiva quincenal** (~1 h): se presenta el tema, se indican los recursos de estudio y se resuelven las dudas del bloque anterior. El **grueso del trabajo es autónomo** (apuntes, vídeos, labs de Academy). No hay 3 h lectivas presenciales cada semana.
 
-    El módulo se imparte **antes** de la formación en empresa (FE) del ciclo. La fecha de la FE **se comunicará cuando esté fijada**. Mientras tanto, organizamos el curso de **septiembre a finales de febrero / principios de marzo**.
+    El módulo se imparte **antes** de la formación en empresa (FE) del ciclo. La FE empieza el **1 de marzo de 2027**; por eso el módulo se organiza de **septiembre a finales de febrero**.
 
 ## Temas del curso
 
-Antes de la teoría, pasa por **[Acceso](00-acceso/acceso.md)**: solo sirve para entrar en Academy, el laboratorio y Skill Builder. El **[Tema 1](01-fundamentos-nube-aws/tema1.md)** ya es contenido del módulo: el mapa de **Cloud Foundations** (conceptos, modelos, coste e infraestructura). Son páginas distintas; no sustituyen la una a la otra. La preparación del examen **Cloud Practitioner (CLF-C02)** está en **[Certificación](99-certificacion/certificacion.md)**.
+Antes de la teoría, pasa por **[Acceso](00-acceso/acceso.md)**: entrar en Academy, el laboratorio de prácticas y Skill Builder, activar la suscripción y gestionar los vouchers de certificación. El **[Tema 1](01-fundamentos-nube-aws/tema1.md)** ya es contenido del módulo: el mapa de **Cloud Foundations** (conceptos, modelos, coste e infraestructura). Son páginas distintas; no sustituyen la una a la otra. La preparación del examen **Cloud Practitioner (CLF-C02)** está en **[Certificación](99-certificacion/certificacion.md)**.
 
 En este sitio puedes **estudiar todos los temas** a tu ritmo. Eso no abre entregas: plazos y tareas los fijan el **calendario de evaluaciones** y **Aules**. Leer con libertad no significa entregar cuando quieras.
 
 | Tema | Título | Qué trabajamos | Estudio | Evaluación | RA principales |
 | ---: | --- | --- | --- | --- | --- |
-| — | [Acceso](00-acceso/acceso.md) | Entrar a Academy, Learner Lab y Skill Builder | Disponible para estudio | — | — |
-| **1** | [Fundamentos de la nube AWS](01-fundamentos-nube-aws/tema1.md) | Mapa y definiciones (módulos introductorios de Cloud Foundations), modelos, adopción, facturación, infra global y consola | Disponible para estudio | 1.ª eval. / Aules | RA1, RA2 |
-| **2** | [Seguridad, IAM y responsabilidad compartida](02-seguridad-iam/tema2.md) | Shared responsibility, IAM, MFA y protección de datos | Disponible para estudio | 1.ª eval. / Aules | RA2 |
-| **3** | [Redes, VPC y entrega de contenido](03-redes-entrega-contenido/tema3.md) | VPC, subredes, SG/NACL, CloudFront y Route 53 | Disponible para estudio | 1.ª eval. / Aules | RA3 |
+| — | [Acceso](00-acceso/acceso.md) | Entrar a Academy, el laboratorio de prácticas y Skill Builder; activación y vouchers | Disponible para estudio | — | — |
+| **1** | [Fundamentos de la nube AWS](01-fundamentos-nube-aws/tema1.md) | Mapa y definiciones (módulos introductorios de Cloud Foundations), modelos, adopción, facturación, infraestructura global y consola | Disponible para estudio | 1.ª eval. / Aules | RA1, RA2 |
+| **2** | [Seguridad, IAM y responsabilidad compartida](02-seguridad-iam/tema2.md) | Modelo de responsabilidad compartida, IAM, MFA y protección de datos | Disponible para estudio | 1.ª eval. / Aules | RA2 |
+| **3** | [Redes, VPC y entrega de contenido](03-redes-entrega-contenido/tema3.md) | VPC, subredes, grupos de seguridad (SG, *security groups*) y listas de control de acceso de red (NACL, *network ACL*), CloudFront y Route 53 | Disponible para estudio | 1.ª eval. / Aules | RA3 |
 | **4** | [Cómputo: EC2, Lambda y contenedores](04-computo-serverless/tema4.md) | Máquinas virtuales, serverless y contenedores | Disponible para estudio | 1.ª eval. / Aules | RA3 |
 | **5** | [Almacenamiento](05-almacenamiento/tema5.md) | S3, EBS, EFS y clases de almacenamiento | Disponible para estudio | 2.ª eval. / Aules | RA4 |
 | **6** | [Bases de datos](06-bases-de-datos/tema6.md) | RDS, Aurora, DynamoDB y elección de motor | Disponible para estudio | 2.ª eval. / Aules | RA4 |
 | **7** | [Arquitectura Well-Architected](07-arquitectura-well-architected/tema7.md) | Pilares, resiliencia y desacoplo | Disponible para estudio | 2.ª eval. / Aules | RA4 |
 | **8** | [Escalado, monitorización y cierre CLF-C02](08-escalado-monitoreo-cierre/tema8.md) | ELB, Auto Scaling, CloudWatch; cierre del módulo | Disponible para estudio | 2.ª eval. / Aules | RA3, RA4 |
-| — | [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | [+1](#mas-uno-clf) (Aules) | — |
+| — | [Certificación](99-certificacion/certificacion.md) | Página de preparación del CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | [+1](#mas-uno-clf) (Aules) | — |
 | — | [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial y Autocheck por tema | Disponible para estudio | — | — |
 
-El **Tema 1** concentra los módulos introductorios de *AWS Academy Cloud Foundations*. **Acceso** es solo el *cómo entrar*. Los temas **2–8** siguen un bloque Foundations cada uno; el ritmo quincenal de tutorías está en el [Calendario del curso](calendario.md) y las entregas las marca **Aules**.
+El **Tema 1** cubre la **Introducción al curso** y los **Módulos 1–3** de *AWS Academy Cloud Foundations*. Los **Temas 2–8** se corresponden con los **Módulos 4–10**, uno por tema. **Acceso** explica cómo entrar en Academy y el laboratorio, activar Skill Builder y obtener vouchers. El ritmo quincenal de tutorías está en el [Calendario del curso](calendario.md) y las entregas las marca **Aules**.
 
 ### Mapa tema × RA
 
@@ -75,11 +75,11 @@ timeline
     title Calendario orientativo — INP 2026-27
     section 1.ª evaluación — sep–principios de diciembre
         T1 Fundamentos (dos quincenas) : T2 Seguridad e IAM : T3 Redes y VPC : T4 Cómputo
-    section 2.ª evaluación — 2.ª semana de diciembre–febrero/marzo
+    section 2.ª evaluación — 2.ª semana de diciembre–finales de febrero
         T5 Almacenamiento : T6 Bases de datos : T7 Well-Architected : T8 Escalado y CLF-C02
 ```
 
-La **1.ª evaluación** (septiembre → principios de diciembre) cubre los Temas **1–4**. La **2.ª evaluación** (desde la 2.ª semana de diciembre → finales de febrero / principios de marzo) cubre los Temas **5–8**. El Tema 1 ocupa las dos primeras quincenas; no hay 3.ª evaluación: el módulo acaba antes de la FE.
+La **1.ª evaluación** (de septiembre a principios de diciembre) cubre los Temas **1–4**. La **2.ª evaluación** (desde la 2.ª semana de diciembre hasta finales de febrero) cubre los Temas **5–8**. El Tema 1 ocupa las dos primeras quincenas; no hay 3.ª evaluación: el módulo acaba antes de la FE.
 
 !!! tip "Núcleo del curso"
     Cada tema tiene un **bloque Foundations** (lo que evalúa el módulo) y un apartado de **ampliación Practitioner (CLF-C02)**. El hilo es *AWS Academy Cloud Foundations*, no el curso *AWS Academy Cloud Architecting*. En semipresencial, la tutoría quincenal presenta el bloque y resuelve dudas; el estudio y los labs son trabajo autónomo. Si certificas Cloud Practitioner, puedes sumar **+1** a la nota final ([+1 Cloud Practitioner](#mas-uno-clf)). La preparación está en [Certificación](99-certificacion/certificacion.md).
@@ -94,13 +94,13 @@ La evaluación se organiza por **resultados de aprendizaje (RA)**. Cada activida
 
 Tres pasos, en este orden:
 
-1. En cada RA, tu nota es la **media ponderada** de las actividades de ese RA (AC, PR, PY, PO).
+1. En cada RA, tu nota es la **media ponderada** de las actividades de ese RA: actividad de clase (**AC**), práctica (**PR**), proyecto (**PY**) y prueba objetiva (**PO**).
 2. La **nota final** del módulo es la suma de (nota de cada RA × su peso: 20 %, 25 %, 30 %, 25 %).
 3. Si acreditas el **+1** por CLF-C02 (condiciones en Aules), se suma a esa nota final ([+1 Cloud Practitioner](#mas-uno-clf)).
 
 <figure markdown="span">
-![Cálculo de la nota: instrumentos AC·PR·PY·PO → nota de cada RA → nota final; +1 CLF-C02 si Aules lo concede](img/diagramas/pasos-evaluacion.svg){ width="800" }
-<figcaption>Instrumentos → nota de cada RA → nota final del módulo; el +1 de Cloud Practitioner solo se suma si se concede en Aules.</figcaption>
+![Cálculo de la nota: de los instrumentos AC·PR·PY·PO a la nota de cada RA y a la nota final; +1 CLF-C02 si Aules lo concede](img/diagramas/pasos-evaluacion.svg){ width="800" }
+<figcaption>De los instrumentos a la nota de cada RA y de ahí a la nota final del módulo; el +1 de Cloud Practitioner solo se suma si se concede en Aules.</figcaption>
 </figure>
 
 **Ejemplo (simplificado):** si en RA3 tienes prácticas de VPC/EC2 y un examen, se promedian (según lo que se indique en Aules) y ese resultado cuenta un **30 %** de la nota del módulo. Suspender un RA no se compensa con otro.
@@ -180,27 +180,27 @@ pie showData
 
 **Resumen:**
 
-- **Estudio libre ≠ entregas libres:** puedes leer todos los temas; las tareas y plazos los marca Aules y el calendario de evaluaciones.
+- **El estudio libre no implica entregas libres:** puedes leer todos los temas; las tareas y plazos los marca Aules y el calendario de evaluaciones.
 - Cada actividad indica el **RA** que evalúa y su escala. Codificación: prefijo del IE + número de tema (ej. `AC102` = actividad 02 del Tema 1; `PR201` = práctica 01 del Tema 2).
-- **AWS Academy Cloud Foundations:** trabajarás en la *class* del curso. Los labs puntúan como **PR** del tema correspondiente.
+- **AWS Academy Cloud Foundations:** trabajarás en la clase del curso. Los labs puntúan como **PR** del tema correspondiente.
 - **+1 Practitioner:** [+1 Cloud Practitioner](#mas-uno-clf). Material: [Certificación](99-certificacion/certificacion.md).
 
 ## Materiales
 
 - Este sitio web de apuntes (guía del módulo).
-- **AWS Academy Cloud Foundations** (acceso learner según se indique en clase / Aules).
+- **AWS Academy Cloud Foundations** (acceso de alumnado según se indique en clase / Aules).
 - Consola AWS de las cuentas de laboratorio.
 - Ampliación: [AWS Skill Builder](https://skillbuilder.aws/) — *Cloud Practitioner Essentials*.
 - Guía oficial del examen: [AWS Certified Cloud Practitioner (CLF-C02)](https://aws.amazon.com/certification/certified-cloud-practitioner/).
 - Videotutoriales en cada tema (Profe Santos Cloud y otros).
-- **[Certificación](99-certificacion/certificacion.md)** — hub CLF-C02 (notas por tema, **autochecks estilo examen**, serie Santos, tests, Skill Builder). Los quizzes de clase van en cada tema. Sobre el +1: [+1 Cloud Practitioner](#mas-uno-clf).
+- **[Certificación](99-certificacion/certificacion.md)** — página de preparación del CLF-C02 (notas por tema, **autochecks estilo examen**, serie Santos, tests, Skill Builder). Los quizzes de clase van en cada tema. Sobre el +1: [+1 Cloud Practitioner](#mas-uno-clf).
 - Editor de entregas: Visual Studio Code + Markdown.
 
 ## Referencias
 
 Fuentes utilizadas en la elaboración de estos apuntes:
 
-- Salvador Serrano — apuntes Cloud (IES Severo Ochoa): <https://salvasevero.github.io/cloud/>
+- Salvador Serrano — [apuntes Cloud (IES Severo Ochoa)](https://salvasevero.git&#104;ub.io/cloud/)
 - [Profe Santos Cloud](https://www.youtube.com/@ProfeSantosCloud) (YouTube)
 - Documentación y guías oficiales [AWS](https://docs.aws.amazon.com/) (incluye Architecture Icons / diagramas de servicio)
 - [AWS Skill Builder](https://skillbuilder.aws/) y guía del examen [CLF-C02](https://aws.amazon.com/certification/certified-cloud-practitioner/)
@@ -210,16 +210,20 @@ Fuentes utilizadas en la elaboración de estos apuntes:
 | Página | Contenido |
 | --- | --- |
 | [Inicio](index.md) | Evaluación y mapa del curso |
-| [Acceso](00-acceso/acceso.md) | Entrar a Academy, lab y Skill Builder |
+| [Acceso](00-acceso/acceso.md) | Academy, laboratorio, Skill Builder, activación y vouchers |
 | [Calendario](calendario.md) | Ritmo quincenal T1–T8 (orientativo) |
-| [Temas 1–8](#temas-del-curso) | Apuntes Foundations + puente Practitioner |
-| [Certificación](99-certificacion/certificacion.md) | Hub CLF-C02 (notas + autocheck examen) |
-| [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial + Autocheck por tema |
+| [Temas 1–8](#temas-del-curso) | Apuntes Foundations y puente Practitioner |
+| [Certificación](99-certificacion/certificacion.md) | Página de preparación del CLF-C02 (notas y autocheck examen) |
+| [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial y Autocheck por tema |
 
 *[CFGS]: Ciclo Formativo de Grado Superior
 *[DAW]: Desarrollo de Aplicaciones Web
 *[INP]: Introducción a la Nube Pública
 *[RA]: Resultado de aprendizaje
 *[IE]: Instrumento de evaluación
+*[AC]: Actividad de clase
+*[PR]: Práctica
+*[PY]: Proyecto
+*[PO]: Prueba objetiva
 *[FE]: Formación en empresa
 *[CLF-C02]: AWS Certified Cloud Practitioner (versión C02)
