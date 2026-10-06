@@ -1,13 +1,13 @@
 ---
 title: Tema 1 — Fundamentos de la nube AWS
-description: Modelos de nube, adopción y migración, economía y facturación, infraestructura global y consola (Foundations M0–M3).
+description: Modelos de nube, adopción y migración, economía y facturación, infraestructura global y consola (Foundations: Introducción al curso y M1–M3).
 ---
 
 # Tema 1. Fundamentos de la nube AWS
 
 En este tema construimos el mapa que el resto del módulo da por sentado: qué es la **nube pública**, por qué una aplicación web deja el CPD propio, cómo se **paga**, y **dónde** viven realmente los recursos ([región](#region), [zona de disponibilidad](#zona-de-disponibilidad), consola).
 
-El núcleo es **AWS Academy Cloud Foundations M0–M3**. La ampliación apunta al vocabulario del **CLF-C02**, sin convertir el tema en un plan de migración de empresa.
+El núcleo es **AWS Academy Cloud Foundations**: *Introducción al curso* y módulos **1–3**. La ampliación apunta al vocabulario del **CLF-C02**, sin convertir el tema en un plan de migración de empresa.
 
 !!! tip "Primera clase"
     Empieza por el [cuestionario inicial](#cuestionario-inicial). No hace falta haber leído el tema entero: sirve para ver qué traes (VPS vs nube, IaaS/PaaS, región y factura) antes de Foundations.
@@ -92,7 +92,7 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 ---
 
-## Bloque Foundations (M0–M3)
+## Bloque Foundations (Introducción al curso y M1–M3)
 
 ### Qué es «nube» cuando desarrollas web
 
@@ -263,13 +263,13 @@ Dimensiones típicas de la factura:
 - **Salida** de datos (*egress*). La entrada suele ser barata o nula.
 - Licencias incluidas frente a **BYOL**.
 
-Herramientas que debes saber **usar**, no solo nombrar. La calculadora estima *antes*; Budgets avisa *durante*; Cost Explorer explica *después*. Free Tier son cuotas de prueba, no un cheque en blanco.
+Herramientas que debes saber **usar**, no solo nombrar. La [AWS Pricing Calculator](https://calculator.aws/) estima *antes*; Budgets avisa *durante*; Cost Explorer explica *después*. Free Tier son cuotas de prueba, no un cheque en blanco.
 
 En una API de prácticas el coste dominante suele ser **cómputo encendido** (o el olvido), no el GB del front. La **salida** (*egress*) duele cuando sirves vídeos o descargas grandes desde la región hacia internet; un SPA pequeño casi no se nota. Por eso la calculadora pide supuestos explícitos: horas/semana, GB almacenados, GB de salida.
 
 | Herramienta | Momento |
 | --- | --- |
-| **AWS Pricing Calculator** | Antes de montar |
+| [**AWS Pricing Calculator**](https://calculator.aws/) | Antes de montar |
 | **AWS Budgets** | Aviso cuando te sales |
 | **Cost Explorer** | Después: qué ha costado |
 | **Free Tier** | Cuotas de prueba, no «todo vale 0 €» |
@@ -355,7 +355,7 @@ Vídeo: Profe Santos Cloud (YouTube). Qué mirar: cómo se organiza Academy y qu
 
 **Extra (opcional).** [AWS Academy · Skill Builder](https://www.youtube.com/watch?v=ce_5LCWjzGs) (~16 min) — cuándo activar Skill Builder frente al LMS. Vídeo: Profe Santos Cloud (YouTube).
 
-Los módulos en vídeo del LMS Academy (M0–M3) se indican en clase / Aules.
+Los módulos en vídeo del LMS Academy (*Introducción al curso* y M1–M3) se indican en clase / Aules.
 
 ---
 
@@ -365,15 +365,15 @@ Los módulos en vídeo del LMS Academy (M0–M3) se indican en clase / Aules.
 
 * :simple-neutralinojs: **PR101**. (RA1 // c // RA2 // b, c // **PR 0–10**). Entras en la *class* de Cloud Foundations y reconoces el mapa de servicios en la consola learner **sin** crear recursos de pago.
 
-  **Tareas:** completa el módulo **0** del LMS (lectura + knowledge check); anota la región activa y usa el buscador de servicios; elige **cinco** servicios, cada uno con categoría y una frase de para qué sirve en una app web.
+  **Tareas:** completa la **Introducción al curso** del LMS (encuesta previa, vídeo de introducción, *¿Cómo completar los ejercicios de laboratorio?* y Student Guide); anota la región activa y usa el buscador de servicios; elige **cinco** servicios, cada uno con categoría y una frase de para qué sirve en una app web.
 
   **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR101.md` (o ZIP + `img/` si hay capturas).
 
-  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR101](../90-soluciones/pr/PR101.md).
+  Guía de apoyo: [Soluciones · PR101](../90-soluciones/pr/PR101.md).
 
 | Criterio | Descripción | Puntos |
 | --- | --- | --- |
-| Acceso y módulo 0 | Class + knowledge check hechos | 0–2 |
+| Acceso e Introducción al curso | Class + encuesta previa completada | 0–2 |
 | Consola sin coste | Región anotada; sin recursos de pago | 0–2 |
 | Cinco servicios | Categoría + caso web claro | 0–4 |
 | Claridad del `.md` | Estructura legible, sin catálogo interminable | 0–2 |
@@ -385,11 +385,11 @@ Los módulos en vídeo del LMS Academy (M0–M3) se indican en clase / Aules.
 
   - Situaciones: correo del centro; API de un proyecto DAW; front estático; backup.
 
-  **Tareas:** para cada situación, indica IaaS/PaaS/SaaS y pública/privada/híbrida/multicloud; una frase de ventaja frente a hardware propio; knowledge check del **Módulo 1** si está activo en Academy.
+  **Tareas:** para cada situación, indica IaaS/PaaS/SaaS y pública/privada/híbrida/multicloud; una frase de ventaja frente a hardware propio; knowledge check del **Módulo 1 - Información general sobre los conceptos de la nube** si está activo en Academy.
 
   **Entrega:** según [Cómo entregar las prácticas](../index.md#entrega) — fichero `PR102.md`.
 
-  Guía de apoyo (no sustituye el enunciado): [Soluciones · PR102](../90-soluciones/pr/PR102.md).
+  Guía de apoyo: [Soluciones · PR102](../90-soluciones/pr/PR102.md).
 
 | Criterio | Descripción | Puntos |
 | --- | --- | --- |
