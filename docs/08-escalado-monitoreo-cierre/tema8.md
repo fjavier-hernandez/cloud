@@ -80,7 +80,7 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 ### Elastic Load Balancing
 
-**Qué es en este caso.** Un **[balanceador de carga](#elb)** reparte peticiones entre varios destinos (instancias, contenedores…) y deja de enviar tráfico a los que fallan la **[comprobación de estado](#health-check)** (*health check*). Sin esa comprobación, sigues mandando al proceso que ya no responde `/health`. La familia de servicios se llama **ELB**. Para una API HTTP el tipo habitual es el **[ALB](#alb)** (capa 7: host, path). El **[NLB](#nlb)** (*Network Load Balancer*, balanceador de carga de red) trabaja en capa 4 (TCP/UDP) cuando necesitas muy alto rendimiento o protocolos que no son HTTP. El *Gateway Load Balancer* (**GWLB**) aparece en catálogos y en el examen como opción para *appliances* de red; en Foundations apenas lo usas. El *Classic Load Balancer* (**CLB**) es legado: no es la respuesta moderna en el CLF-C02.
+**Qué es en este caso.** Un **[balanceador de carga](#elb)** reparte peticiones entre varios destinos (instancias, contenedores…) y deja de enviar tráfico a los que fallan la **[comprobación de estado](#health-check)** (*health check*). Sin esa comprobación, sigues mandando al proceso que ya no responde `/health`. La familia de servicios se llama **ELB**. Para una API HTTP el tipo habitual es el **[ALB](#alb)** (capa 7: host, ruta (*path*)). El **[NLB](#nlb)** (*Network Load Balancer*, balanceador de carga de red) trabaja en capa 4 (TCP/UDP) cuando necesitas muy alto rendimiento o protocolos que no son HTTP. El *Gateway Load Balancer* (**GWLB**) aparece en catálogos y en el examen como opción para aparatos de red (firewalls o sondas virtuales); en Foundations apenas lo usas. El *Classic Load Balancer* (**CLB**) es legado: no es la respuesta moderna en el CLF-C02.
 
 **En la práctica.** En un proyecto de DAW el ALB permite reglas del estilo «`/api/*` hacia el grupo de la API» y «`/` hacia el front». No sustituye a nginx en todos los casos, pero en Foundations es el punto de entrada gestionado que encaja con varias AZ y con el ASG. El cliente (navegador o app) habla con el nombre **DNS** (*Domain Name System*, sistema de nombres de dominio) del ALB, no con la IP de una EC2 concreta. Si apuntas un registro A de DNS a la IP pública de una sola instancia, ese registro se queda obsoleto en cuanto la máquina se sustituye o cae; el nombre DNS del ALB se mantiene aunque cambien los destinos detrás.
 
@@ -96,7 +96,7 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 | Tipo | Uso típico |
 | --- | --- |
-| **ALB** | HTTP/HTTPS (capa 7): host, path y APIs REST de un proyecto de DAW. |
+| **ALB** | HTTP/HTTPS (capa 7): host, ruta y APIs REST de un proyecto de DAW. |
 | **NLB** | TCP/UDP o cargas que piden muy alto rendimiento en capa 4. |
 | **GWLB** | *Appliances* de red; en el CLF basta reconocer el nombre. |
 | **CLB** clásico | Legado; no es la respuesta moderna en el examen. |
@@ -147,7 +147,7 @@ Cuando solo tienes una EC2 con IP pública y un registro A de DNS apuntando a el
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
-| El ALB reparte HTTP/HTTPS y usa comprobaciones de estado. | En el lab documentas al menos un destino *healthy*. |
+| El ALB reparte HTTP/HTTPS y usa comprobaciones de estado. | En el lab documentas al menos un destino sano (*healthy*). |
 | El NLB no es el ALB: capa 4 frente a capa 7. | Para una API REST eliges ALB salvo que el enunciado diga otra cosa. |
 | El DNS del ALB sustituye el registro A a una sola EC2. | Deja de pegar la IP pública de la instancia en el front. |
 
@@ -155,7 +155,7 @@ Cuando solo tienes una EC2 con IP pública y un registro A de DNS apuntando a el
 
 **Qué es en este caso.** Un **[Auto Scaling Group](#asg)** mantiene un conjunto de instancias EC2 con tres números: **mínimo** (suelo: el grupo no baja de ahí), **deseado** (cuántas quieres ahora) y **máximo** (techo: no escala por encima aunque la métrica diga «más»). Escala según una **[política de escalado](#politica-de-escalado)** ligada a métricas (CPU, peticiones) o a un horario (entorno de desarrollo a cero por la noche). La elasticidad significa que la capacidad **sigue** a la demanda, no una máquina virtual eterna «por si acaso».
 
-**En la práctica.** En una API de prácticas un buen diseño es: mínimo bajo en el lab, deseado acorde a la demo, máximo con techo consciente. Programar un horario que baje a cero por la noche evita la factura del fin de semana. En producción el mínimo suele ser ≥ 2 si quieres sobrevivir a una AZ; en el instituto un mínimo = 2 sin apagar es un error de coste. Optimizar (CE f del RA3) no es poner máximo = 20 «por si acaso» en la cuenta del learner: es ajustar el tamaño de la instancia, mantener y actualizar la AMI y la app, y dejar un techo que no te arruine el mes.
+**En la práctica.** En una API de prácticas un buen diseño es: mínimo bajo en el lab, deseado acorde a la demo, máximo con techo consciente. Programar un horario que baje a cero por la noche evita la factura del fin de semana. En producción el mínimo suele ser ≥ 2 si quieres sobrevivir a una AZ; en el instituto un mínimo = 2 sin apagar es un error de coste. Optimizar (CE f del RA3) no es poner máximo = 20 «por si acaso» en la cuenta del Learner Lab: es ajustar el tamaño de la instancia, mantener y actualizar la AMI y la app, y dejar un techo que no te arruine el mes.
 
 **Cuándo no subir el máximo del ASG.** Si la base de datos o el ALB no aguantan, o si el lab no tiene presupuesto, subir el máximo solo multiplica la factura. Primero ajusta el tamaño de los recursos y las comprobaciones de estado; después la elasticidad. Una política que escala por CPU al 70 % no arregla una app que responde 500 en `/health`: el ASG lanzará más instancias no sanas y el ALB seguirá sin mandarles tráfico útil. La política de escalado no sustituye mantener y actualizar la aplicación ni la AMI: solo mueve el número de instancias.
 
@@ -195,7 +195,7 @@ CPU al 10 % un mes en `m5.2xlarge` es un hallazgo de **coste** (y de sostenibili
 <figcaption>Reparto de tráfico, elasticidad de capacidad y observación: tres piezas que van juntas en Foundations Módulo 10.</figcaption>
 </figure>
 
-El ALB reparte en capa 7 (host/path); CloudWatch te enseña el *log stream* o la métrica cuando algo falla. Los logs de una función Lambda del Tema 4 también viven en CloudWatch Logs, pero en **PR801** la evidencia pedida es una alarma o métrica de EC2, ALB o grupo de destino, no un volcado de logs de Lambda «porque también es CloudWatch».
+El ALB reparte en capa 7 (host/ruta); CloudWatch te enseña el *log stream* o la métrica cuando algo falla. Los logs de una función Lambda del Tema 4 también viven en CloudWatch Logs, pero en **PR801** la evidencia pedida es una alarma o métrica de EC2, ALB o grupo de destino, no un volcado de logs de Lambda «porque también es CloudWatch».
 
 <figure markdown="span">
 ![Arquitectura de componentes de Application Load Balancer](img/capturas/alb-arquitectura.png){ width="800" }
@@ -230,29 +230,29 @@ En tu clase de *Cloud Foundations*, el lab del **Módulo 10** se llama **Ejercic
 
 Primero creas un **balanceador** (ALB) con un grupo de destino y destinos en **varias AZ**, según el enunciado. Configuras la comprobación de estado hacia una ruta que la aplicación responda. Asocias el SG del balanceador y el de las instancias como indique el lab (el tráfico web suele entrar por el ALB).
 
-Después **compruebas el estado** de las instancias en el grupo de destino: al menos un destino debe aparecer sano (*healthy*). Sin eso, el ALB no está repartiendo de verdad. Si el enunciado te pide probar la página de cada instancia o del DNS del ALB, hazlo y deja captura.
+Después **compruebas el estado** de las instancias en el grupo de destino: al menos un destino debe aparecer sano. Sin eso, el ALB no está repartiendo de verdad. Si el enunciado te pide probar la página de cada instancia o del DNS del ALB, hazlo y deja captura.
 
-Luego configuras un **grupo de Auto Scaling** con **mínimo**, **deseado** y **máximo** coherentes con el enunciado, vinculado al mismo diseño (plantilla de lanzamiento y grupo de destino). Compruebas que el tráfico se reparte entre destinos sanos y que el grupo **reacciona** a la carga o a una instancia caída, según indique el enunciado (más instancias, sustitución, etc.). Añades o documentas una **alarma** de CloudWatch (CPU o destinos no sanos) o una captura de métrica: esa es la señal de observación del IE.
+Luego configuras un **grupo de Auto Scaling** con **mínimo**, **deseado** y **máximo** coherentes con el enunciado, vinculado al mismo diseño (plantilla de lanzamiento y grupo de destino). Compruebas que el tráfico se reparte entre destinos sanos y que el grupo **reacciona** a la carga o a una instancia caída, según indique el enunciado (más instancias, sustitución, etc.). Añades o documentas una **alarma** de CloudWatch (CPU o destinos no sanos) o una captura de métrica: esa es la evidencia que pide la práctica.
 
 Al terminar, **bajas el mínimo a 0** o terminas los recursos del lab para no dejar capacidad facturando. En **PR801** dejas capturas del destino sano, de los valores del ASG, de la alarma o métrica y de la limpieza. Respecto al mapa del proyecto de DAW (API detrás de ALB, capacidad elástica, observación), este lab **practica** balanceo, Auto Scaling y una alarma. **Simplifica** el resto del producto (no montas RDS ni el front completo).
 
 ### Errores frecuentes (escala y observación)
 
-Si el ALB tiene una comprobación de estado que siempre marca *healthy* aunque la app devuelva 500, sigues enviando tráfico a un proceso roto. Apunta la comprobación a una ruta real y mira el código de respuesta esperado.
+Si el ALB tiene una comprobación de estado que siempre marca sano aunque la app devuelva 500, sigues enviando tráfico a un proceso roto. Apunta la comprobación a una ruta real y mira el código de respuesta esperado.
 
-Dejar el ASG con mínimo = 2 al acabar el lab es la forma más habitual de llevarse un susto en la factura del learner: la capacidad sigue facturando el fin de semana. Baja a mínimo = 0 o termina instancias y deja captura de limpieza.
+Dejar el ASG con mínimo = 2 al acabar el lab es la forma más habitual de llevarse un susto en la factura del Learner Lab: la capacidad sigue facturando el fin de semana. Baja a mínimo = 0 o termina instancias y deja captura de limpieza.
 
-Mirar la CPU en **CloudTrail** te deja en la herramienta equivocada: CloudTrail audita llamadas a la API de AWS; la CPU es métrica de CloudWatch. Pegar logs de una Lambda como «observabilidad» de este IE tampoco cumple: aquí quieres alarma o métrica de EC2, ALB o grupo de destino.
+Mirar la CPU en **CloudTrail** te deja en la herramienta equivocada: CloudTrail audita llamadas a la API de AWS; la CPU es métrica de CloudWatch. Pegar logs de una Lambda como «observabilidad» de esta práctica tampoco cumple: aquí quieres alarma o métrica de EC2, ALB o grupo de destino.
 
 Si confundes «aprobar CLF-C02» con «compensar un RA suspendido» en este módulo, el +1 de certificación no te salva un resultado de aprendizaje suspenso: los RA no se compensan.
 
 ### Cierre del módulo (sin 3.ª evaluación)
 
-La **2.ª evaluación** cierra Temas 5–8. Este tema concentra ELB, ASG, CloudWatch y el repaso de catálogo CLF. No hay «cierre» aparte ni 3.ª evaluación en 2.º GS: el módulo acaba antes de la FE.
+La **2.ª evaluación** cierra Temas 5–8. Este tema concentra ELB, ASG, CloudWatch y el repaso de catálogo CLF. No hay «cierre» aparte ni 3.ª evaluación en 2.º de grado superior: el módulo acaba antes de la formación en empresa (FE).
 
 Para el cierre CLF: [Certificación](../99-certificacion/certificacion.md) (serie, tests, Skill Builder). Ocho tarjetas bien hechas (AC802) superan un listado largo de nombres sin frase de uso. Antes del examen, repasa también los dominios del CLF-C02 en el hub: no hace falta memorizar cada servicio de analítica o IA, sí reconocer el nombre cuando el enunciado describe el caso.
 
-Si llegas a la prueba objetiva de la 2.ª evaluación con el lab hecho y con las capturas de PR801 ordenadas, el tema te habrá servido dos veces: como práctica de consola y como vocabulario del examen. Si solo memorizas siglas sin haber visto un destino *healthy*, en el CLF te confundirán NLB y ALB en cuanto el enunciado hable de path o de TCP.
+Si llegas a la prueba objetiva de la 2.ª evaluación con el lab hecho y con las capturas de PR801 ordenadas, el tema te habrá servido dos veces: como práctica de consola y como vocabulario del examen. Si solo memorizas siglas sin haber visto un destino sano, en el CLF te confundirán NLB y ALB en cuanto el enunciado hable de ruta o de TCP.
 
 ---
 
@@ -351,7 +351,7 @@ Cierre Foundations (ELB/ASG/CloudWatch). El catálogo CLF largo y el estilo exam
 *Elastic Load Balancing* (balanceo de carga elástico): familia de balanceadores de AWS que reparte tráfico entre destinos sanos (ALB, NLB, GWLB…). Sin comprobaciones de estado, puede seguir enviando a un proceso que ya no responde.
 
 **ALB**{: #alb}
-*Application Load Balancer* (balanceador de carga de aplicaciones): balanceador de capa 7 (HTTP/HTTPS), con reglas por host y path. Habitual delante de APIs web. Encaja con varias AZ y con un ASG detrás.
+*Application Load Balancer* (balanceador de carga de aplicaciones): balanceador de capa 7 (HTTP/HTTPS), con reglas por host y ruta. Habitual delante de APIs web. Encaja con varias AZ y con un ASG detrás.
 
 **NLB**{: #nlb}
 *Network Load Balancer* (balanceador de carga de red): balanceador de capa 4 (TCP/UDP) para alto rendimiento o protocolos que no son HTTP.
