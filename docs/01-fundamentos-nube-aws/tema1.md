@@ -517,7 +517,7 @@ Los módulos en vídeo del LMS (sistema de gestión del aprendizaje) de Academy 
 
 ### PR103 — Estimación
 
-* :simple-neutralinojs: **PR103**. (RA1 // d, e, f // **PR 0–10**). Usas **AWS Pricing Calculator** para comparar coste 24/7 frente a uso parcial y dejas claros los supuestos.
+* :simple-neutralinojs: **PR103**. (RA1 // d, e, f // **PR 0–10**). Usas la [**AWS Pricing Calculator**](https://calculator.aws/) para comparar coste 24/7 frente a uso parcial y dejas claros los supuestos.
 
   **Tareas:** estima un mes en región europea con instancia pequeña 24/7 + 50 GB de objetos + 10 GB de salida; repite la instancia a **40 h/sem**; documenta supuestos y desglose; completa el lab de costes de Academy M2 si está activo.
 

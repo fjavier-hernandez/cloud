@@ -219,19 +219,29 @@ Si el backend del instituto o del cliente sigue en un CPD (centro de proceso de 
 
 **En la práctica — VPN.** Encaja para pruebas, para conectar el CPD del cliente con un caudal moderado y para escenarios donde importa cifrar sin esperar a un circuito dedicado. En Foundations no configuras la VPN del lab típico del Módulo 5; sí la reconoces en el CLF-C02 cuando el enunciado habla de un enlace cifrado por internet.
 
-**Qué es en este caso — Direct Connect.** Un **[Direct Connect](#direct-connect)** es un enlace de red **dedicado** (no el internet genérico de casa) entre tu ubicación y AWS. El tráfico no viaja por la misma ruta genérica que el resto de internet público de la misma forma que una VPN sobre ADSL.
+**Qué es en este caso — Direct Connect.** Un **[Direct Connect](#direct-connect)** es una **conexión física dedicada** entre tu ubicación (CPD, oficina, centro de datos del cliente) y AWS. El tráfico **no pasa por internet público**: va por el circuito acordado con el operador. Una **[VPN](#vpn)**, en cambio, **cifra** el tráfico pero **sí viaja por internet** entre los extremos del túnel.
 
-**En la práctica — Direct Connect.** Tiene sentido cuando el caudal estable y la previsibilidad importan más que un lab de aula: sincronizaciones grandes, aplicaciones sensibles a la variación del camino público, contratos donde el enlace dedicado es requisito. En Foundations solo debes **reconocer** el escenario del examen: mucho tráfico estable al CPD → Direct Connect; prueba rápida y cifrada → VPN. No inventamos precios ni latencias aquí: eso lo marca el contrato y la ubicación.
+**En la práctica — Direct Connect.** Tiene sentido cuando el caudal estable y la previsibilidad importan más que un lab de aula: sincronizaciones grandes, aplicaciones sensibles a la variación del camino público, contratos donde el enlace dedicado es requisito. En Foundations solo debes **reconocer** el escenario del examen: mucho tráfico estable al CPD → Direct Connect; prueba rápida y cifrada → VPN. El **precio** y la **latencia** dependen del contrato con el operador y de la ubicación del punto de presencia, no de una tabla fija en un apunte.
 
 En un proyecto de DAW casi nunca montarás Direct Connect; sí debes saber nombrarlo cuando el enunciado del CLF-C02 lo describa. Un [VPC endpoint](#vpc-endpoint) es otra pieza distinta: permite alcanzar servicios de AWS (por ejemplo S3) desde la VPC sin salir por internet público; no sustituye a Direct Connect hacia el CPD del cliente.
 
 ### Relación con cómputo y balanceo
 
-La VPC fija el mapa de red; EC2 y Lambda (Tema 4) son los recursos que ejecutan código; el ALB y el Auto Scaling (Tema 8) reparte y escala *dentro* de esa red. Sin CIDR y subredes claras, el resto de labs falla con timeouts, sin ruta al IGW o con un security group que no cuadra. Cuando en el Tema 4 lances una instancia, la pregunta no es solo «¿qué AMI?» sino «¿en qué subred y con qué security group?». Cuando en el Tema 8 montes un ALB, la pregunta es «¿en qué subredes públicas van los nodos del balanceador y hacia qué destinos privados reenvían?».
+La VPC fija el mapa de red; EC2 y Lambda (Tema 4) son los recursos que ejecutan código; el ALB y el Auto Scaling (Tema 8) **reparten y escalan** *dentro* de esa red. Sin CIDR y subredes claras, el resto de labs falla con timeouts, sin ruta al IGW o con un security group que no cuadra. Cuando en el Tema 4 lances una instancia, la pregunta no es solo «¿qué AMI?» sino «¿en qué subred y con qué security group?». Cuando en el Tema 8 montes un ALB, la pregunta es «¿en qué subredes públicas van los nodos del balanceador y hacia qué destinos privados reenvían?».
 
-### Qué suele pedir el lab del Módulo 5 (sin inventar pasos)
+### El lab del Módulo 5: Creación de una VPC y lanzamiento de un servidor web
 
-En Academy el lab del **Módulo 5** trabaja VPC, subredes, rutas y un servidor web alcanzable. El detalle exacto (asistente *VPC and more*, una sola AZ, nombre de cada recurso, si hay NAT o no) lo marca el LMS de tu clase: **no inventamos aquí capturas ni clics que no hayamos verificado**. Lo que sí debes llevar al `.md` es siempre el mismo criterio: CIDR y AZ de cada subred, qué subred tiene ruta al IGW, qué reglas tiene el security group y que la administración no quede abierta a todo internet. Usa la **región que permita el lab**. Si el lab simplifica a una sola subred pública, anota la simplificación y relaciona el resultado con el patrón ALB / API / RDS del apartado anterior.
+En tu clase de *Cloud Foundations*, el ejercicio se llama **Ejercicio de laboratorio 2 — Creación de una VPC y lanzamiento de un servidor web**. Trabajas en la **región que indique el lab** y sigues el enunciado del LMS paso a paso; lo que sigue es el hilo lógico para que encaje con el patrón ALB, API y RDS del tema.
+
+Primero creas la VPC con el asistente **VPC and more**: defines el CIDR de la VPC y, en **una** zona de disponibilidad, dejas creadas **una subred pública**, **una subred privada** y un **NAT gateway** en la pública. Así practicas la diferencia de rutas: la pública llega al Internet Gateway y la privada sale a internet por el NAT cuando hace falta, sin exponer la instancia de la privada a entradas no solicitadas desde internet.
+
+Después amplías el diseño a **alta disponibilidad entre dos AZ**: añades **una segunda subred pública** y **una segunda subred privada** en otra zona de disponibilidad y las asocias a **sus tablas de rutas** (pública con ruta al IGW, privada con ruta al NAT). En el `.md` anota el CIDR y la AZ de **cada** subred y qué tabla de rutas lleva.
+
+Luego creas un **security group** que permite **HTTP en el puerto 80** desde quien indique el lab (a menudo internet para comprobar el servidor). La administración por SSH o RDP no debe quedar abierta a todo internet (`0.0.0.0/0`) si puedes evitarlo: restringe a tu IP o al método que marque el enunciado.
+
+Por último **lanzas el servidor web en una subred pública**, asocias el security group y compruebas que responde HTTP. Eso es lo que el lab pide cerrar.
+
+Respecto al patrón didáctico **ALB en pública, API y RDS en privada**, este lab **practica** la VPC de verdad (CIDR, dos AZ, IGW, NAT, tablas de rutas, security group y una instancia alcanzable desde internet). **Simplifica** el resto: no montas un ALB ni separas API y base de datos; el servidor web va directo en pública con el puerto 80, no el diseño completo de un proyecto intermodular. En el entregable **PR301** deja claro qué parte del patrón has tocado y qué has dejado fuera «porque el enunciado va a una EC2 web en pública».
 
 ---
 
