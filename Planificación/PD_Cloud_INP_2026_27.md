@@ -2,7 +2,6 @@
 
 ## INTRODUCCIÓN A LA NUBE PÚBLICA
 
-**Código de módulo:** no consta en el anexo usado (PDF *Optativa - Introducción a la nube pública*). No se inventa código.  
 **Duración:** **100 h** (módulo optativo, 3 h semanales; Decreto 114/2025, anexo X-XVII; Decreto 95/2026, anexo IV). En semipresencial rigen las mismas 100 h (Orden 30/2022, art. 3).  
 
 **CICLO FORMATIVO DE GRADO SUPERIOR**  
@@ -52,13 +51,12 @@ Enfoque: referentes de calificación = **RA**. Los **CE** sirven para **verifica
 | Campo | Valor |
 | --- | --- |
 | Denominación | Introducción a la Nube Pública |
-| Código | No consta en el anexo PDF usado |
 | Familia profesional | Informática y Comunicaciones |
 | Ciclo | Desarrollo de Aplicaciones Web |
 | Nivel | Grado superior |
 | Curso | Segundo (2.º DAW), semipresencial INP |
 | Duración | **100 h** |
-| Ritmo de aula | Semanas alternas: una semana, tutoría colectiva (sesión de mañana y sesión de tarde, mismo contenido); la siguiente, tutoría individual (también mañana y tarde). El resto, trabajo autónomo, según el horario aprobado por Jefatura de Estudios. |
+| Ritmo de aula | Semanas alternas, según el horario aprobado por Jefatura de Estudios: una semana, tutoría colectiva (sesión de mañana y sesión de tarde, mismo contenido); la siguiente, tutoría individual (también mañana y tarde). El resto es trabajo autónomo. |
 | Curso académico | 2026/2027 |
 | Profesor | Javier Hernández Illán |
 
@@ -78,8 +76,8 @@ El centro forma técnicos superiores en desarrollo web. El módulo aporta vocabu
 - Real Decreto 659/2023, de 18 de julio, por el que se desarrolla la ordenación del Sistema de Formación Profesional.
 - Real Decreto 686/2010, de 20 de mayo, por el que se establece el título de Técnico Superior en Desarrollo de Aplicaciones Web y se fijan sus enseñanzas mínimas, actualizado por el Real Decreto 405/2023, de 29 de mayo.
 - Real Decreto 500/2024, de 21 de mayo, por el que se modifican determinados reales decretos por los que se establecen títulos de Formación Profesional de grado superior y se fijan sus enseñanzas mínimas.
-- Decreto 114/2025, de 29 de julio, del Consell, por el que se establecen los currículos de los ciclos formativos de grado medio y de grado superior de Formación Profesional (anexo X-XVII: currículo autonómico vigente de este módulo, 100 h), modificado por el Decreto 95/2026, de 19 de junio.
-- Orden 30/2022, de 12 de mayo, de la Conselleria de Educación, Cultura y Deporte, por la que se regula la organización y autorización de las enseñanzas de los ciclos formativos de Formación Profesional en el régimen semipresencial (art. 3 y art. 28.2, este último modificado por la Orden 9/2025, de 5 de junio).
+- Decreto 114/2025, de 29 de julio, del Consell, por el que se establecen los currículos de los ciclos formativos de grado medio y de grado superior de Formación Profesional, en aplicación de la Ley Orgánica 3/2022, de 31 de marzo, de ordenación e integración de la Formación Profesional (anexo X-XVII: currículo autonómico vigente de este módulo, 100 h), modificado por el Decreto 95/2026, de 19 de junio.
+- Orden 30/2022, de 12 de mayo, de la Conselleria de Educación, Cultura y Deporte, por la que se regula la organización y autorización de las enseñanzas de los ciclos formativos de Formación Profesional en el régimen semipresencial en centros docentes públicos y privados de la Comunitat Valenciana (art. 3 y art. 28.2, este último modificado por la Orden 9/2025, de 5 de junio, de la Conselleria de Educación, Cultura, Universidades y Empleo).
 - Resolución de 16 de julio de 2026, de la Secretaría Autonómica de Educación, por la que se dictan instrucciones sobre ordenación académica y de organización de los centros que impartan los grados D y E de Formación Profesional durante el curso 2026-2027 en la Comunitat Valenciana.
 - Resolución de 15 de junio de 2026, de la Dirección General de Centros Docentes, por la que se fija el calendario escolar del curso académico 2026-2027 en la Comunitat Valenciana.
 
@@ -280,8 +278,6 @@ La formación en empresa se concibe como una extensión del proceso de enseñanz
 Criterio del departamento de Informática (acuerdo de **14-07-2026**; no es norma): todos los RA se imparten y evalúan en el centro en el **80 % (80 h)**; el **20 % (20 h)** queda vinculado a la FE del ciclo, **sin asignar RA concretos a la empresa**. La calificación del módulo corresponde al profesorado. La valoración de la empresa se expresa como informe **APTO / NO APTO**.
 
 La FE del ciclo (500 h) empieza el **1 de marzo de 2027**. El alumnado debe haber cerrado en el centro los Temas 1–8 (1.ª y 2.ª evaluación) antes de esa fecha.
-
-Se cita la **Resolución de 16 de julio de 2026**, de la Secretaría Autonómica de Educación (instrucciones de ordenación académica de los grados D y E, curso 2026-2027).
 
 Los planes formativos de cada empresa y el catálogo de actividades de refuerzo, para los RA que no queden evidenciados en la empresa, se concretarán con la tutoría de FE y el departamento cuando se asignen las empresas, y se alinearán con los RA afectados.
 
