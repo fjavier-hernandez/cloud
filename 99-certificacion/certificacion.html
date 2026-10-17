@@ -1,0 +1,1896 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Preparación AWS Certified Cloud Practitioner (CLF-C02) del módulo INP — serie Santos, apuntes, tests, Skill Builder, notas y autochecks CLF por tema.">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/99-certificacion/certificacion.html">
+      
+      
+        <link rel="prev" href="../08-escalado-monitoreo-cierre/tema8.html">
+      
+      
+        <link rel="next" href="../90-soluciones/soluciones.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Certificación - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Certificación - Introducción a la Nube Pública" />
+<meta property="og:description" content="Preparación AWS Certified Cloud Practitioner (CLF-C02) del módulo INP — serie Santos, apuntes, tests, Skill Builder, notas y autochecks CLF por tema." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/99-certificacion/certificacion.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/99-certificacion/certificacion.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Certificación - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Preparación AWS Certified Cloud Practitioner (CLF-C02) del módulo INP — serie Santos, apuntes, tests, Skill Builder, notas y autochecks CLF por tema." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/99-certificacion/certificacion.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#certificacion" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Certificación
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="certificacion.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examen-clf-ra-del-modulo-y-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examen CLF, RA del módulo y +1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serie-santos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serie Profe Santos Cloud
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apuntes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apuntes externos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests de práctica
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skill-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skill Builder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden sugerido
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#por-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notas CLF por tema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notas CLF por tema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 1 — Fundamentos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 — Fundamentos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 2 — Seguridad e IAM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 — Seguridad e IAM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 3 — Redes y entrega
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 — Redes y entrega">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 4 — Cómputo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 — Cómputo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 5 — Almacenamiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 — Almacenamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 6 — Bases de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 6 — Bases de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 7 — Well-Architected
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 7 — Well-Architected">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 8 — Escalado, monitorización y catálogo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 8 — Escalado, monitorización y catálogo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examen-clf-ra-del-modulo-y-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examen CLF, RA del módulo y +1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serie-santos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serie Profe Santos Cloud
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apuntes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apuntes externos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests de práctica
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skill-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skill Builder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden sugerido
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#por-temas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notas CLF por tema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notas CLF por tema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 1 — Fundamentos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 — Fundamentos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 2 — Seguridad e IAM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 — Seguridad e IAM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 3 — Redes y entrega
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 — Redes y entrega">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 4 — Cómputo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 — Cómputo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 5 — Almacenamiento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 — Almacenamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 6 — Bases de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 6 — Bases de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 7 — Well-Architected
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 7 — Well-Architected">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tema 8 — Escalado, monitorización y catálogo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 8 — Escalado, monitorización y catálogo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autocheck-certificacion_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck certificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="certificacion">Certificación<a class="headerlink" href="#certificacion" title="Permanent link">&para;</a></h1>
+<p>Esta página es el <strong>hub</strong> de preparación del examen <strong>AWS Certified Cloud Practitioner (CLF-C02)</strong>. Aquí concentras notas de ampliación por tema, <strong>autochecks estilo examen</strong>, la serie Santos, apuntes, tests y la sección oficial de Skill Builder. Los Temas 1–8 siguen siendo el núcleo del módulo (<em>Academy Cloud Foundations</em>); el cuestionario de cada tema es de clase, y en este hub el tono es el del examen.</p>
+<p>Va dirigida a todo el alumnado del módulo y también a quien quiera <strong>adelantar</strong> la preparación del examen a su ritmo (empresa, refuerzo, repaso entre quincenas…). Empieza por el <a href="#orden">#orden</a>, no por memorizar baterías.</p>
+<p>Antes de Skill Builder, pasa por <a href="../00-acceso/acceso.html">Acceso</a>: allí solo entras en Academy y activas el Builder ID; el estudio del examen continúa aquí.</p>
+<h3 id="examen-clf-ra-del-modulo-y-1">Examen CLF, RA del módulo y +1<a class="headerlink" href="#examen-clf-ra-del-modulo-y-1" title="Permanent link">&para;</a></h3>
+<p>Tres cosas distintas; no las mezcles:</p>
+<ol>
+<li><strong>Examen CLF-C02 (AWS).</strong> La nota del examen es <strong>global</strong>: un dominio más flojo puede compensarse con otros, según las reglas de AWS del propio examen.</li>
+<li><strong>Este módulo (INP).</strong> Los <strong>RA no se compensan</strong>: hay que superar <strong>cada</strong> resultado de aprendizaje. Suspender uno no se salva con otro.</li>
+<li><strong>El +1</strong> por certificación suma a la nota final del módulo (puede llegar a <strong>11</strong>) y no recupera un RA suspendido. Detalle en <a href="../index.html#mas-uno-clf">Evaluación · +1 Cloud Practitioner</a>.</li>
+</ol>
+<p>El plazo, la evidencia y dónde entregarla se indican en Aules.</p>
+<h2 id="serie-santos">Serie Profe Santos Cloud<a class="headerlink" href="#serie-santos" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Serie Cloud Practitioner (Profe Santos Cloud)</p>
+<p>Trilogía 2026 en orden + Bridging. Son sesiones largas: ve por bloques según lo que te falle (conceptos, seguridad, catálogo). Vídeo: Profe Santos Cloud (YouTube).</p>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=Z3yNbQXz_bI">Sesión 1 Cloud Practitioner 2026</a> (~1 h 51 min)</li>
+<li><a href="https://www.youtube.com/watch?v=XfFq9lKYDPc">Sesión 2 Cloud Practitioner 2026</a> (~1 h 52 min)</li>
+<li><a href="https://www.youtube.com/watch?v=xZOD6JVFR2M">Sesión 3 Cloud Practitioner 2026</a> (~1 h 46 min)</li>
+<li><a href="https://www.youtube.com/watch?v=ZIh4xIaMyNM">AWS Bridging to Certification</a> (~1 h 55 min) — cierre hacia el examen; no es dump de preguntas.</li>
+</ol>
+</div>
+<h2 id="apuntes">Apuntes externos<a class="headerlink" href="#apuntes" title="Permanent link">&para;</a></h2>
+<p>Repaso rápido en inglés:</p>
+<ul>
+<li><a href="https://github.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes">AWS Certified Cloud Practitioner Notes (kananinirav)</a> — notas cortas CLF-C02 en GitHub.</li>
+<li><a href="https://kalonjilabs.github.io/aws-cp-notes/">AWS CP Notes (Kalonji Labs)</a> — apuntes web por módulos.</li>
+</ul>
+<h2 id="tests">Tests de práctica<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h2>
+<p><strong>No son oficiales de AWS.</strong> Sirven para medir huecos, no para memorizar la batería.</p>
+<ul>
+<li><a href="https://simuladoclf.s3.amazonaws.com/english.html">SimulaDo CLF-C02</a> — quiz online (BASIC 35 / FULL 65).</li>
+<li><a href="https://github.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes/blob/master/practice-exam/exams.md">Practice exams (kananinirav)</a> — exámenes de práctica con respuestas; también en <a href="https://kananinirav.com/practice-exam/exams.html">kananinirav.com</a>.</li>
+</ul>
+<h2 id="skill-builder">Skill Builder<a class="headerlink" href="#skill-builder" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://skillbuilder.aws/exam-prep">AWS Skill Builder — Exam Prep</a> — preparación oficial.</li>
+<li>Portal: <a href="https://skillbuilder.aws/">skillbuilder.aws</a>. Activa la cuenta desde Academy / <a href="../00-acceso/acceso.html">Acceso</a> (Builder ID).</li>
+<li>Guía del examen: <a href="https://aws.amazon.com/certification/certified-cloud-practitioner/">AWS Certified Cloud Practitioner (CLF-C02)</a>.</li>
+</ul>
+<p>Cómo conseguir el <strong>voucher</strong> del CLF sin pagar el examen: <a href="../00-acceso/acceso.html#vouchers">Vouchers de certificación</a> (examen de práctica oficial en Skill Builder).</p>
+<p>Si el centro publica un PDF de preparación en Aules, úsalo desde allí. En este sitio no hay un fichero de preparación autorizado.</p>
+<h2 id="orden">Orden sugerido<a class="headerlink" href="#orden" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Temas 1–8</strong> (Foundations + <em>Autocheck del tema</em> + caja <em>Para el CLF</em>).</li>
+<li><strong>Notas + autocheck certificación</strong> de este hub (<a href="#tema-1">#tema-1</a> … <a href="#tema-8">#tema-8</a>).</li>
+<li><strong>Serie Santos</strong> (<a href="#serie-santos">#serie-santos</a>).</li>
+<li><strong>Tests</strong> (<a href="#tests">#tests</a>) — terceros, no oficiales.</li>
+<li><strong>Skill Builder Exam Prep</strong> (<a href="#skill-builder">#skill-builder</a>).</li>
+</ol>
+<hr />
+<h2 id="por-temas">Notas CLF por tema<a class="headerlink" href="#por-temas" title="Permanent link">&para;</a></h2>
+<p>Lee el Foundations del tema primero; luego la prosa de aquí; luego el <strong>Autocheck certificación</strong>. Los quizzes de clase viven en cada tema (otro enunciado, misma idea).</p>
+<h3 id="tema-1">Tema 1 — Fundamentos<a class="headerlink" href="#tema-1" title="Permanent link">&para;</a></h3>
+<p><a href="../01-fundamentos-nube-aws/tema1.html">Apuntes del tema</a> · refuerzo vídeo: <a href="#serie-santos">Sesión 1</a></p>
+<p><strong>Dominios.</strong> <em>Cloud Concepts</em> (~24 %) y <em>Billing</em> (~12 %), más región / AZ / edge del dominio Technology.</p>
+<ul>
+<li><strong>Value proposition:</strong> el examen quiere la <em>causa</em> (escala, HA, elasticidad, agilidad, OPEX), no el eslogan. Trampa: «más barato siempre».</li>
+<li><strong>CAF y 7 R:</strong> etiquetas de migración. <em>Rehost</em> de MySQL a EC2 ≠ <em>replatform</em> a RDS.</li>
+<li><strong>Economía:</strong> On-Demand / RI / Spot / Savings Plans, Organizations, tags, Pricing Calculator, Support. Trampa: confundir <em>tipo</em> de instancia con <em>modelo de precio</em>.</li>
+<li><strong>Región–AZ–edge:</strong> varias AZ = edificios en la misma región; edge ≠ BD. Varias regiones = DR, latencia o soberanía.</li>
+<li><strong>Acceso:</strong> consola, CLI, SDK/API; CloudFormation como idea. Identificar, no diseñar un <em>landing zone</em>.</li>
+</ul>
+<h4 id="autocheck-certificacion">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una pyme quiere dejar de comprar servidores y pagar solo por lo que consume el mes. ¿Qué beneficio de la nube encaja mejor como respuesta de examen?<br />
+   a) CapEx alto garantizado · b) gasto variable / OPEX · c) «siempre más barato que on-prem»</li>
+<li>Un cliente mueve VMs a EC2 <strong>sin cambiar</strong> SO ni motor de BD. ¿Qué estrategia de las 7 R describe mejor el movimiento?</li>
+<li>El equipo propone <strong>Spot</strong> para el checkout de pagos 24/7. ¿Cuál es el <em>best next step</em> más sensato en CLF?<br />
+   a) Aceptar Spot sin más · b) rechazar Spot para esa carga y valorar On-Demand/RI/Savings · c) cambiar el tipo a <code>t3.micro</code></li>
+<li>«Ponemos la BD en una <em>edge location</em> para bajar latencia.» ¿Qué falla en el razonamiento?</li>
+<li>Necesitas <strong>estimar</strong> el coste de un diseño <em>antes</em> de desplegar. ¿Qué herramienta encaja mejor: <strong>Pricing Calculator</strong> o <strong>Cost Explorer</strong>?</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 1)</summary>
+<ol>
+<li>
+<p><strong>b</strong> (OPEX / pay-as-you-go). «Siempre más barato» es trampa.</p>
+</li>
+<li>
+<p><strong>Rehost</strong> (<em>lift-and-shift</em>).</p>
+</li>
+<li>
+<p><strong>b</strong> — Spot puede interrumpirse; checkout no tolera eso.</p>
+</li>
+<li>
+<p>Edge/CloudFront cachea contenido; <strong>no</strong> hospeda RDS «en el borde».</p>
+</li>
+<li>
+<p><strong>Pricing Calculator</strong> (estimación previa); Cost Explorer mira gasto ya ocurrido.</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a> · <a href="#serie-santos">#serie-santos</a> · <a href="#skill-builder">#skill-builder</a>.</p>
+<h3 id="tema-2">Tema 2 — Seguridad e IAM<a class="headerlink" href="#tema-2" title="Permanent link">&para;</a></h3>
+<p><a href="../02-seguridad-iam/tema2.html">Apuntes del tema</a> · refuerzo vídeo: <a href="#serie-santos">Sesión 2</a></p>
+<p>Dominio más pesado (~30 %). Reconoce el logo; no montas un SOC.</p>
+<table>
+<thead>
+<tr>
+<th>Servicio / idea</th>
+<th>Para el examen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IAM Identity Center</td>
+<td>SSO de organización</td>
+</tr>
+<tr>
+<td>Secrets Manager / SSM Parameter Store</td>
+<td>Secretos <strong>fuera</strong> del código</td>
+</tr>
+<tr>
+<td>CloudTrail</td>
+<td>Quién llamó a qué <strong>API</strong></td>
+</tr>
+<tr>
+<td>CloudWatch</td>
+<td>Métricas/CPU/alarmas — <strong>no</strong> es CloudTrail</td>
+</tr>
+<tr>
+<td>AWS Config</td>
+<td>Cómo estaba configurado el recurso</td>
+</tr>
+<tr>
+<td>GuardDuty / Inspector / Security Hub</td>
+<td>Detección y hallazgos</td>
+</tr>
+<tr>
+<td>Shield / WAF</td>
+<td>DDoS / reglas HTTP en el borde</td>
+</tr>
+<tr>
+<td>KMS</td>
+<td>Claves de cifrado</td>
+</tr>
+<tr>
+<td>Macie</td>
+<td>Datos sensibles en S3</td>
+</tr>
+<tr>
+<td>Trusted Advisor</td>
+<td>Checks (según plan)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trampas.</strong> ¿Quién parchea EC2? Tú. Root + MFA. App comprometida que lista buckets → seguridad <strong>en</strong> la nube.</p>
+<h4 id="autocheck-certificacion_1">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una API en EC2 fue comprometida y el atacante listó objetos S3. ¿Falló sobre todo la seguridad <em>de</em> la nube o <em>en</em> la nube?</li>
+<li>Un analista quiere saber <strong>quién</strong> llamó a <code>DeleteBucket</code> ayer a las 03:00. ¿Qué servicio miras primero?<br />
+   a) CloudWatch Alarms · b) CloudTrail · c) Auto Scaling</li>
+<li>Credenciales de acceso de larga duración aparecen en un repo público. ¿Cuál es el <em>best next step</em> más alineado con buenas prácticas?<br />
+   a) Ignorar si el lab es de clase · b) rotar/invalidar keys y usar roles · c) subir el mismo <code>.env</code> a otro repo «privado»</li>
+<li>¿Quién es responsable de parchear el <strong>sistema operativo</strong> de una instancia EC2 de tu API?</li>
+<li>El examen pregunta una acción que solo el <strong>root</strong> debería hacer. ¿Cuál encaja mejor?<br />
+   a) Desplegar la API del TFG cada día · b) Cerrar la cuenta AWS · c) Leer un objeto S3 del lab</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 2)</summary>
+<ol>
+<li>
+<p><strong>En</strong> la nube (rol/keys/SG del cliente).</p>
+</li>
+<li>
+<p><strong>b</strong> CloudTrail.</p>
+</li>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>El cliente</strong> (tú).</p>
+</li>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a> · <a href="#serie-santos">#serie-santos</a>.</p>
+<h3 id="tema-3">Tema 3 — Redes y entrega<a class="headerlink" href="#tema-3" title="Permanent link">&para;</a></h3>
+<p><a href="../03-redes-entrega-contenido/tema3.html">Apuntes del tema</a></p>
+<ul>
+<li><strong>VPC:</strong> subnet = una AZ. SG con estado; NACL sin estado.</li>
+<li><strong>NAT</strong> vs <strong>IGW:</strong> salida privada vs puerta pública.</li>
+<li><strong>CloudFront + Route 53:</strong> CDN y DNS; edge no mueve RDS.</li>
+<li>Publica ALB/CloudFront; BD en privada.</li>
+</ul>
+<h4 id="autocheck-certificacion_2">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_2" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una empresa quiere que su API sobreviva al fallo de <strong>un datacenter</strong> en la región. ¿Qué implica para las subnets?<br />
+   a) Una subnet enorme en una AZ · b) Recursos en <strong>al menos dos AZ</strong> (subnets distintas) · c) Solo NACL más estricta</li>
+<li>Abrir el puerto 3306 a <code>0.0.0.0/0</code> «para probar desde casa». ¿Cuál es el problema principal en clave CLF?</li>
+<li>Instancias en subnet privada necesitan <code>npm install</code> / parches. ¿Qué componente permite <strong>salida</strong> a internet sin publicar la instancia?<br />
+   a) Solo Route 53 · b) NAT Gateway · c) Glacier</li>
+<li>Un arquitecto dice: «CloudFront acerca la región de RDS al usuario.» ¿Qué corregirías en una frase?</li>
+<li>¿VPN Site-to-Site y Direct Connect resuelven el mismo problema de negocio a alto nivel? Señala <strong>una</strong> diferencia que el examen suele esperar.</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 3)</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p>Expone la BD al mundo (seguridad <em>en</em> la nube); no es un atajo aceptable.</p>
+</li>
+<li>
+<p><strong>b</strong> NAT Gateway.</p>
+</li>
+<li>
+<p>CloudFront cachea <strong>contenido</strong>; no reubica RDS.</p>
+</li>
+<li>
+<p>Ambos conectan on-prem↔AWS; Direct Connect suele ser enlace dedicado/consistente; VPN va por internet cifrado (idea, no el catálogo de precios).</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a>.</p>
+<h3 id="tema-4">Tema 4 — Cómputo<a class="headerlink" href="#tema-4" title="Permanent link">&para;</a></h3>
+<p><a href="../04-computo-serverless/tema4.html">Apuntes del tema</a></p>
+<table>
+<thead>
+<tr>
+<th>Necesitas…</th>
+<th>Hipótesis CLF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSH, SO custom</td>
+<td>EC2</td>
+</tr>
+<tr>
+<td>Evento corto</td>
+<td>Lambda</td>
+</tr>
+<tr>
+<td>Docker sin K8s</td>
+<td>ECS (+ Fargate)</td>
+</tr>
+<tr>
+<td>K8s gestionado</td>
+<td>EKS (reconocer)</td>
+</tr>
+</tbody>
+</table>
+<p>Tipo ≠ precio. SageMaker ≠ tipo de EC2.</p>
+<h4 id="autocheck-certificacion_3">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_3" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una tienda necesita procesar miniaturas cuando se sube una foto (tarea de segundos). ¿Qué servicio encaja mejor como primera hipótesis?<br />
+   a) EC2 24/7 · b) Lambda · c) Direct Connect</li>
+<li>El enunciado dice «instancia <em>Spot</em> <code>m5.large</code>». ¿Spot describe el <strong>tipo</strong> o el <strong>modelo de precio</strong>?</li>
+<li>Quieres contenedores <strong>sin</strong> administrar el SO de los nodos. ¿Qué modo encaja?<br />
+   a) ECS en EC2 gestionado por ti · b) <strong>Fargate</strong> · c) Solo AMI manual</li>
+<li>Un compañero propone <strong>EKS</strong> para un único contenedor de prácticas de dos semanas. ¿Cuál es la crítica más razonable en CLF/Foundations?</li>
+<li>Rekognition «detecta caras en fotos». ¿Es un tipo de instancia EC2?</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 4)</summary>
+<ol>
+<li>
+<p><strong>b</strong> Lambda (evento corto).</p>
+</li>
+<li>
+<p><strong>Modelo de precio</strong> (el tipo es <code>m5.large</code>).</p>
+</li>
+<li>
+<p><strong>b</strong> Fargate.</p>
+</li>
+<li>
+<p>Sobreingeniería: EKS es K8s gestionado; para un lab corto ECS/Fargate o incluso EC2/Lambda bastan.</p>
+</li>
+<li>
+<p><strong>No</strong> — es IA aplicada (catálogo).</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a>.</p>
+<h3 id="tema-5">Tema 5 — Almacenamiento<a class="headerlink" href="#tema-5" title="Permanent link">&para;</a></h3>
+<p><a href="../05-almacenamiento/tema5.html">Apuntes del tema</a></p>
+<p>En este bloque el examen premia elegir el <strong>estilo</strong> de almacén (objeto, bloque o fichero) y no olvidar la <strong>salida de datos</strong> en la factura. S3 no es el disco del SO; EBS no es EFS.</p>
+<h4 id="autocheck-certificacion_4">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_4" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una startup sirve un SPA estático a todo el mundo. ¿Qué patrón encaja mejor?<br />
+   a) EBS público · b) <strong>S3 (+ CloudFront)</strong> · c) RDS Multi-AZ</li>
+<li>Dos EC2 en AZ distintas necesitan la <strong>misma carpeta</strong> montada. ¿EBS o EFS?</li>
+<li>Un bucket sirve vídeos a alumnos desde casa <strong>sin</strong> CDN y la factura de red dispara. ¿Qué coste suele estar detrás?</li>
+<li>«Guardamos el SO de la VM en S3 Standard porque es barato.» ¿Qué falla?</li>
+<li>Migrar 80 TB una sola vez por la Wi‑Fi del instituto. ¿Qué familia de respuesta suele aparecer en CLF frente a «subir por VPN lenta»?</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 5)</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>EFS</strong>.</p>
+</li>
+<li>
+<p><strong>Egress</strong> (salida de datos).</p>
+</li>
+<li>
+<p>El disco del SO es <strong>EBS</strong> (bloque), no un bucket de objetos.</p>
+</li>
+<li>
+<p><strong>Snow Family</strong> / transferencia offline (idea: la red del centro no escala).</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a>.</p>
+<h3 id="tema-6">Tema 6 — Bases de datos<a class="headerlink" href="#tema-6" title="Permanent link">&para;</a></h3>
+<p><a href="../06-bases-de-datos/tema6.html">Apuntes del tema</a></p>
+<p>Aquí se distingue base <strong>gestionada</strong> frente a MySQL en la EC2, Multi-AZ (failover) frente a réplica de lectura, y cuándo un NoSQL va <em>además</em> del dominio relacional.</p>
+<h4 id="autocheck-certificacion_5">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_5" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una app de pedidos necesita transacciones y joins. Primera hipótesis…<br />
+   a) DynamoDB solo · b) <strong>RDS/Aurora</strong> · c) Kinesis</li>
+<li>El negocio pide sobrevivir al fallo de una AZ <strong>sin</strong> usar la BD para reporting. ¿Multi-AZ o read replica como respuesta principal?</li>
+<li>«Pasamos todo el dominio a DynamoDB este fin de semana porque escala.» ¿Cuál es el riesgo que el examen/Foundations subrayan?</li>
+<li>En RDS, ¿quién aplica parches del <strong>motor</strong> MySQL/PostgreSQL en el discurso managed?</li>
+<li>Un equipo quiere SQL ad hoc sobre logs en S3 (no OLTP). ¿Qué servicio del catálogo encaja mejor: <strong>Athena</strong> o <strong>RDS</strong>?</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 6)</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>Multi-AZ</strong> (failover).</p>
+</li>
+<li>
+<p>Perder modelo relacional/transacciones sin necesidad; NoSQL <em>además</em>, no siempre <em>en lugar de</em>.</p>
+</li>
+<li>
+<p><strong>AWS</strong>.</p>
+</li>
+<li>
+<p><strong>Athena</strong> (SQL sobre S3); RDS es OLTP gestionado.</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a>.</p>
+<h3 id="tema-7">Tema 7 — Well-Architected<a class="headerlink" href="#tema-7" title="Permanent link">&para;</a></h3>
+<p><a href="../07-arquitectura-well-architected/tema7.html">Apuntes del tema</a></p>
+<p>El examen pide <strong>etiquetar</strong> el escenario con un pilar y no confundir una cola de trabajo (SQS) con un pub/sub (SNS). No exige un <em>landing zone</em> multi-cuenta.</p>
+<h4 id="autocheck-certificacion_6">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_6" title="Permanent link">&para;</a></h4>
+<ol>
+<li>«Ciframos discos y forzamos HTTPS.» ¿Qué pilar etiquetas primero?</li>
+<li>Un checkout encola «generar factura PDF» para un worker. ¿<strong>SQS</strong> o <strong>SNS</strong> como pieza principal?</li>
+<li>Rightsizing + Spot en un batch interrumpible. ¿Qué pilar suena más fuerte?</li>
+<li>CloudFormation para desplegar igual en lab y demo. ¿Es un <strong>pilar</strong> o una <strong>práctica</strong> que ayuda a operaciones?</li>
+<li>El enunciado pide un <em>landing zone</em> multi-cuenta completo. ¿Es requisito de este módulo INP?</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 7)</summary>
+<ol>
+<li>
+<p><strong>Seguridad</strong>.</p>
+</li>
+<li>
+<p><strong>SQS</strong> (cola de trabajo); SNS sería fan-out/pub-sub.</p>
+</li>
+<li>
+<p><strong>Coste</strong> (también rendimiento si aplica; el eje claro es coste).</p>
+</li>
+<li>
+<p><strong>Práctica / IaC</strong>, no un pilar.</p>
+</li>
+<li>
+<p><strong>No</strong>.</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a> · <a href="#serie-santos">#serie-santos</a>.</p>
+<h3 id="tema-8">Tema 8 — Escalado, monitorización y catálogo<a class="headerlink" href="#tema-8" title="Permanent link">&para;</a></h3>
+<p><a href="../08-escalado-monitoreo-cierre/tema8.html">Apuntes del tema</a></p>
+<p>Cierra Foundations con balanceo, Auto Scaling y observación: health check, min/desired/max, y CloudWatch frente a CloudTrail. El catálogo de una frase resume <em>cuándo sí</em> / <em>cuándo no</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Cuándo sí</th>
+<th>Cuándo no</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SageMaker</td>
+<td>ML construir/entrenar/desplegar</td>
+<td>Sustituir EC2 «porque IA»</td>
+</tr>
+<tr>
+<td>Rekognition, Transcribe, Polly, Lex…</td>
+<td>IA aplicada</td>
+<td>Tipo de instancia</td>
+</tr>
+<tr>
+<td>Athena</td>
+<td>SQL ad hoc sobre S3</td>
+<td>OLTP de la tienda</td>
+</tr>
+<tr>
+<td>Glue</td>
+<td>ETL</td>
+<td>ORM de Express</td>
+</tr>
+<tr>
+<td>Kinesis</td>
+<td>Stream continuo</td>
+<td>Cola simple de un PDF (SQS)</td>
+</tr>
+<tr>
+<td>QuickSight</td>
+<td>BI</td>
+<td>Base transaccional</td>
+</tr>
+<tr>
+<td>SNS / SQS / EventBridge / Step Functions</td>
+<td>Eventos / orquestación</td>
+<td>Ver Tema 7</td>
+</tr>
+<tr>
+<td>SES, CloudShell, CodePipeline, WorkSpaces, IoT Core</td>
+<td>Reconocer in-scope</td>
+<td>Montarlo todo en el lab</td>
+</tr>
+</tbody>
+</table>
+<h4 id="autocheck-certificacion_7">Autocheck certificación<a class="headerlink" href="#autocheck-certificacion_7" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Una API HTTP necesita reglas por path y health checks. ¿<strong>ALB</strong> o <strong>NAT Gateway</strong>?</li>
+<li>El ASG tiene min=2 y hay destinos <em>unhealthy</em>. ¿Qué pieza evita mandar tráfico a instancias rotas?</li>
+<li>Quieres alarmar CPU al 80 %. ¿CloudWatch o CloudTrail?</li>
+<li>«Necesito SQL sobre ficheros de log en S3 una vez al mes.» ¿Athena, RDS o EC2 con MySQL local?</li>
+<li>Un enunciado describe clasificar objetos en imágenes. ¿Rekognition o un tipo <code>g4dn</code>?</li>
+</ol>
+<details>
+<summary>Soluciones (certificación · Tema 8)</summary>
+<ol>
+<li>
+<p><strong>ALB</strong>.</p>
+</li>
+<li>
+<p>El <strong>health check</strong> del ALB (y el ASG sustituyendo enfermas).</p>
+</li>
+<li>
+<p><strong>CloudWatch</strong>.</p>
+</li>
+<li>
+<p><strong>Athena</strong>.</p>
+</li>
+<li>
+<p><strong>Rekognition</strong> (servicio de IA), no «un tipo de EC2».</p>
+</li>
+</ol>
+</details>
+<p>Más práctica: <a href="#tests">#tests</a> · <a href="#serie-santos">#serie-santos</a> · <a href="#skill-builder">#skill-builder</a>.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 8. Escalado, monitorización y cierre CLF-C02">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                8. Escalado, monitorización y cierre CLF-C02
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../90-soluciones/soluciones.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Soluciones">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Soluciones
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>
