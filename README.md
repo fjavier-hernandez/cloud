@@ -69,4 +69,4 @@ Hasta ese OK no se publica nada.
 
 ## Planificación
 
-Justificación de pesos RA, discrepancia 96 h / 100 h del anexo y calendario: `Planificación/`.
+Justificación de pesos RA, duración (100 h) y calendario: `Planificación/`.

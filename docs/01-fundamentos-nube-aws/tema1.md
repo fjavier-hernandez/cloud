@@ -53,7 +53,7 @@ Trabajamos el **RA1** y el arranque del **RA2** del módulo *Introducción a la 
 
 ### Programación de aula (orientativa, quincenas)
 
-En INP la sesión de centro es **tutoría quincenal** (~1 h); el grueso es autónomo. El Tema 1 ocupa **dos** quincenas.
+En INP las tutorías van en **semanas alternas (colectiva e individual)**; el grueso es autónomo. El Tema 1 ocupa **dos** quincenas.
 
 | Quincena | En tutoría | Trabajo autónomo / evidencias |
 | --- | --- | --- |

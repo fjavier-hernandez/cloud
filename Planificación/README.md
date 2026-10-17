@@ -34,10 +34,7 @@ PDF anexo (leído en C4):
 
 | Fuente | Horas |
 | --- | ---: |
-| **Trabajo de este curso** (optativa ≈ 3 h/sem) | **96 h** |
-| Duración impresa en el PDF del anexo | **100 h** |
-
-El sitio público y la PD usan **96 h**. La discrepancia 100 h queda solo aquí / Obsidian.
+| **Trabajo de este curso** (optativa, 3 h/sem) | **100 h** |
 
 ## Pesos RA (propuesta en vigor en index)
 
@@ -53,7 +50,7 @@ CE = cobertura; **sin** % de boletín por CE.
 
 ## Calendario (resumen)
 
-- Tutoría quincenal ~1 h; FE ciclo ~marzo 2027.  
+- Tutorías en semanas alternas (colectiva e individual); FE ciclo desde el 1 de marzo de 2027.  
 - **1.ª eval.** T1–T4 · **2.ª** T5–T8.  
 - Detalle: `programacion_aula_Cloud_2026_27.md`.
 

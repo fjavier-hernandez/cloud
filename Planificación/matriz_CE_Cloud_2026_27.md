@@ -93,7 +93,7 @@ Puede sumar **+1** a la nota final (hasta **11**) según **Aules**. Resumen en e
 2. Codificar formalmente los **Autocheck** como AC (p. ej. AC110…AC810) si Aules lo exige.  
 3. Revisar si hace falta **PY** o más AC para CE ya cubiertos solo por PO.  
 4. Cruce con banco GIFT del compañero (import Aules — fase posterior).  
-5. Contraste DOGV Informática si la duración oficial del módulo difiere de 96/100 h.
+5. Duración del módulo: **100 h** (Decreto 114/2025, anexo X-XVII; Decreto 95/2026, anexo IV; mismas horas en semipresencial, Orden 30/2022, art. 3).
 
 ## Fuentes
 

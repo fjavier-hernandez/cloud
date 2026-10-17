@@ -153,6 +153,6 @@ Si quieres el detalle en inglés de la oferta, las [preguntas frecuentes oficial
 - Información general del programa: [AWS Academy](https://aws.amazon.com/training/awsacademy/) · [preguntas frecuentes (FAQ) de Academy](https://aws.amazon.com/training/awsacademy/faq/).
 - Skill Builder: [skillbuilder.aws](https://skillbuilder.aws). Builder ID: [Sign in with AWS Builder ID](https://docs.aws.amazon.com/signin/latest/userguide/sign-in-builder-id.html).
 - [Preguntas frecuentes de la suscripción de Skill Builder para Academy (en inglés)](https://d2wc53952r2oxa.cloudfront.net/outline/SBTS/SBTS.html).
-- Si el bloqueo es de **clase del instituto** (invitación, lab de la clase): escribe en **Aules** o coméntalo en la **tutoría quincenal** antes de abrir tickets genéricos.
+- Si el bloqueo es de **clase del instituto** (invitación, lab de la clase): escribe en **Aules** o coméntalo en las **tutorías en semanas alternas (colectiva e individual)** antes de abrir tickets genéricos.
 
 Cuando tengas Academy y (si aplica) Skill Builder en marcha, pasa al [Tema 1 — Fundamentos de la nube AWS](../01-fundamentos-nube-aws/tema1.md): ahí empieza la teoría del módulo. La preparación del examen Cloud Practitioner está en [Certificación](../99-certificacion/certificacion.md); el voucher, en [Vouchers de certificación](#vouchers).

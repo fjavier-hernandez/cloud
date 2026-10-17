@@ -1,15 +1,15 @@
 ---
 title: Calendario del curso
-description: Ritmo quincenal del módulo INP 2026-27 — tutorías, temas T1–T8 y evaluaciones.
+description: Ritmo del módulo INP 2026-27 — tutorías en semanas alternas (colectiva e individual), temas T1–T8 y evaluaciones.
 ---
 
 # Calendario del curso
 
-El módulo suma **96 h** de trabajo. En semipresencial hay una **tutoría colectiva quincenal** (~1 h) y el resto es trabajo autónomo (apuntes, vídeos, labs). La **1.ª evaluación** cubre los Temas **1–4**; la **2.ª**, los Temas **5–8**. El módulo acaba **antes** de la formación en empresa (FE), que empieza el **1 de marzo de 2027**.
+El módulo suma **100 h** de trabajo. En semipresencial las **tutorías van en semanas alternas (colectiva e individual)** y el resto es trabajo autónomo (apuntes, vídeos, labs). La **1.ª evaluación** cubre los Temas **1–4**; la **2.ª**, los Temas **5–8**. El módulo acaba **antes** de la formación en empresa (FE), que empieza el **1 de marzo de 2027**.
 
 Puedes estudiar en esta web lo que ya esté publicado. Las **entregas y los plazos** los marca **Aules**.
 
-## Tutorías quincenales (orientativo)
+## Tutorías en semanas alternas (orientativo)
 
 Primera tutoría prevista: **22-sep-2026**.
 

@@ -3,8 +3,7 @@
 ## INTRODUCCIÓN A LA NUBE PÚBLICA
 
 **Código de módulo:** no consta en el anexo usado (PDF *Optativa - Introducción a la nube pública*). No se inventa código.  
-**Duración de trabajo del curso:** **96 h** (optativa ≈ 3 h/sem en currículo CV).  
-**Duración impresa en el anexo PDF:** **100 h** (constancia interna; el sitio y esta PD usan **96 h** salvo que el DOGV Informática vigente diga otra cifra).  
+**Duración:** **100 h** (módulo optativo, 3 h semanales; Decreto 114/2025, anexo X-XVII; Decreto 95/2026, anexo IV). En semipresencial rigen las mismas 100 h (Orden 30/2022, art. 3).  
 
 **CICLO FORMATIVO DE GRADO SUPERIOR**  
 **DESARROLLO DE APLICACIONES WEB (DAW)**  
@@ -44,7 +43,7 @@
 
 Esta programación didáctica concreta el módulo optativo **Introducción a la Nube Pública** del CFGS **Desarrollo de Aplicaciones Web**, impartido en el **IES Macià Abela** (Crevillent) en el curso **2026/2027**, grupo **2.º DAW semipresencial (INP)**.
 
-Cómputo de trabajo: **96 h**. El módulo se concentra **antes** de la formación en empresa (FE) del ciclo (prevista ~**principios de marzo 2027**; se comunicará al fijarse). En 2.º GS **no** hay 3.ª evaluación: 1.ª (T1–T4) y 2.ª (T5–T8).
+Duración: **100 h**. El 80 % (**80 h**) se imparte y evalúa en el centro, antes de la formación en empresa (FE) del ciclo, que empieza el **1 de marzo de 2027**. El 20 % (**20 h**) queda vinculado a la FE, sin asignar RA concretos (acuerdo del departamento de 14-07-2026; Resolución de 16 de julio de 2026). En 2.º de grado superior **no** hay 3.ª evaluación: 1.ª (T1–T4) y 2.ª (T5–T8).
 
 Enfoque: referentes de calificación = **RA**. Los **CE** sirven para **verificar cobertura** (Anexo A), **sin** porcentajes de boletín por CE. Itinerario formativo: **AWS Academy Cloud Foundations** + ampliación **AWS Certified Cloud Practitioner (CLF-C02)**. No es el curso *AWS Academy Cloud Architecting*.
 
@@ -58,9 +57,8 @@ Enfoque: referentes de calificación = **RA**. Los **CE** sirven para **verifica
 | Ciclo | Desarrollo de Aplicaciones Web |
 | Nivel | Grado superior |
 | Curso | Segundo (2.º DAW), semipresencial INP |
-| Duración de trabajo | **96 h** |
-| Anexo PDF (constancia) | 100 h |
-| Ritmo de aula | Tutoría colectiva **quincenal** (~1 h) + trabajo autónomo |
+| Duración | **100 h** |
+| Ritmo de aula | Semanas alternas: una semana, tutoría colectiva (sesión de mañana y sesión de tarde, mismo contenido); la siguiente, tutoría individual (también mañana y tarde). El resto, trabajo autónomo, según el horario aprobado por Jefatura de Estudios. |
 | Curso académico | 2026/2027 |
 | Profesor | Javier Hernández Illán |
 
@@ -72,13 +70,18 @@ El centro forma técnicos superiores en desarrollo web. El módulo aporta vocabu
 
 ## 1.3. Características del alumnado
 
-2.º DAW semipresencial: carga autónoma alta, tutoría quincenal breve. Heterogeneidad en experiencia previa con cloud. Decisiones a partir de evaluación inicial y observación; refuerzo/ampliación **sin modificar los RA**.
+2.º DAW semipresencial: carga autónoma alta; tutorías en semanas alternas (colectiva e individual, cada una con sesión de mañana y de tarde). Heterogeneidad en experiencia previa con cloud. Decisiones a partir de evaluación inicial y observación; refuerzo/ampliación **sin modificar los RA**.
 
-## 1.4. Marco legal y fuente curricular
+## 1.4. Marco legal
 
-- Anexo del PDF: `[CURSOS]/26_27/[CLOUD]/Introducción a la Nube Pública/Optativa - Introducción a la nube pública.pdf` (ANEXO X-XVII, familia *Informática y Comunicaciones*; **RA/CE literales**). En ese anexo **no consta código numérico de módulo** ni un RD de título específico de la optativa; **no se inventa**.
-- Ordenación general de la FP: [Ley Orgánica 3/2022](https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-5139) y [Real Decreto 659/2023](https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-16889), más normativa autonómica de evaluación FP aplicable.
-- Calendario escolar CV 2026-2027 del centro.
+- Ley Orgánica 3/2022, de 31 de marzo, de ordenación e integración de la Formación Profesional.
+- Real Decreto 659/2023, de 18 de julio, por el que se desarrolla la ordenación del Sistema de Formación Profesional.
+- Real Decreto 686/2010, de 20 de mayo, por el que se establece el título de Técnico Superior en Desarrollo de Aplicaciones Web y se fijan sus enseñanzas mínimas, actualizado por el Real Decreto 405/2023, de 29 de mayo.
+- Real Decreto 500/2024, de 21 de mayo, por el que se modifican determinados reales decretos por los que se establecen títulos de Formación Profesional de grado superior y se fijan sus enseñanzas mínimas.
+- Decreto 114/2025, de 29 de julio, del Consell, por el que se establecen los currículos de los ciclos formativos de grado medio y de grado superior de Formación Profesional (anexo X-XVII: currículo autonómico vigente de este módulo, 100 h), modificado por el Decreto 95/2026, de 19 de junio.
+- Orden 30/2022, de 12 de mayo, de la Conselleria de Educación, Cultura y Deporte, por la que se regula la organización y autorización de las enseñanzas de los ciclos formativos de Formación Profesional en el régimen semipresencial (art. 3 y art. 28.2, este último modificado por la Orden 9/2025, de 5 de junio).
+- Resolución de 16 de julio de 2026, de la Secretaría Autonómica de Educación, por la que se dictan instrucciones sobre ordenación académica y de organización de los centros que impartan los grados D y E de Formación Profesional durante el curso 2026-2027 en la Comunitat Valenciana.
+- Resolución de 15 de junio de 2026, de la Dirección General de Centros Docentes, por la que se fija el calendario escolar del curso académico 2026-2027 en la Comunitat Valenciana.
 
 ## 1.5. Mejoras respecto a cursos previos / arranque 2026-27
 
@@ -187,13 +190,13 @@ Antes del Tema 1: página **Acceso** (Academy, lab, Skill Builder). Prep. examen
 | **1.ª** | sep → principios de diciembre | T1–T4 |
 | **2.ª** | 2.ª semana de diciembre → finales feb / principios marzo (antes FE) | T5–T8 |
 
-Temporalización quincenal: Anexo B.
+Temporalización: Anexo B (se recalculará a 80 h de centro).
 
 ---
 
 # 5. Metodología
 
-- Tutoría quincenal (~1 h): presentar bloque, recursos, dudas del anterior; **no** explicar el tema entero.  
+- Tutoría colectiva (semana correspondiente): presentar el bloque, indicar recursos y resolver dudas del anterior; no explicar el tema entero. Tutoría individual (semana siguiente): seguimiento de prácticas y labs.  
 - Trabajo autónomo: apuntes MkDocs, vídeos curados, labs Academy / consola.  
 - Aprendizaje basado en casos de app web (API, front estático, datos).  
 - Entregas en **Markdown** por Aules.  
@@ -272,7 +275,15 @@ Prep. CLF (Skill Builder, serie de vídeos, tests de práctica) como ampliación
 
 # 12. Formación en la empresa
 
-La FE del ciclo (~500 h de golpe, ~marzo 2027) **cierra** el periodo lectivo de este módulo en la 2.ª evaluación. Este módulo **no** despliega RA en empresa; el alumnado debe haber cerrado T1–T8 antes de la FE.
+La formación en empresa se concibe como una extensión del proceso de enseñanza-aprendizaje del módulo. El centro garantiza el desarrollo y la evaluación de la totalidad de los RA y CE.
+
+Criterio del departamento de Informática (acuerdo de **14-07-2026**; no es norma): todos los RA se imparten y evalúan en el centro en el **80 % (80 h)**; el **20 % (20 h)** queda vinculado a la FE del ciclo, **sin asignar RA concretos a la empresa**. La calificación del módulo corresponde al profesorado. La valoración de la empresa se expresa como informe **APTO / NO APTO**.
+
+La FE del ciclo (500 h) empieza el **1 de marzo de 2027**. El alumnado debe haber cerrado en el centro los Temas 1–8 (1.ª y 2.ª evaluación) antes de esa fecha.
+
+Se cita la **Resolución de 16 de julio de 2026**, de la Secretaría Autonómica de Educación (instrucciones de ordenación académica de los grados D y E, curso 2026-2027).
+
+Los planes formativos de cada empresa y el catálogo de actividades de refuerzo, para los RA que no queden evidenciados en la empresa, se concretarán con la tutoría de FE y el departamento cuando se asignen las empresas, y se alinearán con los RA afectados.
 
 ---
 

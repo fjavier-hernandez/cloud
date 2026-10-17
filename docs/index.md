@@ -27,10 +27,10 @@ Apuntes y organización del módulo optativo **Introducción a la nube pública*
 !!! note "Horas del módulo"
     | Concepto | Horas |
     | --- | ---: |
-    | **Total módulo** (carga curricular) | **96 h** |
+    | **Total módulo** (carga curricular) | **100 h** |
     | Optativa en el currículo | ≈ **3 h/sem** |
 
-    En el grupo **semipresencial INP** la sesión de centro es una **tutoría colectiva quincenal** (~1 h): se presenta el tema, se indican los recursos de estudio y se resuelven las dudas del bloque anterior. El **grueso del trabajo es autónomo** (apuntes, vídeos, labs de Academy). No hay 3 h lectivas presenciales cada semana.
+    En el grupo **semipresencial INP** las tutorías van en **semanas alternas (colectiva e individual)**. En la colectiva se presenta el tema, se indican los recursos de estudio y se resuelven las dudas del bloque anterior. El **grueso del trabajo es autónomo** (apuntes, vídeos, labs de Academy). No hay 3 h lectivas presenciales cada semana.
 
     El módulo se imparte **antes** de la formación en empresa (FE) del ciclo. La FE empieza el **1 de marzo de 2027**; por eso el módulo se organiza de **septiembre a finales de febrero**.
 
@@ -54,7 +54,7 @@ En este sitio puedes **estudiar todos los temas** a tu ritmo. Eso no abre entreg
 | — | [Certificación](99-certificacion/certificacion.md) | Página de preparación del CLF-C02 (serie, apuntes, tests, Skill Builder) | Disponible para estudio | [+1](#mas-uno-clf) (Aules) | — |
 | — | [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial y Autocheck por tema | Disponible para estudio | — | — |
 
-El **Tema 1** cubre la **Introducción al curso** y los **Módulos 1–3** de *AWS Academy Cloud Foundations*. Los **Temas 2–8** se corresponden con los **Módulos 4–10**, uno por tema. **Acceso** explica cómo entrar en Academy y el laboratorio, activar Skill Builder y obtener vouchers. El ritmo quincenal de tutorías está en el [Calendario del curso](calendario.md) y las entregas las marca **Aules**.
+El **Tema 1** cubre la **Introducción al curso** y los **Módulos 1–3** de *AWS Academy Cloud Foundations*. Los **Temas 2–8** se corresponden con los **Módulos 4–10**, uno por tema. **Acceso** explica cómo entrar en Academy y el laboratorio, activar Skill Builder y obtener vouchers. El ritmo de las tutorías en semanas alternas (colectiva e individual) está en el [Calendario del curso](calendario.md) y las entregas las marca **Aules**.
 
 ### Mapa tema × RA
 
@@ -82,7 +82,7 @@ timeline
 La **1.ª evaluación** (de septiembre a principios de diciembre) cubre los Temas **1–4**. La **2.ª evaluación** (desde la 2.ª semana de diciembre hasta finales de febrero) cubre los Temas **5–8**. El Tema 1 ocupa las dos primeras quincenas; no hay 3.ª evaluación: el módulo acaba antes de la FE.
 
 !!! tip "Núcleo del curso"
-    Cada tema tiene un **bloque Foundations** (lo que evalúa el módulo) y un apartado de **ampliación Practitioner (CLF-C02)**. El hilo es *AWS Academy Cloud Foundations*, no el curso *AWS Academy Cloud Architecting*. En semipresencial, la tutoría quincenal presenta el bloque y resuelve dudas; el estudio y los labs son trabajo autónomo. Si certificas Cloud Practitioner, puedes sumar **+1** a la nota final ([+1 Cloud Practitioner](#mas-uno-clf)). La preparación está en [Certificación](99-certificacion/certificacion.md).
+    Cada tema tiene un **bloque Foundations** (lo que evalúa el módulo) y un apartado de **ampliación Practitioner (CLF-C02)**. El hilo es *AWS Academy Cloud Foundations*, no el curso *AWS Academy Cloud Architecting*. En semipresencial, las tutorías en semanas alternas (colectiva e individual) presentan el bloque y resuelven dudas; el estudio y los labs son trabajo autónomo. Si certificas Cloud Practitioner, puedes sumar **+1** a la nota final ([+1 Cloud Practitioner](#mas-uno-clf)). La preparación está en [Certificación](99-certificacion/certificacion.md).
 
 ## Evaluación
 
@@ -211,7 +211,7 @@ Fuentes utilizadas en la elaboración de estos apuntes:
 | --- | --- |
 | [Inicio](index.md) | Evaluación y mapa del curso |
 | [Acceso](00-acceso/acceso.md) | Academy, laboratorio, Skill Builder, activación y vouchers |
-| [Calendario](calendario.md) | Ritmo quincenal T1–T8 (orientativo) |
+| [Calendario](calendario.md) | Ritmo T1–T8 con tutorías en semanas alternas (colectiva e individual), orientativo |
 | [Temas 1–8](#temas-del-curso) | Apuntes Foundations y puente Practitioner |
 | [Certificación](99-certificacion/certificacion.md) | Página de preparación del CLF-C02 (notas y autocheck examen) |
 | [Soluciones](90-soluciones/soluciones.md) | Cuestionario inicial y Autocheck por tema |
