@@ -27,12 +27,13 @@ Apuntes y organización del módulo optativo **Introducción a la nube pública*
 !!! note "Horas del módulo"
     | Concepto | Horas |
     | --- | ---: |
-    | **Total módulo** (carga curricular) | **100 h** |
-    | Optativa en el currículo | ≈ **3 h/sem** |
+    | **Total del módulo** | **100 h** |
+    | Trabajo en el centro, antes de la formación en empresa | **72 h** |
+    | Horas vinculadas a la empresa | **28 h** |
 
-    En el grupo **semipresencial INP** las tutorías van en **semanas alternas (colectiva e individual)**. En la colectiva se presenta el tema, se indican los recursos de estudio y se resuelven las dudas del bloque anterior. El **grueso del trabajo es autónomo** (apuntes, vídeos, labs de Academy). No hay 3 h lectivas presenciales cada semana.
+    En el grupo **semipresencial** las tutorías van en **semanas alternas**: una semana, tutoría colectiva; la siguiente, tutoría individual. En cada una hay sesión de mañana y sesión de tarde, con el mismo contenido. En la colectiva se presenta el tema, se indican los recursos de estudio y se resuelven las dudas del bloque anterior. El **grueso del trabajo es autónomo** (apuntes, vídeos y laboratorios de Academy).
 
-    El módulo se imparte **antes** de la formación en empresa (FE) del ciclo. La FE empieza el **1 de marzo de 2027**; por eso el módulo se organiza de **septiembre a finales de febrero**.
+    Las **72 horas** del centro son horas de trabajo tuyo (tutorías y trabajo autónomo guiado), no tres horas de clase cada semana. La formación en empresa (FE) empieza el **1 de marzo de 2027**. Por eso estas 72 horas se organizan desde el **22 de septiembre de 2026** hasta el **26 de febrero de 2027**, y los ocho temas tienen que estar cerrados antes de esa fecha. El ritmo está en el [Calendario](calendario.md).
 
 ## Temas del curso
 
@@ -74,12 +75,12 @@ El **Tema 1** cubre la **Introducción al curso** y los **Módulos 1–3** de *A
 timeline
     title Calendario orientativo — INP 2026-27
     section 1.ª evaluación — sep–principios de diciembre
-        T1 Fundamentos (dos quincenas) : T2 Seguridad e IAM : T3 Redes y VPC : T4 Cómputo
+        T1 Fundamentos (dos tramos) : T2 Seguridad e IAM : T3 Redes y VPC : T4 Cómputo
     section 2.ª evaluación — 2.ª semana de diciembre–finales de febrero
         T5 Almacenamiento : T6 Bases de datos : T7 Well-Architected : T8 Escalado y CLF-C02
 ```
 
-La **1.ª evaluación** (de septiembre a principios de diciembre) cubre los Temas **1–4**. La **2.ª evaluación** (desde la 2.ª semana de diciembre hasta finales de febrero) cubre los Temas **5–8**. El Tema 1 ocupa las dos primeras quincenas; no hay 3.ª evaluación: el módulo acaba antes de la FE.
+La **1.ª evaluación** (del 22 de septiembre a la semana del 1 de diciembre) cubre los Temas **1 a 4**. La **2.ª evaluación** (desde el arranque del Tema 5, en esa misma semana de diciembre, hasta el 26 de febrero) cubre los Temas **5 a 8**. El Tema 1 ocupa los dos primeros tramos. No hay 3.ª evaluación: el módulo acaba antes de la FE.
 
 !!! tip "Núcleo del curso"
     Cada tema tiene un **bloque Foundations** (lo que evalúa el módulo) y un apartado de **ampliación Practitioner (CLF-C02)**. El hilo es *AWS Academy Cloud Foundations*, no el curso *AWS Academy Cloud Architecting*. En semipresencial, las tutorías en semanas alternas (colectiva e individual) presentan el bloque y resuelven dudas; el estudio y los labs son trabajo autónomo. Si certificas Cloud Practitioner, puedes sumar **+1** a la nota final ([+1 Cloud Practitioner](#mas-uno-clf)). La preparación está en [Certificación](99-certificacion/certificacion.md).
@@ -139,7 +140,7 @@ pie showData
 
 !!! note "Entrega de prácticas"
 
-    **Cómo entregar.** Las prácticas y actividades evaluables se entregan en **Aules**, en el plazo del enunciado. Entrega un **`.md`** con los metadatos de la plantilla, el H1, el enunciado y el desarrollo. Las capturas van **dentro del desarrollo**, con ruta relativa `img/...`. Si hay imágenes, sube un **ZIP** (`PR201.md` + carpeta `img/`); si no, basta el `.md`. No uses PDF salvo que Aules lo pida. En cada tema verás el código de la práctica (por ejemplo PR201) y el nombre del fichero; la norma general está aquí para no repetirla en todos los temas. Las calificaciones se publican en Aules. La plantilla está en esta página y **la misma la tendrás adjunta en Aules**.
+    **Cómo entregar.** Las prácticas y actividades evaluables se entregan en **Aules**, en el plazo del enunciado. Entrega un **`.md`** con los metadatos de la plantilla, el H1, el enunciado y el desarrollo. Las capturas van **dentro del desarrollo**, con ruta relativa `img/...`, y tienen que ser tuyas. En las capturas no debe verse el identificador de la cuenta de AWS (Account ID), ni claves de acceso, ni contraseñas. Si hay imágenes, sube un **ZIP** (`PR201.md` + carpeta `img/`); si no, basta el `.md`. No uses PDF salvo que Aules lo pida. En cada tema verás el código de la práctica (por ejemplo PR201) y el nombre del fichero; la norma general está aquí para no repetirla en todos los temas. Las calificaciones se publican en Aules. La plantilla está en esta página y **la misma la tendrás adjunta en Aules**.
 
     #### Plantilla Markdown
 

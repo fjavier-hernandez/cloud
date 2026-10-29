@@ -1,20 +1,10 @@
 # Introducción a la Nube Pública (INP)
 
-Apuntes MkDocs Material del módulo optativo **Introducción a la Nube Pública** (grupo **2.º DAW semipresencial**, IES Macià Abela). Curso **2026-2027**.
+Apuntes MkDocs Material del módulo optativo **Introducción a la Nube Pública** (grupo **2.º DAW semipresencial**, IES Macià Abela). Curso **2026-2027**. La copia de trabajo es este repositorio.
 
-Disco de trabajo (OneDrive Conselleria):
+El módulo dura **100 h** (Decreto 114/2025, anexo X-XVII, modificado por el Decreto 95/2026). De ellas, **72 h** se trabajan en el centro antes de la formación en empresa y **28 h** quedan vinculadas a la empresa. El cálculo está en `Planificación/PD_Cloud_INP_2026_27.md`.
 
-```text
-…/OneDrive - Conselleria d'Educació/[MKDOCS]/cloud
-```
-
-o el espejo:
-
-```text
-~/Library/CloudStorage/OneDrive-Conselleriad'Educació/[MKDOCS]/cloud
-```
-
-Patrón de repo: `[MKDOCS]/ral` (Material, `exclude_docs: 90-guias/**`, `Planificación/`, index con evaluación).
+Patrón de sitio: el de Redes Locales (tema Material, `exclude_docs: 90-guias/**`, carpeta `Planificación/` e índice con la evaluación).
 
 Sitio previsto (cuando haya OK de commit + Pages): <https://fjavier-hernandez.github.io/cloud/>
 

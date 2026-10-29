@@ -51,14 +51,14 @@ Trabajamos el **RA1** y el arranque del **RA2** del módulo *Introducción a la 
 * Economía: [CAPEX](#capex) / [OPEX](#opex), [TCO](#tco), dimensiones de precio, calculadora y presupuestos.
 * Infraestructura global: regiones, zonas de disponibilidad, *edge*; navegación por la consola.
 
-### Programación de aula (orientativa, quincenas)
+### Programación de aula (orientativa)
 
-En INP las tutorías van en **semanas alternas (colectiva e individual)**; el grueso es autónomo. El Tema 1 ocupa **dos** quincenas.
+Las tutorías van en semanas alternas: una colectiva y la siguiente individual. El grueso del trabajo es autónomo. El Tema 1 ocupa **dos tramos** y **14 horas** de trabajo tuyo en el centro (tutoría más estudio y prácticas), no horas de clase.
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q1** | Acceso + mapa del tema + cuestionario | Lectura conceptos/modelos; **PR101**, **PR102** |
-| **Q2** | Dudas Q1; facturación e infra global | **PR103**, **PR104**; Autocheck del tema |
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **22 sep – 2 oct 2026** (colectiva el 22 sep, individual el 29 sep) | Acceso, mapa del tema y cuestionario | Lectura de conceptos y modelos; **PR101**, **PR102** | 7 |
+| **5 oct – 16 oct 2026** (colectiva el 6 oct, individual el 13 oct) | Dudas del tramo anterior; facturación e infraestructura global | **PR103**, **PR104**; Autocheck del tema | 7 |
 
 ---
 
