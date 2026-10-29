@@ -56,6 +56,7 @@ mkdocs serve
 
 ## Soluciones y autoevaluación
 
+- **Como el módulo es semipresencial, las guías de soluciones de las prácticas (PR) y las del Autocheck pueden estar visibles como guía de estudio. Las soluciones y las claves de los exámenes (pruebas objetivas, PO) nunca se publican.**
 - **Las soluciones del Autocheck pueden publicarse; las de exámenes y pruebas, nunca.** Esto incluye las pruebas objetivas (PO1 y PO2): ni sus enunciados con respuestas ni sus claves se suben al repositorio.
 - Las respuestas del cuestionario inicial y del Autocheck de cada tema van en el propio tema, en bloques plegables (`<details>`), y se indexan en `docs/90-soluciones/soluciones.md`.
 - Las guías de `docs/90-soluciones/pr/` son **guías de apoyo** a las prácticas (recorrido orientativo, evidencias para la rúbrica, errores frecuentes y limpieza), no soluciones completas para copiar. No añadas en ellas respuestas cerradas de una práctica evaluable sin que el profesor lo pida.
