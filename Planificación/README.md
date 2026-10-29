@@ -11,30 +11,32 @@ Carpeta **interna** (fuera del sitio MkDocs público). Versionada en el repo `cl
 | Rol | Ruta |
 | --- | --- |
 | Programación didáctica (PD) | [`PD_Cloud_INP_2026_27.md`](PD_Cloud_INP_2026_27.md) |
-| Programación de aula (quincenas) | [`programacion_aula_Cloud_2026_27.md`](programacion_aula_Cloud_2026_27.md) — calendario alumnado → [`docs/calendario.md`](../docs/calendario.md) |
+| Programación de aula (tramos y tutorías) | [`programacion_aula_Cloud_2026_27.md`](programacion_aula_Cloud_2026_27.md) — calendario del alumnado → [`docs/calendario.md`](../docs/calendario.md) |
+| Word de la programación didáctica | [`DAW2_Introduccion_Nube_Publica_26-27.docx`](DAW2_Introduccion_Nube_Publica_26-27.docx), generado con `bash Planificación/build_docx.sh` |
 | Diario de sesiones (tras cada tutoría) | [`diario_sesiones_Cloud_2026_27.md`](diario_sesiones_Cloud_2026_27.md) |
 | Matriz CE × IE (cobertura) | [`matriz_CE_Cloud_2026_27.md`](matriz_CE_Cloud_2026_27.md) |
 | Plantilla entrega prácticas (Aules) | [`plantilla_entrega_practica.md`](plantilla_entrega_practica.md) |
 | Checklist +1 CLF (texto Aules, profesor) | [`checklist_Aules_mas_uno_CLF_2026_27.md`](checklist_Aules_mas_uno_CLF_2026_27.md) |
 
 Tras cada tutoría, marca en el diario la fecha real, lo impartido y las mejoras; no sustituye Aules ni la programación de aula.
-Espejo opcional en OneDrive aula: `[CURSOS]/26_27/[CLOUD]/` (cuando se sincronice).
 
-## Fuente RA/CE
+## Fuente de los resultados de aprendizaje y de los criterios de evaluación
 
-PDF anexo (leído en C4):
+Decreto 114/2025, anexo X-XVII, modificado por el Decreto 95/2026, anexo IV.
 
-`[CURSOS]/26_27/[CLOUD]/Introducción a la Nube Pública/Optativa - Introducción a la nube pública.pdf`
-
-- **4 RA**, cada uno con CE **a–f** (literales).  
-- Los **RA** + pesos van en `docs/index.md` (alumnado).  
-- Los **CE** literales van **dentro de cada tema** y en la matriz (esta carpeta).
+- **4 resultados de aprendizaje**, cada uno con criterios de evaluación **a–f** (literales).  
+- Los resultados de aprendizaje y sus pesos van en `docs/index.md` (alumnado).  
+- Los criterios de evaluación literales van dentro de cada tema y en la matriz de esta carpeta.
 
 ## Carga horaria
 
-| Fuente | Horas |
+| Concepto | Horas |
 | --- | ---: |
-| **Trabajo de este curso** (optativa, 3 h/sem) | **100 h** |
+| Duración del módulo | **100 h** |
+| Centro, antes de la formación en empresa | **72 h** |
+| Vinculadas a la formación en empresa | **28 h** |
+
+El 28 % se aplica a cada módulo del ciclo, con redondeo hacia abajo, para llegar al mínimo de 500 h de formación en empresa sin pasar del 65 % de ningún módulo. El detalle y las citas están en el apartado 12 de la programación didáctica. Las 72 h de centro son horas de trabajo del alumnado (tutorías y trabajo autónomo guiado), no tres horas presenciales cada semana.
 
 ## Pesos RA (propuesta en vigor en index)
 
@@ -50,7 +52,7 @@ CE = cobertura; **sin** % de boletín por CE.
 
 ## Calendario (resumen)
 
-- Tutorías en semanas alternas (colectiva e individual); FE ciclo desde el 1 de marzo de 2027.  
+- Tutorías en semanas alternas (colectiva e individual, cada una con sesión de mañana y de tarde). La formación en empresa del ciclo empieza el 1 de marzo de 2027.  
 - **1.ª eval.** T1–T4 · **2.ª** T5–T8.  
 - Detalle: `programacion_aula_Cloud_2026_27.md`.
 

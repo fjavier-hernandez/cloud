@@ -29,9 +29,11 @@ La monitorización fina es el Tema 8. Aquí CloudWatch aparece como práctica de
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q9** | Pilares WA + equilibrios Multi-AZ | **PR701**; Autocheck del tema |
+Tutoría colectiva el 26 de enero de 2027 e individual el 2 de febrero. Son **6 horas** de trabajo tuyo en el centro.
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **25 ene – 5 feb 2027** | Pilares de Well-Architected y equilibrios de varias zonas de disponibilidad | **PR701**; Autocheck del tema | 6 |
 
 ---
 

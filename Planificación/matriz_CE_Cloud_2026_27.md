@@ -3,11 +3,9 @@
 **Módulo:** Introducción a la Nube Pública (anexo PDF optativa)  
 **Curso:** 2026-2027  
 **Actualizado:** 2026-09-20 (C4)  
-**Uso:** **cobertura / verificación**. **No** es calificación criterial por CE (sin % / «quesitos» por CE en boletín).
+**Uso:** cobertura y verificación. Los criterios de evaluación no llevan porcentaje ni peso en el boletín.
 
-Fuente CE: PDF  
-`[CURSOS]/26_27/[CLOUD]/Introducción a la Nube Pública/Optativa - Introducción a la nube pública.pdf`  
-(enunciados **literales**).
+Fuente de los criterios de evaluación: Decreto 114/2025, anexo X-XVII, modificado por el Decreto 95/2026, anexo IV (enunciados literales).
 
 Cada CE debe tener **≥ 1** evidencia. IE **provisionales** marcados; **ampliable tras verificación** con el banco real de Aules / enunciados cerrados.
 
@@ -97,7 +95,7 @@ Puede sumar **+1** a la nota final (hasta **11**) según **Aules**. Resumen en e
 
 ## Fuentes
 
-- PDF anexo (CE literales).  
+- Decreto 114/2025, anexo X-XVII, modificado por el Decreto 95/2026 (criterios de evaluación literales).  
 - `docs/01…08/tema*.md` (PR/AC actuales).  
 - `docs/index.md` (IE y pesos).  
 - `PD_Cloud_INP_2026_27.md` · `programacion_aula_Cloud_2026_27.md`.
