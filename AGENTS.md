@@ -56,8 +56,8 @@ mkdocs serve
 
 ## Soluciones y autoevaluación
 
-- **Como el módulo es semipresencial, las guías de soluciones de las prácticas (PR) y las del Autocheck pueden estar visibles como guía de estudio. Las soluciones y las claves de los exámenes (pruebas objetivas, PO) nunca se publican.**
-- **Las soluciones del Autocheck pueden publicarse; las de exámenes y pruebas, nunca.** Esto incluye las pruebas objetivas (PO1 y PO2): ni sus enunciados con respuestas ni sus claves se suben al repositorio.
+- **Las soluciones y las claves de los exámenes (pruebas objetivas, PO) nunca se publican.** Las soluciones del Autocheck sí pueden publicarse como guía de estudio.
+- De las pruebas objetivas (PO1 y PO2) no se suben al repositorio ni los enunciados con respuestas ni las claves.
 - Las respuestas del cuestionario inicial y del Autocheck de cada tema van en el propio tema, en bloques plegables (`<details>`), y se indexan en `docs/90-soluciones/soluciones.md`.
 - Las guías de `docs/90-soluciones/pr/` son **guías de apoyo** a las prácticas (recorrido orientativo, evidencias para la rúbrica, errores frecuentes y limpieza), no soluciones completas para copiar. No añadas en ellas respuestas cerradas de una práctica evaluable sin que el profesor lo pida.
 - Si dudas de si algo es una solución de examen o prueba, no lo publiques y pregunta.
@@ -77,7 +77,7 @@ Si una tarea necesita esos datos, se trabaja fuera del repositorio. Si encuentra
 ## Evaluación
 
 - La evaluación es **competencial** y tiene como referentes los **resultados de aprendizaje (RA)**. La nota se calcula por RA, con los pesos que fija la programación didáctica (PD).
-- Los **criterios de evaluación (CE)** solo sirven para **verificar la cobertura**, es decir, para comprobar qué actividades o instrumentos evidencian cada CE. **No** llevan porcentajes ni pesos propios.
+- Los **criterios de evaluación (CE)** ponderan: cada CE se vincula a los instrumentos de calificación que se trabajan en el aula y recibe un peso según su importancia, y el peso de cada RA es la suma de los pesos de sus CE (matriz de CE de la PD, que suma 100 %). Nunca se escribe que los CE «no llevan porcentaje» o que solo sirven para verificar la cobertura.
 - No se usa la palabra «criterial» en ningún documento.
 - Los RA y los CE se copian literalmente de la normativa del módulo; no se inventan ni se renombran.
 
@@ -101,7 +101,7 @@ Necesita `pandoc` y `python3` (con `python-docx`). El script usa `reference.docx
 
 ## Específico de este repositorio
 
-- **Módulo y ciclo**: Introducción a la Nube Pública (INP), módulo optativo de 2.º de DAW semipresencial, curso 2026-2027. El módulo acaba antes de la formación en empresa (FE).
+- **Módulo y ciclo**: Introducción a la Nube Pública (INP), módulo optativo de 2.º de DAW semipresencial, curso 2026-2027. De sus 100 h, 80 h se imparten en el centro (las clases acaban el 26-02-2027) y 20 h están vinculadas a la formación en empresa (FE): los RA de esa parte los valora el tutor o tutora de empresa y el docente los incorpora a la calificación del módulo, según la PD.
 - **Temas**: ocho temas; la 1.ª evaluación cubre los Temas 1 a 4 y la 2.ª, los Temas 5 a 8. Las prácticas se codifican como `PRnNN`, donde n es el número de tema: PR101 a PR104 en el Tema 1 y una práctica por tema del 2 al 8 (PR201 a PR801). Además, hay una actividad de clase, AC802.
 - **Pesos de los RA**: consulta la PD en `Planificación/PD_Cloud_INP_2026_27.md`.
 - **Plazos**: las entregas y sus fechas las marca Aules. La planificación por quincenas está en `Planificación/programacion_aula_Cloud_2026_27.md` y en `docs/calendario.md`.
