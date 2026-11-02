@@ -1,13 +1,11 @@
-# Matriz CE × actividad — Cloud INP 2026-27
+# Anexo A. Verificación de la cobertura y ponderación de los CE — Cloud INP 2026-27
 
 **Módulo:** Introducción a la Nube Pública (anexo PDF optativa)  
 **Curso:** 2026-2027  
-**Actualizado:** 2026-09-20 (C4)  
-**Uso:** **cobertura / verificación**. **No** es calificación criterial por CE (sin % / «quesitos» por CE en boletín).
+**Actualizado:** 2026-11-01 (v5)  
+**Uso:** cobertura, verificación y ponderación. Cada criterio de evaluación se vincula a los instrumentos con los que se trabaja en el aula y recibe una ponderación según su importancia; esta matriz verifica la cobertura. La ponderación en porcentaje de cada CE se calcula a partir de las rúbricas de los IE y figura en el anexo A.3 de la programación didáctica; el peso de cada RA es la suma de las ponderaciones de sus CE.
 
-Fuente CE: PDF  
-`[CURSOS]/26_27/[CLOUD]/Introducción a la Nube Pública/Optativa - Introducción a la nube pública.pdf`  
-(enunciados **literales**).
+Fuente de los criterios de evaluación: Decreto 114/2025, anexo X-XVII, modificado por el Decreto 95/2026, anexo IV (enunciados literales).
 
 Cada CE debe tener **≥ 1** evidencia. IE **provisionales** marcados; **ampliable tras verificación** con el banco real de Aules / enunciados cerrados.
 
@@ -32,7 +30,7 @@ Cada CE debe tener **≥ 1** evidencia. IE **provisionales** marcados; **ampliab
 | **CE3c** | Se ha participado activamente en la creación y configuración de una red funcional. | RA3 | T3 | PR301 | OK provisional |
 | **CE3d** | Se ha realizado la selección de servicios de computación adecuados según casos de uso. | RA3 | T4 | PR401; Autocheck T4; **PO1** (prov.) | OK provisional |
 | **CE3e** | Se ha llevado a cabo la configuración y gestión de balanceo de carga y escalado automático. | RA3 | T8 | PR801; Autocheck T8; **PO2** (prov.) | OK provisional |
-| **CE3f** | Se han desarrollado prácticas relacionadas con la optimización de recursos computacionales. | RA3 | T4, T8 | PR401, PR801; Autocheck T4/T8 | OK provisional |
+| **CE3f** | Se han desarrollado prácticas relacionadas con la optimización de recursos computacionales. | RA3 | T4, T8 | PR401, PR801, AC802; Autocheck T4/T8 | OK provisional |
 | **CE4a** | Se ha realizado la diferenciación entre tecnologías de almacenamiento en la nube. | RA4 | T5 | PR501; Autocheck T5; **PO2** (prov.) | OK provisional |
 | **CE4b** | Se ha llevado a cabo la configuración y gestión de bases de datos en un entorno de nube. | RA4 | T6 | PR601; Autocheck T6; **PO2** (prov.) | OK provisional |
 | **CE4c** | Se ha trabajado en la resolución de problemas prácticos sobre almacenamiento y bases de datos. | RA4 | T5, T6 | PR501, PR601 | OK provisional |
@@ -66,12 +64,12 @@ Cada CE debe tener **≥ 1** evidencia. IE **provisionales** marcados; **ampliab
 | PR601 | RA4 b, c | 0–10 | RDS |
 | PR701 | RA4 d, f | 0–10 | Well-Architected |
 | PR801 | RA3 e, f; RA4 e | 0–10 | ELB / ASG / CW |
-| AC802 | RA4 / CLF catálogo | 0–1 | Mapa servicios |
-| Autocheck T* | según tema | 0–1 (o AC) | Quiz de clase |
-| **PO1** | RA1–RA3 (T1–T4) | 0–100 | **Provisional — ampliar** |
+| AC802 | RA3 f; RA4 f | 0–1 | Mapa de servicios CLF |
+| Autocheck T* | según tema | Sin calificación | Autoevaluación del tema |
+| **PO1** | RA1–RA3 (T1–T4) | 0–100 | **Provisional — ampliar** (propuesta: 3-12-2026, 10:00) |
 | **PO2** | RA3–RA4 (T5–T8) | 0–100 | **Provisional — ampliar** |
 
-> **Nota:** la calificación usa **media ponderada IE → RA → módulo** (pesos 20/25/30/25). Los CE **no** llevan porcentaje de boletín.
+> **Nota:** la calificación usa **media ponderada IE → RA → módulo** (pesos 20/25/30/25). Cada CE pondera según su importancia (porcentajes en el anexo A.3 de la programación didáctica), y la suma de los CE de cada RA coincide con el peso del RA (20/25/30/25).
 
 ## Pesos RA (recordatorio)
 
@@ -90,14 +88,14 @@ Puede sumar **+1** a la nota final (hasta **11**) según **Aules**. Resumen en e
 ## Pendiente de ampliar (verificación)
 
 1. Enunciados y pesos internos de **PO1** y **PO2**.  
-2. Codificar formalmente los **Autocheck** como AC (p. ej. AC110…AC810) si Aules lo exige.  
+2. Los **Autocheck** son autoevaluación sin calificación; no se codifican como AC.  
 3. Revisar si hace falta **PY** o más AC para CE ya cubiertos solo por PO.  
 4. Cruce con banco GIFT del compañero (import Aules — fase posterior).  
 5. Duración del módulo: **100 h** (Decreto 114/2025, anexo X-XVII; Decreto 95/2026, anexo IV; mismas horas en semipresencial, Orden 30/2022, art. 3).
 
 ## Fuentes
 
-- PDF anexo (CE literales).  
+- Decreto 114/2025, anexo X-XVII, modificado por el Decreto 95/2026 (criterios de evaluación literales).  
 - `docs/01…08/tema*.md` (PR/AC actuales).  
 - `docs/index.md` (IE y pesos).  
 - `PD_Cloud_INP_2026_27.md` · `programacion_aula_Cloud_2026_27.md`.

@@ -29,9 +29,12 @@ Bases de datos: Tema 6.
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q7** | S3 vs EBS/EFS + ciclo de vida | **PR501**; Autocheck del tema |
+El tema suma **6 horas** de trabajo tuyo en el centro y queda partido por Navidad. La colectiva del arranque es el 1 de diciembre de 2026, junto con la prueba de la 1.ª evaluación; la individual de esa semana cae en la semana del 7 de diciembre (el día 8 es festivo). La colectiva de cierre del tema es el 15 de diciembre.
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **30 nov – 11 dic 2026** | Arranque: objetos, bloques y ficheros | Inicio de **PR501** | 3 |
+| **14 dic – 18 dic 2026** | S3 frente a EBS y EFS, y ciclo de vida | **PR501**; Autocheck del tema | 3 |
 
 ---
 

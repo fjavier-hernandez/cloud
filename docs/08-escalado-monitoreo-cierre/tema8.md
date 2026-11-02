@@ -39,10 +39,12 @@ Piensa este tema como la capa que mantiene viva la materia ya vista: la [VPC](..
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q10** | ELB + ASG + CloudWatch | **PR801**, **AC802**; Autocheck del tema |
-| **Q11** | Repaso CLF-C02 y cierre de la 2.ª evaluación | Hub [Certificación](../99-certificacion/certificacion.md); prueba objetiva según Aules |
+El tema ocupa **9 horas** de trabajo tuyo en el centro. La colectiva es el 9 de febrero de 2027 y la individual, el 16 de febrero. La semana del 23 de febrero es la prueba de la 2.ª evaluación y el cierre del módulo: esas horas no son de este tema y están en el [calendario](../calendario.md).
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **8 feb – 19 feb 2027** | Balanceador, Auto Scaling y CloudWatch | **PR801**, **AC802**; Autocheck del tema | 9 |
+| **22 feb – 26 feb 2027** | Repaso del Cloud Practitioner y cierre de la 2.ª evaluación | Hub [Certificación](../99-certificacion/certificacion.md); prueba objetiva según Aules | Ver calendario |
 
 ---
 

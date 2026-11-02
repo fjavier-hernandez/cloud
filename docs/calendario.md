@@ -1,41 +1,44 @@
 ---
 title: Calendario del curso
-description: Ritmo del módulo INP 2026-27 — tutorías en semanas alternas (colectiva e individual), temas T1–T8 y evaluaciones.
+description: Ritmo del módulo INP 2026-27 — tutorías en semanas alternas (colectiva e individual), temas 1 a 8 y evaluaciones.
 ---
 
 # Calendario del curso
 
-El módulo suma **100 h** de trabajo. En semipresencial las **tutorías van en semanas alternas (colectiva e individual)** y el resto es trabajo autónomo (apuntes, vídeos, labs). La **1.ª evaluación** cubre los Temas **1–4**; la **2.ª**, los Temas **5–8**. El módulo acaba **antes** de la formación en empresa (FE), que empieza el **1 de marzo de 2027**.
+El módulo dura **100 horas**. De ellas, **72 horas** se trabajan en el centro antes de la formación en empresa (FE) y **28 horas** quedan vinculadas a la empresa. Las 72 horas del centro son horas de trabajo tuyo: las tutorías y el trabajo autónomo guiado con los apuntes, los vídeos y los laboratorios. No son tres horas de clase cada semana.
 
-Puedes estudiar en esta web lo que ya esté publicado. Las **entregas y los plazos** los marca **Aules**.
+Las tutorías van en **semanas alternas**. Una semana hay tutoría colectiva y la siguiente, tutoría individual. En cada una de esas semanas hay una sesión de mañana y otra de tarde, con el mismo contenido. La primera tutoría colectiva es el **22 de septiembre de 2026**. La FE empieza el **1 de marzo de 2027**, así que el trabajo de centro de este módulo termina el **26 de febrero de 2027**. Los ocho temas tienen que estar cerrados antes de esa fecha.
 
-## Tutorías en semanas alternas (orientativo)
+La **1.ª evaluación** cubre los Temas **1 a 4**. La **2.ª** cubre los Temas **5 a 8**. Puedes estudiar en esta web lo que ya esté publicado. Las **entregas y los plazos** los marca **Aules**.
 
-Primera tutoría prevista: **22-sep-2026**.
+## Tutorías
 
-| Quincena | Fecha tutoría (aprox.) | Tema | Evaluación |
-| ---: | --- | --- | --- |
-| **Q1** | 22-sep-2026 | **T1** (parte 1): Acceso, conceptos y modelos | 1.ª |
-| **Q2** | 6-oct-2026 | **T1** (parte 2): facturación e infraestructura global | 1.ª |
-| **Q3** | 20-oct-2026 | **T2** Seguridad e IAM | 1.ª |
-| **Q4** | 3-nov-2026 | **T3** Redes y VPC | 1.ª |
-| **Q5** | 17-nov-2026 | **T4** Cómputo | 1.ª |
-| **Q6** | 1-dic-2026 | Cierre de la 1.ª evaluación, ventana de la **PO1** (prueba objetiva de la 1.ª evaluación) y arranque del T5 | 1.ª y 2.ª |
-| **Q7** | 15-dic-2026 | **T5** Almacenamiento | 2.ª |
-| — | 29-dic-2026 | *No lectiva prevista* (vacaciones) | — |
-| **Q8** | 12-ene-2027 | **T6** Bases de datos | 2.ª |
-| **Q9** | 26-ene-2027 | **T7** Well-Architected | 2.ª |
-| **Q10** | 9-feb-2027 | **T8** Escalado y CloudWatch | 2.ª |
-| **Q11** | 23-feb-2027 | Repaso, **PO2** (prueba objetiva de la 2.ª evaluación) y cierre de la 2.ª | 2.ª |
+La fecha es el martes de esa semana, salvo la tutoría individual de primeros de diciembre: el martes 8 de diciembre es festivo y la sesión será otro día lectivo de esa misma semana. Lo confirmaremos en Aules.
+
+| Tramo | Colectiva | Individual | Qué trabajamos | Horas de trabajo | Evaluación |
+| ---: | --- | --- | --- | ---: | --- |
+| **1** | 22-sep-2026 | 29-sep-2026 | **Tema 1** (parte 1): acceso, conceptos y modelos. Prácticas PR101 y PR102 | 7 | 1.ª |
+| **2** | 6-oct-2026 | 13-oct-2026 | **Tema 1** (parte 2): facturación e infraestructura global. PR103, PR104 y Autocheck | 7 | 1.ª |
+| **3** | 20-oct-2026 | 27-oct-2026 | **Tema 2.** Seguridad e identidad. PR201 y Autocheck | 6 | 1.ª |
+| **4** | 3-nov-2026 | 10-nov-2026 | **Tema 3.** Redes y VPC. PR301 y Autocheck | 7 | 1.ª |
+| **5** | 17-nov-2026 | 24-nov-2026 | **Tema 4.** Cómputo. PR401 y Autocheck | 7 | 1.ª |
+| **6** | 1-dic-2026 | semana del 7-dic-2026 | Prueba de la 1.ª evaluación (3 h) y arranque del **Tema 5** (3 h) | 6 | 1.ª y 2.ª |
+| **7** | 15-dic-2026 | — | **Tema 5.** Almacenamiento. PR501 y Autocheck. No hay tutoría individual esta vez | 3 | 2.ª |
+| **8** | 12-ene-2027 | 19-ene-2027 | **Tema 6.** Bases de datos. PR601 y Autocheck | 6 | 2.ª |
+| **9** | 26-ene-2027 | 2-feb-2027 | **Tema 7.** Well-Architected. PR701 y Autocheck | 6 | 2.ª |
+| **10** | 9-feb-2027 | 16-feb-2027 | **Tema 8.** Escalado y CloudWatch. PR801, AC802 y Autocheck | 9 | 2.ª |
+| **11** | 23-feb-2027 | — | Prueba de la 2.ª evaluación (4 h) y cierre del módulo (4 h) | 8 | 2.ª |
+
+Esas horas suman **72**. Entre el 21 de diciembre y el 8 de enero no hay tutoría: el 22 de diciembre de 2026 al 6 de enero de 2027 son vacaciones de Navidad, y las semanas de alrededor se quedan demasiado cortas para una tutoría. La siguiente colectiva es el 12 de enero.
 
 ## Hitos
 
-| Hito | Ventana orientativa |
+| Hito | Cuándo |
 | --- | --- |
-| Arranque ([Acceso](00-acceso/acceso.md) y Tema 1) | ~ 22-sep-2026 |
-| **PO1** (prueba objetiva de la 1.ª evaluación; Temas 1–4) | ~ finales de noviembre / principios de diciembre 2026 |
-| Inicio 2.ª evaluación (Temas 5–8) | ~ 2.ª semana de diciembre |
-| **PO2** (prueba objetiva de la 2.ª evaluación) y cierre del módulo | ~ 2.ª quincena de febrero 2027 |
+| Arranque ([Acceso](00-acceso/acceso.md) y Tema 1) | 22-sep-2026 |
+| **PO1**, prueba objetiva de la 1.ª evaluación (Temas 1 a 4) | Semana del 1-dic-2026. El día del examen lo fija el centro y se publica en Aules |
+| Inicio del Tema 5, ya en la 2.ª evaluación | Semana del 1-dic-2026, y colectiva de cierre del tema el 15-dic-2026 |
+| **PO2**, prueba objetiva de la 2.ª evaluación, y cierre del módulo | Semana del 23-feb-2027 |
 | FE del ciclo | **1-mar-2027** |
 
 Si preparas el examen Cloud Practitioner, el material está en [Certificación](99-certificacion/certificacion.md).
@@ -43,4 +46,4 @@ Si preparas el examen Cloud Practitioner, el material está en [Certificación](
 Vuelve al [Inicio](index.md) para la evaluación y el mapa de temas.
 
 !!! note "Fechas orientativas"
-    Estas fechas ayudan a situar el ritmo. Las fechas de los exámenes de cada evaluación **todavía no las ha fijado el centro**, así que pueden variar. Si el centro mueve un festivo o cambia una tutoría, manda lo que digan **Aules** y la propia sesión.
+    Estas fechas ayudan a situar el ritmo. Los festivos de la Comunitat que caen en este tramo son el 9 y el 12 de octubre y el 8 de diciembre de 2026. Las vacaciones de Navidad van del 22 de diciembre de 2026 al 6 de enero de 2027. Las fechas de los exámenes de cada evaluación todavía no las ha fijado el centro, así que pueden variar. Si el centro señala un festivo local o cambia una tutoría, manda lo que digan **Aules** y la propia sesión.

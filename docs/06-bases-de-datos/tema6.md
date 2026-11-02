@@ -28,9 +28,11 @@ Instalar MySQL en la misma [EC2](../04-computo-serverless/tema4.md#ec2) (*Elasti
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q8** | RDS Multi-AZ frente a réplica + DynamoDB | **PR601**; Autocheck del tema |
+Tutoría colectiva el 12 de enero de 2027 e individual el 19 de enero. Son **6 horas** de trabajo tuyo en el centro.
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **11 ene – 22 ene 2027** | RDS Multi-AZ frente a réplica de lectura, y DynamoDB | **PR601**; Autocheck del tema | 6 |
 
 ---
 

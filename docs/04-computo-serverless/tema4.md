@@ -30,9 +30,11 @@ Balanceo y Auto Scaling: Tema 8. Aquí se *nombra* el ASG como pareja natural de
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q5** | EC2 + AMI + elección VM/Lambda | **PR401**; Autocheck del tema |
+Tutoría colectiva el 17 de noviembre de 2026 e individual el 24 de noviembre. Son **7 horas** de trabajo tuyo en el centro.
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **16 nov – 27 nov 2026** | EC2, AMI y elección entre máquina virtual y Lambda | **PR401**; Autocheck del tema | 7 |
 
 ---
 

@@ -29,9 +29,11 @@ Una API (interfaz de programación de aplicaciones) en la nube no «hereda» la 
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q3** | Responsabilidad compartida + IAM | **PR201**; Autocheck del tema |
+Tutoría colectiva el 20 de octubre de 2026 e individual el 27 de octubre. Son **6 horas** de trabajo tuyo en el centro.
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **19 oct – 30 oct 2026** | Responsabilidad compartida e IAM | **PR201**; Autocheck del tema | 6 |
 
 ---
 

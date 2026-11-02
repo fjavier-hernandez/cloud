@@ -31,9 +31,11 @@ Cómputo (tipos de instancia, Lambda) es el Tema 4. Balanceo y autoescalado: Tem
 
 ### Programación de aula (orientativa)
 
-| Quincena | En tutoría | Trabajo autónomo / evidencias |
-| --- | --- | --- |
-| **Q4** | VPC pública/privada + SG | **PR301**; Autocheck del tema |
+Tutoría colectiva el 3 de noviembre de 2026 e individual el 10 de noviembre. Son **7 horas** de trabajo tuyo en el centro.
+
+| Tramo | En tutoría | Trabajo autónomo / evidencias | Horas |
+| --- | --- | --- | ---: |
+| **2 nov – 13 nov 2026** | VPC pública y privada, y grupos de seguridad | **PR301**; Autocheck del tema | 7 |
 
 ---
 
