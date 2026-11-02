@@ -14,7 +14,7 @@ Carpeta **interna** (fuera del sitio MkDocs público). Versionada en el repo `cl
 | Programación de aula (tramos y tutorías) | [`programacion_aula_Cloud_2026_27.md`](programacion_aula_Cloud_2026_27.md) — calendario del alumnado → [`docs/calendario.md`](../docs/calendario.md) |
 | Word de la programación didáctica | [`DAW2_Introduccion_Nube_Publica_26-27.docx`](DAW2_Introduccion_Nube_Publica_26-27.docx), generado con `bash Planificación/build_docx.sh` |
 | Diario de sesiones (tras cada tutoría) | [`diario_sesiones_Cloud_2026_27.md`](diario_sesiones_Cloud_2026_27.md) |
-| Matriz CE × IE (cobertura) | [`matriz_CE_Cloud_2026_27.md`](matriz_CE_Cloud_2026_27.md) |
+| Anexo A. Verificación de la cobertura y ponderación de los CE | [`matriz_CE_Cloud_2026_27.md`](matriz_CE_Cloud_2026_27.md) |
 | Plantilla entrega prácticas (Aules) | [`plantilla_entrega_practica.md`](plantilla_entrega_practica.md) |
 | Checklist +1 CLF (texto Aules, profesor) | [`checklist_Aules_mas_uno_CLF_2026_27.md`](checklist_Aules_mas_uno_CLF_2026_27.md) |
 
@@ -48,7 +48,7 @@ El 28 % se aplica a cada módulo del ciclo, con redondeo hacia abajo, para llega
 | **RA4** | **25 %** | T5–T8 almacenamiento, BD, WA, monitoreo |
 | | **100 %** | |
 
-CE = cobertura; **sin** % de boletín por CE.
+Cada CE pondera según su importancia (vinculado a los IE del aula); el peso de cada RA es la suma de sus CE.
 
 ## Calendario (resumen)
 
@@ -64,7 +64,7 @@ Itinerario Foundations + ampliación CLF-C02.
 ## IE pendientes de ampliar
 
 - **PO1** / **PO2** (enunciado, fecha, peso por RA).  
-- Codificación formal de Autochecks como AC si Aules lo pide.  
+- Autochecks: autoevaluación sin calificación (PD, apartado 8.3.2); no se codifican como AC.  
 - Posible PY; cruce GIFT → Aules.  
 - Ver lista completa en la matriz § «Pendiente de ampliar».
 

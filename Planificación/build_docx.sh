@@ -9,7 +9,9 @@
 # que el editor lo actualiza. El índice manual del Markdown se omite.
 #
 # reference.docx mantiene los títulos con el párrafo siguiente.
-# fix_docx_tables.py impide partir filas y repite la cabecera de tabla.
+# fix_docx_tables.py impide partir filas, repite y resalta la cabecera de tabla
+# (negrita y fondo azul suave), pone bordes finos y relleno, y mantiene enteras
+# las tablas cortas (hasta 15 filas y un tercio de página) sin dejar hojas en blanco.
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"

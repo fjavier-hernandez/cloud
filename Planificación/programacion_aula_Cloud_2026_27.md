@@ -71,7 +71,7 @@ La fecha que figura en cada tutoría es el martes de esa semana, el mismo día d
 | 3 | 19-oct-2026 – 30-oct-2026 | 20-oct-2026 | 27-oct-2026 | Tema 2. Seguridad e identidad y acceso (IAM) | 1.ª | PR201; Autocheck T2 | 6 |
 | 4 | 02-nov-2026 – 13-nov-2026 | 03-nov-2026 | 10-nov-2026 | Tema 3. Redes y nube privada virtual (VPC) | 1.ª | PR301; Autocheck T3 | 7 |
 | 5 | 16-nov-2026 – 27-nov-2026 | 17-nov-2026 | 24-nov-2026 | Tema 4. Cómputo | 1.ª | PR401; Autocheck T4 | 7 |
-| 6 | 30-nov-2026 – 11-dic-2026 | 01-dic-2026 | semana del 07-dic-2026 (el 08-dic es festivo) | PO1 y arranque del Tema 5 | 1.ª y 2.ª | PO1 (3 h); inicio de PR501 (3 h) | 6 |
+| 6 | 30-nov-2026 – 11-dic-2026 | 01-dic-2026 | semana del 07-dic-2026 (el 08-dic es festivo) | PO1 y arranque del Tema 5 | 1.ª y 2.ª | PO1 (3 h; propuesta el jueves 3-dic-2026, 10:00); inicio de PR501 (3 h) | 6 |
 | 7 | 14-dic-2026 – 18-dic-2026 | 15-dic-2026 | No hay: la semana del 21-dic solo tiene un día lectivo | Tema 5. Almacenamiento | 2.ª | PR501; Autocheck T5 | 3 |
 | 8 | 11-ene-2027 – 22-ene-2027 | 12-ene-2027 | 19-ene-2027 | Tema 6. Bases de datos | 2.ª | PR601; Autocheck T6 | 6 |
 | 9 | 25-ene-2027 – 05-feb-2027 | 26-ene-2027 | 02-feb-2027 | Tema 7. Well-Architected | 2.ª | PR701; Autocheck T7 | 6 |
