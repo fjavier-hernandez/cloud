@@ -244,7 +244,7 @@ Cuando alguien escribe `midominio.es` en el navegador, hay que traducir ese nomb
 
 **[CloudFront](#cloudfront)** es la CDN de AWS. Guarda copias del contenido que se puede cachear en **[ubicaciones de borde](#edge-location)** (*edge locations*), cerca del usuario. Acerca **HTML** (*HyperText Markup Language*, el marcado de la página), JavaScript, **CSS** (*Cascading Style Sheets*, hojas de estilo) e imágenes. No replica la base de datos transaccional a otra región ni a una ubicación de borde. El origen suele ser un bucket S3, el front estático del proyecto, o un ALB cuando la respuesta sale de la API. El tiempo que una copia permanece en el borde lo marca el TTL (*time to live*, tiempo de vida) de la política de caché.
 
-En Foundations el flujo habitual es este: el dominio, en Route 53, apunta a CloudFront o al ALB; CloudFront toma el origen en S3 o en el balanceador y reduce la latencia de lo que puede servir muchas veces igual. *Global Accelerator*, que publica direcciones IP anycast (la misma IP se anuncia desde varios puntos de la red de AWS y la conexión entra por el más cercano), aparece como nombre de examen. No hace falta para el lab del Módulo 5.
+En Foundations el flujo habitual es este: el dominio, en Route 53, apunta a CloudFront o al ALB; CloudFront toma el origen en S3 o en el balanceador y reduce la latencia de lo que puede servir muchas veces igual. *Global Accelerator*, que publica direcciones IP anycast (la misma IP se anuncia desde varios puntos de la red de AWS y la conexión entra por el más cercano), aparece como nombre de examen. No hace falta para el lab del Módulo 5. El recorrido de una petición concreta, paso a paso, está en [Flujo de una petición HTTP](#flujo-de-una-peticion-http).
 
 **Qué es en este caso — Route 53.** Es el registro que hace que `api.midominio.es` llegue al ALB, o que `midominio.es` llegue a CloudFront delante del front.
 
@@ -256,17 +256,59 @@ En Foundations el flujo habitual es este: el dominio, en Route 53, apunta a Clou
 
 ### Flujo de una petición HTTP
 
-El camino completo, en el proyecto de DAW, es el de un usuario que abre `https://midominio.es/productos`. El front está en S3 detrás de CloudFront, la API está en EC2 detrás de un ALB y los datos están en RDS. El lab del Módulo 5 a veces lo reduce a un solo servidor web. Aun así tienes que poder contar el camino entero, porque es el que justifica dónde va cada pieza.
+El camino completo, en el proyecto de DAW, es el de un usuario que abre `https://midominio.es/productos`. El front está en S3 detrás de CloudFront, la API está en EC2 detrás de un ALB y los datos están en RDS. El lab del Módulo 5 a veces lo reduce a un solo servidor web. Aun así tienes que poder contar el camino entero, porque es el que justifica dónde va cada pieza. Los seis pasos siguientes describen esa petición cuando `/productos` no está en la caché y la aplicación tiene que leer la base de datos.
 
-El navegador pregunta al DNS, Route 53 u otro resolutor, qué destino tiene ese nombre. La respuesta puede ser la distribución de CloudFront o, si no hay CDN, el nombre del ALB. Con eso el cliente ya sabe con quién hablar por HTTPS.
+1. **Resolución DNS (Route 53).** El navegador todavía no pide la página. Pregunta al DNS qué destino tiene el nombre `midominio.es`. Si la zona del dominio está en Route 53, la respuesta autoritativa sale de ese servicio: el destino suele ser la distribución de CloudFront o, si el proyecto no usa CDN, el nombre del ALB. Con esa dirección el navegador ya sabe con quién abrir la conexión HTTPS. Route 53 no recibe `/productos` ni consulta los datos. Solo traduce el dominio en un destino. Qué registro usar, y por qué no se apunta a la IP pública de la EC2, está en [DNS y entrega de contenido](#dns-y-entrega-de-contenido).
 
-Si hay CloudFront, la petición llega a una ubicación de borde. Si el objeto está en caché y el TTL no ha vencido, CloudFront responde desde ahí y el origen no interviene. Si no hay copia, o la petición no se puede cachear, CloudFront pide el contenido al origen y, si la política lo permite, lo guarda para la siguiente.
+2. **CloudFront (CDN).** La petición HTTPS llega a una ubicación de borde. Si CloudFront tiene el contenido en caché y el TTL no ha vencido, lo entrega desde ahí y el origen no interviene. Si no hay copia, o la respuesta no se puede cachear, CloudFront pide el contenido al origen. Los estáticos del front salen del bucket de S3. La ruta `/productos`, que depende de la base de datos, sigue hacia el ALB. CloudFront no ejecuta la lógica de la aplicación ni guarda RDS en el borde.
 
-Cuando el origen es el ALB, o cuando no hay CDN, el balanceador está en las subredes públicas. Su security group acepta el 443 desde internet, o desde CloudFront si has restringido el origen a los rangos de la CDN. El ALB elige un destino sano del grupo de destinos —las instancias de la API, en la subred privada— y reenvía la petición a su IP privada. Eso solo funciona si el security group de la API permite el puerto de la aplicación **desde el security group del ALB**, incluido el puerto del *health check*. Si ese grupo solo acepta la IP de tu portátil, el balanceador no puede comprobar el destino ni enviarle tráfico, y el destino queda fuera de servicio. La guía de resolución de problemas del ALB pide revisar el security group del destino en ese caso. El código que acaba viendo el usuario depende del fallo: la misma guía asocia un HTTP 502 a una respuesta inesperada del destino al intentar conectar, y un HTTP 504 a una conexión que no llega a establecerse antes del tiempo de espera.
+3. **Balanceador de aplicaciones (ALB).** El ALB recibe la petición HTTPS en las subredes públicas. No ejecuta el código de la aplicación: elige una EC2 sana del grupo de destinos, el conjunto de instancias registradas en el balanceador, y le reenvía la petición a su IP privada. La elección la hacen las comprobaciones de estado (*health checks*), que son las peticiones con las que el balanceador decide si el destino está en condiciones de trabajar. Una instancia que no las supera no entra en el reparto.
 
-La API, en Node o en PHP, ejecuta la lógica. Si necesita datos, abre una conexión TCP hacia el puerto del motor en RDS: el 3306 si el motor es MySQL o MariaDB, el 5432 si es PostgreSQL. El security group de RDS acepta ese puerto solo desde el security group de la API. Abrir el 3306 a `0.0.0.0/0` para probar con un cliente SQL desde el aula rompe el patrón: cualquier origen de internet puede intentar entrar al motor.
+4. **Servidor de aplicaciones (EC2).** La EC2 ejecuta el código de la aplicación, en Node.js, PHP u otro lenguaje del proyecto, y la lógica de negocio de la ruta. En el diseño del proyecto esa instancia está en la subred privada. El navegador no se conecta a ella: quien le entrega la petición es el ALB.
 
-La respuesta, en **JSON** (*JavaScript Object Notation*, el formato habitual de la API) o en HTML, vuelve por el mismo camino: RDS, API, ALB, CloudFront si está en medio, y el navegador. Si en algún tramo una NACL bloquea la vuelta por los puertos efímeros, el fallo se ve como un timeout o como el HTTP 504 que documenta la guía del ALB, aunque la instancia figure en marcha. El security group no te pide esa regla de vuelta, porque tiene estado; la NACL sí.
+5. **Base de datos (RDS).** Cuando la lógica necesita datos, la aplicación consulta RDS y obtiene los resultados. RDS almacena esos datos y se los proporciona a la EC2. No atiende al navegador y no es un origen de CloudFront.
+
+6. **Respuesta HTTP.** Los resultados vuelven de RDS a la aplicación. La EC2 compone la respuesta, normalmente en **JSON** (*JavaScript Object Notation*, el formato habitual de una API) o en HTML, y la envía al ALB. El ALB la pasa a CloudFront si la CDN interviene, y CloudFront la entrega al navegador. Si no hay CloudFront, la respuesta va del ALB al navegador. El regreso no consulta otra vez a Route 53: el nombre ya quedó resuelto en el primer paso.
+
+``` mermaid
+flowchart TB
+  usuario["Usuario"]
+  r53["Route 53"]
+  cf["CloudFront"]
+  s3["S3, estáticos"]
+  alb["ALB"]
+  ec2["EC2, aplicación"]
+  rds["RDS"]
+
+  usuario -->|"Consulta el nombre"| r53
+  r53 -.->|"Dirección del destino"| usuario
+  usuario -->|"Petición HTTPS"| cf
+  cf -->|"Estáticos, si no hay caché"| s3
+  s3 -->|"Objeto"| cf
+  cf -->|"Dinámico, si no hay caché"| alb
+  alb -->|"EC2 sana"| ec2
+  ec2 -->|"Consulta"| rds
+  rds -->|"Resultados"| ec2
+  ec2 -->|"Respuesta"| alb
+  alb -->|"Respuesta"| cf
+  cf -->|"JSON o HTML"| usuario
+```
+
+La flecha discontinua es solo la resolución. Route 53 devuelve al navegador la dirección del destino, que será CloudFront o el ALB, y no transporta la página. A partir de esa dirección la petición va a CloudFront y, cuando el contenido no está en caché, al ALB, a la EC2 y a RDS. La respuesta recorre ese tramo hacia el navegador. S3 es el origen de los estáticos de CloudFront y queda fuera de la cadena de `/productos`: la aplicación prepara la respuesta con los datos de RDS y la devuelve por el ALB.
+
+| Componente | Función |
+| --- | --- |
+| **DNS** (Route 53) | Traduce el nombre del dominio en un destino. |
+| **CloudFront** | Distribuye el contenido y lo sirve desde la caché. |
+| **ALB** | Reparte las peticiones entre los servidores. |
+| **EC2** | Ejecuta la aplicación. |
+| **RDS** | Almacena los datos y se los proporciona a la aplicación. |
+
+**Comunicaciones necesarias.** En ese recorrido solo deben permitirse las comunicaciones necesarias. El security group de la EC2 admite el puerto de la aplicación cuando el origen de la regla es el security group del ALB. El security group de RDS admite el puerto del motor cuando el origen es el security group de la EC2: el **3306** si el motor es MySQL o MariaDB, y el **5432** si es PostgreSQL. RDS no se abre a `0.0.0.0/0`. Cómo se escribe cada regla, y por qué el origen es otro security group y no una IP concreta, está desarrollado en [seguridad por capas](#seguridad-por-capas).
+
+**Security group y NACL.** El security group tiene estado y la NACL no tiene estado. La explicación de esa diferencia, con la entrada, la salida y los puertos efímeros, está en [Security groups frente a NACL](#security-groups-frente-a-nacl).
+
+**La instancia encendida no basta.** Que la EC2 figure en marcha no demuestra que la petición pueda completarse. Si su security group no admite el tráfico del ALB, las comprobaciones de estado fallan, el destino queda marcado como *unhealthy* (no sano) y el balanceador lo deja fuera de servicio. La guía de resolución de problemas del ALB pide revisar el security group del destino cuando un destino registrado no entra en servicio. El código que ve el navegador depende de cómo falle la comunicación con ese destino. Un **502 Bad Gateway** indica que el destino ha devuelto una respuesta inválida o ha rechazado la conexión. Un **504 Gateway Timeout** indica que el destino no ha respondido a tiempo.
 
 En un lab corto, el enunciado a veces se queda en una EC2 pública con el puerto 80 abierto. En el entregable tienes que poder escribir qué has simplificado y por qué el enunciado lo hace: la diferencia entre ese laboratorio y el patrón del proyecto es parte de lo que se evalúa.
 
