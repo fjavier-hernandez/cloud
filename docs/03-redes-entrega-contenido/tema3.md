@@ -71,43 +71,93 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 ### VPC: tu red virtual en una región
 
-Una **[VPC](#vpc)** es una red virtual aislada de forma lógica dentro de **una** región de AWS. Tú defines el rango de direcciones **IP** (*Internet Protocol*, protocolo de internet), lo partes en [subredes](#subnet), decides las **[tablas de rutas](#tabla-de-rutas)** y eliges si esa red se conecta a internet. No es un edificio: es el espacio de direcciones y de rutas donde AWS coloca las interfaces de red de tus recursos. En el proyecto de DAW —front estático en [S3](../01-fundamentos-nube-aws/tema1.md#s3) (*Simple Storage Service*, almacenamiento de objetos), API en Node o PHP sobre [EC2](../01-fundamentos-nube-aws/tema1.md#ec2) (*Elastic Compute Cloud*, máquinas virtuales) y base de datos en [RDS](../01-fundamentos-nube-aws/tema1.md#rds) (*Relational Database Service*, servicio de bases de datos relacionales)— la VPC es el sitio donde viven el balanceador, las instancias de la API y la base. Si no la diseñas, o publicas puertos que no deberían verse desde internet, o la aplicación no llega a salir cuando tiene que descargar paquetes o llamar a un servicio externo.
+Una **[VPC](#vpc)** es una red virtual aislada de forma lógica dentro de **una** región de AWS. Es el espacio de direcciones y de rutas donde AWS coloca las interfaces de red de tus recursos, y no un edificio físico.
 
-El tamaño de ese espacio se escribe como un bloque **[CIDR](#cidr)**. La notación dice desde qué dirección empieza el bloque y cuántas direcciones contiene. Un ejemplo habitual en labs es `10.0.0.0/16`. El prefijo `/16` deja 16 bits para identificar direcciones dentro de la red, así que el bloque contiene 65 536 direcciones (de `10.0.0.0` a `10.0.255.255`). Ese margen te permite crear varias subredes sin quedarte sin sitio a mitad del proyecto. Dentro de ese bloque, una subred `10.0.1.0/24` contiene 256 direcciones. El `/24` cabe en una sola AZ y deja claro el límite de esa pieza; el `/16` de la VPC agrupa todos esos `/24`. El tamaño permitido para una subred IPv4 va de `/28` a `/16`, y los CIDR de las subredes no pueden solaparse. Un `/28` solo deja 11 direcciones asignables (16 menos las cinco que AWS reserva). Se queda corto en cuanto colocas el NAT Gateway, las interfaces del balanceador y una instancia.
+La VPC sirve para decidir, antes de lanzar nada, qué tráfico se publica hacia internet y cómo sale la instancia cuando es ella quien necesita internet. En ese espacio viven el balanceador, las instancias de la API y la base de datos. Descargar paquetes o llamar a un servicio externo depende de esa misma decisión de salida.
+
+El funcionamiento empieza por el rango de direcciones **IP** (*Internet Protocol*, protocolo de internet) que defines para la VPC. Ese rango se parte en [subredes](#subnet), y cada subred se asocia a una **[tabla de rutas](#tabla-de-rutas)** que elige el siguiente salto de cada destino. Con el rango, las subredes y las rutas queda fijado si la red se conecta a internet y por dónde lo hace.
+
+El tamaño de ese rango se escribe como un bloque **[CIDR](#cidr)**. La notación indica la dirección en la que empieza el bloque y, con el prefijo, cuántas direcciones contiene. Un ejemplo habitual en los labs es `10.0.0.0/16`: el prefijo `/16` deja 16 bits para identificar direcciones dentro de la red, así que el bloque contiene 65 536 direcciones, desde `10.0.0.0` hasta `10.0.255.255`.
+
+Ese margen permite crear varias subredes sin agotar el espacio a mitad del proyecto. Dentro del mismo bloque, una subred `10.0.1.0/24` contiene 256 direcciones. El `/24` cabe en una sola AZ y marca el límite de esa pieza, mientras que el `/16` de la VPC agrupa todos esos `/24`.
+
+El tamaño permitido para una subred IPv4 va de `/28` a `/16`, y los CIDR de las subredes no pueden solaparse. De las 16 direcciones de un `/28`, solo 11 quedan asignables, porque AWS reserva cinco en cada subred. La nota siguiente detalla cuáles son esas cinco direcciones y por qué un `/24` tampoco ofrece 256 instancias.
 
 !!! note "Direcciones que AWS reserva en cada subred"
-    En el CIDR de cada subred, AWS reserva cinco direcciones y no puedes asignarlas a un recurso. En `10.0.0.0/24` son estas: `10.0.0.0` (dirección de red), `10.0.0.1` (router de la VPC), `10.0.0.2` (reservada por AWS), `10.0.0.3` (reservada para uso futuro) y `10.0.0.255` (dirección de *broadcast*; la VPC no hace broadcast, pero la dirección se reserva igual). El servidor DNS de la VPC está en la base del CIDR principal más dos: en una VPC `10.0.0.0/16`, esa dirección es `10.0.0.2`. Por eso un `/24` no ofrece 256 instancias: ofrece 251 direcciones asignables. Cuéntalas al planificar.
+    En el CIDR de cada subred, AWS reserva cinco direcciones y no puedes asignarlas a un recurso. En `10.0.0.0/24` son las siguientes.
 
-Cada subred vive en **una** AZ y no puede cruzar dos zonas. La alta disponibilidad se consigue con al menos dos subredes, en dos AZ, no con un único `/24` más grande. Si toda la API está en una sola subred y esa AZ falla, no queda otra copia sirviendo tráfico dentro de la región.
+    * La dirección `10.0.0.0` es la dirección de red.
+    * La dirección `10.0.0.1` es el router de la VPC.
+    * La dirección `10.0.0.2` queda reservada por AWS.
+    * La dirección `10.0.0.3` queda reservada para un uso futuro.
+    * La dirección `10.0.0.255` es la dirección de *broadcast*. La VPC no hace broadcast, pero la dirección se reserva igual.
+
+    El servidor DNS de la VPC está en la base del CIDR principal más dos. En una VPC `10.0.0.0/16`, esa dirección es `10.0.0.2`. Por eso un `/24` no ofrece 256 instancias: ofrece 251 direcciones asignables. Cuéntalas al planificar.
+
+Cada subred vive en **una** AZ y no puede cruzar dos zonas. Por eso la alta disponibilidad se consigue con al menos dos subredes, en dos AZ, y no con un único `/24` más grande. La subred, tenga el prefijo que tenga, sigue entera en una sola zona.
+
+En el proyecto de DAW (Desarrollo de Aplicaciones Web) ese diseño se aplica a un conjunto ya conocido. El front estático está en [S3](../01-fundamentos-nube-aws/tema1.md#s3) (*Simple Storage Service*, almacenamiento de objetos). La API, en Node o PHP, corre sobre [EC2](../01-fundamentos-nube-aws/tema1.md#ec2) (*Elastic Compute Cloud*, máquinas virtuales), y la base de datos está en [RDS](../01-fundamentos-nube-aws/tema1.md#rds) (*Relational Database Service*, servicio de bases de datos relacionales). Dentro de la VPC viven el balanceador, las instancias de la API y la base.
+
+El error típico aparece cuando esa red no se diseña. O se publican puertos que no deberían verse desde internet, o la aplicación no llega a salir cuando tiene que descargar paquetes o llamar a un servicio externo.
+
+Otro error típico está en el tamaño del bloque. Un `/28` se queda corto en cuanto coinciden el NAT Gateway, las interfaces del balanceador y una instancia.
+
+Si toda la API está en una sola subred y esa AZ falla, no queda otra copia sirviendo tráfico dentro de la región. Una subred no cruza dos zonas, así que ampliar el `/24` no sustituye a la segunda AZ.
 
 #### Subred pública
 
-**Qué es en este caso.** Una subred es pública cuando su tabla de rutas tiene una ruta directa hacia un **[Internet Gateway](#igw)** (**IGW**, puerta de enlace a internet). En la práctica abres la subred, miras **Route table** y ves una fila `0.0.0.0/0` cuyo objetivo es un identificador `igw-…`. `0.0.0.0/0` significa cualquier destino que no encaje en una ruta más específica: para el tráfico de internet, el siguiente salto es esa puerta. Los recursos que deban ser alcanzables desde internet se colocan aquí y necesitan, además, una [IP pública](#ip-publica) o una [IP elástica](#ip-elastica). Llamarla pública no significa que esté sin cortafuegos: significa que la ruta hacia internet existe. El security group y la NACL siguen decidiendo qué puertos se aceptan.
+Una subred es pública cuando su tabla de rutas tiene una ruta directa hacia un **[Internet Gateway](#igw)** (**IGW**, puerta de enlace a internet). Esa condición se lee en la tabla, no en el nombre que tenga la subred en la consola.
 
-**En la práctica.** En el proyecto de DAW colocas aquí el **[ALB](#alb)** (*Application Load Balancer*, balanceador de carga de aplicación). El ALB pertenece a la familia **ELB** (*Elastic Load Balancing*, balanceo de carga elástico). El usuario llega por **HTTPS** (*Hypertext Transfer Protocol Secure*, HTTP seguro) al balanceador, normalmente al puerto 443. **HTTP** (*Hypertext Transfer Protocol*) es el protocolo de la web en claro, puerto 80, y solo lo dejas si el balanceador redirige ese puerto hacia HTTPS. El usuario no debería llegar directo al puerto en el que escucha tu API (en muchos proyectos, 3000 en Node u 8080 en otro servidor de aplicaciones) ni al puerto del motor de base de datos. En el caso habitual, dentro de una región y sin Local Zones ni Outposts, la consola te pide subredes en al menos dos AZ, y la VPC tiene que tener ya un Internet Gateway. Por eso el diseño del proyecto usa dos subredes públicas, una en cada zona, y no una sola.
+La ruta sirve para que los recursos que deban ser alcanzables desde internet puedan enviar y recibir ese tráfico. Esos recursos se colocan en la subred pública y necesitan, además, una [IP pública](#ip-publica) o una [IP elástica](#ip-elastica). El security group y la NACL siguen decidiendo qué puertos se aceptan, porque la ruta abre el camino y no los puertos.
+
+En la consola se comprueba así: abres la subred, miras **Route table** y localizas la fila `0.0.0.0/0` cuyo objetivo es un identificador `igw-…`. `0.0.0.0/0` significa cualquier destino que no encaje en una ruta más específica, de modo que el tráfico de internet toma como siguiente salto esa puerta.
+
+En el proyecto de DAW colocas aquí el **[ALB](#alb)** (*Application Load Balancer*, balanceador de carga de aplicación). El ALB pertenece a la familia **ELB** (*Elastic Load Balancing*, balanceo de carga elástico).
+
+**HTTP** (*Hypertext Transfer Protocol*, protocolo de transferencia de hipertexto) es el protocolo de la web en claro, en el puerto 80. El usuario llega por **HTTPS** (*Hypertext Transfer Protocol Secure*, HTTP seguro) al balanceador, normalmente al puerto 443, y el puerto 80 solo lo dejas si el balanceador redirige ese tráfico hacia HTTPS.
+
+Ese balanceador, en el caso habitual y dentro de una región, sin Local Zones ni Outposts, pide subredes en al menos dos AZ, y la VPC tiene que tener ya un Internet Gateway. Por eso el diseño del proyecto usa dos subredes públicas, una en cada zona, y no una sola.
+
+El error típico es dejar que el usuario llegue directo al puerto en el que escucha la API, en muchos proyectos el 3000 de Node o el 8080 de otro servidor de aplicaciones, o al puerto del motor de base de datos. Llamar pública a la subred significa que la ruta hacia internet existe, y el cortafuegos sigue cerrando esos puertos.
 
 #### Subred privada
 
-**Qué es en este caso.** Una subred es privada cuando su tabla de rutas **no** tiene una ruta directa al Internet Gateway. No basta con el nombre que le pongas en la consola: la prueba está en la tabla. Abres la subred, entras en su tabla de rutas y compruebas dos cosas. La primera es la ruta local, que AWS crea sola y no te deja borrar: el destino es el CIDR de la VPC (en el ejemplo, `10.0.0.0/16`) y el objetivo es `local`. Gracias a ella, la API y la base se hablan por IP privada sin salir de la VPC. La segunda es la ruta de internet. En una subred privada, `0.0.0.0/0` **no** apunta a un `igw-…`. Si la instancia necesita salir, esa fila apunta a un NAT Gateway (`nat-…`). Si no aparece ni el IGW ni el NAT, la subred está aislada de internet: puede hablar con el resto de la VPC y con nada más.
+Una subred es privada cuando su tabla de rutas **no** tiene una ruta directa al Internet Gateway. No basta el nombre que le pongas en la consola, porque la prueba está en la tabla.
 
-Esa ausencia de ruta hacia el IGW cambia qué conexiones son posibles. AWS no anuncia a internet el rango de direcciones de la subred, así que la IP privada de la instancia (una dirección del CIDR, por ejemplo `10.0.2.25`) no es un destino al que alguien de fuera pueda encaminar un paquete. Una conexión **no solicitada** es la que abre un equipo de internet hacia tu instancia: un escáner que prueba el puerto 22, o un cliente que intenta el puerto 3306. Ese paquete no tiene un camino de entrada, porque no hay ruta desde el Internet Gateway hasta esta subred y la instancia no ofrece una IP pública alcanzable.
+Sirve para que la API y la base se hablen por IP privada, sin salir de la VPC, y para que una instancia pueda iniciar salidas a internet sin quedar como destino alcanzable desde fuera.
 
-La **salida que inicia la instancia** es el caso contrario. La EC2 de la API ejecuta ella el primer paquete: aplica parches del **SO** (sistema operativo), lanza `npm install` contra el registro de paquetes, o llama a una API externa de pagos. El destino de ese paquete no está dentro de `10.0.0.0/16`, así que coincide con `0.0.0.0/0` y la tabla lo entrega al NAT Gateway. El equipo de internet solo **responde** a una conexión que tu instancia ya abrió. No puede aprovechar esa respuesta para abrir, por su cuenta, una sesión nueva hacia el 22 o el 3306.
+La comprobación mira dos rutas. La primera es la ruta local, que AWS crea sola y no te deja borrar: el destino es el CIDR de la VPC, en el ejemplo `10.0.0.0/16`, y el objetivo es `local`. Gracias a ella, la API y la base se hablan por IP privada. La segunda es la ruta de internet: en una subred privada, `0.0.0.0/0` **no** apunta a un `igw-…`.
 
-**En la práctica.** En el proyecto de DAW, la API en EC2 y la base en RDS van en subredes privadas, repetidas en dos AZ si buscas que el servicio sobreviva al fallo de una zona. El ALB, en las subredes públicas, es quien recibe a los usuarios. Cómo se encadenan los security groups de ese camino se detalla en [seguridad por capas](#seguridad-por-capas). La subred privada no sustituye al cortafuegos: si un día la tabla apuntara `0.0.0.0/0` al IGW, la subred dejaría de ser privada aunque el security group siguiera restrictivo. Por eso el criterio de comprobación es siempre la tabla de rutas, no el nombre de la subred.
+Si la instancia necesita salir, esa fila apunta a un NAT Gateway (`nat-…`). Si no aparece ni el IGW ni el NAT, la subred está aislada de internet: puede hablar con el resto de la VPC y con nada más.
+
+AWS no anuncia a internet el rango de direcciones de la subred, así que la IP privada de la instancia, por ejemplo `10.0.2.25`, no es un destino al que alguien de fuera pueda encaminar un paquete.
+
+Una conexión **no solicitada** es la que abre un equipo de internet hacia tu instancia, como un escáner que prueba el puerto 22 o un cliente que intenta el puerto 3306. Ese paquete no tiene camino de entrada, porque no hay ruta desde el Internet Gateway hasta esta subred y la instancia no ofrece una IP pública alcanzable.
+
+La salida que inicia la instancia es el caso contrario. La EC2 de la API ejecuta ella el primer paquete: aplica parches del **SO** (sistema operativo), lanza `npm install` contra el registro de paquetes o llama a una API externa de pagos. El destino de ese paquete no está dentro de `10.0.0.0/16`, así que coincide con `0.0.0.0/0` y la tabla lo entrega al NAT Gateway.
+
+El equipo de internet solo **responde** a una conexión que tu instancia ya abrió. No puede aprovechar esa respuesta para abrir, por su cuenta, una sesión nueva hacia el 22 o el 3306.
+
+En el proyecto de DAW, la API en EC2 y la base en RDS van en subredes privadas, repetidas en dos AZ si el servicio tiene que sobrevivir al fallo de una zona. El ALB, en las subredes públicas, es quien recibe a los usuarios. Cómo se encadenan los security groups de ese camino se detalla en [seguridad por capas](#seguridad-por-capas).
+
+El error típico es fiarse del nombre de la subred. Si la tabla apunta `0.0.0.0/0` al IGW, la subred deja de ser privada aunque el security group siga restrictivo, porque la subred privada no sustituye al cortafuegos. El criterio de comprobación es siempre la tabla de rutas, no la etiqueta de la consola.
 
 #### Tabla de rutas, Internet Gateway y NAT Gateway
 
-**Qué es en este caso — tabla de rutas.** La [tabla de rutas](#tabla-de-rutas) es la lista de reglas que decide el siguiente salto de cada destino. Cada subred está asociada a una tabla (si no eliges otra, usa la tabla principal de la VPC). Una ruta tiene un destino, escrito en CIDR, y un objetivo: `local`, un Internet Gateway, un NAT Gateway u otra puerta que ya hayas creado. La ruta más específica gana. El tráfico entre IPs de la VPC usa la ruta local; el tráfico hacia internet usa `0.0.0.0/0`.
+La [tabla de rutas](#tabla-de-rutas) es la lista de reglas que decide el siguiente salto de cada destino. Cada subred está asociada a una tabla; si no eliges otra, usa la tabla principal de la VPC.
 
-**En la práctica — tabla de rutas.** Estas dos tablas son el diseño del proyecto, con una VPC `10.0.0.0/16`. La subred pública queda así:
+Sirve para separar el tráfico interno del tráfico de internet. El tráfico entre IP de la VPC usa la ruta local, y el tráfico hacia internet usa `0.0.0.0/0`. Sin esa lista, la subred no sabría si el siguiente salto es la propia VPC, el Internet Gateway o el NAT Gateway.
+
+Cada ruta tiene un destino, escrito en CIDR, y un objetivo, que puede ser `local`, un Internet Gateway, un NAT Gateway u otra puerta que ya hayas creado. La ruta más específica gana, así que un destino dentro de `10.0.0.0/16` usa `local` y no la ruta `0.0.0.0/0`.
+
+En el proyecto, con una VPC `10.0.0.0/16`, la subred pública queda así.
 
 | Destino | Objetivo | Qué hace con el paquete |
 | --- | --- | --- |
 | `10.0.0.0/16` | `local` | Lo entrega a otra IP privada de la VPC. El ALB llega así a la API. |
 | `0.0.0.0/0` | `igw-…` | El resto sale o entra por el Internet Gateway. |
 
-La subred privada, cuando la API necesita salir a internet, queda así:
+La subred privada, cuando la API necesita salir a internet, queda así.
 
 | Destino | Objetivo | Qué hace con el paquete |
 | --- | --- | --- |
@@ -116,23 +166,49 @@ La subred privada, cuando la API necesita salir a internet, queda así:
 
 El error habitual es llamar privada a una subred que todavía tiene `0.0.0.0/0` hacia el IGW. Otro es crear el Internet Gateway y olvidar asociar la tabla a la subred correcta: el recurso existe, pero la subred sigue usando otra tabla. La comprobación es siempre **Subnet → Route table**, en la subred concreta, no en el dibujo del asistente.
 
-**Qué es en este caso — Internet Gateway.** El [IGW](#igw) es la puerta de la VPC hacia internet para los recursos que tienen ruta hasta él e IP pública. Es un componente redundante y de alta disponibilidad dentro de la región. Cada VPC puede tener un solo IGW asociado. Sin IGW, y sin la ruta que apunta a él, una subred no es pública aunque el diagrama de la práctica la pinte de otro color.
+El [IGW](#igw) es la puerta de la VPC hacia internet para los recursos que tienen ruta hasta él e IP pública. Es un componente redundante y de alta disponibilidad dentro de la región, y cada VPC puede tener un solo IGW asociado.
 
-**En la práctica — IGW.** Adjuntas el IGW a la VPC y pones la ruta por defecto de las subredes públicas con objetivo en ese IGW. Por ahí entra el usuario hasta el ALB y por ahí sale el propio balanceador cuando tiene que responder. La base de datos no lleva IP pública ni ruta al IGW: el motor no se administra abriéndolo a internet. El ALB orientado a internet solo se puede crear en una VPC que ya tenga esta puerta.
+Sirve para que la subred pública tenga una salida y una entrada reales. Sin IGW, y sin la ruta que apunta a él, una subred no es pública aunque el diagrama de la práctica la pinte de otro color.
 
-**Qué es en este caso — NAT Gateway.** Un **[NAT Gateway](#nat-gateway)** (*Network Address Translation*, traducción de direcciones de red) permite que las instancias de una subred **privada** inicien conexiones **salientes** hacia internet. Sirve para tres tareas concretas del proyecto de DAW: aplicar parches del SO de la EC2, ejecutar `npm install` (o el equivalente de tu lenguaje) y llamar a una API externa. No publica tu API. No es un balanceador, no tiene un nombre DNS al que apunte el usuario y no puedes asociarle un security group: el filtrado de la aplicación sigue estando en los security groups del ALB, de la EC2 y de RDS.
+Adjuntas el IGW a la VPC y pones la ruta por defecto de las subredes públicas con objetivo en ese IGW. Por ahí entra el usuario hasta el ALB y por ahí sale el propio balanceador cuando tiene que responder. El ALB orientado a internet solo se puede crear en una VPC que ya tenga esta puerta.
 
-El NAT que usas para salir a internet es un NAT **público**. Lo creas en una subred pública porque necesita llegar él mismo al Internet Gateway: su subred tiene `0.0.0.0/0` hacia el `igw-…`, y al NAT se le asocia una IP elástica para que internet vea un origen público estable. Si lo colocaras en la subred privada, su propio tráfico hacia internet no tendría puerta de salida y no podría traducir las conexiones de las instancias. La traducción funciona así: la EC2 abre la conexión, el NAT la reenvía hacia internet usando su IP elástica como origen, recuerda esa conexión y, cuando llega la respuesta, se la devuelve a la IP privada de la instancia. Quien está fuera responde; no inicia.
+En el proyecto de DAW, la base de datos no lleva IP pública ni ruta al IGW. El motor no se administra abriéndolo a internet: quien llega desde fuera habla con el ALB, y la base solo recibe el tráfico que la API le envía por la ruta local.
 
-**En la práctica — NAT.** En la tabla de la subred privada, la ruta por defecto queda literalmente así: destino `0.0.0.0/0`, objetivo el identificador del NAT (`nat-…`). Con eso la API puede actualizar paquetes y llamar a servicios externos sin tener una ruta al IGW y sin exponer el puerto 22. Cada NAT Gateway se crea en **una** AZ, la de la subred pública donde lo colocas, y dentro de esa zona AWS lo implementa con redundancia. No cubre el fallo de toda la AZ. Si las instancias de otra zona comparten ese único NAT y la zona del NAT cae, esas instancias pierden la salida a internet, aunque su propia AZ siga en pie. Para evitarlo creas un NAT en la subred pública de cada AZ y haces que la tabla privada de esa misma AZ apunte a su NAT, no al de la otra zona.
+El error típico es dar IP pública a la base para administrarla desde el portátil. También lo es dar por pública una subred cuyo diagrama no tiene ni el IGW asociado ni la ruta que apunta a él.
 
-El NAT Gateway se factura por cada hora en la que está disponible y por cada gigabyte (GB) que procesa, con independencia de si el tráfico va a internet o a otro servicio. Una hora empezada se cobra como hora completa, y además se aplican los cargos habituales de transferencia de datos de AWS por el tráfico que sale a través de él. El precio por hora y por GB depende de la región; la cifra concreta está en la página de precios de Amazon VPC, no en una tarifa fija de estos apuntes. Mientras el NAT exista, esa hora sigue contando, así que al terminar el lab lo borras junto con el resto de recursos. Si el grueso del tráfico de la API va a S3 en la misma región (por ejemplo, al subir las imágenes del proyecto), un [VPC endpoint](#vpc-endpoint) de tipo *gateway* hacia S3 evita pasar esos bytes por el NAT: ese tipo de punto de enlace no tiene cargo por hora ni por GB procesado.
+Un **[NAT Gateway](#nat-gateway)** permite que las instancias de una subred privada inicien conexiones salientes hacia internet. No publica la API, no es un balanceador, no tiene un nombre DNS al que apunte el usuario y no puedes asociarle un security group. El filtrado de la aplicación sigue en los security groups del ALB, de la EC2 y de RDS.
+
+En el proyecto de DAW sirve para tres salidas que inicia la propia instancia: aplicar parches del SO de la EC2, ejecutar `npm install` (o el equivalente de tu lenguaje) y llamar a una API externa.
+
+El NAT que usas para salir a internet es un NAT público. Lo creas en una subred pública porque necesita llegar él mismo al Internet Gateway: su subred tiene `0.0.0.0/0` hacia el `igw-…`, y al NAT se le asocia una IP elástica para que internet vea un origen público estable. Si lo colocaras en la subred privada, su propio tráfico hacia internet no tendría puerta de salida y no podría traducir las conexiones de las instancias.
+
+La traducción sigue un orden fijo. La EC2 abre la conexión, el NAT la reenvía hacia internet usando su IP elástica como origen, recuerda esa conexión y, cuando llega la respuesta, se la devuelve a la IP privada de la instancia. Quien está fuera responde; no inicia.
+
+En la tabla de la subred privada, la ruta por defecto queda así: destino `0.0.0.0/0`, objetivo el identificador del NAT (`nat-…`). Con eso la API puede actualizar paquetes y llamar a servicios externos sin tener una ruta al IGW y sin exponer el puerto 22.
+
+Cada NAT Gateway se crea en **una** AZ, la de la subred pública donde lo colocas, y dentro de esa zona AWS lo implementa con redundancia. No cubre el fallo de toda la AZ. Si las instancias de otra zona comparten ese único NAT y la zona del NAT cae, esas instancias pierden la salida a internet, aunque su propia AZ siga en pie.
+
+Para evitarlo creas un NAT en la subred pública de cada AZ y haces que la tabla privada de esa misma AZ apunte a su NAT, no al de la otra zona.
+
+El NAT Gateway se factura por cada hora en la que está disponible y por cada gigabyte (GB) que procesa, con independencia de si el tráfico va a internet o a otro servicio. Una hora empezada se cobra como hora completa, y además se aplican los cargos habituales de transferencia de datos de AWS por el tráfico que sale a través de él.
+
+El precio por hora y por GB depende de la región. La cifra concreta está en la página de precios de Amazon VPC, no en una tarifa fija de estos apuntes.
+
+Mientras el NAT exista, esa hora sigue contando, así que al terminar el lab lo borras junto con el resto de recursos.
+
+Si el grueso del tráfico de la API va a S3 en la misma región, por ejemplo al subir las imágenes del proyecto, un [VPC endpoint](#vpc-endpoint) de tipo *gateway* hacia S3 evita pasar esos bytes por el NAT. Ese tipo de punto de enlace no tiene cargo por hora ni por GB procesado.
+
+El error típico es usar el NAT como si publicara la API, igual que un balanceador, o dejar un solo NAT compartido por todas las AZ.
 
 Si el enunciado del lab no crea un NAT, anótalo en el entregable. O la instancia privada no tiene salida a internet, o el servidor está en una subred pública para simplificar el ejercicio. Las dos lecturas son distintas y las dos se pueden explicar.
 
 #### Caso DAW: ALB en pública, API y RDS en privada
 
-Un diseño sólido para el proyecto, aunque el lab del módulo lo simplifique, queda así. Hay dos subredes públicas, una en cada AZ, y en ellas viven el ALB orientado a internet y, si hace falta salida, un NAT Gateway por zona. Hay dos subredes privadas en esas mismas AZ, y en ellas viven las EC2 de la API (Node o PHP) y RDS con MySQL, MariaDB o PostgreSQL. El usuario solo habla con el ALB. La API solo acepta tráfico que viene del balanceador. RDS solo acepta tráfico que viene de la API. El primer lab de Academy a menudo deja un único servidor HTTP en una subred pública: sirve para aprender rutas y security groups. En el entregable debes poder decir qué pieza de este patrón has practicado y cuál has dejado fuera. Si el lab usa una sola AZ, es una simplificación del ejercicio, no el diseño de un proyecto que tenga que sobrevivir al fallo de una zona.
+Un diseño sólido para el proyecto, aunque el lab del módulo lo simplifique, reparte la VPC en dos pares de subredes. Hay dos subredes públicas, una en cada AZ, y en ellas viven el ALB orientado a internet y, si hace falta salida, un NAT Gateway por zona. Hay dos subredes privadas en esas mismas AZ, y en ellas viven las EC2 de la API (Node o PHP) y RDS con MySQL, MariaDB o PostgreSQL.
+
+Ese reparto sirve para que cada pieza hable solo con la anterior. El usuario solo habla con el ALB. La API solo acepta tráfico que viene del balanceador. RDS solo acepta tráfico que viene de la API. Así la base y el proceso de la aplicación no quedan publicados por el hecho de existir dentro de la VPC.
+
+El esquema siguiente recoge ese camino, reducido a una AZ.
 
 ``` mermaid
 flowchart TB
@@ -168,42 +244,70 @@ El esquema muestra una sola AZ para que se lea el camino. En el proyecto repites
 <figcaption>VPC con subredes privadas (patrón de la guía). Fuente: Amazon VPC User Guide (AWS).</figcaption>
 </figure>
 
+La tabla siguiente reúne cada pieza, la función que cumple y el error que más se repite al usarla.
+
 | Pieza | Para qué sirve | Error típico |
 | --- | --- | --- |
-| **Subred** | Parte el CIDR de la VPC y queda entera en una sola AZ. | Tratar una subred como si cruzara dos AZ. |
-| **Tabla de rutas** | Elige el siguiente salto: local, IGW o NAT. | Dar por privada una subred que aún apunta al IGW. |
-| **Internet Gateway** | Da a la VPC una puerta a internet para quien tenga ruta e IP pública. | Poner la base de datos con IP pública para administrarla desde el portátil. |
-| **NAT Gateway** | Deja salir a internet a la subred privada sin aceptar conexiones nuevas desde fuera. | Usarlo como si publicara la API, igual que un balanceador. |
-| **Security group** | Filtra en la interfaz de red y recuerda la conexión. | Abrir el puerto 22 a `0.0.0.0/0`. |
-| **NACL** | Filtra en la subred entera y no recuerda la conexión. | Permitir la ida y olvidar la regla de vuelta. |
+| **Subred** | La subred parte el CIDR de la VPC y queda entera en una sola AZ. | El error típico es tratar una subred como si cruzara dos AZ. |
+| **Tabla de rutas** | La tabla elige el siguiente salto, que puede ser local, el IGW o el NAT. | El error típico es dar por privada una subred que aún apunta al IGW. |
+| **Internet Gateway** | El IGW da a la VPC una puerta a internet para quien tenga ruta e IP pública. | El error típico es poner la base de datos con IP pública para administrarla desde el portátil. |
+| **NAT Gateway** | El NAT deja salir a internet a la subred privada sin aceptar conexiones nuevas desde fuera. | El error típico es usarlo como si publicara la API, igual que un balanceador. |
+| **Security group** | El security group filtra en la interfaz de red y recuerda la conexión. | El error típico es abrir el puerto 22 a `0.0.0.0/0`. |
+| **NACL** | La NACL filtra en la subred entera y no recuerda la conexión. | El error típico es permitir la ida y olvidar la regla de vuelta. |
+
+El examen **CLF-C02** (*AWS Certified Cloud Practitioner*) pide reconocer ese patrón. En la clase hay que dibujarlo y justificarlo antes de abrir el lab.
 
 | Examen CLF-C02 | Clase DAW / proyecto |
 | --- | --- |
-| Una subred ocupa una AZ. La pública tiene ruta al IGW. La privada sale con NAT. | Dibujar el ALB en subredes públicas y la API con RDS en privadas antes de abrir el lab. |
-| Distinguir el IGW del NAT Gateway. | Justificar en el entregable por qué la base de datos no tiene IP pública. |
-| Elegir un CIDR de VPC y otro de subred que quepan uno dentro del otro. | Explicar por qué `10.0.0.0/16` deja sitio y `10.0.1.0/24` acota una AZ. |
+| Una subred ocupa una AZ. La pública tiene ruta al IGW. La privada sale con NAT. | En el proyecto se dibuja el ALB en subredes públicas y la API con RDS en privadas antes de abrir el lab. |
+| Hay que distinguir el IGW del NAT Gateway. | En el entregable se justifica por qué la base de datos no tiene IP pública. |
+| Hay que elegir un CIDR de VPC y otro de subred que quepan uno dentro del otro. | En el proyecto se explica por qué `10.0.0.0/16` deja sitio y `10.0.1.0/24` acota una AZ. |
+
+El error típico del lab es tomar la simplificación por el diseño del proyecto. Si el lab usa una sola AZ, o un único servidor HTTP en una subred pública, eso sirve para aprender rutas y security groups, y no es el diseño de un servicio que tenga que sobrevivir al fallo de una zona. En el entregable hay que decir qué pieza de este patrón se ha practicado y cuál se ha dejado fuera.
 
 <a id="seguridad-por-capas"></a>
 
 #### Seguridad por capas: del ALB a RDS
 
-La subred privada evita un camino de entrada desde internet. Los security groups deciden, además, **quién** puede hablar con cada pieza dentro de la VPC. En el proyecto de DAW la cadena tiene tres grupos, y cada regla de entrada nombra el puerto y el origen.
+La subred privada evita un camino de entrada desde internet. Los security groups deciden, además, quién puede hablar con cada pieza dentro de la VPC. En el proyecto la cadena tiene tres grupos, y cada regla de entrada nombra el puerto y el origen.
+
+Esa cadena sirve para que el único origen amplio sea la web. El usuario entra por el balanceador, la API solo acepta a ese balanceador y la base solo acepta a la API. El puerto y el origen van juntos en cada regla, de modo que abrir un puerto no lo abre para cualquier dirección.
 
 El security group del ALB acepta el tráfico de los usuarios. La regla de entrada habitual es TCP (*Transmission Control Protocol*, protocolo de control de transmisión) en el puerto 443 desde `0.0.0.0/0`, porque cualquier cliente de internet debe poder abrir la web. El puerto 80 se añade solo si el balanceador redirige HTTP a HTTPS. Este grupo es el único que necesita un origen tan amplio, y solo en los puertos de la web.
 
-El security group de la API no repite esa apertura. Su regla de entrada permite el puerto de la aplicación, y el origen de la regla es **el security group del ALB**, no una dirección IP. AWS lo permite: en el campo de origen puedes escribir un CIDR (una IP o un rango) o el identificador de otro security group. Cuando el origen es otro grupo, la regla afecta a las interfaces de red que lo tienen asociado, y el tráfico se autoriza hacia sus **IP privadas**, no hacia una IP pública que pudiera cambiar. Encaja con el modo en que trabaja el ALB: envía las peticiones a los destinos usando direcciones privadas, así que la EC2 de la API no necesita IP pública para recibirlas. También encaja con el día a día del proyecto. Si el balanceador sustituye un nodo, la IP de ese nodo puede cambiar y el identificador del security group sigue siendo válido. Pegar en la regla la IP concreta de un nodo te obligaría a editarla en cada cambio. La misma regla tiene que cubrir el puerto del *health check* (la comprobación con la que el ALB decide si el destino está sano), que en este diseño coincide con el puerto de la aplicación.
+El security group de la API no repite esa apertura. Su regla de entrada permite el puerto de la aplicación, y el origen de la regla es el security group del ALB, no una dirección IP. En el campo de origen se puede escribir un CIDR, una IP o un rango, o el identificador de otro security group.
 
-El security group de RDS cierra la cadena. La regla de entrada permite el puerto del motor **solo** desde el security group de la API. En MySQL y MariaDB ese puerto es el **3306**. En PostgreSQL es el **5432**. El origen, otra vez, es un security group y no una IP: si sustituyes la EC2 de la API, la base sigue aceptando a quien lleve el grupo de la API y deja de aceptar a la instancia que ya no existe. RDS permanece en la subred privada, sin IP pública.
+Cuando el origen es otro grupo, la regla afecta a las interfaces de red que lo tienen asociado, y el tráfico se autoriza hacia sus IP privadas, no hacia una IP pública que pudiera cambiar. Encaja con el modo en que trabaja el ALB: envía las peticiones a los destinos usando direcciones privadas, así que la EC2 de la API no necesita IP pública para recibirlas.
 
-El puerto **22** y el puerto **3306** no se abren a `0.0.0.0/0`. El 22 es SSH, la administración remota del SO. El 3306 es el motor MySQL o MariaDB, donde están los datos del proyecto. `0.0.0.0/0` significa cualquier origen IPv4 de internet. Quien deje esos puertos así publica la consola de administración y la base de datos a escáneres que recorren internet y prueban contraseñas. La aplicación ya tiene su puerta pública, que es el 443 del ALB. SSH y el motor no forman parte de esa puerta. Si los publicas igual, dejas de tener una cadena y pasas a tener dos servicios alcanzables desde cualquier origen de internet.
+También encaja con el día a día del proyecto. Si el balanceador sustituye un nodo, la IP de ese nodo puede cambiar y el identificador del security group sigue siendo válido. Pegar en la regla la IP concreta de un nodo obligaría a editarla en cada cambio. La misma regla tiene que cubrir el puerto del *health check* (la comprobación con la que el ALB decide si el destino está sano), que en este diseño coincide con el puerto de la aplicación.
 
-Cuando necesites administrar la EC2 o consultar la base, hay tres alternativas. Eliges según cuánto dura el acceso y qué te deja crear el entorno.
+El security group de RDS cierra la cadena. La regla de entrada permite el puerto del motor solo desde el security group de la API. En MySQL y MariaDB ese puerto es el 3306. En PostgreSQL es el 5432.
 
-El **servidor bastión** es una EC2 pequeña en la subred pública que solo sirve de salto. Tu portátil abre SSH (22), o **RDP** (*Remote Desktop Protocol*, protocolo de escritorio remoto, puerto 3389) si la instancia es Windows, contra el bastión. Desde ahí abres otra sesión hacia la IP privada de la API. Conviene cuando el acceso es puntual y el lab te deja crear esa instancia de salto. El security group del bastión admite el 22 solo desde tu IP. El de la API admite el 22 solo desde el security group del bastión. El bastión es una EC2 más: hay que parchear su SO, igual que el de la API.
+El origen, otra vez, es un security group y no una IP. Si sustituyes la EC2 de la API, la base sigue aceptando a quien lleve el grupo de la API y deja de aceptar a la instancia que ya no existe. RDS permanece en la subred privada, sin IP pública.
 
-La **VPN de cliente** abre un túnel cifrado desde tu portátil hasta la VPC, de modo que llegas a las IP privadas sin publicar el 22 ni el 3306. El portátil no recibe una dirección del CIDR de la VPC: entra por el túnel y, desde ahí, el enrutado le deja alcanzar esas IP. Conviene cuando varias personas tienen que administrar la API o usar un cliente SQL durante un proyecto que dura semanas, no durante una sola sesión de lab. Montarla es más trabajo que un bastión. La VPN de sitio a sitio, la que une una red entera (el centro del cliente) con la VPC, es otro caso y se retoma en el [enlace híbrido](#enlace-hibrido). El lab del Módulo 5 no te pide crear ninguna de las dos.
+Cuando hay que administrar la EC2 o consultar la base, hay tres caminos, y se elige según cuánto dura el acceso y qué deja crear el entorno. Ninguno de los tres publica el 22 ni el 3306 a internet.
 
-**Session Manager** es una capacidad de AWS Systems Manager. Abre un shell en la EC2 desde la consola o desde la AWS CLI (*Command Line Interface*, la herramienta de terminal) sin puerto de entrada, sin bastión y sin repartir claves SSH. Conviene cuando quieres administrar sin exponer el 22. La instancia tiene que llevar el agente de Systems Manager y poder iniciar ella una conexión HTTPS (puerto 443) hacia los puntos de enlace de ese servicio, ya sea por el NAT Gateway o por un VPC endpoint. También necesita un [rol](../02-seguridad-iam/tema2.md#rol) de IAM (*Identity and Access Management*, gestión de identidades y accesos) que autorice a Systems Manager. Cómo se escribe un rol y qué es el [mínimo privilegio](../02-seguridad-iam/tema2.md#minimo-privilegio) está explicado en el Tema 2; aquí solo se usa esa pieza, no se vuelve a desarrollar. En el Learner Lab de AWS Academy los permisos del rol que ya trae el entorno, y el catálogo de servicios, pueden no coincidir con una cuenta propia. No des por hecho que Session Manager, una VPN de cliente o un bastión adicional estén disponibles: si el enunciado no los abre, no cubras el hueco abriendo el 22 o el 3306 a `0.0.0.0/0`.
+El **servidor bastión** es una EC2 pequeña en la subred pública que solo sirve de salto. Tu portátil abre SSH en el puerto 22, o **RDP** (*Remote Desktop Protocol*, protocolo de escritorio remoto) en el puerto 3389 si la instancia es Windows, contra el bastión. Desde ahí abres otra sesión hacia la IP privada de la API.
+
+Conviene cuando el acceso es puntual y el lab deja crear esa instancia de salto. El security group del bastión admite el 22 solo desde tu IP. El de la API admite el 22 solo desde el security group del bastión. El bastión es una EC2 más, así que hay que parchear su SO igual que el de la API.
+
+La VPN de cliente abre un túnel cifrado desde tu portátil hasta la VPC, de modo que llegas a las IP privadas sin publicar el 22 ni el 3306. El portátil no recibe una dirección del CIDR de la VPC: entra por el túnel y, desde ahí, el enrutado le deja alcanzar esas IP.
+
+Conviene cuando varias personas tienen que administrar la API o usar un cliente SQL durante un proyecto que dura semanas, no durante una sola sesión de lab. Montarla es más trabajo que un bastión.
+
+La VPN de sitio a sitio, la que une una red entera (el centro del cliente) con la VPC, es otro caso y se retoma en el [enlace híbrido](#enlace-hibrido). El lab del Módulo 5 no te pide crear ninguna de las dos.
+
+**Session Manager** es una capacidad de AWS Systems Manager. Abre un shell en la EC2 desde la consola o desde la AWS CLI (*Command Line Interface*, la herramienta de terminal) sin puerto de entrada, sin bastión y sin repartir claves SSH. Conviene cuando quieres administrar sin exponer el 22.
+
+La instancia tiene que llevar el agente de Systems Manager y poder iniciar ella una conexión HTTPS, en el puerto 443, hacia los puntos de enlace de ese servicio, ya sea por el NAT Gateway o por un VPC endpoint. También necesita un [rol](../02-seguridad-iam/tema2.md#rol) de IAM (*Identity and Access Management*, gestión de identidades y accesos) que autorice a Systems Manager.
+
+Cómo se escribe un rol y qué es el [mínimo privilegio](../02-seguridad-iam/tema2.md#minimo-privilegio) está explicado en el Tema 2. Aquí solo se usa esa pieza, y no se vuelve a desarrollar.
+
+El error típico es abrir el puerto 22 y el puerto 3306 a `0.0.0.0/0`. El 22 es SSH, la administración remota del SO. El 3306 es el motor MySQL o MariaDB, donde están los datos del proyecto. `0.0.0.0/0` significa cualquier origen IPv4 de internet, y dejar esos puertos así publica la consola de administración y la base a escáneres que recorren internet y prueban contraseñas.
+
+La aplicación ya tiene su puerta pública, que es el 443 del ALB. SSH y el motor no forman parte de esa puerta. Si los publicas igual, dejas de tener una cadena y pasas a tener dos servicios alcanzables desde cualquier origen de internet.
+
+En el Learner Lab de AWS Academy los permisos del rol que ya trae el entorno, y el catálogo de servicios, pueden no coincidir con una cuenta propia. No des por hecho que Session Manager, una VPN de cliente o un bastión adicional estén disponibles: si el enunciado no los abre, no cubras el hueco abriendo el 22 o el 3306 a `0.0.0.0/0`.
 
 ### Security groups frente a NACL
 
