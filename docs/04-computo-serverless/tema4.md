@@ -5,7 +5,7 @@ description: EC2, AMI, tipos de instancia, Lambda, ECS/EKS/Fargate y elección d
 
 # Tema 4. Cómputo: EC2, Lambda y contenedores
 
-En AWS hay tres maneras de ejecutar código: una **máquina virtual** ([EC2](#ec2) —*Elastic Compute Cloud*, nube elástica de cómputo—), un **contenedor** ([ECS](#ecs) / [Fargate](#fargate)) y una **función** ([Lambda](#lambda)). Las tres pueden llevar la API de un proyecto de DAW; cambian quién mantiene el entorno, cómo pagas y si puedes dejar un proceso escuchando un puerto todo el día. Meter una API con WebSocket persistente en Lambda «porque es serverless», o dejar un `t3.large` encendido las veinticuatro horas para un cron de treinta segundos, es el fallo habitual del proyecto, no el desconocer los logos. Este tema corresponde al **Módulo 6** de *AWS Academy Cloud Foundations*. Los términos clave están en el [glosario](#glosario).
+En AWS hay tres maneras de ejecutar código: una **máquina virtual** ([EC2](#ec2) —*Elastic Compute Cloud*, nube elástica de cómputo—), un **contenedor** ([ECS](#ecs) / [Fargate](#fargate)) y una **función** ([Lambda](#lambda)). Las tres pueden llevar la API de un proyecto de DAW, y lo que cambia entre ellas es quién mantiene el entorno, cómo pagas y si puedes dejar un proceso escuchando un puerto todo el día. Por eso el fallo habitual en un proyecto no es confundir los logotipos de los servicios, sino elegir mal: meter en Lambda una API con WebSocket persistente «porque es serverless», o dejar un `t3.large` encendido las veinticuatro horas para un cron que dura treinta segundos. Este tema corresponde al **Módulo 6** de *AWS Academy Cloud Foundations*. Los términos clave están en el [glosario](#glosario).
 
 !!! tip "Al empezar"
     Empieza por el [cuestionario inicial](#cuestionario-inicial). La red del Tema 3 ya sitúa la instancia; aquí eliges **dónde corre** el proceso y cuánto pagas por dejarlo encendido.
@@ -25,7 +25,7 @@ El balanceo y Auto Scaling se desarrollan en el [Tema 8](../08-escalado-monitore
 
 * [EC2](#ec2): [AMI](#ami), familia de instancia, red, compra (On-Demand, Spot, Savings Plans).
 * Lambda: evento, duración, coste por invocación.
-* ECS, EKS, Fargate: contenedores con o sin nodos cuyo SO tú parcheas.
+* ECS, EKS, Fargate: contenedores con o sin nodos cuyo sistema operativo (SO) tú parcheas.
 * Elastic Beanstalk, Lightsail: nombres; cuándo simplifican.
 
 ### Programación de aula (orientativa)
@@ -58,7 +58,7 @@ Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falt
 
 3. **Spot** es un **modelo de compra** (capacidad interrumpible más barata), no un tamaño `t3.micro`.
 
-4. Si no **terminate** (o min=0), el lab **sigue facturando** horas, discos y balancers olvidados.
+4. Si no **terminate** (o min=0), el lab **sigue facturando** horas, discos y balanceadores olvidados.
 
 5. En una **VM** gestionas (más) el SO y el proceso; en un **contenedor** empaquetas la app y, con Fargate, dejas de parchear nodos EC2 del clúster.
 
@@ -84,7 +84,7 @@ La AMI no es la instancia encendida: es la receta (SO y software base). Si cada 
 </figure>
 
 !!! tip "Crear tu propia AMI"
-    Cuando la instancia ya tiene el SO y el software listos, puedes **Actions → Image and templates → Create image**. Así lanzas clones iguales sin reinstalar a mano. En el formulario conviene dejar el *reboot* para un *snapshot* coherente.
+    Cuando la instancia ya tiene el SO y el software listos, puedes crear la imagen desde **Actions → Image and templates → Create image**. Así lanzas clones iguales sin reinstalar a mano. En el formulario conviene dejar activado el reinicio (*reboot*), porque así el *snapshot* del disco se toma en un estado coherente.
 
 <figure markdown="span">
 ![Menú Actions: Create image desde una instancia en ejecución](img/salvador/ami_create_menu.png){ width="720" }
@@ -99,11 +99,11 @@ La AMI no es la instancia encendida: es la receta (SO y software base). Si cada 
 !!! note "Características EC2 (Foundations)"
     - Genera **máquinas virtuales** en la nube (web, correo, ficheros…).
     - El coste depende de RAM, vCPU, disco e [IP elástica](../03-redes-entrega-contenido/tema3.md#ip-elastica) si la usas.
-    - Escalable: puedes cambiar tipo (con límites) según necesidad — y **apagando** cuando no hace falta.
+    - Es escalable: puedes cambiar el tipo de instancia (con límites) según lo que necesites y **apagarla** cuando no hace falta.
 
 #### Tipo de instancia y familia
 
-Un **[tipo de instancia](#tipo-de-instancia)** (por ejemplo `t3.micro`) fija vCPU, memoria y rendimiento de red de plantilla. Las **[familias](#familia-de-instancia)** agrupan esos tipos por perfil: propósito general (`t`), cómputo (`c`), memoria (`m`), almacenamiento o GPU. **Rightsizing** consiste en no coger un `2xlarge` porque el tutorial lo traía: para una API de prácticas con poco tráfico, un tipo pequeño suele bastar si el código no es un cuello de botella. El **modelo de compra** (On-Demand, Reserved, Savings Plans o Spot) **no** es una familia: Spot puede aplicarse a un `t3.micro` interrumpible. El tipo dice qué hardware de plantilla tienes; el modelo dice cómo lo pagas y si AWS puede recuperarlo.
+Un **[tipo de instancia](#tipo-de-instancia)** (por ejemplo `t3.micro`) fija las vCPU, la memoria y el rendimiento de red de esa plantilla de hardware. Las **[familias](#familia-de-instancia)** agrupan esos tipos por perfil: propósito general (`t`, `m`), optimizadas para cómputo (`c`), para memoria (`r`, `x`), para almacenamiento (`i`, `d`) o con aceleradores como GPU (`p`, `g`). El **rightsizing** (ajustar el tamaño a la carga) consiste en no coger un `2xlarge` solo porque el tutorial lo traía: para una API de prácticas con poco tráfico, un tipo pequeño suele bastar si el código no es un cuello de botella. El **modelo de compra** (On-Demand, Reserved, Savings Plans o Spot) **no** es una familia: Spot puede aplicarse a un `t3.micro` interrumpible. El tipo dice qué hardware de plantilla tienes; el modelo dice cómo lo pagas y si AWS puede recuperarlo.
 
 <figure markdown="span">
 ![Familias y tipos de instancia EC2](img/salvador/ec2_8.png){ width="720" }
@@ -112,7 +112,7 @@ Un **[tipo de instancia](#tipo-de-instancia)** (por ejemplo `t3.micro`) fija vCP
 
 #### Disco: EBS frente a instance store
 
-**[EBS](#ebs)** es disco en red persistente: sobrevive al *stop* de la instancia si lo configuras así. **[Instance store](#instance-store)** es almacenamiento local ligado al host: más rápido en algunos casos, pero **se pierde** si la instancia termina o falla el hardware subyacente. Para la API del proyecto y los logs, en Foundations casi siempre eliges EBS; el instance store queda como detalle de examen y de cargas muy concretas.
+**[EBS](#ebs)** es disco en red persistente: el volumen raíz EBS **siempre** sobrevive al *stop* de la instancia, con sus datos intactos, y vuelve a estar disponible al iniciarla. Lo que sí se configura es qué pasa al **terminar** la instancia: el atributo *DeleteOnTermination* decide si el volumen se borra con ella (en el volumen raíz viene activado por defecto) o se conserva. **[Instance store](#instance-store)** es almacenamiento local ligado al host físico: más rápido en algunos casos, pero **se pierde** cuando la instancia se detiene, hiberna o termina, y también si falla el hardware subyacente. Para la API del proyecto y los logs, en Foundations casi siempre eliges EBS; el instance store queda como detalle de examen y de cargas muy concretas.
 
 #### Par de claves y user data
 
@@ -134,7 +134,9 @@ El **[par de claves](#par-de-claves)** (*key pair*) sirve para entrar por **[SSH
 | **Savings Plans** | Compromiso de gasto ($/h) flexible entre familias/regiones | Empresa con mix de tipos pero uso predecible |
 | **Spot** | Capacidad sobrante, **puede interrumpirse** con aviso | Batch tolerante a fallos, no checkout en vivo |
 
-En un **lab** y en muchas prácticas de DAW usas **On-Demand** y **apagas o terminate** al terminar. **Spot** ahorra, pero AWS puede recuperar la instancia: no es la hipótesis seria para una demo de evaluación que no tolera corte. **Reserved** y **Savings Plans** son decisiones de empresa con uso medido durante meses, no del ejercicio de un fin de semana.
+En un **lab** y en muchas prácticas de DAW usas **On-Demand** y, al acabar, paras la instancia o la terminas (*terminate*). **Spot** ahorra, pero AWS puede recuperar la instancia: no es la hipótesis seria para una demo de evaluación que no tolera corte. **Reserved** y **Savings Plans** son decisiones de empresa con uso medido durante meses, no del ejercicio de un fin de semana.
+
+La tabla siguiente separa lo que pregunta el examen CLF-C02 (*AWS Certified Cloud Practitioner*, la certificación de entrada de AWS) de lo que importa en clase y en la empresa.
 
 | Examen CLF | Clase DAW / empresa |
 | --- | --- |
@@ -142,12 +144,15 @@ En un **lab** y en muchas prácticas de DAW usas **On-Demand** y **apagas o term
 | Distinguir tipo/familia de modelo de compra | Rightsizing antes de Reserved |
 | EC2 = tú parcheas el SO | En el `.md`, justificar On-Demand + terminate en labs |
 
-Al **parar** (*stop*) una instancia dejas de pagar cómputo de esa máquina virtual, pero el volumen EBS sigue facturando si no lo borras. Al **terminar** (*terminate*) liberas la instancia; los volúmenes *delete on termination* desaparecen con ella según cómo lanzaras el disco. En el lab, **terminate** al cerrar evita sorpresas el lunes. Conectar por consola con **EC2 Instance Connect** evita pelear con el `.pem` en el portátil del aula: el usuario (`ubuntu`, `ec2-user`…) lo marca la AMI. Si entras por SSH con par de claves, el security group debe permitir el puerto 22 **solo** desde tu IP o bastión, no desde todo internet.
+Al **parar** (*stop*) una instancia dejas de pagar el cómputo de esa máquina virtual, pero el volumen EBS se conserva y sigue facturando almacenamiento mientras exista; lo que estuviera en *instance store*, en cambio, se pierde. Al **terminar** (*terminate*) liberas la instancia, y los volúmenes que tengan activado *DeleteOnTermination* (el raíz, por defecto) desaparecen con ella; los que lo tengan desactivado siguen existiendo y facturando hasta que los borres. En el lab, **terminate** al cerrar evita sorpresas el lunes. Conectar por consola con **EC2 Instance Connect** evita pelear con el `.pem` en el portátil del aula: el usuario (`ubuntu`, `ec2-user`…) lo marca la AMI. Si entras por SSH con par de claves, el security group debe permitir el puerto 22 **solo** desde tu IP o bastión, no desde todo internet.
 
 **Ejemplo del proyecto DAW.** Un `t3.large` encendido las veinticuatro horas «porque así va holgado», para una API con pico a las 11:00, factura ociosidad. Conviene un tipo más pequeño, apagar fuera de horario (o un [Auto Scaling](#auto-scaling) a cero en el [Tema 8](../08-escalado-monitoreo-cierre/tema8.md)) y, si la carga es un cron corto, valorar Lambda. El ahorro viene de dejar de pagar lo que no usas.
 
 !!! warning "Errores frecuentes"
-    Confundir el tipo `t3.micro` con Spot: el primero es tamaño de hardware y el segundo es forma de compra interrumpible. Elegir Spot para el checkout o una demo en directo. Dejar la instancia encendida el fin de semana: el estado *running* sigue facturando horas y disco. Abrir el puerto 22 a todo internet para entrar por SSH.
+    - Confundir el tipo `t3.micro` con Spot: el primero es un tamaño de hardware y el segundo, una forma de compra interrumpible.
+    - Elegir Spot para el checkout o para una demo en directo.
+    - Dejar la instancia encendida el fin de semana: el estado *running* sigue facturando horas y disco.
+    - Abrir el puerto 22 a todo internet para entrar por SSH.
 
 ### AWS Lambda
 
@@ -158,7 +163,8 @@ El **[arranque en frío](#cold-start)** (*cold start*) es la latencia extra cuan
 **Ejemplo del proyecto DAW.** Lambda no encaja cuando hay WebSockets largos, transcodificación de vídeo de horas, depuración con SSH al host o una aplicación Express «tal cual» con sesión en RAM y puerto fijo. Esos casos suelen ir mejor en EC2 o en un contenedor.
 
 !!! warning "Errores frecuentes"
-    Meter en Lambda una API Express «tal cual», con estado en memoria y puerto fijo. Elegir Lambda «porque es serverless» para un proceso que tiene que escuchar todo el día.
+    - Meter en Lambda una API Express «tal cual», con estado en memoria y puerto fijo.
+    - Elegir Lambda «porque es serverless» para un proceso que tiene que escuchar todo el día.
 
 ### Contenedores: Docker, ECR, ECS, EKS y Fargate
 
@@ -173,10 +179,10 @@ Un **[contenedor](#contenedor)** empaqueta la aplicación y sus dependencias en 
 
 No hace falta un clúster de producción para este módulo. Sí debes poder razonar el encaje: si la API ya va en Docker, ECS con Fargate es el siguiente paso; si el trabajo es un script de veinte segundos, Lambda basta; si el legado exige una licencia concreta de sistema operativo, el sitio es EC2.
 
-**Ejemplo del proyecto DAW.** En EC2 el camino del módulo es lanzar en una AZ, asociar el security group y conectar. En Lambda no hay `listen`: editas el *handler*, pulsas **Deploy** y pruebas con **Test**.
+**Ejemplo del proyecto DAW.** El camino para desplegar la API cambia en cada opción. En EC2, el del módulo, lanzas la instancia en una AZ, le asocias el security group y te conectas. En Lambda no hay `listen`: editas el *handler*, pulsas **Deploy** y pruebas con **Test**. Con ECS y Fargate publicas la imagen en ECR y actualizas el servicio para que arranque tareas con la versión nueva.
 
 !!! warning "Errores frecuentes"
-    Montar EKS para un único contenedor de prácticas, con plano de control, nodos y curva de aprendizaje que no aportan si ECS con Fargate basta.
+    - Montar EKS para un único contenedor de prácticas, con un plano de control, nodos y una curva de aprendizaje que no aportan nada si ECS con Fargate basta.
 
 <figure markdown="span">
 ![Opciones de cómputo: EC2, Lambda, ECS y Fargate](../img/diagramas/computo-opciones.svg){ width="800" }
@@ -201,12 +207,13 @@ No hace falta un clúster de producción para este módulo. Sí debes poder razo
 
 ### Elastic Beanstalk y Lightsail
 
-Con **Elastic Beanstalk** subes código o un artefacto y AWS provisiona EC2, el balanceador y el despliegue con menos pasos manuales: es un PaaS (*Platform as a Service*, plataforma como servicio) sobre EC2. **Lightsail** ofrece VPS simplificados con precio plano para sitios pequeños. En un proyecto de DAW con VPC, **ALB** (*Application Load Balancer*, balanceador de carga de aplicación) y RDS diseñados a mano sueles usar EC2 o contenedores. Beanstalk y Lightsail aparecen en el CLF como forma de acortar el camino cuando no necesitas control fino de red.
+Con **Elastic Beanstalk** subes código o un artefacto y AWS provisiona EC2, el balanceador y el despliegue con menos pasos manuales: es un PaaS (*Platform as a Service*, plataforma como servicio) sobre EC2. **Lightsail** ofrece servidores privados virtuales (VPS, *Virtual Private Server*) simplificados con precio plano para sitios pequeños. En un proyecto de DAW con VPC, **ALB** (*Application Load Balancer*, balanceador de carga de aplicación) y RDS diseñados a mano sueles usar EC2 o contenedores. Beanstalk y Lightsail aparecen en el CLF-C02 como forma de acortar el camino cuando no necesitas control fino de red.
 
 **Ejemplo del proyecto DAW.** Si ya diseñaste VPC, subredes privadas, ALB y RDS en el [Tema 3](../03-redes-entrega-contenido/tema3.md), Lightsail no sustituye ese diseño: es un atajo para un WordPress o un servidor único sin practicar el mapa completo de red.
 
 !!! warning "Errores frecuentes"
-    Tratar Beanstalk, Rekognition o SageMaker como «un tipo de EC2». Sustituir el diseño de red del módulo por Lightsail y dar por practicada la VPC.
+    - Tratar Beanstalk, Rekognition o SageMaker como «un tipo de EC2».
+    - Sustituir el diseño de red del módulo por Lightsail y dar por practicada la VPC.
 
 ### EC2, Lambda y contenedor: la misma API, tres formas
 
@@ -226,7 +233,7 @@ Con **Elastic Beanstalk** subes código o un artefacto y AWS provisiona EC2, el 
 
 ### Relación con red y almacenamiento
 
-Una EC2 sin VPC ni security group claros es un servidor expuesto ([Tema 3](../03-redes-entrega-contenido/tema3.md)). El disco principal de la máquina virtual suele ser EBS ([Tema 5](../05-almacenamiento/tema5.md)); los *uploads* compartidos entre instancias no se improvisan en el directorio raíz efímero. **[Auto Scaling](#auto-scaling)** en el [Tema 8](../08-escalado-monitoreo-cierre/tema8.md) escala **grupos** de instancias EC2; no sustituye elegir bien el tipo y el modelo de compra.
+Una EC2 sin VPC ni security group claros es un servidor expuesto ([Tema 3](../03-redes-entrega-contenido/tema3.md)). El disco principal de la máquina virtual suele ser EBS ([Tema 5](../05-almacenamiento/tema5.md)); los archivos subidos (*uploads*) que deben compartir varias instancias no se guardan en el disco raíz de una sola de ellas, porque las demás no lo ven y, con *DeleteOnTermination* activado, desaparece al terminarla. **[Auto Scaling](#auto-scaling)** en el [Tema 8](../08-escalado-monitoreo-cierre/tema8.md) escala **grupos** de instancias EC2; no sustituye elegir bien el tipo y el modelo de compra.
 
 ### Lab del Módulo 6
 
@@ -239,14 +246,15 @@ Una API REST en EC2 expone un puerto. En Lambda el patrón habitual es **API Gat
 **Ejemplo del proyecto DAW.** Puedes mezclar: front estático en S3, rutas dinámicas en Lambda y sesiones largas en EC2 si el diseño lo exige.
 
 !!! warning "Errores frecuentes"
-    Esperar un `listen(3000)` eterno detrás de API Gateway. Creer que Auto Scaling elige por ti Lambda frente a EC2: solo ajusta cuántas instancias de un tipo ya elegido hay en el grupo.
+    - Esperar un `listen(3000)` eterno detrás de API Gateway.
+    - Creer que Auto Scaling elige por ti entre Lambda y EC2: solo ajusta cuántas instancias de un tipo ya elegido hay en el grupo.
 
 
 ---
 
 ## Bloque Ampliación Practitioner (CLF-C02)
 
-En el CLF-C02 no basta con nombrar EC2 o Lambda: hay que separar **tipo de instancia** de **modelo de precio** y elegir servicio según estado, duración y quién mantiene el entorno (ECS/Fargate, EKS…). Preguntas trampa mezclan **SageMaker** o **Rekognition** con «un EC2 más grande»: son servicios gestionados de ML, no familias de instancia. Otra trampa es creer que **Auto Scaling** elige por ti Lambda frente a EC2: solo ajusta **cuántas** instancias de un tipo ya elegido hay en el grupo.
+En el CLF-C02 no basta con nombrar EC2 o Lambda: hay que separar **tipo de instancia** de **modelo de precio** y elegir servicio según estado, duración y quién mantiene el entorno (ECS/Fargate, EKS…). Preguntas trampa mezclan **SageMaker** o **Rekognition** con «un EC2 más grande»: son servicios gestionados de aprendizaje automático (ML, *machine learning*), no familias de instancia. Otra trampa es creer que **Auto Scaling** elige por ti Lambda frente a EC2: solo ajusta **cuántas** instancias de un tipo ya elegido hay en el grupo.
 
 Si el enunciado describe **carga interrumpible** y tolerancia a aviso de terminación, piensa **Spot**. Si describe **compromiso a 1–3 años** con uso estable, piensa **Reserved** o **Savings Plans**. Si describe **función ante evento S3**, piensa **Lambda**, no una VM encendida «por si acaso».
 
@@ -261,7 +269,7 @@ Si el enunciado describe **carga interrumpible** y tolerancia a aviso de termina
 
 <iframe src="https://www.youtube.com/embed/vdSKZxOVX1A" title="ATTA AWS Academy 03 EC2 Linux — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
 
-Vídeo: Profe Santos Cloud (YouTube). Qué mirar: AMI, tipo pequeño, SG y cómo apagar/terminar; eso es lo que facturas en el lab.
+Vídeo: Profe Santos Cloud (YouTube). Fíjate en la AMI, el tipo pequeño, el security group y cómo apagar o terminar la instancia, porque eso es lo que facturas en el lab.
 
 **Extra (opcional).** [Lambda 101](https://www.youtube.com/watch?v=TIeUbq4bCOU) (~14 min) — contraste serverless frente a EC2 24/7. Vídeo: Profe Santos Cloud (YouTube).
 
@@ -323,13 +331,15 @@ Si eliges **ECS con Fargate**, construyes una **imagen Docker** de la API, la su
 **Ejemplo del proyecto DAW.** El criterio no es «cuál suena más moderno», sino **estado**, **duración**, **quién mantiene qué** y **coste** (sobre todo EC2 encendida las veinticuatro horas frente a invocaciones sueltas). Anótalo en **PR401** aunque el lab del Módulo 6 solo te haga lanzar EC2.
 
 !!! warning "Errores frecuentes"
-    Copiar `npm start` a AWS y dar por resuelto el ciclo de vida del proceso. Apuntar el front a la IP pública de la EC2, que cambia en cada *stop*. Dejar en RAM entre peticiones de Lambda lo que debería estar en RDS.
+    - Copiar `npm start` a AWS y dar por resuelto el ciclo de vida del proceso.
+    - Apuntar el front a la IP pública de la EC2, que cambia cada vez que la paras y la vuelves a iniciar.
+    - Dejar en RAM entre peticiones de Lambda lo que debería estar en RDS.
 
 ---
 
 ## Autocheck del tema
 
-Comprueba el cómputo de este tema. CLF: [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
+Comprueba lo que has aprendido sobre cómputo en este tema. Para el CLF-C02 tienes más preguntas en [Certificación § Tema 4](../99-certificacion/certificacion.md#tema-4).
 
 1. Una **AMI** es…  
    a) la instancia encendida · b) la plantilla para lanzar instancias · c) un tipo de precio
@@ -354,6 +364,8 @@ Comprueba el cómputo de este tema. CLF: [Certificación § Tema 4](../99-certif
 
 </details>
 
+Para preparar el examen de la 1.ª evaluación tienes una [práctica orientativa](../95-preparacion-examenes/practica-orientativa-1ev.md) que repasa en el Learner Lab lo visto en los temas 3 y 4.
+
 ---
 
 
@@ -372,16 +384,16 @@ Máquina virtual EC2 en ejecución o parada, creada a partir de una AMI y un tip
 Combinación publicada de vCPU, RAM y red (p. ej. `t3.micro`). Es hardware de plantilla, no modelo de precio.
 
 **familia de instancia**{: #familia-de-instancia}
-Letra inicial del tipo (`t`, `m`, `c`…): perfil de uso (general, memoria, cómputo…). El rightsizing elige familia y tamaño acorde a la carga.
+Letra inicial del tipo (`t`, `m`, `c`, `r`…): perfil de uso (propósito general, cómputo, memoria…). El rightsizing elige familia y tamaño acorde a la carga.
 
 **vCPU**{: #vcpu}
 *virtual CPU* (procesador virtual): unidad de cómputo asignada a la instancia según el tipo elegido.
 
 **EBS**{: #ebs}
-*Elastic Block Store* (almacenamiento en bloques elástico): volumen de disco en red asociado a EC2, persistente según configuración. Tema 5 profundiza tipos y copias.
+*Elastic Block Store* (almacenamiento en bloques elástico): volumen de disco en red asociado a EC2. Persiste aunque detengas la instancia; al terminarla, se borra o se conserva según el atributo *DeleteOnTermination*. El Tema 5 profundiza en sus tipos y en las copias.
 
 **instance store**{: #instance-store}
-Almacenamiento local en el host físico: alto rendimiento en algunos tipos, pero los datos se pierden si la instancia termina o falla el hardware.
+Almacenamiento local en el host físico: alto rendimiento en algunos tipos, pero los datos se pierden si la instancia se detiene, hiberna o termina, o si falla el hardware.
 
 **par de claves**{: #par-de-claves}
 *Key pair*: credencial SSH pública/privada para acceder a instancias Linux. La privada (`.pem`) solo se descarga al crearla si la generas tú.
@@ -390,7 +402,7 @@ Almacenamiento local en el host físico: alto rendimiento en algunos tipos, pero
 *Secure Shell* (acceso remoto cifrado): protocolo habitual para administrar instancias Linux desde terminal. Requiere par de claves o método alternativo (Instance Connect).
 
 **user data**{: #user-data}
-Datos de arranque (script cloud-init) que la instancia ejecuta en el primer boot; sirve para bootstrap sin rebakear AMI.
+Datos de arranque (script cloud-init) que la instancia ejecuta en el primer boot; sirve para preparar la instancia al arrancar sin tener que volver a crear la AMI.
 
 **On-Demand**{: #on-demand}
 Modelo de compra EC2 sin compromiso: pagas por tiempo de uso. Habitual en labs.
