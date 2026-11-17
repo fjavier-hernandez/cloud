@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560" role="img" font-family="Amazon Ember, Segoe UI, Helvetica, Arial, sans-serif">
+<title>Camino del tráfico en la VPC: ALB en la subred pública, API y RDS en la privada</title>
+<defs><marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#232F3E"/></marker></defs>
+<rect width="800" height="560" fill="#F7F9FC"/>
+<text x="400" y="22" text-anchor="middle" font-size="14" font-weight="600" fill="#232F3E">Camino del tráfico en la VPC (una AZ)</text>
+<rect x="330" y="38" width="140" height="36" rx="18" fill="#FFFFFF" stroke="#232F3E"/>
+<text x="400" y="61" text-anchor="middle" font-size="13" fill="#232F3E">Usuario en internet</text>
+<rect x="330" y="108" width="140" height="40" rx="6" fill="#F3E8FF" stroke="#8C4FFF"/>
+<text x="400" y="133" text-anchor="middle" font-size="13" fill="#232F3E">Internet Gateway</text>
+<rect x="20" y="175" width="760" height="355" rx="6" fill="#FFFFFF" stroke="#248814" stroke-width="1.5"/>
+<text x="34" y="194" font-size="13" font-weight="600" fill="#248814">VPC 10.0.0.0/16</text>
+<rect x="40" y="205" width="720" height="120" rx="6" fill="#E9F3E6" stroke="#7AA116"/>
+<text x="54" y="224" font-size="12" font-weight="600" fill="#3F6B0A">Subred pública (una AZ)</text>
+<rect x="40" y="345" width="720" height="175" rx="6" fill="#E6F2F8" stroke="#147EBA"/>
+<text x="54" y="364" font-size="12" font-weight="600" fill="#0F5A85">Subred privada (la misma AZ)</text>
+<rect x="160" y="235" width="200" height="60" rx="6" fill="#FFFFFF" stroke="#8C4FFF"/>
+<text x="260" y="260" text-anchor="middle" font-size="13" font-weight="600" fill="#232F3E">ALB</text>
+<text x="260" y="279" text-anchor="middle" font-size="11" fill="#232F3E">SG: 443 desde internet</text>
+<rect x="480" y="235" width="200" height="60" rx="6" fill="#FFFFFF" stroke="#8C4FFF"/>
+<text x="580" y="270" text-anchor="middle" font-size="13" font-weight="600" fill="#232F3E">NAT Gateway</text>
+<rect x="160" y="380" width="200" height="70" rx="6" fill="#FFFFFF" stroke="#ED7100"/>
+<text x="260" y="402" text-anchor="middle" font-size="13" font-weight="600" fill="#232F3E">EC2 con la API</text>
+<text x="260" y="420" text-anchor="middle" font-size="11" fill="#232F3E">SG: puerto de la app</text>
+<text x="260" y="436" text-anchor="middle" font-size="11" fill="#232F3E">solo desde el SG del ALB</text>
+<rect x="480" y="440" width="200" height="70" rx="18" fill="#FFFFFF" stroke="#3B48CC"/>
+<text x="580" y="462" text-anchor="middle" font-size="13" font-weight="600" fill="#232F3E">RDS MySQL o MariaDB</text>
+<text x="580" y="480" text-anchor="middle" font-size="11" fill="#232F3E">SG: 3306</text>
+<text x="580" y="496" text-anchor="middle" font-size="11" fill="#232F3E">solo desde el SG de la API</text>
+<g stroke="#232F3E" stroke-width="1.5" fill="none" marker-end="url(#f)">
+<line x1="400" y1="74" x2="400" y2="106"/>
+<line x1="380" y1="148" x2="282" y2="233"/>
+<line x1="260" y1="295" x2="260" y2="378"/>
+<line x1="360" y1="432" x2="478" y2="468"/>
+<line x1="330" y1="380" x2="538" y2="297" stroke-dasharray="5 4"/>
+<line x1="600" y1="235" x2="472" y2="142" stroke-dasharray="5 4"/>
+</g>
+<text x="410" y="95" font-size="11" fill="#232F3E">HTTPS 443</text>
+<text x="420" y="444" font-size="11" fill="#232F3E">3306</text>
+<text x="452" y="339" font-size="11" fill="#232F3E">Salida que inicia la API</text>
+<text x="400" y="550" text-anchor="middle" font-size="11" fill="#545B64">Línea continua: tráfico que entra desde internet. Línea discontinua: salida que inicia la instancia.</text>
+</svg>
