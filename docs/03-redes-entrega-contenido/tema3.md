@@ -109,6 +109,11 @@ Que una subred sea pública decide si lo que colocas en ella puede recibir tráf
 
 La ruta, sin embargo, solo abre el camino. Los recursos que deban ser alcanzables desde internet se colocan en esta subred y necesitan, además, una [IP pública](#ip-publica) o una [IP elástica](#ip-elastica). Y aun con ruta e IP, el security group y la NACL siguen decidiendo qué puertos se aceptan, porque la ruta abre el camino y no los puertos.
 
+<figure markdown="span">
+![VPC con una subred pública con ruta al Internet Gateway y una subred privada sin ella](img/capturas/internet-gateway-basics.png){ width="560" }
+<figcaption>Solo la subred pública tiene ruta al Internet Gateway y se comunica con internet; la privada no. Fuente: Amazon VPC User Guide (AWS).</figcaption>
+</figure>
+
 En una aplicación web, los puertos que importan en esta subred son los de la propia web. **HTTP** (*Hypertext Transfer Protocol*, protocolo de transferencia de hipertexto) es el protocolo de la web en claro, en el puerto 80. El usuario llega por **HTTPS** (*Hypertext Transfer Protocol Secure*, HTTP seguro) al balanceador, normalmente al puerto 443, y el puerto 80 solo se deja si el balanceador redirige ese tráfico hacia HTTPS.
 
 El balanceador condiciona también cuántas subredes públicas necesitas. En el caso habitual, dentro de una región y sin Local Zones ni Outposts, la consola pide subredes en al menos dos AZ y exige que la VPC tenga ya un Internet Gateway. Por eso el diseño usa dos subredes públicas, una en cada zona, y no una sola.
@@ -194,24 +199,31 @@ El esquema siguiente recoge ese camino, reducido a una AZ.
 
 ``` mermaid
 flowchart TB
-  usuario["Usuario en internet"]
+  usuario(["Usuario en internet"])
   igw["Internet Gateway"]
-  usuario -->|"HTTPS, puerto 443"| igw
   subgraph vpc["VPC 10.0.0.0/16"]
-    subgraph publica["Subred pública, una AZ"]
-      alb["ALB"]
+    direction TB
+    subgraph publica["Subred pública (una AZ)"]
+      direction LR
+      alb["ALB<br/>SG: 443 desde internet"]
       nat["NAT Gateway"]
     end
-    subgraph privada["Subred privada, la misma AZ"]
-      api["EC2 con la API"]
-      rds["RDS, MySQL o MariaDB"]
+    subgraph privada["Subred privada (la misma AZ)"]
+      direction LR
+      api["EC2 con la API<br/>SG: puerto de la app<br/>solo desde el SG del ALB"]
+      rds[("RDS MySQL o MariaDB<br/>SG: 3306<br/>solo desde el SG de la API")]
     end
   end
+  usuario -->|"HTTPS 443"| igw
   igw --> alb
-  alb -->|"Puerto de la app. Origen: SG del ALB"| api
-  api -->|"Puerto 3306. Origen: SG de la API"| rds
-  api -->|"Salida que inicia la instancia"| nat
-  nat --> igw
+  alb --> api
+  api --> rds
+  api -.->|"Salida que inicia la API"| nat
+  nat -.-> igw
+  classDef pub fill:#e3f2fd,stroke:#1e88e5
+  classDef priv fill:#fff3e0,stroke:#fb8c00
+  class publica pub
+  class privada priv
 ```
 
 El esquema muestra una sola AZ para que el camino se lea con claridad. En el proyecto repites el par de subredes en una segunda AZ, y el NAT de esa segunda zona es otro recurso, con su propia ruta `0.0.0.0/0` en la tabla privada de esa AZ.
@@ -337,30 +349,28 @@ En Foundations el flujo habitual es este: el dominio, en Route 53, apunta a Clou
 6. **Respuesta HTTP.** Los resultados vuelven de RDS a la aplicación. La EC2 compone la respuesta, normalmente en **JSON** (*JavaScript Object Notation*, el formato habitual de una API) o en HTML, y la envía al ALB. El ALB la pasa a CloudFront si la CDN interviene, y CloudFront la entrega al navegador. Si no hay CloudFront, la respuesta va del ALB al navegador. El regreso no consulta otra vez a Route 53: el nombre ya quedó resuelto en el primer paso.
 
 ``` mermaid
-flowchart TB
-  usuario["Usuario"]
-  r53["Route 53"]
-  cf["CloudFront"]
-  s3["S3, estáticos"]
-  alb["ALB"]
-  ec2["EC2, aplicación"]
-  rds["RDS"]
-
-  usuario -->|"Consulta el nombre"| r53
-  r53 -.->|"Dirección del destino"| usuario
-  usuario -->|"Petición HTTPS"| cf
-  cf -->|"Estáticos, si no hay caché"| s3
-  s3 -->|"Objeto"| cf
-  cf -->|"Dinámico, si no hay caché"| alb
-  alb -->|"EC2 sana"| ec2
-  ec2 -->|"Consulta"| rds
-  rds -->|"Resultados"| ec2
-  ec2 -->|"Respuesta"| alb
-  alb -->|"Respuesta"| cf
-  cf -->|"JSON o HTML"| usuario
+sequenceDiagram
+  autonumber
+  participant U as Navegador
+  participant R as Route 53
+  participant C as CloudFront
+  participant A as ALB
+  participant E as EC2 (API)
+  participant D as RDS
+  U->>R: ¿Qué dirección tiene midominio.es?
+  R-->>U: La dirección de CloudFront
+  U->>C: GET https://midominio.es/productos
+  Note over C: /productos no está en la caché
+  C->>A: Reenvía la petición al origen
+  A->>E: La pasa a una EC2 sana
+  E->>D: Consulta los productos
+  D-->>E: Resultados
+  E-->>A: Respuesta en JSON o HTML
+  A-->>C: Respuesta
+  C-->>U: Respuesta en JSON o HTML
 ```
 
-La flecha discontinua es solo la resolución. Route 53 devuelve al navegador la dirección del destino, que será CloudFront o el ALB, y no transporta la página. A partir de esa dirección la petición va a CloudFront y, cuando el contenido no está en caché, al ALB, a la EC2 y a RDS. La respuesta recorre ese tramo hacia el navegador. S3 es el origen de los estáticos de CloudFront y queda fuera de la cadena de `/productos`: la aplicación prepara la respuesta con los datos de RDS y la devuelve por el ALB.
+En el diagrama, las flechas continuas son peticiones y las discontinuas son respuestas, y los números siguen el orden de los pasos. Los dos primeros mensajes son solo la resolución del nombre: Route 53 devuelve al navegador la dirección del destino, que será CloudFront o el ALB, y no transporta la página. A partir de esa dirección la petición va a CloudFront y, como el contenido no está en caché, sigue hacia el ALB, la EC2 y RDS; la respuesta recorre después ese mismo tramo de vuelta hasta el navegador. S3 no aparece porque es el origen de los estáticos de CloudFront y queda fuera de la cadena de `/productos`: la aplicación prepara la respuesta con los datos de RDS y la devuelve por el ALB.
 
 | Componente | Función |
 | --- | --- |
