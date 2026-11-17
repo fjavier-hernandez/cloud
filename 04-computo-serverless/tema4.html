@@ -1,0 +1,2050 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web.">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/04-computo-serverless/tema4.html">
+      
+      
+        <link rel="prev" href="../03-redes-entrega-contenido/tema3.html">
+      
+      
+        <link rel="next" href="../05-almacenamiento/tema5.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>4. Cómputo: EC2, Lambda y contenedores - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="4. Cómputo: EC2, Lambda y contenedores - Introducción a la Nube Pública" />
+<meta property="og:description" content="Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/04-computo-serverless/tema4.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/04-computo-serverless/tema4.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="4. Cómputo: EC2, Lambda y contenedores - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Apuntes para el módulo optativo Introducción a la Nube Pública (INP) del ciclo formativo de grado superior de Desarrollo de Aplicaciones Web." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/04-computo-serverless/tema4.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-4-computo-ec2-lambda-y-contenedores" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Cómputo: EC2, Lambda y contenedores
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema4.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 6)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 6)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amazon-ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon EC2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon EC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipo-de-instancia-y-familia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipo de instancia y familia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disco-ebs-frente-a-instance-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disco: EBS frente a instance store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#par-de-claves-y-user-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Par de claves y user data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-pagas-ec2-on-demand-reserved-savings-plans-y-spot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo pagas EC2: On-Demand, Reserved, Savings Plans y Spot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS Lambda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenedores-docker-ecr-ecs-eks-y-fargate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenedores: Docker, ECR, ECS, EKS y Fargate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elastic-beanstalk-y-lightsail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elastic Beanstalk y Lightsail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ec2-lambda-y-contenedor-la-misma-api-tres-formas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EC2, Lambda y contenedor: la misma API, tres formas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-red-y-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con red y almacenamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-del-modulo-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab del Módulo 6
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conectar-lambda-a-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conectar Lambda a HTTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr401-lanzar-y-comparar-computo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR401 — Lanzar y comparar cómputo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#despliegue-de-npm-start-al-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Despliegue: de npm start al servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparación de exámenes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparación de exámenes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../95-preparacion-examenes/practica-orientativa-1ev.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Práctica orientativa: examen de la 1.ª evaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 6)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 6)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amazon-ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon EC2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon EC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipo-de-instancia-y-familia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipo de instancia y familia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disco-ebs-frente-a-instance-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disco: EBS frente a instance store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#par-de-claves-y-user-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Par de claves y user data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-pagas-ec2-on-demand-reserved-savings-plans-y-spot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo pagas EC2: On-Demand, Reserved, Savings Plans y Spot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS Lambda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenedores-docker-ecr-ecs-eks-y-fargate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenedores: Docker, ECR, ECS, EKS y Fargate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elastic-beanstalk-y-lightsail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elastic Beanstalk y Lightsail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ec2-lambda-y-contenedor-la-misma-api-tres-formas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EC2, Lambda y contenedor: la misma API, tres formas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-red-y-almacenamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con red y almacenamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-del-modulo-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab del Módulo 6
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conectar-lambda-a-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conectar Lambda a HTTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr401-lanzar-y-comparar-computo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR401 — Lanzar y comparar cómputo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#despliegue-de-npm-start-al-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Despliegue: de npm start al servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-4-computo-ec2-lambda-y-contenedores">Tema 4. Cómputo: EC2, Lambda y contenedores<a class="headerlink" href="#tema-4-computo-ec2-lambda-y-contenedores" title="Permanent link">&para;</a></h1>
+<p>En AWS puedes ejecutar el código de una aplicación de tres maneras: en una <strong>máquina virtual</strong> (<a href="#ec2">EC2</a>, <em>Elastic Compute Cloud</em>, nube elástica de cómputo), en un <strong>contenedor</strong> (<a href="#ecs">ECS</a> o <a href="#fargate">Fargate</a>) o como una <strong>función</strong> (<a href="#lambda">Lambda</a>). Las tres sirven para desplegar la API de un proyecto de DAW, pero se diferencian en quién instala y actualiza el sistema operativo, en cómo se paga y en si el programa puede quedarse encendido todo el día esperando peticiones en un puerto, como hace un servidor web. Una máquina virtual o un contenedor pueden hacerlo; una función Lambda no, porque arranca cuando llega una petición, la atiende y se apaga.</p>
+<p>Por eso el error típico en un proyecto no es confundir el nombre de los servicios, sino escoger el que no encaja. Un ejemplo es llevar a Lambda, solo porque es <em>serverless</em>, un servidor de chat que tiene que mantener abiertas las conexiones de los usuarios, cuando una función se apaga al terminar cada petición y no puede sostenerlas. El error contrario es pagar una máquina <code>t3.large</code> encendida las veinticuatro horas para una tarea programada que dura treinta segundos, cuando una función la haría cobrando solo esos segundos. Este tema corresponde al <strong>Módulo 6</strong> de <em>AWS Academy Cloud Foundations</em>, y los términos clave están en el <a href="#glosario">glosario</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. En el Tema 3 diseñaste la red en la que vive la instancia; en este tema decides <strong>dónde se ejecuta</strong> el programa y cuánto cuesta mantenerlo encendido.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA3.</strong> <em>Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion-ra3">Criterios de evaluación (RA3)<a class="headerlink" href="#criterios-de-evaluacion-ra3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>d)</strong> Se ha realizado la selección de servicios de computación adecuados según casos de uso.</li>
+<li><strong>f)</strong> Se han desarrollado prácticas relacionadas con la optimización de recursos computacionales.</li>
+</ul>
+<p>El balanceo de carga y el Auto Scaling se desarrollan en el <a href="../08-escalado-monitoreo-cierre/tema8.html">Tema 8</a>. Aquí solo aparece el <strong>ASG</strong> (<em>Auto Scaling group</em>, grupo de autoescalado) porque trabaja junto a EC2: añade o quita instancias según la carga, pero no decide por ti si tu aplicación debería ir en una máquina virtual o en Lambda.</p>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="#ec2">EC2</a>: <a href="#ami">AMI</a>, familia de instancia, red, compra (On-Demand, Spot, Savings Plans).</li>
+<li>Lambda: evento, duración, coste por invocación.</li>
+<li>ECS, EKS, Fargate: contenedores con o sin nodos cuyo sistema operativo (SO) tú parcheas.</li>
+<li>Elastic Beanstalk, Lightsail: nombres; cuándo simplifican.</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q5</strong></td>
+<td>EC2 + AMI + elección VM/Lambda</td>
+<td><strong>PR401</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>Nombra un caso en el que <strong>EC2</strong> encaje mejor que <strong>Lambda</strong> (pista: estado o conexión larga).</li>
+<li>¿Qué es una <strong>AMI</strong> y para qué la usarías al clonar un lab?</li>
+<li>¿<strong>Spot</strong> es un tamaño de instancia (<code>t3.micro</code>) o un <strong>modelo de compra</strong>?</li>
+<li>¿Por qué conviene <strong>terminate</strong> (o min=0) al acabar el lab aunque «la dejes para mañana»?</li>
+<li>En una frase: ¿qué diferencia hay entre una <strong>VM</strong> y un <strong>contenedor</strong> en quién mantiene el SO?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>Una API que mantiene conexiones abiertas con los usuarios (por ejemplo, un chat con <strong>WebSocket</strong>) o un proceso largo que guarda datos en memoria y escucha siempre en un puerto encaja mejor en <strong>EC2</strong> (o en un contenedor), porque una función Lambda se apaga al terminar cada petición.</p>
+</li>
+<li>
+<p>Una <strong>AMI</strong> es la <strong>plantilla</strong> (SO + software) para lanzar instancias iguales; sirve para clonar el lab sin reinstalar a mano.</p>
+</li>
+<li>
+<p><strong>Spot</strong> es un <strong>modelo de compra</strong> (capacidad interrumpible más barata), no un tamaño <code>t3.micro</code>.</p>
+</li>
+<li>
+<p>Si no <strong>terminate</strong> (o min=0), el lab <strong>sigue facturando</strong> horas, discos y balanceadores olvidados.</p>
+</li>
+<li>
+<p>En una <strong>VM</strong> gestionas (más) el SO y el proceso; en un <strong>contenedor</strong> empaquetas la app y, con Fargate, dejas de parchear nodos EC2 del clúster.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-6">Bloque Foundations (Módulo 6)<a class="headerlink" href="#bloque-foundations-modulo-6" title="Permanent link">&para;</a></h2>
+<p>Piensa en la API de tu proyecto, hecha en Node o PHP, con el front aparte y la base de datos en <a href="../01-fundamentos-nube-aws/tema1.html#rds">RDS</a> (<em>Relational Database Service</em>, servicio de bases de datos relacionales). Esa misma API se puede instalar en una <strong>instancia EC2</strong>, adaptarse para que se ejecute como <strong>función Lambda</strong> o empaquetarse con <strong>Docker</strong> y ejecutarse en <strong>ECS con Fargate</strong>. En los tres casos el código se ejecuta, pero cambia quién mantiene y actualiza cada parte, cómo se paga, cuánto puede durar cada ejecución y si el programa puede quedarse encendido escuchando en un puerto y guardando datos en memoria entre una petición y otra.</p>
+<h3 id="amazon-ec2">Amazon EC2<a class="headerlink" href="#amazon-ec2" title="Permanent link">&para;</a></h3>
+<p><strong><a href="#ec2">Amazon EC2</a></strong> es el servicio de <strong>instancias</strong> (máquinas virtuales) en AWS. Eliges una plantilla (<strong><a href="#ami">AMI</a></strong>, <em>Amazon Machine Image</em>, imagen de máquina de Amazon), un <strong><a href="#tipo-de-instancia">tipo de instancia</a></strong> (combinación de <strong>vCPU</strong> —<em>virtual CPU</em>, procesador virtual—, RAM y red), la <strong><a href="../03-redes-entrega-contenido/tema3.html#vpc">VPC</a></strong> (<em>Virtual Private Cloud</em>, nube virtual privada) y la subred, el disco (<strong><a href="#ebs">EBS</a></strong>, <em>Elastic Block Store</em>, almacenamiento en bloques elástico, <a href="../05-almacenamiento/tema5.html">Tema 5</a>) y el <a href="../03-redes-entrega-contenido/tema3.html#security-group">security group</a>. La instancia es un servidor Linux o Windows donde instalas Node, PHP, nginx o Apache y dejas un proceso escuchando un puerto.</p>
+<p>Es la opción más directa para una API clásica: un programa que hace <code>listen(3000)</code> y se queda esperando peticiones en ese puerto, que guarda las sesiones de los usuarios en memoria o que mantiene conexiones abiertas con ellos, como un chat. A cambio, tú aplicas los <strong>parches del sistema operativo</strong>, tú mantienes y actualizas Node o PHP y sus dependencias, y pagas todo el tiempo que la instancia está en estado <em>running</em>, más el disco EBS asociado. En el lab del <strong>Módulo 6</strong> sueles lanzar una instancia pequeña a partir de una AMI. En el <strong>Learner Lab</strong>, si la EC2 tiene que acceder a S3 u otros servicios, le asignas el rol <strong>LabRole</strong> mediante <strong>LabInstanceProfile</strong>; ese rol da permisos a la instancia, no a tu sesión en la consola.</p>
+<p>La AMI no es la instancia encendida, sino la receta con la que se crea: el sistema operativo y el software que trae instalado. Si en cada despliegue instalas Node a mano, pierdes tiempo y además pagas las horas que la máquina pasa encendida mientras tanto. Por eso, cuando una instancia ya está bien configurada, conviene crear a partir de ella una AMI propia y lanzar copias idénticas.</p>
+<figure>
+<img alt="Selección de AMI Quick Start en la consola EC2" src="img/salvador/ec2_1.png" width="720" />
+
+<figcaption>AMI Quick Start al lanzar una instancia.</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Crear tu propia AMI</p>
+<p>Cuando la instancia ya tiene el SO y el software listos, puedes crear la imagen desde <strong>Actions → Image and templates → Create image</strong>. Así lanzas clones iguales sin reinstalar a mano. En el formulario conviene dejar activado el reinicio (<em>reboot</em>), porque así el <em>snapshot</em> del disco se toma en un estado coherente.</p>
+</div>
+<figure>
+<img alt="Menú Actions: Create image desde una instancia en ejecución" src="img/salvador/ami_create_menu.png" width="720" />
+
+<figcaption>Crear AMI desde una EC2 que ya está lista.</figcaption>
+</figure>
+<figure>
+<img alt="Formulario Create image: nombre, reboot y volúmenes" src="img/salvador/ami_create_form.png" width="720" />
+
+<figcaption>Nombre de la AMI, reboot para consistencia y volúmenes incluidos.</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Características EC2 (Foundations)</p>
+<ul>
+<li>Genera <strong>máquinas virtuales</strong> en la nube (web, correo, ficheros…).</li>
+<li>El coste depende de RAM, vCPU, disco e <a href="../03-redes-entrega-contenido/tema3.html#ip-elastica">IP elástica</a> si la usas.</li>
+<li>Es escalable: puedes cambiar el tipo de instancia (con límites) según lo que necesites y <strong>apagarla</strong> cuando no hace falta.</li>
+</ul>
+</div>
+<h4 id="tipo-de-instancia-y-familia">Tipo de instancia y familia<a class="headerlink" href="#tipo-de-instancia-y-familia" title="Permanent link">&para;</a></h4>
+<p>Un <strong><a href="#tipo-de-instancia">tipo de instancia</a></strong>, como <code>t3.micro</code>, fija cuántas vCPU, cuánta memoria y qué rendimiento de red tiene la máquina. Los tipos se agrupan en <strong><a href="#familia-de-instancia">familias</a></strong> según el uso para el que están pensados: propósito general (<code>t</code>, <code>m</code>), cómputo intensivo (<code>c</code>), mucha memoria (<code>r</code>, <code>x</code>), mucho almacenamiento (<code>i</code>, <code>d</code>) o aceleradores como GPU (<code>p</code>, <code>g</code>). Ajustar el tamaño a la carga real se llama <strong>rightsizing</strong>: para una API de prácticas con poco tráfico no hace falta un <code>2xlarge</code> porque lo usara un tutorial, y un tipo pequeño suele bastar.</p>
+<p>Otra cosa distinta es el <strong>modelo de compra</strong> (On-Demand, Reserved, Savings Plans o Spot), que <strong>no</strong> es una familia. El tipo indica qué hardware tiene la máquina; el modelo indica cómo la pagas y si AWS puede retirártela. Por ejemplo, puedes comprar un <code>t3.micro</code> como Spot: es la misma máquina pequeña, pero más barata y con la condición de que AWS puede interrumpirla.</p>
+<figure>
+<img alt="Familias y tipos de instancia EC2" src="img/salvador/ec2_8.png" width="720" />
+
+<figcaption>Familia / tipo: plantilla de hardware, no el modelo de precio.</figcaption>
+</figure>
+<h4 id="disco-ebs-frente-a-instance-store">Disco: EBS frente a instance store<a class="headerlink" href="#disco-ebs-frente-a-instance-store" title="Permanent link">&para;</a></h4>
+<p><strong><a href="#ebs">EBS</a></strong> es un disco en red que no depende del servidor físico: si detienes la instancia (<em>stop</em>), el volumen raíz conserva sus datos y vuelve a estar disponible cuando la inicias. Lo que se configura es qué ocurre al <strong>terminar</strong> la instancia (<em>terminate</em>): el atributo <em>DeleteOnTermination</em> decide si el volumen se borra con ella, que es lo que viene activado por defecto en el volumen raíz, o si se conserva. El <strong><a href="#instance-store">instance store</a></strong>, en cambio, es un disco local del servidor físico donde corre la instancia. Es más rápido en algunos casos, pero sus datos <strong>se pierden</strong> cuando la instancia se detiene, hiberna o termina, y también si falla ese hardware. Para la API del proyecto y sus registros casi siempre eliges EBS; el instance store solo tiene sentido en cargas muy concretas y como pregunta de examen.</p>
+<h4 id="par-de-claves-y-user-data">Par de claves y user data<a class="headerlink" href="#par-de-claves-y-user-data" title="Permanent link">&para;</a></h4>
+<p>El <strong><a href="#par-de-claves">par de claves</a></strong> (<em>key pair</em>) es la credencial con la que entras por <strong><a href="#ssh">SSH</a></strong> (<em>Secure Shell</em>, acceso remoto cifrado) a una instancia Linux, si no te conectas desde la consola con Instance Connect. Si generas tu propia clave, <strong>descarga el fichero <code>.pem</code> en ese momento</strong>, porque AWS no te lo vuelve a dar. En Academy sueles usar la clave que trae el lab, <code>vockey</code> o <code>labsuser.pem</code> según el caso.</p>
+<figure>
+<img alt="Descarga / uso del par de claves" src="img/salvador/ec2_9.png" width="640" />
+
+<figcaption>Par de claves: sin `.pem` no entras por SSH.</figcaption>
+</figure>
+<p><strong><a href="#user-data">User data</a></strong> es un script (<em>cloud-init</em>) que la instancia ejecuta solo la <strong>primera vez que arranca</strong>, por ejemplo para instalar paquetes, clonar el repositorio o poner en marcha un servicio. No sustituye a una AMI bien preparada, pero en el lab te ahorra hacer a mano esos primeros pasos.</p>
+<h4 id="como-pagas-ec2-on-demand-reserved-savings-plans-y-spot">Cómo pagas EC2: On-Demand, Reserved, Savings Plans y Spot<a class="headerlink" href="#como-pagas-ec2-on-demand-reserved-savings-plans-y-spot" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Idea</th>
+<th>Cuándo tiene sentido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>On-Demand</strong></td>
+<td>Pagas por hora/segundo sin compromiso</td>
+<td>Labs, picos imprevisibles, primer despliegue</td>
+</tr>
+<tr>
+<td><strong>Reserved Instances</strong> / compromiso</td>
+<td>Descuento a cambio de plazo (1 o 3 años)</td>
+<td>Carga estable 24/7 en producción</td>
+</tr>
+<tr>
+<td><strong>Savings Plans</strong></td>
+<td>Compromiso de gasto ($/h) flexible entre familias/regiones</td>
+<td>Empresa con mix de tipos pero uso predecible</td>
+</tr>
+<tr>
+<td><strong>Spot</strong></td>
+<td>Capacidad sobrante, <strong>puede interrumpirse</strong> con aviso</td>
+<td>Batch tolerante a fallos, no checkout en vivo</td>
+</tr>
+</tbody>
+</table>
+<p>En un <strong>lab</strong> y en la mayoría de prácticas de DAW usas <strong>On-Demand</strong> y, al acabar, detienes o terminas la instancia. <strong>Spot</strong> es más barato, pero AWS puede recuperar la máquina con un breve aviso, así que no sirve para una demo de evaluación que no puede cortarse. <strong>Reserved</strong> y <strong>Savings Plans</strong> son decisiones de empresa que se toman después de medir el uso durante meses, no para un ejercicio de fin de semana.</p>
+<p>La tabla siguiente separa lo que pregunta el examen CLF-C02 (<em>AWS Certified Cloud Practitioner</em>, la certificación de entrada de AWS) de lo que importa en clase y en la empresa.</p>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spot = modelo de precio, no <code>t3.micro</code></td>
+<td>No usar Spot para la demo que no puede caerse</td>
+</tr>
+<tr>
+<td>Distinguir tipo/familia de modelo de compra</td>
+<td>Rightsizing antes de Reserved</td>
+</tr>
+<tr>
+<td>EC2 = tú parcheas el SO</td>
+<td>En el <code>.md</code>, justificar On-Demand + terminate en labs</td>
+</tr>
+</tbody>
+</table>
+<p>Detener y terminar no son lo mismo. Al <strong>detener</strong> (<em>stop</em>) una instancia dejas de pagar la máquina, pero el volumen EBS se conserva y se sigue cobrando como almacenamiento mientras exista; lo que hubiera en <em>instance store</em> se pierde. Al <strong>terminar</strong> (<em>terminate</em>) eliminas la instancia, y con ella los volúmenes que tienen activado <em>DeleteOnTermination</em>, como el raíz por defecto; los que lo tienen desactivado siguen existiendo y cobrándose hasta que los borres. Por eso, en el lab, terminar al cerrar evita encontrarse cargos el lunes.</p>
+<p>Para entrar en la instancia, <strong>EC2 Instance Connect</strong> te conecta desde la propia consola sin tener que manejar el <code>.pem</code> en el portátil del aula; el usuario (<code>ubuntu</code>, <code>ec2-user</code>…) depende de la AMI. Si entras por SSH con par de claves, el security group debe abrir el puerto 22 <strong>solo</strong> a tu IP o a un bastión (una máquina intermedia de acceso), nunca a todo internet.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Imagina un <code>t3.large</code> encendido las veinticuatro horas «para ir holgado», cuando la API solo tiene tráfico alrededor de las 11:00: el resto del día pagas una máquina que no hace nada. Lo razonable es elegir un tipo más pequeño, apagarla fuera de horario (o usar <a href="#auto-scaling">Auto Scaling</a> con mínimo cero, que verás en el <a href="../08-escalado-monitoreo-cierre/tema8.html">Tema 8</a>) y, si el trabajo es una tarea programada corta, pasarla a Lambda. El ahorro viene de dejar de pagar lo que no usas.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Confundir el tipo <code>t3.micro</code> con Spot: el primero es un tamaño de hardware y el segundo, una forma de compra interrumpible.</li>
+<li>Elegir Spot para el checkout o para una demo en directo.</li>
+<li>Dejar la instancia encendida el fin de semana: el estado <em>running</em> sigue facturando horas y disco.</li>
+<li>Abrir el puerto 22 a todo internet para entrar por SSH.</li>
+</ul>
+</div>
+<h3 id="aws-lambda">AWS Lambda<a class="headerlink" href="#aws-lambda" title="Permanent link">&para;</a></h3>
+<p><strong><a href="#lambda">AWS Lambda</a></strong> ejecuta una <strong><a href="#funcion-lambda">función</a></strong>, es decir, un trozo de código, cada vez que ocurre un <strong><a href="#evento-lambda">evento</a></strong>: una petición HTTP que llega por API Gateway, un fichero que se sube a S3, un mensaje en una cola o una regla programada de EventBridge. No hay ninguna máquina virtual encendida esperando: AWS prepara un entorno temporal, ejecuta tu función principal (el <em>handler</em>), lo retira y te cobra por el número de <strong>invocaciones</strong> y por su duración, medida en <strong>GB-segundo</strong> (la memoria asignada multiplicada por los segundos de ejecución).</p>
+<p>Por eso Lambda encaja en tareas cortas que responden a algo concreto, como recibir el aviso de otra aplicación (<em>webhook</em>), redimensionar una imagen al subirla o lanzar cada hora una tarea que dura segundos. No encaja en un programa que tiene que quedarse escuchando en un puerto todo el día, en trabajos que duran horas ni en una aplicación que guarda datos en memoria para usarlos en la petición siguiente, porque cada invocación puede ejecutarse en un entorno nuevo. Cada invocación tiene un tiempo máximo (<strong><a href="#timeout-lambda">timeout</a></strong>) que tú configuras y que, según la documentación oficial, <strong>no puede pasar de 15 minutos</strong>. Si la tarea dura más, necesitas EC2, un contenedor o Step Functions, un servicio que encadena varias Lambdas.</p>
+<p>El <strong><a href="#cold-start">arranque en frío</a></strong> (<em>cold start</em>) es el retraso extra de una invocación cuando AWS no tiene ningún entorno preparado y debe crear uno. Importa en una API en la que cada milisegundo cuenta y apenas importa en un proceso que se ejecuta de noche. AWS mantiene y actualiza el entorno de ejecución (<em>runtime</em>, por ejemplo Node 20); <strong>tú</strong> te encargas del código, de las dependencias que empaquetas y del rol de ejecución, que fija con IAM (<em>Identity and Access Management</em>, gestión de identidades y accesos) a qué servicios puede acceder la función.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Lambda no es buena opción para un chat que mantiene conexiones abiertas con los usuarios, para convertir un vídeo durante horas, para depurar entrando por SSH en la máquina ni para una aplicación Express copiada tal cual, que guarda la sesión en memoria y escucha en un puerto fijo. En esos casos suele ir mejor una EC2 o un contenedor.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Meter en Lambda una API Express copiada tal cual, que guarda datos en memoria y escucha en un puerto fijo.</li>
+<li>Elegir Lambda «porque es serverless» para un proceso que tiene que escuchar todo el día.</li>
+</ul>
+</div>
+<h3 id="contenedores-docker-ecr-ecs-eks-y-fargate">Contenedores: Docker, ECR, ECS, EKS y Fargate<a class="headerlink" href="#contenedores-docker-ecr-ecs-eks-y-fargate" title="Permanent link">&para;</a></h3>
+<p>Un <strong><a href="#contenedor">contenedor</a></strong> es la aplicación empaquetada junto con todo lo que necesita para funcionar (librerías, versión de Node, configuración), de modo que se ejecuta igual en tu portátil que en AWS. Ese paquete se construye como una <strong><a href="#imagen-contenedor">imagen</a></strong>, normalmente con <strong><a href="#docker">Docker</a></strong>, y en AWS se guarda en <strong><a href="#ecr">ECR</a></strong> (<em>Elastic Container Registry</em>, registro de contenedores elástico). Para ejecutarlo hace falta un orquestador, es decir, un servicio que arranca los contenedores, los vigila y los reinicia si fallan.</p>
+<p>Si en clase ya tienes la API en Docker, el paso natural es <strong>ECS</strong> (<em>Elastic Container Service</em>, servicio de contenedores elástico) con <strong><a href="#fargate">Fargate</a></strong>: AWS pone y mantiene las máquinas en las que corren los contenedores, y tú solo indicas cuánta CPU y memoria necesita cada tarea (<em>task</em>). Por eso con Fargate <strong>no</strong> parcheas el sistema operativo de esas máquinas, aunque sí mantienes y actualizas la imagen de tu aplicación. <strong>EKS</strong> (<em>Elastic Kubernetes Service</em>, Kubernetes gestionado) tiene sentido cuando la empresa ya trabaja con Kubernetes; para un único contenedor de prácticas es demasiado.</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Qué aporta</th>
+<th>Trade-off didáctico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ECR</strong></td>
+<td>Repositorio de imágenes privado en AWS</td>
+<td>Hay que publicar imagen antes del despliegue</td>
+</tr>
+<tr>
+<td><strong>ECS</strong></td>
+<td>Orquestación propia de AWS</td>
+<td>Menos portable que K8s puro</td>
+</tr>
+<tr>
+<td><strong>EKS</strong></td>
+<td>Kubernetes gestionado</td>
+<td>Más control, más piezas</td>
+</tr>
+<tr>
+<td><strong>Fargate</strong></td>
+<td>Cómputo serverless para contenedores</td>
+<td>Sin SSH al nodo; menos «tocar el hierro»</td>
+</tr>
+</tbody>
+</table>
+<p>Para este módulo no necesitas montar un clúster de producción, pero sí saber razonar qué opción encaja. Si la API ya está en Docker, el siguiente paso es ECS con Fargate; si el trabajo es un script de veinte segundos, basta con Lambda; y si una aplicación antigua exige un sistema operativo con una licencia concreta, su sitio es EC2.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Cada opción cambia la forma de desplegar la API. En EC2, que es lo que hace el lab del módulo, lanzas la instancia en una zona de disponibilidad (AZ), le asocias el security group y te conectas a ella. En Lambda no hay ningún <code>listen</code>: escribes el <em>handler</em> en el editor de la consola, pulsas <strong>Deploy</strong> para publicarlo y <strong>Test</strong> para probarlo con un evento de ejemplo. Con ECS y Fargate subes la imagen nueva a ECR y actualizas el servicio para que arranque tareas con esa versión.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Montar EKS para un único contenedor de prácticas, con un plano de control, nodos y una curva de aprendizaje que no aportan nada si ECS con Fargate basta.</li>
+</ul>
+</div>
+<figure>
+<img alt="Opciones de cómputo: EC2, Lambda, ECS y Fargate" src="../img/diagramas/computo-opciones.svg" width="800" />
+
+<figcaption>Misma carga, distinto nivel de gestión: VM, función o contenedor (con o sin nodos).</figcaption>
+</figure>
+<figure>
+<img alt="Diagrama Get started de Amazon EC2" src="img/capturas/ec2-get-started.png" width="800" />
+
+<figcaption>Flujo Get started de EC2. Fuente: Amazon EC2 User Guide (AWS).</figcaption>
+</figure>
+<figure>
+<img alt="Editor de código de AWS Lambda con handler Node.js" src="img/capturas/lambda-code-editor.png" width="800" />
+
+<figcaption>Editor de la función: Deploy / Test en la propia consola. Fuente: AWS Lambda Developer Guide (AWS).</figcaption>
+</figure>
+<figure>
+<img alt="Diálogo de evento de prueba en Lambda" src="img/capturas/lambda-test-event.png" width="800" />
+
+<figcaption>Evento de prueba: invocas sin montar API Gateway todavía. Fuente: AWS Lambda Developer Guide (AWS).</figcaption>
+</figure>
+<h3 id="elastic-beanstalk-y-lightsail">Elastic Beanstalk y Lightsail<a class="headerlink" href="#elastic-beanstalk-y-lightsail" title="Permanent link">&para;</a></h3>
+<p>Con <strong>Elastic Beanstalk</strong> subes el código de la aplicación y AWS crea por ti las instancias EC2, el balanceador y el despliegue, con menos pasos manuales; por eso se dice que es un PaaS (<em>Platform as a Service</em>, plataforma como servicio) construido sobre EC2. <strong>Lightsail</strong> ofrece servidores privados virtuales (VPS, <em>Virtual Private Server</em>) sencillos, con un precio fijo al mes, pensados para sitios pequeños. En un proyecto de DAW en el que diseñas a mano la VPC, el <strong>ALB</strong> (<em>Application Load Balancer</em>, balanceador de carga de aplicación) y RDS, lo normal es usar EC2 o contenedores. Beanstalk y Lightsail aparecen en el CLF-C02 como atajos para cuando no necesitas controlar la red con detalle.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Si ya diseñaste en el <a href="../03-redes-entrega-contenido/tema3.html">Tema 3</a> la VPC, las subredes privadas, el ALB y RDS, Lightsail no sustituye ese diseño. Sirve para montar rápido un WordPress o un servidor único, pero no te hace practicar el mapa completo de la red.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Tratar Beanstalk, Rekognition o SageMaker como «un tipo de EC2».</li>
+<li>Sustituir el diseño de red del módulo por Lightsail y dar por practicada la VPC.</li>
+</ul>
+</div>
+<h3 id="ec2-lambda-y-contenedor-la-misma-api-tres-formas">EC2, Lambda y contenedor: la misma API, tres formas<a class="headerlink" href="#ec2-lambda-y-contenedor-la-misma-api-tres-formas" title="Permanent link">&para;</a></h3>
+<p>La tabla siguiente reúne lo visto en los apartados anteriores y compara las tres opciones para desplegar la misma API.</p>
+<table>
+<thead>
+<tr>
+<th>Dimensión</th>
+<th>EC2</th>
+<th>Lambda</th>
+<th>ECS + Fargate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quién parchea el SO</td>
+<td>Tú (instancia)</td>
+<td>AWS (entorno gestionado)</td>
+<td>AWS (nodo); tú la imagen de app</td>
+</tr>
+<tr>
+<td>Cómo pagas</td>
+<td>Tiempo <em>running</em> + EBS</td>
+<td>Invocaciones + duración</td>
+<td>vCPU/memoria del task + tiempo</td>
+</tr>
+<tr>
+<td>Estado / puerto</td>
+<td>El proceso escucha en un puerto todo el día; disco propio</td>
+<td>No escucha en ningún puerto; cada invocación puede empezar de cero</td>
+<td>El contenedor escucha en un puerto mientras la tarea está en marcha</td>
+</tr>
+<tr>
+<td>Límites</td>
+<td>Tú eliges disco y tipo y gestionas el escalado (ASG, Tema 8)</td>
+<td>Máximo 15 min por invocación; arranque en frío</td>
+<td>Hay que definir la tarea; no puedes entrar por SSH a la máquina</td>
+</tr>
+<tr>
+<td>Cuándo elegir</td>
+<td>API siempre encendida, conexiones abiertas (chat), aplicaciones antiguas</td>
+<td>Tareas cortas ante un evento, tareas programadas, webhooks</td>
+<td>Aplicación ya en Docker, sin administrar máquinas</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Examen CLF</th>
+<th>Clase DAW / empresa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lambda no sustituye todo «por moderno»</td>
+<td>PR401: comparar estado, duración, coste 24/7</td>
+</tr>
+<tr>
+<td>Fargate ≠ gestionar SO del nodo</td>
+<td>Docker en clase → ECS/Fargate razonable</td>
+</tr>
+<tr>
+<td>Beanstalk/Rekognition/SageMaker ≠ «tipo EC2»</td>
+<td>Nombrar el servicio correcto en el enunciado</td>
+</tr>
+</tbody>
+</table>
+<h3 id="relacion-con-red-y-almacenamiento">Relación con red y almacenamiento<a class="headerlink" href="#relacion-con-red-y-almacenamiento" title="Permanent link">&para;</a></h3>
+<p>Una EC2 sin una VPC ni un security group bien definidos es un servidor expuesto a internet (<a href="../03-redes-entrega-contenido/tema3.html">Tema 3</a>). Su disco principal suele ser EBS (<a href="../05-almacenamiento/tema5.html">Tema 5</a>), pero los ficheros que suben los usuarios no deben guardarse en el disco raíz de una sola instancia: las demás no los ven y, si <em>DeleteOnTermination</em> está activado, desaparecen al terminarla. Por último, <strong><a href="#auto-scaling">Auto Scaling</a></strong>, que verás en el <a href="../08-escalado-monitoreo-cierre/tema8.html">Tema 8</a>, añade o quita instancias EC2 de un grupo, pero no corrige haber elegido mal el tipo o el modelo de compra.</p>
+<h3 id="lab-del-modulo-6">Lab del Módulo 6<a class="headerlink" href="#lab-del-modulo-6" title="Permanent link">&para;</a></h3>
+<p>En <em>Cloud Foundations</em>, el lab del <strong>Módulo 6</strong> consiste en lanzar una EC2: eliges la AMI, un tipo pequeño, la red del lab y el par de claves o Instance Connect, y a menudo creas o usas una AMI propia. Sigue el enunciado de la plataforma de Academy y trabaja en la <strong>región del lab</strong>. La práctica <strong>PR401</strong> te pide además <strong>comparar</strong> esa misma carga de trabajo con Lambda, aunque en el lab solo lances la máquina virtual. Si practicas en el Learner Lab, usa <strong>LabRole</strong> y <strong>LabInstanceProfile</strong> cuando una instancia o una Lambda tengan que acceder a otros servicios de AWS, en lugar de guardar claves de acceso (<em>access keys</em>) en el disco.</p>
+<h3 id="conectar-lambda-a-http">Conectar Lambda a HTTP<a class="headerlink" href="#conectar-lambda-a-http" title="Permanent link">&para;</a></h3>
+<p>Una API REST en EC2 recibe las peticiones directamente en un puerto. Con Lambda, el esquema habitual es poner <strong>API Gateway</strong> delante de la función: API Gateway recibe la petición HTTPS, comprueba la ruta e <strong>invoca</strong> la función pasándole los datos de la petición en formato JSON, y la función devuelve el código de estado y el contenido de la respuesta. No hay un proceso Node encendido todo el tiempo, sino que cada petición es una invocación independiente que puede sufrir <em>cold start</em>. Para el CLF basta con reconocer la pareja API Gateway y Lambda frente a la de un ALB que envía el tráfico a una EC2 que escucha en un puerto.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Las opciones se pueden combinar en un mismo proyecto: el front como web estática en S3, las rutas dinámicas de la API en Lambda y, si el diseño lo necesita, una EC2 para las partes que mantienen conexiones abiertas.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Esperar que detrás de API Gateway haya un servidor escuchando siempre en el puerto 3000.</li>
+<li>Creer que Auto Scaling elige por ti entre Lambda y EC2: solo ajusta cuántas instancias de un tipo ya elegido hay en el grupo.</li>
+</ul>
+</div>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>En el CLF-C02 no basta con saber qué es EC2 o Lambda: tienes que distinguir el <strong>tipo de instancia</strong> del <strong>modelo de precio</strong> y elegir el servicio según si guarda estado, cuánto dura la tarea y quién mantiene el entorno. Algunas preguntas trampa presentan <strong>SageMaker</strong> o <strong>Rekognition</strong> como si fueran «una EC2 más grande», cuando son servicios gestionados de aprendizaje automático (ML, <em>machine learning</em>) y no familias de instancia. Otra trampa es pensar que <strong>Auto Scaling</strong> decide por ti entre Lambda y EC2, cuando solo ajusta <strong>cuántas</strong> instancias de un tipo ya elegido hay en el grupo.</p>
+<p>Si el enunciado habla de una <strong>carga que puede interrumpirse</strong> y tolera el aviso de terminación, la respuesta es <strong>Spot</strong>. Si habla de un <strong>compromiso de 1 a 3 años</strong> con uso estable, piensa en <strong>Reserved</strong> o <strong>Savings Plans</strong>. Y si describe una <strong>función que se ejecuta al subir un fichero a S3</strong>, piensa en <strong>Lambda</strong>, no en una máquina virtual encendida «por si acaso».</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>Spot es un modelo de compra, no un tamaño <code>t3.micro</code>. SageMaker o Rekognition no son «un tipo de EC2». Auto Scaling escala <strong>grupos</strong> de instancias, no sustituye elegir bien el cómputo. Ampliación y <strong>autocheck certificación</strong> en <a href="../99-certificacion/certificacion.html#tema-4">Certificación § Tema 4</a>.</p>
+</div>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=vdSKZxOVX1A">ATTA AWS Academy 03 EC2 Linux</a> (~25 min).</p>
+<iframe src="https://www.youtube.com/embed/vdSKZxOVX1A" title="ATTA AWS Academy 03 EC2 Linux — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Fíjate en la AMI, el tipo pequeño, el security group y cómo apagar o terminar la instancia, porque eso es lo que facturas en el lab.</p>
+<p><strong>Extra (opcional).</strong> <a href="https://www.youtube.com/watch?v=TIeUbq4bCOU">Lambda 101</a> (~14 min) — contraste serverless frente a EC2 24/7. Vídeo: Profe Santos Cloud (YouTube).</p>
+<p><strong>Extra.</strong> <a href="https://www.youtube.com/watch?v=ts9izrtvrqg">Creación y gestión de EC2</a> — lanzar instancia: AMI, tipo, par de claves y acceso.</p>
+<iframe src="https://www.youtube.com/embed/ts9izrtvrqg" title="Creación y gestión de EC2" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<figure>
+<img alt="Pares de claves al crear una EC2" src="img/salvador/ec2_4.png" width="640" />
+
+<figcaption>Par de claves al lanzar la instancia.</figcaption>
+</figure>
+<figure>
+<img alt="EC2 Instance Connect: usuario de la AMI y botón Connect" src="img/salvador/ec2_12.png" width="720" />
+
+<figcaption>Conectar desde consola (Instance Connect): el usuario suele venir de la AMI (`ubuntu`, `ec2-user`…).</figcaption>
+</figure>
+<figure>
+<img alt="Instancia EC2 en ejecución / consola" src="img/salvador/ec2_11.png" width="640" />
+
+<figcaption>Instancia en consola tras el lanzamiento.</figcaption>
+</figure>
+<p>Abre el <strong>Módulo 6</strong> en tu clase de <em>Cloud Foundations</em> y sigue el lab que indique Aules. Usa la región del lab.</p>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr401-lanzar-y-comparar-computo">PR401 — Lanzar y comparar cómputo<a class="headerlink" href="#pr401-lanzar-y-comparar-computo" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR401</strong>. (RA3 // d, f // <strong>PR 0–10</strong>). Lanzas el lab Academy del <strong>Módulo 6</strong> (EC2 / AMI) y argumentas si ese mismo workload encajaría en <strong>Lambda</strong>, mirando estado, duración y coste 24/7.</li>
+</ul>
+<p><strong>Tareas:</strong> sigue AMI/región del enunciado con tipo pequeño y SG mínimo; documenta evidencias del lanzamiento; en el <code>.md</code>, compara EC2 frente a Lambda (estado, tiempo, puerto persistente, coste); <strong>terminate</strong> las instancias y deja evidencia de lista vacía o parada.</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR401.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo (no sustituye el enunciado): <a href="../90-soluciones/pr/PR401.html">Soluciones · PR401</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lab EC2/AMI</td>
+<td>Lanzamiento según enunciado</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Comparación Lambda</td>
+<td>Estado, duración, coste 24/7</td>
+<td>0–4</td>
+</tr>
+<tr>
+<td>Limpieza</td>
+<td>Terminate / evidencias</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Claridad del <code>.md</code></td>
+<td>Sin quedarse solo en el logo</td>
+<td>0–1</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="despliegue-de-npm-start-al-servicio">Despliegue: de <code>npm start</code> al servicio<a class="headerlink" href="#despliegue-de-npm-start-al-servicio" title="Permanent link">&para;</a></h3>
+<p>En tu portátil, <code>node server.js</code> abre el puerto 3000 y el navegador habla con ese proceso a través de <code>localhost</code>. Llevar la <strong>misma API</strong> a AWS no consiste en copiar ese comando, porque cambia quién te da la máquina, cómo llega el tráfico por la red y quién se encarga de que el proceso siga en marcha.</p>
+<p>Si eliges <strong>EC2</strong>, primero preparas la red (la subred y el security group del Tema 3) y lanzas una instancia con una <strong>AMI</strong> que ya traiga Linux. Después instalas Node o PHP, clonas el repositorio y arrancas la aplicación. El security group debe dejar pasar el tráfico al puerto de la API <strong>solo</strong> desde el ALB o desde el origen que hayas previsto, no desde todo internet. Además, el proceso tiene que seguir funcionando cuando cierras la sesión SSH, y para eso se usa <strong>systemd</strong>, <strong>PM2</strong> o una herramienta parecida. Como la IP pública de la instancia cambia cada vez que la detienes, el front o el DNS deben apuntar al ALB y no a esa IP.</p>
+<p>Si eliges <strong>Lambda</strong>, no subes un servidor que hace <code>listen</code>. Escribes un <strong>handler</strong>, una función que recibe los datos del evento y el contexto de ejecución, la despliegas y la conectas a un disparador (API Gateway, S3, una tarea programada…). Cada petición HTTP llega a API Gateway, que invoca la función; cuando la función termina, no queda ningún programa escuchando en el puerto 3000. Por eso tienes que adaptar las rutas y el estado: lo que antes guardabas en memoria entre peticiones pasa a RDS o a ElastiCache, o deja de guardarse.</p>
+<p>Si eliges <strong>ECS con Fargate</strong>, construyes una <strong>imagen Docker</strong> de la API, la subes a <strong>ECR</strong>, defines una tarea (<em>task</em>) con la CPU y la memoria que necesita y creas un servicio que mantiene en marcha el número de tareas que indiques. El balanceador (ALB) reparte el tráfico entre esas tareas. Cuando cambia el código, actualizas la imagen; no tienes que entrar a parchear el sistema operativo de las máquinas.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Para elegir no sirve preguntarse cuál suena más moderno, sino cuatro cosas: si la aplicación guarda <strong>estado</strong>, cuánto <strong>dura</strong> cada tarea, <strong>quién mantiene</strong> cada parte y cuánto <strong>cuesta</strong>, sobre todo si comparas una EC2 encendida las veinticuatro horas con invocaciones sueltas. Anota ese razonamiento en <strong>PR401</strong>, aunque el lab del Módulo 6 solo te haga lanzar una EC2.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Copiar <code>npm start</code> en AWS sin pensar quién mantiene el proceso en marcha cuando cierras la sesión.</li>
+<li>Apuntar el front a la IP pública de la EC2, que cambia cada vez que la paras y la vuelves a iniciar.</li>
+<li>Dejar en RAM entre peticiones de Lambda lo que debería estar en RDS.</li>
+</ul>
+</div>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba lo que has aprendido sobre cómputo en este tema. Para el CLF-C02 tienes más preguntas en <a href="../99-certificacion/certificacion.html#tema-4">Certificación § Tema 4</a>.</p>
+<ol>
+<li>Una <strong>AMI</strong> es…<br />
+   a) la instancia encendida · b) la plantilla para lanzar instancias · c) un tipo de precio</li>
+<li><strong>V/F.</strong> Spot es un tipo de instancia (<code>t3.micro</code>).</li>
+<li>Un cron de 30 s cada hora: hipótesis más razonable en Foundations…<br />
+   a) EC2 24/7 · b) Lambda · c) EKS obligatorio</li>
+<li><strong>V/F.</strong> Con Fargate administras tú el SO de cada nodo EC2 del clúster.</li>
+<li>Empareja: <strong>EC2</strong> · <strong>Lambda</strong> · <strong>ECS+Fargate</strong> con: (a) handler sin <code>listen</code> · (b) SSH y SO custom · (c) contenedor sin gestionar nodos</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p><strong>Falso</strong> — Spot es <strong>modelo de precio</strong>, no familia/tipo.</p>
+</li>
+<li>
+<p><strong>b</strong> (evento corto; EC2 24/7 suele sobrar).</p>
+</li>
+<li>
+<p><strong>Falso</strong> — Fargate quita la gestión del nodo.</p>
+</li>
+<li>
+<p><strong>EC2</strong> encaja con (b) SSH y SO a medida; <strong>Lambda</strong>, con (a) handler sin <code>listen</code>; <strong>ECS+Fargate</strong>, con (c) contenedor sin gestionar nodos.</p>
+</li>
+</ol>
+</details>
+<p>Para preparar el examen de la 1.ª evaluación tienes una <a href="../95-preparacion-examenes/practica-orientativa-1ev.html">práctica orientativa</a> que repasa en el Learner Lab lo visto en los temas 3 y 4.</p>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="ec2">EC2</strong>
+<em>Elastic Compute Cloud</em> (nube elástica de cómputo): servicio de <strong>instancias</strong> (máquinas virtuales) en AWS. Tú eliges AMI, tipo, red y almacenamiento; sueles parchear el sistema operativo. Es el análogo más cercano a «tengo un Linux donde instalo Node/Java», con factura por tiempo de vida de la instancia.</p>
+<p><strong id="instancia">instancia</strong>
+Máquina virtual EC2 en ejecución o parada, creada a partir de una AMI y un tipo concreto. No confundir la instancia con la AMI ni con el tipo de instancia.</p>
+<p><strong id="ami">AMI</strong>
+<em>Amazon Machine Image</em> (imagen de máquina de Amazon): plantilla (SO + software) a partir de la cual se lanzan instancias EC2. No es la instancia en ejecución. Si la «buena» AMI solo vive en el disco de un compañero, el despliegue no es repetible.</p>
+<p><strong id="tipo-de-instancia">tipo de instancia</strong>
+Combinación publicada de vCPU, RAM y red (p. ej. <code>t3.micro</code>). Es hardware de plantilla, no modelo de precio.</p>
+<p><strong id="familia-de-instancia">familia de instancia</strong>
+Letra inicial del tipo (<code>t</code>, <code>m</code>, <code>c</code>, <code>r</code>…): perfil de uso (propósito general, cómputo, memoria…). El rightsizing elige familia y tamaño acorde a la carga.</p>
+<p><strong id="vcpu">vCPU</strong>
+<em>virtual CPU</em> (procesador virtual): unidad de cómputo asignada a la instancia según el tipo elegido.</p>
+<p><strong id="ebs">EBS</strong>
+<em>Elastic Block Store</em> (almacenamiento en bloques elástico): volumen de disco en red asociado a EC2. Persiste aunque detengas la instancia; al terminarla, se borra o se conserva según el atributo <em>DeleteOnTermination</em>. El Tema 5 profundiza en sus tipos y en las copias.</p>
+<p><strong id="instance-store">instance store</strong>
+Almacenamiento local en el host físico: alto rendimiento en algunos tipos, pero los datos se pierden si la instancia se detiene, hiberna o termina, o si falla el hardware.</p>
+<p><strong id="par-de-claves">par de claves</strong>
+<em>Key pair</em>: credencial SSH pública/privada para acceder a instancias Linux. La privada (<code>.pem</code>) solo se descarga al crearla si la generas tú.</p>
+<p><strong id="ssh">SSH</strong>
+<em>Secure Shell</em> (acceso remoto cifrado): protocolo habitual para administrar instancias Linux desde terminal. Requiere par de claves o método alternativo (Instance Connect).</p>
+<p><strong id="user-data">user data</strong>
+Datos de arranque (script cloud-init) que la instancia ejecuta en el primer boot; sirve para preparar la instancia al arrancar sin tener que volver a crear la AMI.</p>
+<p><strong id="on-demand">On-Demand</strong>
+Modelo de compra EC2 sin compromiso: pagas por tiempo de uso. Habitual en labs.</p>
+<p><strong id="reserved-instances">Reserved Instances</strong>
+Compromiso de uso (plazo) a cambio de descuento sobre instancias con perfil estable.</p>
+<p><strong id="savings-plans">Savings Plans</strong>
+Compromiso de gasto en $/h con flexibilidad entre familias y regiones; descuento frente a On-Demand.</p>
+<p><strong id="spot">Spot</strong>
+Modelo de compra de capacidad sobrante interrumpible; no es un tipo de instancia.</p>
+<p><strong id="lambda">Lambda</strong>
+Servicio de funciones <em>serverless</em>: ejecuta código ante eventos sin mantener una VM encendida. Se factura por invocaciones y duración.</p>
+<p><strong id="funcion-lambda">función Lambda</strong>
+Unidad desplegada (código + runtime + configuración) que AWS invoca ante un evento.</p>
+<p><strong id="evento-lambda">evento Lambda</strong>
+Disparador (API Gateway, S3, cola, cron…) que provoca una invocación de la función.</p>
+<p><strong id="cold-start">cold start</strong>
+Latencia extra al arrancar un entorno nuevo para atender una invocación tras periodo inactivo.</p>
+<p><strong id="timeout-lambda">timeout Lambda</strong>
+Tiempo máximo de una invocación; en la documentación oficial de AWS el límite configurable llega a <strong>15 minutos</strong> por invocación.</p>
+<p><strong id="contenedor">contenedor</strong>
+Proceso aislado empaquetado con dependencias; en DAW suele ser la API dockerizada.</p>
+<p><strong id="imagen-contenedor">imagen de contenedor</strong>
+Plantilla inmutable de capas a partir de la cual se crean contenedores (p. ej. <code>mi-api:1.0</code>).</p>
+<p><strong id="docker">Docker</strong>
+Herramienta para construir, probar y publicar imágenes de contenedor en local y en CI.</p>
+<p><strong id="ecr">ECR</strong>
+<em>Elastic Container Registry</em>: registro privado de imágenes Docker en AWS.</p>
+<p><strong id="ecs">ECS</strong>
+<em>Elastic Container Service</em>: orquestación de contenedores gestionada por AWS (no Kubernetes nativo).</p>
+<p><strong id="eks">EKS</strong>
+<em>Elastic Kubernetes Service</em>: Kubernetes gestionado en AWS; más piezas que ECS para un solo contenedor de prácticas.</p>
+<p><strong id="fargate">Fargate</strong>
+Modo de ejecución serverless para contenedores en ECS/EKS: AWS gestiona nodos; tú defines task/pods.</p>
+<p><strong id="elastic-beanstalk">Elastic Beanstalk</strong>
+PaaS de AWS que despliega aplicaciones sobre EC2 gestionadas con menos pasos manuales.</p>
+<p><strong id="auto-scaling">Auto Scaling</strong>
+Servicio que ajusta el número de instancias EC2 (u otros recursos) según demanda; detalle en Tema 8.</p>
+<p><strong id="lightsail">Lightsail</strong>
+Servicio de VPS simplificados con precio plano; atajo para sitios pequeños, no sustituto del diseño VPC+ALB+RDS del módulo de redes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../03-redes-entrega-contenido/tema3.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 3. Redes, VPC y entrega de contenido">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                3. Redes, VPC y entrega de contenido
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../05-almacenamiento/tema5.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 5. Almacenamiento">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                5. Almacenamiento
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

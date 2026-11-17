@@ -1,0 +1,122 @@
+[data-md-color-scheme="javi"] {
+    --md-primary-fg-color:        #0077b6;
+    --md-primary-fg-color--light: #0077b6;
+    --md-primary-fg-color--dark:  #0077b6;
+}
+
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color:        #0077b6;
+
+   --md-default-fg-color:               hsla(0, 0%, 100%, 1);
+   --md-default-fg-color--light:        hsla(0, 0%, 100%, 0.87);
+   --md-default-fg-color--lighter:      hsla(0, 0%, 100%, 0.32);
+   --md-default-fg-color--lightest:     hsla(0, 0%, 100%, 0.12);
+   --md-default-bg-color:               hsla(232, 15%, 21%, 1);
+   --md-default-bg-color--light:        hsla(232, 15%, 21%, 0.54);
+   --md-default-bg-color--lighter:      hsla(232, 15%, 21%, 0.26);
+   --md-default-bg-color--lightest:     hsla(232, 15%, 21%, 0.07);
+
+   --md-code-bg-color:                  hsla(232, 15%, 18%, 1);
+   --md-code-fg-color:                  hsla(60, 30%, 96%, 1);
+
+   --md-text-color:                     var(--md-default-fg-color--light);
+   --md-text-link-color:                var(--md-primary-fg-color);
+
+   --md-admonition-bg-color:            hsla(0, 0%, 100%, 0.025);
+   --md-admonition-fg-color:            var(--md-default-fg-color);
+
+   --md-footer-bg-color:                hsla(232, 15%, 12%, 0.87);
+   --md-footer-bg-color--dark:          hsla(232, 15%, 10%, 1);
+}
+
+@media only screen and (min-width: 76.25em) {
+  .md-main__inner {
+    max-width: none;
+  }
+  .md-sidebar--primary {
+    left: 0;
+  }
+  .md-sidebar--secondary {
+    right: 0;
+    margin-left: 0;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.md-header {
+  max-width: none;
+  width: 100%;
+}
+.md-header__inner {
+  max-width: none;
+}
+
+.md-typeset table {
+  margin: 0 auto !important;
+  display: table !important;
+}
+
+.md-typeset h1 {
+  font-size: 2.2em !important;
+}
+
+.md-typeset h2 {
+  font-size: 1.8em !important;
+}
+
+.md-typeset h3 {
+  font-size: 1.6em !important;
+}
+
+.md-typeset h4 {
+  font-size: 1.4em !important;
+}
+
+.md-typeset h5 {
+  font-size: 1.3em !important;
+}
+
+.md-typeset h6 {
+  font-size: 1.2em !important;
+}
+
+.md-typeset .admonition-title {
+  font-size: 1.3em !important;
+  font-weight: bold !important;
+}
+
+.md-typeset .admonition {
+  font-size: 1em !important;
+}
+
+/* Diagramas (proyección / columna de contenido) */
+.md-typeset img[src*="diagramas/"] {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: min(100%, 840px);
+  width: 100%;
+  height: auto;
+}
+
+.md-typeset figure {
+  margin: 1.2em auto;
+  max-width: min(100%, 840px);
+  text-align: center;
+}
+
+.md-typeset figure img {
+  display: block;
+  margin: 0 auto;
+  max-width: min(100%, 840px);
+  width: 100%;
+  height: auto;
+}
+
+.md-typeset figcaption {
+  margin-top: 0.5em;
+  text-align: center;
+  font-size: 0.9em;
+  color: var(--md-default-fg-color--light);
+}
