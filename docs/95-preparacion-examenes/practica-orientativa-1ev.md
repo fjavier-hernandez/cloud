@@ -14,7 +14,7 @@ Esta práctica sirve para ensayar, con guía, la parte práctica de la prueba ob
 
 Trabajarás en el Learner Lab del curso de AWS Academy. Entra en el curso, abre el contenido y pulsa el enlace de lanzamiento del laboratorio para el alumnado. Espera a que el indicador de AWS pase a verde y confirma, en la barra superior de la consola, que estás administrando recursos en la región Norte de Virginia (`us-east-1`). Si la consola está en otra región, cámbiala antes de crear nada: los recursos no aparecen de una región a otra y podrías dejar capacidad encendida sin verla.
 
-La entrega es un único documento PDF, llamado `PO1_practica_orientativa.pdf`, con las capturas que se piden en cada ejercicio. En cada imagen debe leerse con claridad lo que se solicita (nombres, tipo, región, reglas o la barra de direcciones del navegador). Al terminar, deja el laboratorio limpio: una instancia que sigue en ejecución factura cómputo y, si no se borra, también el volumen.
+La entrega es un fichero Markdown, llamado `PO1_practica_orientativa.md`, en un ZIP junto con la carpeta `img/` que contiene las capturas que se piden en cada ejercicio, enlazadas desde el propio documento. En cada imagen debe leerse con claridad lo que se solicita (nombres, tipo, región, reglas o la barra de direcciones del navegador). Al terminar, deja el laboratorio limpio: una instancia que sigue en ejecución factura cómputo y, si no se borra, también el volumen.
 
 !!! warning "Sin credenciales en la entrega"
     No incluyas claves, ficheros `.pem` ni capturas con credenciales.
