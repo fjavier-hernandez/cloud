@@ -129,9 +129,8 @@ El balanceador orientado a internet exige subredes en al menos dos AZ y una VPC 
 
 La subred privada es el lugar de lo que no debe recibir conexiones desde internet, como la API y la base de datos. Una subred es privada cuando su tabla de rutas **no** tiene una ruta directa al Internet Gateway y, igual que antes, el nombre de la consola no basta: la prueba está en dos filas de la tabla.
 
-La primera fila es la ruta local, que AWS crea sola y no te deja borrar. Su destino es el CIDR de la VPC, en el ejemplo `10.0.0.0/16`, y su objetivo es `local`. Gracias a ella, la API y la base se hablan por IP privada sin salir de la VPC.
-
-La segunda fila es la ruta de internet, y lo que convierte la subred en privada es que `0.0.0.0/0` **no** apunta a un `igw-…`. Si la instancia necesita salir, esa fila apunta a un NAT Gateway (`nat-…`). Si no aparece ni el IGW ni el NAT, la subred está aislada de internet: puede hablar con el resto de la VPC y con nada más.
+- **Ruta local.** AWS la crea sola y no deja borrarla: destino el CIDR de la VPC (`10.0.0.0/16`) y objetivo `local`. Gracias a ella, la API y la base se hablan por IP privada sin salir de la VPC.
+- **Ruta de internet.** Lo que hace privada la subred es que `0.0.0.0/0` **no** apunta a un `igw-…`. Si la instancia necesita salir, apunta a un NAT Gateway (`nat-…`); si no hay ni IGW ni NAT, la subred está aislada y solo habla con el resto de la VPC.
 
 Esta configuración distingue dos tipos de tráfico. La conexión **no solicitada**, la que abre un equipo de internet hacia tu instancia (un escáner que prueba el puerto 22, por ejemplo), no tiene camino de entrada: AWS no anuncia a internet el rango de la subred, no hay ruta desde el Internet Gateway hasta ella y la instancia no tiene IP pública, así que una dirección como `10.0.2.25` no es alcanzable desde fuera.
 
@@ -166,19 +165,17 @@ La subred privada, cuando la API necesita salir a internet, queda así.
 
 Estas tablas se comprueban siempre en **Subnet → Route table**, dentro de la subred concreta, y no en el dibujo del asistente, porque lo que cuenta es la tabla que la subred tiene asociada de verdad.
 
-El [IGW](#igw) es la puerta de la VPC hacia internet para los recursos que tienen ruta hasta él e IP pública. Es redundante y de alta disponibilidad dentro de la región, y cada VPC puede tener uno solo. Para usarlo lo adjuntas a la VPC y apuntas a él la ruta por defecto de las subredes públicas; por ahí entra el usuario hasta el ALB, que de hecho solo se puede crear en una VPC que ya tenga esta puerta.
+Las dos puertas hacia fuera funcionan así:
 
-La API, que está en la subred privada, también necesita salir a internet de vez en cuando, y para eso existe el **[NAT Gateway](#nat-gateway)**: permite que las instancias de una subred privada inicien conexiones salientes. No publica la API, no es un balanceador y no admite security group, así que el filtrado sigue en los security groups del ALB, de la EC2 y de RDS.
+- **[Internet Gateway](#igw) (IGW).** Es la puerta de la VPC hacia internet para los recursos con ruta hasta él e IP pública. Es redundante dentro de la región y cada VPC tiene uno solo: lo adjuntas a la VPC y apuntas a él la ruta `0.0.0.0/0` de las subredes públicas. Por ahí entra el usuario hasta el ALB, que solo se puede crear en una VPC con IGW.
+- **[NAT Gateway](#nat-gateway).** Permite que las instancias de una subred privada, como la API, **inicien** conexiones hacia internet. No publica la API, no es un balanceador y no admite security group, así que el filtrado sigue en los grupos del ALB, la EC2 y RDS.
+- **Dónde se crea el NAT.** En una subred pública, con una IP elástica, porque él mismo necesita salir por el IGW; en la privada su tráfico no tendría salida.
+- **Cómo traduce.** La EC2 abre la conexión, el NAT la reenvía con su IP elástica como origen y recuerda la conexión, y devuelve la respuesta a la IP privada de la instancia. Quien está fuera responde, pero no inicia.
+- **Un NAT por AZ.** Cada NAT vive en una sola AZ; si cae esa zona, las instancias de otras zonas que lo compartían pierden la salida. Por eso cada AZ lleva su NAT y su tabla privada apunta a él.
+- **Coste.** Se factura por hora de existencia (una hora empezada cuenta entera) y por GB procesado, más la transferencia de datos; el precio por región está en la página de precios de Amazon VPC. Al terminar el lab, se borra.
+- **Ahorro con S3.** Si el grueso del tráfico va a S3 en la misma región, un [VPC endpoint](#vpc-endpoint) de tipo *gateway* evita pasar esos bytes por el NAT, sin coste por hora ni por GB.
 
-El NAT para salir a internet es un NAT público y se crea en una subred pública, porque él mismo necesita llegar al Internet Gateway; además se le asocia una IP elástica para que internet vea un origen estable. Si lo pusieras en la subred privada, su propio tráfico no tendría salida.
-
-La traducción sigue un orden fijo: la EC2 abre la conexión, el NAT la reenvía con su IP elástica como origen y recuerda la conexión, y cuando llega la respuesta se la devuelve a la IP privada de la instancia. Quien está fuera responde, pero no inicia.
-
-Cada NAT Gateway vive en **una** AZ y no cubre el fallo de esa zona entera: si instancias de otra AZ comparten ese NAT y su zona cae, pierden la salida a internet. Por eso se crea un NAT en la subred pública de cada AZ y la tabla privada de cada zona apunta a su propio NAT.
-
-El NAT se factura por cada hora que existe (una hora empezada cuenta entera) y por cada GB que procesa, además de la transferencia de datos habitual. El precio depende de la región y está en la página de precios de Amazon VPC; por eso, al terminar el lab, se borra junto con el resto de recursos.
-
-Parte de ese gasto se puede evitar: si el grueso del tráfico va a S3 en la misma región, un [VPC endpoint](#vpc-endpoint) de tipo *gateway* evita pasar esos bytes por el NAT y no tiene coste por hora ni por GB. Si el lab no crea ningún NAT, anótalo en el entregable, porque significa que la instancia privada no tiene salida o que el servidor está en una subred pública para simplificar.
+Si el lab no crea ningún NAT, anótalo en el entregable: o la instancia privada no tiene salida, o el servidor está en una subred pública para simplificar.
 
 **Ejemplo del proyecto DAW.** La base de datos no lleva IP pública ni ruta al IGW: solo recibe el tráfico que la API le envía por la ruta local. En cambio, las salidas que inicia la EC2 de la API (parches del SO, `npm install` y llamadas a una API externa) pasan por el NAT.
 
@@ -215,11 +212,11 @@ El esquema muestra una sola AZ para que el camino se lea con claridad. En el pro
 
 La subred privada evita un camino de entrada desde internet, pero no decide quién puede hablar con cada pieza dentro de la VPC. Eso lo deciden los security groups: cada regla de entrada nombra el puerto y el origen, de modo que abrir un puerto no lo abre para cualquier dirección. En el proyecto, el usuario entra por el balanceador, la API solo acepta a ese balanceador y la base solo acepta a la API.
 
-El security group del ALB acepta el tráfico de los usuarios: TCP en el puerto 443 desde `0.0.0.0/0`, y el 80 solo si redirige a HTTPS. Es el único grupo que necesita un origen tan amplio, y solo en los puertos de la web.
+Los tres grupos del proyecto forman una cadena:
 
-El de la API permite el puerto de la aplicación, y su origen no es una IP sino el security group del ALB. Cuando el origen es otro grupo, la regla afecta a las interfaces que lo llevan y se aplica sobre sus IP privadas, que son las que usa el ALB para enviar las peticiones; así la EC2 no necesita IP pública y, si el balanceador cambia un nodo y su IP, la regla sigue valiendo. Esa misma regla cubre el *health check*, la comprobación con la que el ALB decide si el destino está sano.
-
-El security group de RDS cierra la cadena: permite el puerto del motor (3306 en MySQL y MariaDB, 5432 en PostgreSQL) solo desde el grupo de la API. Si sustituyes la EC2, la base acepta a la nueva instancia porque lleva el mismo grupo.
+- **ALB.** Acepta TCP en el 443 desde `0.0.0.0/0`, y el 80 solo si redirige a HTTPS. Es el único grupo con un origen tan amplio, y solo en los puertos de la web.
+- **API.** Permite el puerto de la aplicación con origen el security group del ALB, no una IP. La regla se aplica sobre las IP privadas de las interfaces que llevan ese grupo, que son las que usa el ALB, así que la EC2 no necesita IP pública y la regla sigue valiendo si el balanceador cambia un nodo. Esa misma regla cubre el *health check*, la comprobación con la que el ALB decide si el destino está sano.
+- **RDS.** Permite el puerto del motor (3306 en MySQL y MariaDB, 5432 en PostgreSQL) solo desde el grupo de la API. Si sustituyes la EC2, la base acepta a la nueva instancia porque lleva el mismo grupo.
 
 Con todo cerrado así, la EC2 o la base se administran por uno de estos tres caminos, ninguno de los cuales publica el 22 ni el 3306 a internet.
 
