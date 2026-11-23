@@ -8,6 +8,9 @@ hide: toc
 
 Apuntes y organización del módulo optativo **Introducción a la nube pública** del CFGS de *Desarrollo de Aplicaciones Web* (DAW), modalidad **semipresencial**, en el marco de la [Ley Orgánica 3/2022](https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-5139) y el [Real Decreto 659/2023](https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-16889), impartido en el [IES Macià Abela](https://portal.edu.gva.es/iesmaciaabela/) de Crevillent.
 
+!!! tip "AWS GameDay 2026"
+    La clasificación virtual es el jueves 26 de noviembre de 2026, de 9:30 a 12:30. La [guía de preparación](96-gameday/gameday-2026.md) es para los equipos IESMADAWS (DAW) e IESMAWSMIR (Sistemas Microinformáticos y Redes) y se puede seguir en un día, aunque el curso de AWS todavía no haya empezado.
+
 **Curso 2026-2027.** Empieza por **[Acceso](00-acceso/acceso.md)**: entrar en Academy, el laboratorio de prácticas y Skill Builder, activar la suscripción y, si aplica, obtener los [vouchers de certificación](00-acceso/acceso.md#vouchers). El **[Tema 1](01-fundamentos-nube-aws/tema1.md)** ya es contenido del módulo (mapa de Cloud Foundations). En la navegación tienes el resto de temas; la preparación del examen **Cloud Practitioner (CLF-C02)** está en **[Certificación](99-certificacion/certificacion.md)**. El hilo del curso es **AWS Academy Cloud Foundations**, con ampliación hacia ese mismo examen.
 
 ## Resultados de aprendizaje

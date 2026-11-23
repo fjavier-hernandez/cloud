@@ -10,6 +10,7 @@ exclude_docs: |
 
 nav:
   - "Inicio": "index.md"
+  - "GameDay 2026": "96-gameday/gameday-2026.md"
   - "Acceso": "00-acceso/acceso.md"
   - "Calendario": "calendario.md"
   - "1. Fundamentos de la nube AWS": "01-fundamentos-nube-aws/tema1.md"

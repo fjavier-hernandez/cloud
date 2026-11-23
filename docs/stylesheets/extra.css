@@ -120,3 +120,35 @@
   font-size: 0.9em;
   color: var(--md-default-fg-color--light);
 }
+
+@media print {
+  .md-typeset pre,
+  .md-typeset pre code {
+    white-space: pre-wrap !important;
+    word-break: break-word;
+  }
+
+  .md-typeset table {
+    font-size: 0.82rem;
+  }
+
+  .md-typeset h2,
+  .md-typeset h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .md-typeset pre,
+  .md-typeset table,
+  .md-typeset .admonition {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .md-typeset .imprimir-enlaces a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-weight: normal;
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+}
