@@ -6,7 +6,7 @@ status: new
 
 # Preparación para el AWS GameDay 2026
 
-El jueves 26 de noviembre de 2026, de 9:30 a 12:30, se juega la clasificación virtual del AWS GameDay. En el instituto salen dos equipos de cuatro personas: **IESMADAWS**, de Desarrollo de Aplicaciones Web (DAW), e **IESMAWSMIR**, de Sistemas Microinformáticos y Redes (SMR). Esta página es la preparación de ese día. Quien todavía no ha cursado Amazon Web Services (AWS) puede seguirla igual, y con ella basta.
+El jueves 26 de noviembre de 2026, de 9:30 a 12:30, se juega la clasificación virtual del AWS GameDay. En el instituto salen dos equipos: **IESMADAWS**, de Desarrollo de Aplicaciones Web (DAW), con cuatro personas, e **IESMAWSMIR**, de Sistemas Microinformáticos y Redes (SMR), con dos. Esta página es la preparación de ese día. Quien todavía no ha cursado Amazon Web Services (AWS) puede seguirla igual, y con ella basta.
 
 Los vídeos del canal [Profe Santos Cloud](https://www.youtube.com/@ProfeSantosCloud) acompañan la lectura. Quien más adelante curse el módulo de nube puede abrir el tema enlazado cuando quiera el desarrollo largo. Para la clasificación, con esta página abierta es suficiente.
 
@@ -20,7 +20,7 @@ Cada reto hay que leerlo hasta el final y contestar exactamente lo que pregunta.
 
 La consola de AWS es el sitio donde se resuelve casi todo. Ahí se tocan los grupos de seguridad, el balanceador, los registros, la política de un bucket y las reglas de un cortafuegos de aplicación. El código de la aplicación se deja como está, salvo que el enunciado hable de un fichero, de una función o de un dato guardado en el repositorio.
 
-El editor del navegador (un Cloud IDE) y el Gitea del equipo, que es el servidor Git compartido, se abren solo en ese caso. Las cuatro personas usan la misma cuenta y, si aparecen, el mismo IDE y el mismo Gitea. Lo que cambia una persona lo ven las demás.
+El editor del navegador (un Cloud IDE) y el Gitea del equipo, que es el servidor Git compartido, se abren solo en ese caso. Todo el equipo usa la misma cuenta y, si aparecen, el mismo IDE y el mismo Gitea. Lo que cambia una persona lo ven las demás.
 
 Hay una condición que manda sobre el resto. Lo que al empezar responde bien tiene que seguir respondiendo al terminar. Un cambio que anota un reto y tira la web abajo deja al equipo sin la base sobre la que se apoyan los demás retos. Antes de dar por cerrado un cambio, alguien carga la página en el navegador.
 
@@ -30,23 +30,25 @@ Esos minutos deciden cómo se pasa el resto de la mañana. Durante ese rato el e
 
 1. Entra con el acceso que den al equipo esa mañana y comprueba que la sesión es la del equipo. Si tenías otra cuenta de AWS abierta en el navegador, ciérrala antes, porque es fácil cambiar recursos en el sitio equivocado. Las credenciales se quedan dentro del equipo. No se reenvían por el móvil, no se pegan en un repositorio y no se capturan para un grupo distinto del equipo.
 2. Mira la región en la barra superior derecha de la consola. Los recursos del evento viven en una región, y la consola solo enseña los de la región seleccionada. Si la barra marca otra, la cuenta parece vacía y se pierde un buen rato. En el [Tema 1](../01-fundamentos-nube-aws/tema1.md#el-error-clasico-de-la-region) está explicado por qué lo que creas en una región no aparece en otra.
-3. Lee todos los retos antes de que nadie modifique un recurso. Anota, con las palabras del enunciado, qué hay que entregar en cada uno y cuántos puntos vale. Esa lista la guarda el capitán. Muchos fallos de la mañana salen de contestar una pregunta distinta de la que estaba escrita.
-4. Reparte un reto principal a cada persona, según los roles de más abajo. Quien termina el suyo avisa y coge el siguiente que el capitán tenga libre. Los cuatro metidos en el mismo reto difícil dejan sin hacer los que se resolvían en pocos minutos.
+3. Lee todos los retos antes de que nadie modifique un recurso. Anota, con las palabras del enunciado, qué hay que entregar en cada uno y cuántos puntos vale. Esa lista la guarda quien lleve la lectura en ese momento. Muchos fallos de la mañana salen de contestar una pregunta distinta de la que estaba escrita.
+4. Reparte un reto principal a cada persona, según los roles de más abajo. Quien termina el suyo avisa y coge el siguiente. Si todo el equipo se mete en el mismo reto difícil, se quedan sin hacer los que se resolvían en pocos minutos.
 5. Empieza por lo que se entiende al leerlo. Los puntos que están claros entran primero. Si un reto lleva un cuarto de hora sin avanzar, se anota dónde se ha quedado el equipo y se pasa a otro. La pista, cuando haga falta, se abre al terminar ese cuarto de hora.
 
 A partir de ahí se trabaja en la misma región durante toda la mañana. Si un reto no pide un recurso nuevo, se corrige el que ya existe. Crear balanceadores, máquinas o buckets para probar llena la cuenta de recursos ajenos al evento y hace más difícil reconocer los que ya estaban.
 
 ## Roles de cada equipo
 
-El equipo es de cuatro. Cada persona tiene un rol principal para saber quién mira qué, y el capitán puede cambiar el reparto después de leer los retos. Si falta alguien, el capitán se queda con la lectura y la persona siguiente junta dos roles afines. Quien mira los registros y quien toca el cortafuegos de la web tienen que poder hablarse, porque uno encuentra la petición y el otro coloca la regla.
+IESMADAWS va de cuatro personas, una por rol, y el capitán puede cambiar el reparto después de leer los retos. Si en ese equipo falta alguien, el capitán se queda con la lectura y la persona siguiente junta dos roles afines. IESMAWSMIR va de dos, y más abajo está cómo se parten el trabajo. Quien mira los registros y quien toca la red o el cortafuegos de la web tienen que poder hablarse, porque uno encuentra la petición y el otro coloca la regla.
 
 La consola del evento suele estar en inglés. La primera vez que salga un menú, va el nombre en español y, entre paréntesis, el nombre que verás en pantalla.
 
 ### Capitán y lector
 
-Este rol es el mismo en IESMADAWS y en IESMAWSMIR. El capitán lee cada reto entero, en voz alta si el equipo está junto, antes de que nadie pulse un cambio. Mientras lee, apunta la pregunta literal y el tipo de respuesta que pide. También lleva el reloj: de 9:30 a 12:30 dan tres horas, y se van en cuanto dos personas se quedan atascadas en lo mismo.
+En IESMADAWS este rol lo lleva una persona durante toda la mañana. Lee cada reto entero, en voz alta si el equipo está junto, antes de que nadie pulse un cambio. Mientras lee, apunta la pregunta literal y el tipo de respuesta que pide. También lleva el reloj: de 9:30 a 12:30 dan tres horas, y se van en cuanto dos personas se quedan atascadas en lo mismo.
 
 El otro trabajo del capitán es la hoja compartida del equipo. Cada cambio se anota con la hora, quién lo ha hecho, cómo estaba el recurso y cómo ha quedado. Esa hoja es la que permite deshacer. Cuando alguien va a borrar una regla, un objeto o una instancia, lo dice antes en esa hoja y espera a que el resto lo haya visto. Después del cambio, una persona carga la web y dice si sigue en pie.
+
+En IESMAWSMIR esa lectura y esa hoja no tienen una persona solo para ellas. Las hacen los dos, turnándose, como está descrito en su apartado.
 
 ### IESMADAWS (DAW)
 
@@ -82,35 +84,45 @@ AWS Lambda ejecuta una función cuando ocurre algo, como una petición, un fiche
 
 ### IESMAWSMIR (SMR)
 
-#### Red y cortafuegos
+En este equipo sois dos. El trabajo de red, de máquinas, de registros y de almacenamiento sigue estando, pero no cabe un puesto por cabeza. Uno lleva la seguridad y la red. El otro lleva la monitorización y los registros. La lectura de los retos y la hoja de cambios se turnan, porque no hay una tercera persona que se quede solo de capitán.
 
-Tu pieza es quién puede hablar con quién. Una VPC (*Virtual Private Cloud*, nube virtual privada) es la red de la cuenta dentro de una región, partida en subredes. Un grupo de seguridad (*security group*) es el cortafuegos de cada recurso. Las reglas de entrada deciden el puerto y el origen que pueden entrar, y lo que no está escrito ahí se queda fuera.
+#### Seguridad y red
+
+Tu puesto es quién puede hablar con quién, y si las máquinas siguen sirviendo la web. Una VPC (*Virtual Private Cloud*, nube virtual privada) es la red de la cuenta dentro de una región, partida en subredes. Un grupo de seguridad (*security group*) es el cortafuegos de cada recurso. Las reglas de entrada deciden el puerto y el origen que pueden entrar, y lo que no está escrito ahí se queda fuera.
 
 La visión de conjunto está en el [Tema 3](../03-redes-entrega-contenido/tema3.md#vpc-tu-red-virtual-en-una-region), con las [subredes](../03-redes-entrega-contenido/tema3.md#subred-publica) y la comparación entre [grupos de seguridad y listas de control de acceso de red (NACL)](../03-redes-entrega-contenido/tema3.md#security-groups-frente-a-nacl).
 
 En la base de datos, el puerto del motor (3306 en MySQL o MariaDB, 5432 en PostgreSQL) acepta solo el grupo de seguridad de los servidores web. El origen de esa regla es un identificador que empieza por `sg-`. El rango `0.0.0.0/0` significa cualquier dirección IPv4 de internet y publica el motor. Una IP pública suelta en esa regla también se sale del patrón.
 
-Si en las reglas de entrada aparece una IP así y el tráfico legítimo ya entra por el balanceador o por el grupo de los servidores, esa IP es lo primero que hay que cuestionar. Anotas la regla entera en la hoja del equipo, la quitas y cargas la web. Cómo se encadenan balanceador, servidores y base está en la [seguridad por capas del Tema 3](../03-redes-entrega-contenido/tema3.md#seguridad-por-capas) y en la [red de RDS del Tema 6](../06-bases-de-datos/tema6.md#instantaneas-y-red).
+Si en las reglas de entrada aparece una IP así y el tráfico legítimo ya entra por el balanceador o por el grupo de los servidores, esa IP es lo primero que hay que cuestionar. Anotas la regla entera, se la enseñas a tu compañero, la quitas y uno de los dos carga la web. Cómo se encadenan balanceador, servidores y base está en la [seguridad por capas del Tema 3](../03-redes-entrega-contenido/tema3.md#seguridad-por-capas) y en la [red de RDS del Tema 6](../06-bases-de-datos/tema6.md#instantaneas-y-red).
 
-#### Sistemas
+Amazon EC2 (*Elastic Compute Cloud*) son las máquinas virtuales, y también entran en tu puesto. Compruebas que las que sirven la web están en ejecución (*running*). Parar o terminar una instancia se avisa antes, y si el reto no lo pide, se deja la máquina como está. El detalle está en el [Tema 4](../04-computo-serverless/tema4.md#amazon-ec2).
 
-Tu pieza son las máquinas y el balanceador. Amazon EC2 (*Elastic Compute Cloud*) son las máquinas virtuales. Compruebas que las que sirven la web están en ejecución (*running*). Parar o terminar una instancia se avisa antes, y si el reto no lo pide, se deja la máquina como está. El detalle de EC2 está en el [Tema 4](../04-computo-serverless/tema4.md#amazon-ec2).
+El balanceador de carga de aplicación (*Application Load Balancer*, ALB) reparte hacia un grupo de destino (*target group*). La comprobación de estado (*health check*) decide si un destino está sano. Un destino *unhealthy* deja de recibir visitas, y si no queda ninguno sano la web cae, muchas veces con un 502. Miras el puerto, la ruta y el código esperado, y los comparas con lo que la aplicación contesta. El [Tema 8](../08-escalado-monitoreo-cierre/tema8.md#grupo-de-destino-y-comprobacion-de-estado) lo desarrolla.
 
-El ALB recibe a los usuarios y reparte hacia un grupo de destino (*target group*). La comprobación de estado (*health check*) es la petición periódica con la que el balanceador decide si un destino está sano. Un destino *unhealthy* deja de recibir visitas. Si no queda ninguno sano, la web cae, muchas veces con un 502.
+Para entrar a una máquina, Session Manager abre un shell desde la consola y mantiene cerrado el puerto 22. El camino es EC2, la instancia, *Connect*, *Session Manager*. Si el botón no está disponible, se lo dices a tu compañero y el puerto 22 sigue cerrado a internet. Si el reto es de ataques a la web, el cortafuegos de aplicación (WAF) lo asocias tú al balanceador, con el dato que te pase quien lleva los registros.
 
-Miras el puerto, la ruta de la comprobación y el código que se espera, y los comparas con lo que la aplicación contesta de verdad. El [Tema 8](../08-escalado-monitoreo-cierre/tema8.md#grupo-de-destino-y-comprobacion-de-estado) lo desarrolla.
+#### Monitorización y registros
 
-Para entrar a una máquina, Session Manager (dentro de Systems Manager) abre un shell desde la consola y mantiene cerrado el puerto 22. El camino es EC2, la instancia, *Connect*, *Session Manager*. Si el botón no está disponible, se le dice al capitán y el puerto 22 sigue cerrado a internet. Ese camino está descrito en la [seguridad por capas del Tema 3](../03-redes-entrega-contenido/tema3.md#seguridad-por-capas).
+Tu puesto es averiguar qué ha pasado y dejar constancia. CloudWatch guarda métricas y registros. Logs Insights es el buscador, en CloudWatch, menú *Logs*, *Logs Insights*. Eliges el grupo de registros del balanceador, ajustas el rango de tiempo de la parte superior y lanzas una consulta de [las de más abajo](#consultas-de-logs-insights).
 
-#### Almacenamiento y documentación
+El registro de acceso del balanceador deja una línea por petición, con la IP del cliente, el código de estado y la URL, parámetros incluidos. Una inyección SQL se reconoce ahí por una comilla, un `OR 1=1`, un `UNION SELECT` o un comentario `--`. A menudo el espacio llega como `%20` y la comilla como `%27`. La aplicación se queda como está: marcas la petición, le pasas el nombre del balanceador a quien lleva la seguridad y copias el dato tal como aparece.
 
-Tu pieza junta el almacenamiento con la hoja de cambios. En Amazon S3, los objetos viven en un bucket y la política de bucket es un JSON pegado a ese bucket que permite o deniega acciones sobre él. Un *Deny* explícito de `s3:DeleteObject` gana a un permiso de borrado que hubiera en otra política. La plantilla está [más abajo](#politica-que-deniega-borrados).
+CloudWatch responde a qué peticiones han llegado. CloudTrail responde a quién ha llamado a la API de AWS. Una IP de un visitante se busca en CloudWatch, no en CloudTrail. La diferencia está en la [monitorización del Tema 8](../08-escalado-monitoreo-cierre/tema8.md#monitorizacion).
 
-Si el bucket ya tiene una política, se añade la regla dentro de `Statement`. Sustituir el documento entero puede quitar un permiso que la web necesita.
+Si faltan objetos de un bucket, también miras tú. En Amazon S3 los ficheros son objetos dentro de un bucket, y la política de bucket es el JSON que permite o deniega acciones sobre él. Un *Deny* explícito de `s3:DeleteObject` gana a un permiso de borrado que hubiera en otra política. La plantilla está [más abajo](#politica-que-deniega-borrados). Si el bucket ya tiene una política, se añade la regla dentro de `Statement`. Sustituir el documento entero puede quitar un permiso que la web necesita.
 
 Si el versionado está activo, un objeto borrado a veces sigue ahí, tapado por un marcador de borrado. Si el versionado está apagado, hay que volver a subir el objeto desde la copia que tenga el equipo. El [Tema 5](../05-almacenamiento/tema5.md#seguridad-en-s3-enlace-con-el-tema-2) explica la política y el [versionado](../05-almacenamiento/tema5.md#versionado-y-borrados-por-que-importa-en-un-proyecto-de-daw).
 
-La segunda es la hoja del equipo, que llevas tú junto con el capitán. Cada cambio queda escrito de forma que otra persona pueda devolver el recurso al estado anterior sin preguntar. Una regla de grupo de seguridad se copia entera antes de tocarla. Una política de bucket se copia entera antes de guardar la nueva. Sin esa copia, deshacer es adivinar.
+Mientras tu compañero está dentro de un grupo de seguridad o de una máquina, la hoja la sostienes tú: la regla se copia entera antes de tocarla. Cuando el cambio es una política de bucket, la copia la hace tu compañero antes de que guardes. Cada anotación lleva la hora, qué se ha tocado y cómo estaba, de forma que el otro pueda devolver el recurso al estado anterior sin preguntar.
+
+#### Cómo os cubrís
+
+Cada reto nuevo lo lee en voz alta quien en ese momento no tiene la consola abierta. Al reto siguiente cambiáis de lector. Quien lee apunta la pregunta literal y los puntos, y deja el ratón quieto hasta que el otro ha oído qué hay que entregar.
+
+Si uno lleva un cuarto de hora atascado, el otro mira el mismo síntoma desde su puesto y luego vuelve a su lista. Una IP rara en un grupo de seguridad se busca también en los registros, y un 502 de los registros se contrasta con el grupo de destino y la comprobación de estado. El recurso lo toca una sola persona. La otra recarga la web y dice si sigue en pie.
+
+Hacia las once podéis cambiar de puesto si uno va ahogado y el otro ya ha cerrado lo que tenía claro. La hoja tiene que bastar para continuar. Los dos a la vez en la misma política o en el mismo grupo de seguridad se sobrescriben. Uno guarda el cambio y el otro comprueba la web.
 
 ## Si te piden esto, mira aquí { #si-te-piden-esto-mira-aqui }
 
@@ -135,7 +147,7 @@ Una IP cualquiera de internet se queda sin camino. Pegar la IP de una máquina c
 
 Recorres las reglas de entrada del grupo que protege la web, las máquinas o la base. El tráfico de los usuarios entra por el balanceador, y el de la base entra desde el grupo de los servidores. Una regla cuyo origen es una sola IP pública, con máscara `/32`, y que nadie del equipo reconoce, es una candidata a quitarse.
 
-La copias entera en la hoja, con protocolo, puerto, origen y descripción. Luego la eliminas y cargas la web. Si la web cae, la restauras con lo que habías copiado y avisas al capitán, porque esa regla estaba haciendo algo que el equipo todavía no ha entendido.
+La copias entera en la hoja, con protocolo, puerto, origen y descripción. Luego la eliminas y cargas la web. Si la web cae, la restauras con lo que habías copiado y avisas a quien lleve la lectura, porque esa regla estaba haciendo algo que el equipo todavía no ha entendido.
 
 ### Borrados en S3
 
@@ -145,7 +157,7 @@ Los objetos que ya no están hay que devolverlos. Con el versionado, se quita el
 
 ### Ataques web e inyección SQL
 
-El detective encuentra la petición en los registros y quien lleva la web coloca el WAF delante del balanceador que de verdad recibe el tráfico. La asociación y las reglas van juntas. Un grupo de reglas en el balanceador equivocado no ve el ataque, y un balanceador bien elegido sin reglas tampoco lo para.
+El detective encuentra la petición en los registros y quien lleva la web coloca el WAF delante del balanceador que de verdad recibe el tráfico. En IESMAWSMIR quien lleva los registros encuentra la petición y quien lleva la seguridad asocia el WAF. La asociación y las reglas van juntas. Un grupo de reglas en el balanceador equivocado no ve el ataque, y un balanceador bien elegido sin reglas tampoco lo para.
 
 Después de asociar la ACL, la portada tiene que seguir cargando. Si el WAF bloquea también las visitas normales, la regla ha quedado demasiado amplia y se revisa antes de seguir.
 
@@ -238,7 +250,7 @@ Cuando la política ya está puesta, repón los objetos que falten. Con versiona
 
 ## Reglas de oro
 
-Cualquier borrado se avisa antes en la hoja del equipo. Antes de quitar una regla de un grupo de seguridad, un objeto de S3, una instancia, una política o una ACL del WAF, se escribe cómo está el recurso. Quien va a borrar espera a que el capitán lo vea y solo entonces guarda el cambio. Con esa copia se puede volver atrás.
+Cualquier borrado se avisa antes en la hoja del equipo. Antes de quitar una regla de un grupo de seguridad, un objeto de S3, una instancia, una política o una ACL del WAF, se escribe cómo está el recurso. Quien va a borrar espera a que lo vea el capitán, en DAW, o su compañero, en SMIR, y solo entonces guarda el cambio. Con esa copia se puede volver atrás.
 
 Después de cada cambio, alguien carga la web y lo dice en alto. Sirve tanto si el cambio era de red como si era del WAF o del bucket. Un reto anotado con la portada caída deja al equipo peor de lo que estaba. Si la web ha caído, se deshace el último cambio con la nota de la hoja y se vuelve a probar desde ese estado.
 
@@ -246,7 +258,7 @@ En el IDE compartido, `git pull` va antes de editar. Si Git dice que tu copia y 
 
 Las credenciales del evento se quedan en el equipo. Un chat de clase, un repositorio o una captura las sacan de ahí. IAM decide quién puede llamar a la API de AWS, y el grupo de seguridad decide qué tráfico de red entra. Son capas distintas. Ensanchar las dos para salir del paso deja la cuenta abierta.
 
-Si un botón responde *AccessDenied*, se lee la acción que ha denegado y se le pasa al capitán. La salida es entender esa denegación. Pedir más permisos, o pegar una clave de acceso en el código, abre un incidente. Esa separación está en el [Tema 2](../02-seguridad-iam/tema2.md#security-group-frente-a-iam).
+Si un botón responde *AccessDenied*, se lee la acción que ha denegado y se le pasa a quien lleve la lectura en ese momento. La salida es entender esa denegación. Pedir más permisos, o pegar una clave de acceso en el código, abre un incidente. Esa separación está en el [Tema 2](../02-seguridad-iam/tema2.md#security-group-frente-a-iam).
 
 <div class="imprimir-enlaces" markdown="1">
 
@@ -256,15 +268,15 @@ Están en el canal [Profe Santos Cloud](https://www.youtube.com/@ProfeSantosClou
 
 ### Los dos equipos, antes que nada
 
-Los cuatro, de DAW y de SMR, ven primero cómo se entra en AWS Academy y cómo se mueve uno por la consola. Es el vídeo de [introducción a AWS Academy](https://www.youtube.com/watch?v=dxWV4pvGZmU). El segundo, también para todos, es [IAM en Academy](https://www.youtube.com/watch?v=rEnenbxjOGo). Ahí se ven usuarios, roles y el motivo por el que una denegación se lee antes de pedir permiso de administrador. Con esos dos ya se entiende la sesión con la que van a recibir al equipo.
+Quien vaya a jugar, en DAW y en SMR, ve primero cómo se entra en AWS Academy y cómo se mueve uno por la consola. Es el vídeo de [introducción a AWS Academy](https://www.youtube.com/watch?v=dxWV4pvGZmU). El segundo, también para todos, es [IAM en Academy](https://www.youtube.com/watch?v=rEnenbxjOGo). Ahí se ven usuarios, roles y el motivo por el que una denegación se lee antes de pedir permiso de administrador. Con esos dos ya se entiende la sesión con la que van a recibir al equipo.
 
 ### Red y web
 
-Quien lleve la red en IESMAWSMIR, y quien en IESMADAWS vaya a tocar subredes o grupos de seguridad, ve la [VPC](https://www.youtube.com/watch?v=u0Kh0JRK4zk). Quien lleve la web en DAW y quien lleve sistemas en SMR ve el [balanceador de aplicación](https://www.youtube.com/watch?v=GqRMAwo6QRA), porque el 502 y la comprobación de estado se entienden mejor después de ver cómo se registra un destino.
+Quien lleve la seguridad y la red en IESMAWSMIR, y quien en IESMADAWS vaya a tocar subredes o grupos de seguridad, ve la [VPC](https://www.youtube.com/watch?v=u0Kh0JRK4zk). Quien lleve la web en DAW, y también quien lleve la seguridad y la red en SMR, ve el [balanceador de aplicación](https://www.youtube.com/watch?v=GqRMAwo6QRA), porque el 502 y la comprobación de estado se entienden mejor después de ver cómo se registra un destino.
 
 ### Sistemas
 
-El rol de sistemas de IESMAWSMIR ve el de [EC2 con Linux](https://www.youtube.com/watch?v=vdSKZxOVX1A), donde se lanza una máquina, se revisa el grupo de seguridad y se entra a la instancia. Conviene verlo antes que el del balanceador, porque el balanceador necesita una máquina clara a la que enviar el tráfico.
+En IESMAWSMIR, quien lleva la seguridad y la red ve el de [EC2 con Linux](https://www.youtube.com/watch?v=vdSKZxOVX1A), donde se lanza una máquina, se revisa el grupo de seguridad y se entra a la instancia. Conviene verlo antes que el del balanceador, porque el balanceador necesita una máquina clara a la que enviar el tráfico.
 
 ### Base de datos
 
@@ -272,11 +284,11 @@ Quien vaya a cerrar el acceso a la base, en cualquiera de los dos equipos, ve pr
 
 ### Registros
 
-El detective de registros de IESMADAWS ve [CloudWatch, CloudTrail y EventBridge](https://www.youtube.com/watch?v=T_Pz1ksb9ng). Ahí se distingue el registro de una petición HTTP del registro de quién ha llamado a la API de AWS. Las consultas de esta guía se pegan igual si el vídeo no llega al detalle de Logs Insights.
+El detective de registros de IESMADAWS, y quien lleve la monitorización en IESMAWSMIR, ven [CloudWatch, CloudTrail y EventBridge](https://www.youtube.com/watch?v=T_Pz1ksb9ng). Ahí se distingue el registro de una petición HTTP del registro de quién ha llamado a la API de AWS. Las consultas de esta guía se pegan igual si el vídeo no llega al detalle de Logs Insights.
 
 ### Almacenamiento
 
-Los dos roles de almacenamiento, el de código y datos en DAW y el de almacenamiento en SMR, ven el de [S3](https://www.youtube.com/watch?v=OkGNAHtVCq8). Trata el bucket, los objetos y los permisos, que es lo que hay que tocar si desaparecen ficheros.
+Quien lleve el código y los datos en DAW, y quien lleve la monitorización en SMR, ven el de [S3](https://www.youtube.com/watch?v=OkGNAHtVCq8). Trata el bucket, los objetos y los permisos, que es lo que hay que tocar si desaparecen ficheros.
 
 ### Extra para DAW
 
@@ -290,14 +302,14 @@ El equipo ve juntos los dos primeros. Después cada persona sigue con el de su r
 | --- | --- | --- |
 | 1. Todos juntos | DAW y SMR | [Introducción a AWS Academy](https://www.youtube.com/watch?v=dxWV4pvGZmU) |
 | 2. Todos juntos | DAW y SMR | [IAM en Academy](https://www.youtube.com/watch?v=rEnenbxjOGo) |
-| 3. Cada rol | Red, en SMR, y quien vaya a tocar la VPC | [VPC](https://www.youtube.com/watch?v=u0Kh0JRK4zk) |
-| 3. Cada rol | Sistemas, en SMR, antes del balanceador | [EC2 Linux](https://www.youtube.com/watch?v=vdSKZxOVX1A) |
-| 3. Cada rol | Web, en DAW, y sistemas, en SMR | [Balanceador de aplicación](https://www.youtube.com/watch?v=GqRMAwo6QRA) |
+| 3. Cada rol | Seguridad y red, en SMR, y quien vaya a tocar la VPC | [VPC](https://www.youtube.com/watch?v=u0Kh0JRK4zk) |
+| 3. Cada rol | Seguridad y red, en SMR, antes del balanceador | [EC2 Linux](https://www.youtube.com/watch?v=vdSKZxOVX1A) |
+| 3. Cada rol | Web, en DAW, y seguridad y red, en SMR | [Balanceador de aplicación](https://www.youtube.com/watch?v=GqRMAwo6QRA) |
 | 3. Cada rol | Quien vaya a cerrar la base | [RDS en una subred privada](https://www.youtube.com/watch?v=4X1f23RpBG0) |
-| 3. Cada rol | Registros, en DAW | [CloudWatch, CloudTrail y EventBridge](https://www.youtube.com/watch?v=T_Pz1ksb9ng) |
-| 3. Cada rol | Almacenamiento, en los dos equipos | [S3](https://www.youtube.com/watch?v=OkGNAHtVCq8) |
+| 3. Cada rol | Registros, en DAW, y monitorización, en SMR | [CloudWatch, CloudTrail y EventBridge](https://www.youtube.com/watch?v=T_Pz1ksb9ng) |
+| 3. Cada rol | Código y datos, en DAW, y monitorización, en SMR | [S3](https://www.youtube.com/watch?v=OkGNAHtVCq8) |
 | 4. Si sobra la tarde | DAW | [Lambda](https://www.youtube.com/watch?v=TIeUbq4bCOU) y, después, [DynamoDB](https://www.youtube.com/watch?v=j1VL7ctuerw) |
-| 4. Si sobra la tarde | SMR | [RDS](https://www.youtube.com/watch?v=43jYEiZvOsw), o el balanceador si todavía no lo ha visto |
+| 4. Si sobra la tarde | Seguridad y red, en SMR | [RDS](https://www.youtube.com/watch?v=43jYEiZvOsw), o el balanceador si todavía no lo ha visto |
 
 Con esa tanda y una lectura del rol propio se llega al jueves. El resto de vídeos puede esperar a después de la clasificación.
 
