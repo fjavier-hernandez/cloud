@@ -1,0 +1,1281 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Guía breve de la clasificación virtual del AWS GameDay 2026. Equipos IESMADAWS (DAW) e IESMAWSMIR (SMR).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/96-gameday/gameday-2026.html">
+      
+      
+        <link rel="prev" href="../90-soluciones/soluciones.html">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Preparación para el AWS GameDay 2026 - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Preparación para el AWS GameDay 2026 - Introducción a la Nube Pública" />
+<meta property="og:description" content="Guía breve de la clasificación virtual del AWS GameDay 2026. Equipos IESMADAWS (DAW) e IESMAWSMIR (SMR)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/96-gameday/gameday-2026.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/96-gameday/gameday-2026.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Preparación para el AWS GameDay 2026 - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Guía breve de la clasificación virtual del AWS GameDay 2026. Equipos IESMADAWS (DAW) e IESMAWSMIR (SMR)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/96-gameday/gameday-2026.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#preparacion-para-el-aws-gameday-2026" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Preparación para el AWS GameDay 2026
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparación de exámenes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparación de exámenes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../95-preparacion-examenes/practica-orientativa-1ev.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Práctica orientativa: examen de la 1.ª evaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GameDay 2026
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--new" title="Recién añadido">
+    </span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="gameday-2026.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GameDay 2026
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--new" title="Recién añadido">
+    </span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-un-gameday-y-como-se-juega" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué es un GameDay y cómo se juega
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-diez-primeros-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los diez primeros minutos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-de-cada-equipo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles de cada equipo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles de cada equipo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iesmadaws-daw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IESMADAWS (DAW)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iesmawsmir-smr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IESMAWSMIR (SMR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#si-te-piden-esto-mira-aqui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Si te piden esto, mira aquí
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consulta-y-politica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consulta y política
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reglas-de-oro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reglas de oro
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videos-de-apoyo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vídeos de apoyo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#si-te-sobra-tiempo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Si te sobra tiempo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-un-gameday-y-como-se-juega" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué es un GameDay y cómo se juega
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#los-diez-primeros-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los diez primeros minutos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles-de-cada-equipo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles de cada equipo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles de cada equipo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iesmadaws-daw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IESMADAWS (DAW)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iesmawsmir-smr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IESMAWSMIR (SMR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#si-te-piden-esto-mira-aqui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Si te piden esto, mira aquí
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consulta-y-politica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consulta y política
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reglas-de-oro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reglas de oro
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videos-de-apoyo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vídeos de apoyo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#si-te-sobra-tiempo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Si te sobra tiempo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="preparacion-para-el-aws-gameday-2026">Preparación para el AWS GameDay 2026<a class="headerlink" href="#preparacion-para-el-aws-gameday-2026" title="Permanent link">&para;</a></h1>
+<p>El jueves 26 de noviembre de 2026, de 9:30 a 12:30, se juega la clasificación virtual del AWS GameDay. En el instituto salen dos equipos: <strong>IESMADAWS</strong>, de Desarrollo de Aplicaciones Web (DAW), con cuatro personas, e <strong>IESMAWSMIR</strong>, de Sistemas Microinformáticos y Redes (SMR), con dos. Esta página es la preparación de ese día. Quien todavía no ha cursado Amazon Web Services (AWS) puede seguirla igual: con ella basta.</p>
+<p>Los vídeos del canal <a href="https://www.youtube.com/@ProfeSantosCloud">Profe Santos Cloud</a> acompañan la lectura. Si la lees la tarde anterior, empieza por los <a href="#videos-de-apoyo">vídeos</a> y sigue por el rol que te toque. Si la abres el jueves, entra por <a href="#los-diez-primeros-minutos">los diez primeros minutos</a> y ten a mano la <a href="#si-te-piden-esto-mira-aqui">tabla</a>. Para llevarla en papel, imprime esta página o guárdala como PDF.</p>
+<h2 id="que-es-un-gameday-y-como-se-juega">Qué es un GameDay y cómo se juega<a class="headerlink" href="#que-es-un-gameday-y-como-se-juega" title="Permanent link">&para;</a></h2>
+<p>Un GameDay es una competición por equipos dentro de una cuenta de AWS preparada para la ocasión. El trabajo son retos. Cada uno vale puntos, y la plataforma ofrece pistas cuando uno se atasca. En el formato habitual, usar una pista resta parte de la puntuación de ese reto, así que compensa releer el enunciado antes de abrirla. Gana el equipo que más puntos suma entre las 9:30 y las 12:30.</p>
+<p>Cada reto hay que leerlo hasta el final y contestar exactamente lo que pregunta. A veces pide un dato (una dirección IP, un nombre, un código) y a veces pide dejar un recurso en un estado concreto. Si la pregunta pide el dato, el dato es la entrega. Si pide dejar el servicio bien cerrado, el cierre es la entrega. Arreglar cosas que el enunciado no pregunta consume el reloj y, con frecuencia, estropea lo que otro reto ya daba por bueno.</p>
+<p>La consola de AWS es el sitio donde se resuelve casi todo. El código de la aplicación se deja como está, salvo que el enunciado hable de un fichero, de una función o de un dato del repositorio. El editor del navegador (un Cloud IDE) y el Gitea del equipo, que es el servidor Git compartido, se abren solo en ese caso. Todo el equipo usa la misma cuenta. Lo que al empezar responde bien tiene que seguir respondiendo al terminar: un cambio que anota un reto y tira la web abajo deja al equipo sin la base sobre la que se apoyan los demás. Antes de dar por cerrado un cambio, alguien carga la página en el navegador.</p>
+<h2 id="los-diez-primeros-minutos">Los diez primeros minutos<a class="headerlink" href="#los-diez-primeros-minutos" title="Permanent link">&para;</a></h2>
+<p>Esos minutos deciden cómo se pasa el resto de la mañana. Durante ese rato el equipo entra, mira dónde está cada cosa y reparte el trabajo. Los cambios llegan después.</p>
+<ol>
+<li>Entra con el acceso que den al equipo esa mañana y comprueba que la sesión es la del equipo. Si tenías otra cuenta de AWS abierta, ciérrala antes. Las credenciales se quedan dentro del equipo: no se reenvían por el móvil, no se pegan en un repositorio y no se capturan para un grupo distinto.</li>
+<li>Mira la región en la barra superior derecha de la consola. Los recursos del evento viven en una región, y la consola solo enseña los de la región seleccionada. Si la barra marca otra, la cuenta parece vacía. En el <a href="../01-fundamentos-nube-aws/tema1.html#el-error-clasico-de-la-region">Tema 1</a> está explicado por qué.</li>
+<li>Lee todos los retos antes de que nadie modifique un recurso. Anota, con las palabras del enunciado, qué hay que entregar en cada uno y cuántos puntos vale. Muchos fallos salen de contestar una pregunta distinta de la que estaba escrita.</li>
+<li>Reparte un reto principal a cada persona, según los roles de más abajo. Quien termina el suyo avisa y coge el siguiente. Si todo el equipo se mete en el mismo reto difícil, se quedan sin hacer los que se resolvían en pocos minutos.</li>
+<li>Empieza por lo que se entiende al leerlo. Los puntos claros entran primero. Si un reto lleva un cuarto de hora sin avanzar, se anota dónde se ha quedado y se pasa a otro. La pista, cuando haga falta, se abre al terminar ese cuarto de hora.</li>
+</ol>
+<p>A partir de ahí se trabaja en la misma región durante toda la mañana. Si un reto no pide un recurso nuevo, se corrige el que ya existe. Crear máquinas o buckets para probar llena la cuenta y hace más difícil reconocer lo que ya estaba.</p>
+<h2 id="roles-de-cada-equipo">Roles de cada equipo<a class="headerlink" href="#roles-de-cada-equipo" title="Permanent link">&para;</a></h2>
+<p>Los roles son orientativos: sirven para arrancar sin pisaros, pero cada equipo los adapta según los retos que salgan. IESMADAWS va de cuatro personas, una por rol, y el capitán puede cambiar el reparto después de leer los retos. IESMAWSMIR va de dos: una persona lleva la seguridad y la red, y la otra, la monitorización y los registros. Quien mira los registros y quien toca la red o el cortafuegos tienen que poder hablarse, porque uno encuentra la petición y el otro coloca la regla. La consola del evento suele estar en inglés: la primera vez que salga un menú, va el nombre en español y, entre paréntesis, el que verás en pantalla.</p>
+<h3 id="iesmadaws-daw">IESMADAWS (DAW)<a class="headerlink" href="#iesmadaws-daw" title="Permanent link">&para;</a></h3>
+<p>El capitán lee cada reto entero antes de que nadie pulse un cambio, apunta la pregunta literal y lleva el reloj. También lleva la hoja compartida del equipo: cada cambio se anota con la hora, quién lo ha hecho, cómo estaba el recurso y cómo ha quedado. Cuando alguien va a borrar una regla, un objeto o una instancia, lo dice antes en esa hoja. Después del cambio, una persona carga la web y dice si sigue en pie.</p>
+<p>El detective de registros trabaja en CloudWatch. Logs Insights es el buscador, en CloudWatch, menú <em>Logs</em>, <em>Logs Insights</em>. Eliges el grupo de registros del balanceador, ajustas el rango de tiempo y lanzas la <a href="#consulta-y-politica">consulta</a> de más abajo. El registro de un balanceador de carga de aplicación (<em>Application Load Balancer</em>, ALB) deja una línea por petición, con la IP del cliente, el código de estado y la URL. Una inyección SQL se reconoce por una comilla, un <code>OR 1=1</code>, un <code>UNION SELECT</code> o un comentario <code>--</code>; a menudo el espacio llega como <code>%20</code> y la comilla como <code>%27</code>. CloudWatch responde a qué peticiones han llegado. CloudTrail responde a quién ha llamado a la API de AWS. Una IP de un visitante se busca en CloudWatch, no en CloudTrail.</p>
+<p>Quien lleva la web y el cortafuegos trabaja el tráfico HTTP que entra por el balanceador. AWS WAF (<em>Web Application Firewall</em>, cortafuegos de aplicaciones web) inspecciona la petición antes de que llegue a los servidores, y va asociado a un balanceador concreto. En <em>WAF &amp; Shield</em>, <em>Web ACLs</em>, compruebas que en los recursos asociados (<em>Associated AWS resources</em>) figura el ALB que sirve la página, y añades reglas gestionadas: el conjunto básico (<em>Core rule set</em>) y el de base de datos SQL (<em>SQL database</em>). La acción por defecto de la ACL se queda en permitir. En cuanto guardes, carga la web; si la portada deja de abrir, deshaz ese cambio.</p>
+<p>Quien lleva el código y los datos entra cuando el enunciado habla de un fichero, de una función o de objetos que han desaparecido. El resto se resuelve desde la consola. Si faltan objetos en Amazon S3 (<em>Simple Storage Service</em>, almacenamiento de objetos), miras la política del bucket y si el versionado está activo. Si el evento deja un Cloud IDE y un Gitea, ejecutas <code>git pull</code> antes de editar, dices en la hoja qué fichero tienes abierto y subes un commit con una frase clara, sin credenciales en el fichero. Si el reto habla de una función, AWS Lambda ejecuta código cuando ocurre un evento y actúa con un rol de IAM (<em>Identity and Access Management</em>, gestión de identidades y accesos).</p>
+<h3 id="iesmawsmir-smr">IESMAWSMIR (SMR)<a class="headerlink" href="#iesmawsmir-smr" title="Permanent link">&para;</a></h3>
+<p>En este equipo sois dos. Uno lleva la seguridad y la red. El otro lleva la monitorización y los registros. La lectura de los retos y la hoja de cambios se turnan: cada reto nuevo lo lee en voz alta quien no tiene la consola abierta, y al siguiente cambiáis de lector. Si uno lleva un cuarto de hora atascado, el otro le echa una mano y luego vuelve a su lista. El recurso lo toca una sola persona. La otra recarga la web.</p>
+<p>Quien lleva la seguridad y la red decide quién puede hablar con quién. La red de la cuenta es una VPC (<em>Virtual Private Cloud</em>, nube virtual privada). Un grupo de seguridad (<em>security group</em>) es el cortafuegos de cada recurso: las reglas de entrada deciden el puerto y el origen, y lo que no está escrito se queda fuera. En la base de datos, el puerto del motor (3306 en MySQL o MariaDB, 5432 en PostgreSQL) acepta solo el grupo de seguridad de los servidores web, un identificador que empieza por <code>sg-</code>. El rango <code>0.0.0.0/0</code> publica el motor a internet. Compruebas que las máquinas EC2 (<em>Elastic Compute Cloud</em>) que sirven la web están en ejecución (<em>running</em>) y, si el reto no pide pararlas, las dejas como están. El ALB reparte hacia un grupo de destino (<em>target group</em>); si no queda ningún destino sano (<em>healthy</em>), la web cae, muchas veces con un 502. Si el reto es de ataques a la web, asocias tú el WAF al balanceador, con el dato que te pase quien lleva los registros.</p>
+<p>Quien lleva la monitorización y los registros averigua qué ha pasado y deja constancia. Trabaja en Logs Insights igual que el detective de DAW, marca la petición y le pasa el nombre del balanceador a quien lleva la seguridad. Si faltan objetos de un bucket, también miras tú: un <em>Deny</em> explícito de <code>s3:DeleteObject</code> gana a un permiso de borrado, y si el bucket ya tiene política se añade la regla dentro de <code>Statement</code>, sin sustituir el documento entero. Mientras tu compañero toca un grupo de seguridad o una máquina, la hoja la sostienes tú, con la hora y cómo estaba el recurso, de forma que se pueda volver atrás.</p>
+<h2 id="si-te-piden-esto-mira-aqui">Si te piden esto, mira aquí<a class="headerlink" href="#si-te-piden-esto-mira-aqui" title="Permanent link">&para;</a></h2>
+<p>La tabla no sustituye la lectura del reto. Sirve para no abrir un servicio al azar cuando el enunciado ya está señalando el sitio.</p>
+<table>
+<thead>
+<tr>
+<th>Qué está pasando</th>
+<th>Dónde mirar</th>
+<th>Qué conviene dejar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La base de datos acepta conexiones que no deberían llegar</td>
+<td>Grupo de seguridad de la base, reglas de entrada</td>
+<td>El puerto del motor solo desde el grupo de seguridad de los servidores web</td>
+</tr>
+<tr>
+<td>Una IP suelta figura en una regla de entrada</td>
+<td>Grupo de seguridad del recurso afectado</td>
+<td>Esa regla anotada y retirada, y la web sigue abriendo</td>
+</tr>
+<tr>
+<td>Alguien borra objetos de un bucket</td>
+<td>Política del bucket, en S3, <em>Permissions</em></td>
+<td>Un <em>Deny</em> de <code>s3:DeleteObject</code> y los objetos otra vez en su sitio</td>
+</tr>
+<tr>
+<td>Llegan ataques web o una inyección SQL</td>
+<td>AWS WAF asociado al balanceador de la web</td>
+<td>Reglas gestionadas en el ALB correcto, con la portada todavía en pie</td>
+</tr>
+<tr>
+<td>La web no carga, o el balanceador responde 502</td>
+<td>Grupos de seguridad, grupo de destino y comprobación de estado</td>
+<td>El balanceador llega al puerto de la aplicación y hay destinos sanos</td>
+</tr>
+<tr>
+<td>Hay que encontrar un dato en los registros</td>
+<td>CloudWatch Logs Insights, sobre el grupo de registros adecuado</td>
+<td>La consulta filtrada por código, por IP o por parámetro, en el rango de tiempo correcto</td>
+</tr>
+</tbody>
+</table>
+<p>Si el navegador se queda colgado, mira primero las reglas de entrada del balanceador: el puerto 80 o el 443 tienen que admitir a los usuarios. Si el balanceador contesta 502, la petición sí le ha llegado y él no ha conseguido una respuesta válida del destino. Entonces se miran el grupo de seguridad de las máquinas, el grupo de destino y la comprobación de estado. En Logs Insights, el rango de tiempo importa tanto como la consulta: un rango de cinco minutos, cuando la petición es de hace una hora, devuelve cero líneas y parece que la consulta está mal.</p>
+<h2 id="consulta-y-politica">Consulta y política<a class="headerlink" href="#consulta-y-politica" title="Permanent link">&para;</a></h2>
+<p>En CloudWatch, entra en <em>Logs</em> y luego en <em>Logs Insights</em>. Arriba se elige el grupo de registros y el rango de tiempo. Pegas la consulta, pulsas <em>Run query</em> y cambias el <code>502</code> por el código, la IP o el fragmento de URL que pida el reto. <code>filter @message like</code> busca un texto dentro de la línea completa.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>fields @timestamp, @message
+<span class="linenos" data-linenos="2 "></span>| filter @message like / 502 /
+<span class="linenos" data-linenos="3 "></span>| sort @timestamp desc
+<span class="linenos" data-linenos="4 "></span>| limit 40
+</code></pre></div>
+<p>Para cortar los borrados en un bucket, la defensa habitual es una política que deniegue <code>s3:DeleteObject</code>. Un <em>Deny</em> explícito gana a cualquier permiso de borrado. Sustituye <code>NOMBRE-DEL-BUCKET</code> por el nombre exacto del bucket. Si el cuadro de la política ya tiene un documento, no lo sustituyas: añade este objeto dentro de la lista <code>Statement</code> y guarda antes el JSON viejo. La política corta los borrados nuevos; los objetos que ya no están hay que reponerlos, quitando el marcador de borrado si hay versionado o volviendo a subir el fichero si no lo hay.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="p">{</span>
+<span class="linenos" data-linenos=" 2 "></span><span class="w">  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 3 "></span><span class="w">  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="p">{</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">      </span><span class="nt">"Sid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DenegarBorradoDeObjetos"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deny"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">      </span><span class="nt">"Principal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">        </span><span class="s2">"s3:DeleteObject"</span><span class="p">,</span>
+<span class="linenos" data-linenos="10 "></span><span class="w">        </span><span class="s2">"s3:DeleteObjectVersion"</span>
+<span class="linenos" data-linenos="11 "></span><span class="w">      </span><span class="p">],</span>
+<span class="linenos" data-linenos="12 "></span><span class="w">      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:s3:::NOMBRE-DEL-BUCKET/*"</span>
+<span class="linenos" data-linenos="13 "></span><span class="w">    </span><span class="p">}</span>
+<span class="linenos" data-linenos="14 "></span><span class="w">  </span><span class="p">]</span>
+<span class="linenos" data-linenos="15 "></span><span class="p">}</span>
+</code></pre></div>
+<h2 id="reglas-de-oro">Reglas de oro<a class="headerlink" href="#reglas-de-oro" title="Permanent link">&para;</a></h2>
+<p>Cualquier borrado se avisa antes en la hoja del equipo. Antes de quitar una regla, un objeto, una instancia, una política o una ACL del WAF, se escribe cómo está el recurso. Quien va a borrar espera a que lo vea el capitán, en DAW, o su compañero, en SMR, y solo entonces guarda el cambio. Después de cada cambio, alguien carga la web y lo dice en alto. Si la web ha caído, se deshace el último cambio con la nota de la hoja. Un reto anotado con la portada caída deja al equipo peor de lo que estaba.</p>
+<p>En el IDE compartido, <code>git pull</code> va antes de editar. Si Git dice que tu copia y la del repositorio han divergido, paras y hablas con quien haya editado antes. <code>git push --force</code> reescribe el historial que el resto del equipo tiene por bueno. Un commit lleva una frase que explica el cambio, y el fichero va sin secretos. Las credenciales del evento se quedan en el equipo. IAM decide quién puede llamar a la API de AWS, y el grupo de seguridad decide qué tráfico de red entra: son capas distintas. Si un botón responde <em>AccessDenied</em>, se lee la acción que ha denegado y se le pasa a quien lleve la lectura. Pedir más permisos, o pegar una clave de acceso en el código, no es la salida.</p>
+<div class="imprimir-enlaces">
+<h2 id="videos-de-apoyo">Vídeos de apoyo<a class="headerlink" href="#videos-de-apoyo" title="Permanent link">&para;</a></h2>
+<p>Están en el canal <a href="https://www.youtube.com/@ProfeSantosCloud">Profe Santos Cloud</a>, en este orden. El equipo ve juntos los dos primeros; después cada persona sigue con el de su rol. Al imprimir, la dirección de cada vídeo sale junto al título.</p>
+<ol>
+<li>DAW y SMR, todos juntos: <a href="https://www.youtube.com/watch?v=dxWV4pvGZmU">Introducción a AWS Academy</a>.</li>
+<li>DAW y SMR, todos juntos: <a href="https://www.youtube.com/watch?v=rEnenbxjOGo">IAM en Academy</a>.</li>
+<li>Seguridad y red, en SMR, y quien vaya a tocar la VPC: <a href="https://www.youtube.com/watch?v=u0Kh0JRK4zk">VPC</a>.</li>
+<li>Seguridad y red, en SMR, antes del balanceador: <a href="https://www.youtube.com/watch?v=vdSKZxOVX1A">EC2 Linux</a>.</li>
+<li>Web, en DAW, y seguridad y red, en SMR: <a href="https://www.youtube.com/watch?v=GqRMAwo6QRA">Balanceador de aplicación</a>.</li>
+<li>Quien vaya a cerrar la base: <a href="https://www.youtube.com/watch?v=4X1f23RpBG0">RDS en una subred privada</a>.</li>
+<li>Registros, en DAW, y monitorización, en SMR: <a href="https://www.youtube.com/watch?v=T_Pz1ksb9ng">CloudWatch, CloudTrail y EventBridge</a>.</li>
+<li>Código y datos, en DAW, y monitorización, en SMR: <a href="https://www.youtube.com/watch?v=OkGNAHtVCq8">S3</a>.</li>
+<li>Si sobra tiempo, DAW: <a href="https://www.youtube.com/watch?v=TIeUbq4bCOU">Lambda</a> y, después, <a href="https://www.youtube.com/watch?v=j1VL7ctuerw">DynamoDB</a>.</li>
+<li>Si sobra tiempo, seguridad y red en SMR: <a href="https://www.youtube.com/watch?v=43jYEiZvOsw">RDS</a>.</li>
+</ol>
+</div>
+<h2 id="si-te-sobra-tiempo">Si te sobra tiempo<a class="headerlink" href="#si-te-sobra-tiempo" title="Permanent link">&para;</a></h2>
+<p>Si quieres ver una vez un balanceador con dos máquinas y una comprobación de estado en verde, puedes montarlo en el Learner Lab de AWS Academy. Es voluntario y el jueves se puede jugar sin haberlo hecho. Cómo se arranca está en <a href="../00-acceso/acceso.html#2-entrar-al-learner-lab-desde-el-curso">Acceso</a>. En ese laboratorio no se pueden crear usuarios, grupos ni roles de IAM: el rol que ya trae el entorno se llama <strong>LabRole</strong> y se asigna a una instancia o a una función mediante <strong>LabInstanceProfile</strong>, para que ese recurso llame a otros servicios; no amplía los botones de tu sesión. Al acabar, termina las instancias (<em>terminate</em>) y borra el balanceador, porque pararlas (<em>stop</em>) deja el crédito corriendo.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../90-soluciones/soluciones.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Soluciones">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Soluciones
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

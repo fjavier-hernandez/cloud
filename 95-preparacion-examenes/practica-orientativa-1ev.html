@@ -1,0 +1,1350 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Práctica guiada en el Learner Lab para preparar la parte práctica del examen de la 1.ª evaluación (EC2, grupo de seguridad, user data, EBS y limpieza).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/95-preparacion-examenes/practica-orientativa-1ev.html">
+      
+      
+        <link rel="prev" href="../08-escalado-monitoreo-cierre/tema8.html">
+      
+      
+        <link rel="next" href="../99-certificacion/certificacion.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Práctica orientativa: examen de la 1.ª evaluación - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Práctica orientativa: examen de la 1.ª evaluación - Introducción a la Nube Pública" />
+<meta property="og:description" content="Práctica guiada en el Learner Lab para preparar la parte práctica del examen de la 1.ª evaluación (EC2, grupo de seguridad, user data, EBS y limpieza)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/95-preparacion-examenes/practica-orientativa-1ev.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/95-preparacion-examenes/practica-orientativa-1ev.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Práctica orientativa: examen de la 1.ª evaluación - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="Práctica guiada en el Learner Lab para preparar la parte práctica del examen de la 1.ª evaluación (EC2, grupo de seguridad, user data, EBS y limpieza)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/95-preparacion-examenes/practica-orientativa-1ev.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#practica-orientativa-examen-de-la-1a-evaluacion" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Práctica orientativa: examen de la 1.ª evaluación
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-redes-entrega-contenido/tema3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparación de exámenes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparación de exámenes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Práctica orientativa: examen de la 1.ª evaluación
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="practica-orientativa-1ev.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Práctica orientativa: examen de la 1.ª evaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#antes-de-empezar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Antes de empezar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datos-comunes-del-laboratorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datos comunes del laboratorio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-1-lanzar-la-instancia-con-datos-de-usuario-25-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 1. Lanzar la instancia con datos de usuario (2,5 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-2-publicar-la-pagina-web-2-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 2. Publicar la página web (2 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-3-cambiar-el-tipo-de-instancia-y-el-tamano-del-volumen-2-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 3. Cambiar el tipo de instancia y el tamaño del volumen (2 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-4-conectarte-y-personalizar-la-pagina-2-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 4. Conectarte y personalizar la página (2 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-5-terminar-la-instancia-y-dejar-el-laboratorio-limpio-15-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 5. Terminar la instancia y dejar el laboratorio limpio (1,5 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-de-la-puntuacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumen de la puntuación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consejos-finales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consejos finales
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../96-gameday/gameday-2026.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GameDay 2026
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--new" title="Recién añadido">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#antes-de-empezar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Antes de empezar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datos-comunes-del-laboratorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datos comunes del laboratorio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-1-lanzar-la-instancia-con-datos-de-usuario-25-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 1. Lanzar la instancia con datos de usuario (2,5 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-2-publicar-la-pagina-web-2-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 2. Publicar la página web (2 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-3-cambiar-el-tipo-de-instancia-y-el-tamano-del-volumen-2-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 3. Cambiar el tipo de instancia y el tamaño del volumen (2 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-4-conectarte-y-personalizar-la-pagina-2-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 4. Conectarte y personalizar la página (2 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-5-terminar-la-instancia-y-dejar-el-laboratorio-limpio-15-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejercicio 5. Terminar la instancia y dejar el laboratorio limpio (1,5 puntos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-de-la-puntuacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumen de la puntuación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consejos-finales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consejos finales
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="practica-orientativa-examen-de-la-1a-evaluacion">Práctica orientativa: examen de la 1.ª evaluación<a class="headerlink" href="#practica-orientativa-examen-de-la-1a-evaluacion" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Datos de la práctica</p>
+<ul>
+<li><strong>Módulo:</strong> Introducción a la Nube Pública (INP) · 2.º DAW semipresencial · Curso 2026-2027</li>
+<li><strong>Entorno:</strong> AWS Academy Learner Lab · Región <em>Norte de Virginia</em> (<code>us-east-1</code>)</li>
+<li><strong>Puntuación:</strong> 10 puntos</li>
+</ul>
+</div>
+<p>Esta práctica sirve para ensayar, con guía, la parte práctica de la prueba objetiva 1 (PO1), el examen de la 1.ª evaluación. Repasa lo que has visto en los temas <a href="../03-redes-entrega-contenido/tema3.html">3</a> y <a href="../04-computo-serverless/tema4.html">4</a>: el lanzamiento de una instancia de Amazon EC2 en la VPC predeterminada, el grupo de seguridad, los datos de usuario, un volumen de Amazon EBS, la conexión al servidor y la limpieza del laboratorio. El enunciado del día del examen será distinto y tendrá algo más de dificultad, pero se apoyará en las mismas destrezas.</p>
+<p>Trabajarás en el Learner Lab del curso de AWS Academy. Entra en el curso, abre el contenido y pulsa el enlace de lanzamiento del laboratorio para el alumnado. Espera a que el indicador de AWS pase a verde y confirma, en la barra superior de la consola, que estás administrando recursos en la región Norte de Virginia (<code>us-east-1</code>). Si la consola está en otra región, cámbiala antes de crear nada: los recursos no aparecen de una región a otra y podrías dejar capacidad encendida sin verla.</p>
+<p>La entrega es un fichero Markdown, llamado <code>PO1_practica_orientativa.md</code>, en un ZIP junto con la carpeta <code>img/</code> que contiene las capturas que se piden en cada ejercicio, enlazadas desde el propio documento. En cada imagen debe leerse con claridad lo que se solicita (nombres, tipo, región, reglas o la barra de direcciones del navegador). Al terminar, deja el laboratorio limpio: una instancia que sigue en ejecución factura cómputo y, si no se borra, también el volumen.</p>
+<div class="admonition warning">
+<p class="admonition-title">Sin credenciales en la entrega</p>
+<p>No incluyas claves, ficheros <code>.pem</code> ni capturas con credenciales.</p>
+</div>
+<h2 id="antes-de-empezar">Antes de empezar<a class="headerlink" href="#antes-de-empezar" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Inicia el Learner Lab y espera a que el círculo junto a AWS esté en verde.</li>
+<li>Abre la consola de EC2 y comprueba que la región es <strong>Norte de Virginia (<code>us-east-1</code>)</strong>.</li>
+<li>Comprueba que en la lista de pares de claves aparece <strong>vockey</strong>, que es el que proporciona el laboratorio. En esta práctica la conexión se hace desde la propia consola (EC2 Instance Connect), así que no necesitas el fichero <code>.pem</code> en tu portátil, aunque el par de claves sí debe quedar asociado a la instancia.</li>
+<li>Prepara un editor o un procesador de texto para ir pegando las capturas a medida que avanzas, no al final, cuando ya hayas terminado la instancia.</li>
+</ol>
+<h2 id="datos-comunes-del-laboratorio">Datos comunes del laboratorio<a class="headerlink" href="#datos-comunes-del-laboratorio" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Región</td>
+<td>Norte de Virginia (<code>us-east-1</code>)</td>
+</tr>
+<tr>
+<td>Nombre de la instancia</td>
+<td><code>web-po1-practica</code></td>
+</tr>
+<tr>
+<td>AMI</td>
+<td>Amazon Linux 2023 (la versión actual del catálogo <em>Quick Start</em>)</td>
+</tr>
+<tr>
+<td>Tipo de instancia</td>
+<td><code>t3.micro</code> (si no estuviera disponible en el laboratorio, usa <code>t2.micro</code> y déjalo indicado en la captura)</td>
+</tr>
+<tr>
+<td>Par de claves</td>
+<td><code>vockey</code></td>
+</tr>
+<tr>
+<td>Red</td>
+<td>VPC predeterminada y una subred de esa VPC que asigne automáticamente una dirección IPv4 pública</td>
+</tr>
+<tr>
+<td>Grupo de seguridad</td>
+<td>Nombre <code>sg-web-po1</code>. Descripción: <code>Grupo de seguridad de la práctica orientativa PO1</code></td>
+</tr>
+</tbody>
+</table>
+<p>La VPC predeterminada suele usar el bloque <code>172.31.0.0/16</code>, pero no hace falta escribir un CIDR concreto: elige la VPC que la consola marca como <em>default</em> y una de sus subredes con asignación automática de IPv4 pública.</p>
+<h2 id="ejercicio-1-lanzar-la-instancia-con-datos-de-usuario-25-puntos">Ejercicio 1. Lanzar la instancia con datos de usuario (2,5 puntos)<a class="headerlink" href="#ejercicio-1-lanzar-la-instancia-con-datos-de-usuario-25-puntos" title="Permanent link">&para;</a></h2>
+<p>El objetivo es dejar en ejecución un servidor web instalado en el primer arranque, todavía sin reglas de entrada en el grupo de seguridad. Así comprobarás más adelante qué ocurre cuando el tráfico no está permitido.</p>
+<ol>
+<li>En la consola de EC2, pulsa <strong>Launch instance</strong>.</li>
+<li>Asigna el nombre <code>web-po1-practica</code>.</li>
+<li>En <em>Application and OS Images</em>, elige <strong>Amazon Linux 2023</strong>. No hace falta buscar una compilación concreta del kernel: sirve la AMI actual de <em>Quick Start</em>.</li>
+<li>En <em>Instance type</em>, elige <strong>t3.micro</strong> (o <strong>t2.micro</strong>, si <em>t3.micro</em> no aparece).</li>
+<li>En <em>Key pair</em>, selecciona <strong>vockey</strong>. No crees un par nuevo.</li>
+<li>En <em>Network settings</em>, pulsa <strong>Edit</strong> para ver todas las opciones. Elige la <strong>VPC predeterminada</strong> y una de sus subredes, y comprueba que <em>Auto-assign public IP</em> queda en <em>Enable</em>. Marca la opción de crear un grupo de seguridad y nómbralo <code>sg-web-po1</code>, con la descripción indicada en la tabla. <strong>Elimina o desactiva cualquier regla de entrada</strong> que el asistente haya añadido por defecto (SSH, HTTP o HTTPS). El grupo debe quedar sin reglas de entrada al lanzar.</li>
+<li>En <em>Configure storage</em> deja el volumen raíz que propone la AMI; lo modificarás en un ejercicio posterior.</li>
+<li>
+<p>Despliega <strong>Advanced details</strong>. Activa la <strong>protección frente a la terminación</strong> (<em>Termination protection</em>). En <strong>User data</strong> pega exactamente este script:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="ch">#!/bin/bash</span>
+<span class="linenos" data-linenos="2 "></span>dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>httpd
+<span class="linenos" data-linenos="3 "></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>httpd
+<span class="linenos" data-linenos="4 "></span>systemctl<span class="w"> </span>start<span class="w"> </span>httpd
+<span class="linenos" data-linenos="5 "></span><span class="nb">echo</span><span class="w"> </span><span class="s1">'&lt;html&gt;&lt;h1&gt;Practica orientativa PO1&lt;/h1&gt;&lt;/html&gt;'</span><span class="w"> </span>&gt;<span class="w"> </span>/var/www/html/index.html
+</code></pre></div>
+</li>
+<li>
+<p>Lanza la instancia y espera a que pase a estado <em>running</em> y a que las comprobaciones de estado queden en 2/2. El script de datos de usuario puede tardar un par de minutos en terminar; no adelantes el ejercicio 2 hasta ver la instancia en buen estado.</p>
+</li>
+</ol>
+<p><strong>Entrega (tres capturas):</strong></p>
+<ul>
+<li>El apartado <em>Name and tags</em>, la AMI y el tipo de instancia, tomados del asistente antes de lanzar o del resumen equivalente.</li>
+<li>El apartado <em>Network settings</em>, donde se vean la VPC predeterminada, la subred y el grupo de seguridad <code>sg-web-po1</code> sin reglas de entrada.</li>
+<li>El apartado <em>Advanced details</em>, donde se vean la protección frente a la terminación activada y el script de <em>User data</em>.</li>
+</ul>
+<h2 id="ejercicio-2-publicar-la-pagina-web-2-puntos">Ejercicio 2. Publicar la página web (2 puntos)<a class="headerlink" href="#ejercicio-2-publicar-la-pagina-web-2-puntos" title="Permanent link">&para;</a></h2>
+<p>Cuando lanzaste la instancia, el script instaló Apache HTTP Server y dejó una página sencilla. Si ahora abres en el navegador la dirección IPv4 pública, la conexión no debería entrar: el grupo de seguridad aún no permite el puerto 80. El fallo, en este caso, no es de la nube, sino de la configuración <em>en</em> la nube.</p>
+<ol>
+<li>Localiza el grupo de seguridad <code>sg-web-po1</code> (desde la instancia, pestaña <em>Security</em>, o desde <em>Network &amp; Security → Security Groups</em>).</li>
+<li>Añade una regla de <strong>entrada</strong> de tipo HTTP, protocolo TCP, puerto <strong>80</strong>, origen <code>0.0.0.0/0</code>, con una descripción breve (por ejemplo, <code>HTTP de la practica</code>).</li>
+<li>Copia la <strong>dirección IPv4 pública</strong> de la instancia y ábrela en el navegador con <code>http://</code> seguido de esa IP (sin puerto, porque HTTP usa el 80). Debes ver el mensaje <em>Practica orientativa PO1</em>. No uses el enlace <em>open address</em> de la consola, porque abre la dirección con <code>https://</code> y el servidor no escucha en el puerto 443, de modo que la página no cargaría.</li>
+<li>Si la página no carga, espera un poco más a que termine el <em>user data</em>, confirma que la instancia tiene IP pública y que la regla quedó guardada, y vuelve a intentarlo. No abras todavía el puerto 22: la conexión SSH llega en el ejercicio 4.</li>
+</ol>
+<p><strong>Entrega (dos capturas):</strong></p>
+<ul>
+<li>Las reglas de entrada del grupo <code>sg-web-po1</code>, donde se vea la regla HTTP del puerto 80.</li>
+<li>El navegador mostrando el mensaje de la página y, en la barra de direcciones, la IPv4 pública de la instancia.</li>
+</ul>
+<h2 id="ejercicio-3-cambiar-el-tipo-de-instancia-y-el-tamano-del-volumen-2-puntos">Ejercicio 3. Cambiar el tipo de instancia y el tamaño del volumen (2 puntos)<a class="headerlink" href="#ejercicio-3-cambiar-el-tipo-de-instancia-y-el-tamano-del-volumen-2-puntos" title="Permanent link">&para;</a></h2>
+<p>Vas a distinguir dos cambios que se hacen de manera distinta. El tipo de instancia (la plantilla de procesador y memoria) exige parar la máquina. El volumen de EBS sí se puede ampliar con la instancia en ejecución, aunque en esta práctica basta con dejar constancia del cambio en la consola: no se pide redimensionar el sistema de ficheros desde Linux.</p>
+<ol>
+<li>Selecciona la instancia <code>web-po1-practica</code> y <strong>párala</strong> (<em>Stop instance</em>). Espera al estado <em>stopped</em>.</li>
+<li>En <em>Actions → Instance settings → Change instance type</em>, cambia el tipo a <strong>t3.small</strong> (o <strong>t2.small</strong>, si en el ejercicio 1 usaste <em>t2.micro</em>). Aplica el cambio y <strong>vuelve a iniciar</strong> la instancia.</li>
+<li>Cuando esté otra vez en <em>running</em>, abre <strong>Elastic Block Store → Volumes</strong>, localiza el volumen raíz asociado a la instancia y pulsa <em>Actions → Modify volume</em>. Fija el tamaño en <strong>12 GiB</strong>. Si el volumen ya midiera 12 GiB o más, no lo reduzcas: captura el tamaño actual y explícalo en una línea junto a la imagen.</li>
+<li>Espera a que la modificación del volumen pase a <em>optimizing</em> o <em>completed</em> y a que el nuevo tamaño se vea en la lista. El volumen seguirá en estado <em>in-use</em>, porque continúa conectado a la instancia. Comprueba también que, tras el arranque, la instancia sigue teniendo una IPv4 pública. Al parar y volver a iniciar una instancia sin IP elástica, AWS le asigna una IPv4 pública distinta; no pasa nada, usarás la nueva en el ejercicio siguiente.</li>
+</ol>
+<p><strong>Entrega (dos capturas):</strong></p>
+<ul>
+<li>Los detalles de la instancia, donde se lea el nuevo tipo (<code>t3.small</code> o <code>t2.small</code>).</li>
+<li>El panel <em>Modify volume</em> (o el detalle del volumen ya modificado) donde se vea el tamaño de 12 GiB, o el tamaño actual si ya era mayor.</li>
+</ul>
+<h2 id="ejercicio-4-conectarte-y-personalizar-la-pagina-2-puntos">Ejercicio 4. Conectarte y personalizar la página (2 puntos)<a class="headerlink" href="#ejercicio-4-conectarte-y-personalizar-la-pagina-2-puntos" title="Permanent link">&para;</a></h2>
+<p>Ahora entrarás en la instancia desde la propia consola de AWS y cambiarás el mensaje de la página para que incluya tu nombre y apellidos. Después de editar el fichero hay que reiniciar Apache para que el navegador muestre el contenido nuevo.</p>
+<ol>
+<li>
+<p>Añade al grupo <code>sg-web-po1</code> una regla de <strong>entrada</strong> SSH, protocolo TCP, puerto <strong>22</strong>, origen <code>0.0.0.0/0</code>. En un entorno profesional restringirías el origen.</p>
+<div class="admonition note">
+<p class="admonition-title">Por qué no basta con <em>My IP</em></p>
+<p>En este laboratorio, la conexión <strong>EC2 Instance Connect sale desde rangos de AWS, no desde la IP de tu casa</strong>, de modo que una regla limitada a <em>My IP</em> hace que la conexión falle.</p>
+</div>
+</li>
+<li>
+<p>Selecciona la instancia, pulsa <strong>Connect</strong> y usa la pestaña <strong>EC2 Instance Connect</strong>. El usuario de Amazon Linux 2023 es <code>ec2-user</code>. Conecta.</p>
+</li>
+<li>
+<p>Edita <code>/var/www/html/index.html</code> para que la página muestre exactamente este mensaje, con tu nombre y tus apellidos: <code>Esta es mi web. Mi nombre es: Nombre Apellidos</code>. Puedes usar, por ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>sudo<span class="w"> </span>tee<span class="w"> </span>/var/www/html/index.html<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="linenos" data-linenos="2 "></span><span class="s">&lt;html&gt;&lt;h1&gt;Esta es mi web. Mi nombre es: Nombre Apellidos&lt;/h1&gt;&lt;/html&gt;</span>
+<span class="linenos" data-linenos="3 "></span><span class="s">EOF</span>
+<span class="linenos" data-linenos="4 "></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>httpd
+</code></pre></div>
+</li>
+<li>
+<p>Sustituye <code>Nombre Apellidos</code> por los tuyos. Comprueba con <code>systemctl is-active httpd</code> que el servicio sigue activo y abre de nuevo en el navegador la IPv4 pública actual.</p>
+</li>
+</ol>
+<p><strong>Entrega (dos capturas):</strong></p>
+<ul>
+<li>La sesión de EC2 Instance Connect (o la terminal SSH equivalente) en la que se vea la edición del fichero <code>index.html</code> y el reinicio de <code>httpd</code>.</li>
+<li>El navegador con el nuevo mensaje, tu nombre legible y la IPv4 pública en la barra de direcciones.</li>
+</ul>
+<h2 id="ejercicio-5-terminar-la-instancia-y-dejar-el-laboratorio-limpio-15-puntos">Ejercicio 5. Terminar la instancia y dejar el laboratorio limpio (1,5 puntos)<a class="headerlink" href="#ejercicio-5-terminar-la-instancia-y-dejar-el-laboratorio-limpio-15-puntos" title="Permanent link">&para;</a></h2>
+<p>La protección frente a la terminación, que activaste al lanzar, impide un <em>terminate</em> accidental. Antes de eliminar la instancia hay que desactivarla. Al terminar, confirma que no queda la máquina en ejecución ni un volumen huérfano que siga facturando.</p>
+<ol>
+<li>Con la instancia seleccionada, abre <em>Actions → Instance settings → Change termination protection</em> y <strong>desactiva</strong> la protección.</li>
+<li>Pulsa <em>Instance state → Terminate instance</em> y confirma. El estado pasará a <em>shutting-down</em> y después a <em>terminated</em>.</li>
+<li>Revisa <strong>Volumes</strong>. Si el volumen raíz tenía marcada la opción de borrado al terminar, desaparecerá solo; si quedara alguno de esta práctica, elimínalo.</li>
+<li>Si quieres, borra también el grupo de seguridad <code>sg-web-po1</code>. Es posible que la consola no te deje hacerlo durante unos segundos, mientras la instancia recién terminada sigue apareciendo en la lista; en ese caso, inténtalo al final y, si continúa asociado, déjalo indicado en el documento. No se penaliza que quede el grupo, porque lo importante es que no quede cómputo encendido ni volúmenes facturando.</li>
+</ol>
+<p><strong>Entrega (dos capturas):</strong></p>
+<ul>
+<li>La lista de instancias (o el detalle de <code>web-po1-practica</code>) donde se vea el estado <strong>terminated</strong>, o la lista sin instancias en ejecución en la región <code>us-east-1</code>.</li>
+<li>La lista de <strong>Volumes</strong> de <code>us-east-1</code>, donde se vea que no queda ningún volumen de esta práctica.</li>
+</ul>
+<h2 id="resumen-de-la-puntuacion">Resumen de la puntuación<a class="headerlink" href="#resumen-de-la-puntuacion" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ejercicio</th>
+<th>Contenido</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Lanzamiento en <code>us-east-1</code> con AMI, tipo, <em>vockey</em>, VPC predeterminada, grupo sin entradas, protección frente a la terminación y <em>user data</em></td>
+<td>2,5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Regla HTTP y página visible por la IPv4 pública</td>
+<td>2,0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cambio de tipo (con la instancia parada) y ampliación del volumen de EBS a 12 GiB</td>
+<td>2,0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Regla SSH, conexión desde la consola y página personalizada con reinicio de <code>httpd</code></td>
+<td>2,0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Desactivación de la protección, terminación y laboratorio sin cómputo encendido</td>
+<td>1,5</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>10</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="consejos-finales">Consejos finales<a class="headerlink" href="#consejos-finales" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Antes de entregar</p>
+<p>Una captura ilegible, recortada o de otra región no acredita el paso. Si en el ejercicio 1 usaste <code>t2.micro</code> porque no aparecía <code>t3.micro</code>, mantén la misma familia al pasar a <em>small</em> y déjalo escrito junto a la imagen. Si la página del ejercicio 2 no carga, no abras puertos al azar: revisa la regla 80, la IP pública y que el <em>user data</em> haya terminado. Cuando acabes, comprueba una última vez que en <code>us-east-1</code> no queda ninguna instancia en <em>running</em> ni <em>stopped</em>.</p>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 8. Escalado, monitorización y cierre CLF-C02">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                8. Escalado, monitorización y cierre CLF-C02
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../99-certificacion/certificacion.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Certificación">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Certificación
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

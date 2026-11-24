@@ -1,0 +1,2024 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="VPC, subredes, rutas, seguridad de red, CloudFront y Route 53 (Foundations Módulo 5).">
+      
+      
+      
+        <link rel="canonical" href="https://fjavier-hernandez.github.io/cloud/03-redes-entrega-contenido/tema3.html">
+      
+      
+        <link rel="prev" href="../02-seguridad-iam/tema2.html">
+      
+      
+        <link rel="next" href="../04-computo-serverless/tema4.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../img/cloud.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Tema 3 — Redes, VPC y entrega de contenido - Introducción a la Nube Pública</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tema 3 — Redes, VPC y entrega de contenido - Introducción a la Nube Pública" />
+<meta property="og:description" content="VPC, subredes, rutas, seguridad de red, CloudFront y Route 53 (Foundations Módulo 5)." />
+<meta property="og:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/03-redes-entrega-contenido/tema3.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://fjavier-hernandez.github.io/cloud/03-redes-entrega-contenido/tema3.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Tema 3 — Redes, VPC y entrega de contenido - Introducción a la Nube Pública" />
+<meta property="twitter:description" content="VPC, subredes, rutas, seguridad de red, CloudFront y Route 53 (Foundations Módulo 5)." />
+<meta property="twitter:image" content="https://fjavier-hernandez.github.io/cloud/assets/images/social/03-redes-entrega-contenido/tema3.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-3-redes-vpc-y-entrega-de-contenido" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-header__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introducción a la Nube Pública
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tema 3 — Redes, VPC y entrega de contenido
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="javi" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Introducción a la Nube Pública" class="md-nav__button md-logo" aria-label="Introducción a la Nube Pública" data-md-component="logo">
+      
+  <img src="../img/cloud.svg" alt="logo">
+
+    </a>
+    Introducción a la Nube Pública
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-acceso/acceso.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calendario.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calendario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentos-nube-aws/tema1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos de la nube AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-seguridad-iam/tema2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Seguridad, IAM y responsabilidad compartida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tema3.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Redes, VPC y entrega de contenido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 5)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 5)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vpc-tu-red-virtual-en-una-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPC: tu red virtual en una región
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VPC: tu red virtual en una región">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subred-publica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subred pública
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subred-privada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subred privada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-de-rutas-internet-gateway-y-nat-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla de rutas, Internet Gateway y NAT Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-daw-alb-en-publica-api-y-rds-en-privada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso DAW: ALB en pública, API y RDS en privada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguridad-por-capas-del-alb-a-rds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad por capas: del ALB a RDS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-groups-frente-a-nacl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security groups frente a NACL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-y-entrega-de-contenido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS y entrega de contenido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-una-peticion-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de una petición HTTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enlace-hibrido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enlace híbrido: VPN y Direct Connect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-computo-y-balanceo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con cómputo y balanceo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-5-creacion-de-una-vpc-y-lanzamiento-de-un-servidor-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 5: creación de una VPC y lanzamiento de un servidor web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr301-vpc-y-servidor-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR301 — VPC y servidor web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-computo-serverless/tema4.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Cómputo: EC2, Lambda y contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-almacenamiento/tema5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-bases-de-datos/tema6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Bases de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-arquitectura-well-architected/tema7.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Arquitectura Well-Architected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-escalado-monitoreo-cierre/tema8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Escalado, monitorización y cierre CLF-C02
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparación de exámenes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Preparación de exámenes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../95-preparacion-examenes/practica-orientativa-1ev.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Práctica orientativa: examen de la 1.ª evaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../99-certificacion/certificacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Certificación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90-soluciones/soluciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soluciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../96-gameday/gameday-2026.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GameDay 2026
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--new" title="Recién añadido">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion-ra3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación (RA3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-orientativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de aula (orientativa)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuestionario-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuestionario inicial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-foundations-modulo-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Foundations (Módulo 5)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloque Foundations (Módulo 5)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vpc-tu-red-virtual-en-una-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPC: tu red virtual en una región
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VPC: tu red virtual en una región">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subred-publica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subred pública
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subred-privada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subred privada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-de-rutas-internet-gateway-y-nat-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla de rutas, Internet Gateway y NAT Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-daw-alb-en-publica-api-y-rds-en-privada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso DAW: ALB en pública, API y RDS en privada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seguridad-por-capas-del-alb-a-rds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad por capas: del ALB a RDS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-groups-frente-a-nacl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security groups frente a NACL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-y-entrega-de-contenido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS y entrega de contenido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-una-peticion-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo de una petición HTTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enlace-hibrido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enlace híbrido: VPN y Direct Connect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-con-computo-y-balanceo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relación con cómputo y balanceo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-lab-del-modulo-5-creacion-de-una-vpc-y-lanzamiento-de-un-servidor-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El lab del Módulo 5: creación de una VPC y lanzamiento de un servidor web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bloque-ampliacion-practitioner-clf-c02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloque Ampliación Practitioner (CLF-C02)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#videotutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Videotutorial
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividad-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividad / práctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actividad / práctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pr301-vpc-y-servidor-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PR301 — VPC y servidor web
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autocheck-del-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocheck del tema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glosario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glosario
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tema-3-redes-vpc-y-entrega-de-contenido">Tema 3. Redes, VPC y entrega de contenido<a class="headerlink" href="#tema-3-redes-vpc-y-entrega-de-contenido" title="Permanent link">&para;</a></h1>
+<p>Cuando despliegas el front y la API (<em>Application Programming Interface</em>, interfaz de programación de aplicaciones) de tu proyecto en AWS, no quedan expuestos a internet por el simple hecho de existir allí. Todos esos recursos viven dentro de una <a href="#vpc">VPC</a> (<em>Virtual Private Cloud</em>, nube virtual privada), una red propia que tú diseñas y repartes en <a href="#subnet">subredes</a>, cada una situada en una sola <a href="../01-fundamentos-nube-aws/tema1.html#zona-de-disponibilidad">zona de disponibilidad</a> (AZ, <em>Availability Zone</em>). Sobre esa red, las tablas de rutas y los cortafuegos deciden qué tráfico puede entrar desde fuera y por dónde sale una instancia cuando es ella la que necesita conectarse a internet, por ejemplo para instalar paquetes o llamar a un servicio externo.</p>
+<p>Esa es la decisión de fondo de todo el tema, que corresponde al Módulo 5 de AWS Academy Cloud Foundations: qué publicas hacia internet y qué dejas protegido dentro. Al terminarlo sabrás publicar un servidor web accesible para cualquier usuario sin dejar abierto el puerto 22 de SSH (<em>Secure Shell</em>, el protocolo con el que administras en remoto un sistema Linux), que es una de las puertas de entrada más atacadas. Los términos clave del tema están recogidos en el <a href="#glosario">glosario</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Al empezar</p>
+<p>Empieza por el <a href="#cuestionario-inicial">cuestionario inicial</a>. Trae claro el mapa de <a href="../01-fundamentos-nube-aws/tema1.html#region">región</a> y AZ del Tema 1. En este tema decides en qué subred colocas el balanceador, la API y la base de datos, y qué tráfico entra o sale.</p>
+</div>
+<h2 id="propuesta-didactica">Propuesta didáctica<a class="headerlink" href="#propuesta-didactica" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>RA3.</strong> <em>Diseña y configura redes virtuales y servicios de cómputo en la nube, aplicando buenas prácticas de seguridad, estrategias de balanceo de carga, escalado automático y aprovechando tecnologías serverless, contenedores y máquinas virtuales según casos de uso específicos.</em></p>
+</blockquote>
+<h3 id="criterios-de-evaluacion-ra3">Criterios de evaluación (RA3)<a class="headerlink" href="#criterios-de-evaluacion-ra3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>a)</strong> Se ha realizado el diseño y configuración de redes virtuales privadas.</li>
+<li><strong>b)</strong> Se ha aplicado buenas prácticas de seguridad en redes y arquitecturas.</li>
+<li><strong>c)</strong> Se ha participado activamente en la creación y configuración de una red funcional.</li>
+</ul>
+<p>Los tipos de instancia y Lambda se estudian en el Tema 4. El balanceo con más detalle y el autoescalado, en el Tema 8. Aquí dejas preparada la red en la que esos servicios se apoyan.</p>
+<h3 id="contenidos">Contenidos<a class="headerlink" href="#contenidos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>La VPC, el bloque <strong>CIDR</strong> (<em>Classless Inter-Domain Routing</em>, enrutamiento entre dominios sin clases) y las subredes, cada una en una sola AZ, con sus tablas de rutas, el Internet Gateway y el <strong>NAT Gateway</strong> (<em>Network Address Translation</em>, traducción de direcciones de red).</li>
+<li>El <strong>security group</strong> (<strong>SG</strong>, grupo de seguridad) frente a la <strong>NACL</strong> (<em>network access control list</em>, lista de control de acceso de red); qué hace pública o privada a una subred.</li>
+<li>Route 53 y CloudFront: el <strong>DNS</strong> (<em>Domain Name System</em>, sistema de nombres de dominio) y la <strong>CDN</strong> (<em>content delivery network</em>, red de entrega de contenido).</li>
+<li>La <strong>VPN</strong> (<em>virtual private network</em>, red privada virtual) frente a Direct Connect, y cuándo el escenario pide un enlace dedicado.</li>
+</ul>
+<h3 id="programacion-de-aula-orientativa">Programación de aula (orientativa)<a class="headerlink" href="#programacion-de-aula-orientativa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quincena</th>
+<th>En tutoría</th>
+<th>Trabajo autónomo / evidencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q4</strong></td>
+<td>VPC pública/privada + SG</td>
+<td><strong>PR301</strong>; Autocheck del tema</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="cuestionario-inicial"></a></p>
+<h2 id="cuestionario-inicial">Cuestionario inicial<a class="headerlink" href="#cuestionario-inicial" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Responde con lo que sepas</p>
+<ol>
+<li>¿Qué es una <strong>VPC</strong> en una frase, sin elegir todavía un bloque <strong>CIDR</strong> (<em>Classless Inter-Domain Routing</em>, el rango de direcciones)?</li>
+<li>¿En qué se diferencia una subred <strong>pública</strong> de una <strong>privada</strong> si miras la ruta hacia internet?</li>
+<li>En el lab de una API web, ¿usas casi siempre el <strong>security group</strong> o la <strong>NACL</strong>, y por qué?</li>
+<li>¿Por qué es una mala práctica abrir el puerto <strong>3306</strong> (MySQL o MariaDB) o el <strong>22</strong> (SSH, administración remota) a <code>0.0.0.0/0</code>, aunque así pudieras abrir la sesión desde tu portátil?</li>
+<li>¿CloudFront acerca el <strong>contenido</strong> al usuario o replica tu base de datos en el borde?</li>
+</ol>
+</div>
+<p>Este cuestionario es solo para ti: te ayuda a ver qué dominas ya y qué te falta antes o mientras lees el tema. No se entrega en Aules; respóndelo con lo que sepas y, cuando quieras contrastar, abre el bloque <strong>Soluciones (autoevaluación)</strong> debajo o el índice en <a href="../90-soluciones/soluciones.html">Soluciones</a>.</p>
+<details>
+<summary>Soluciones (autoevaluación)</summary>
+<ol>
+<li>
+<p>Una <strong>VPC</strong> es tu red virtual, aislada de forma lógica, dentro de <strong>una</strong> región de AWS. Es el espacio donde colocas el balanceador, la API y la base de datos. El bloque de direcciones se elige después: la definición no depende de un CIDR concreto.</p>
+</li>
+<li>
+<p>La subred <strong>pública</strong> tiene, en su tabla de rutas, una ruta cuyo objetivo es el Internet Gateway. Con esa ruta, un recurso con IP pública puede enviar y recibir tráfico de internet, siempre que el cortafuegos lo permita. La subred <strong>privada</strong> no tiene esa ruta directa. Si la instancia necesita salir, la tabla envía <code>0.0.0.0/0</code> a un NAT Gateway. Ese camino vale para conexiones que inicia la propia instancia. No sirve para que alguien en internet abra una conexión nueva hacia la instancia.</p>
+</li>
+<li>
+<p>Casi siempre el <strong>security group</strong>. Es un cortafuegos con estado, asociado a la interfaz de red del recurso: si permites la entrada de una conexión, la respuesta de esa misma conexión vuelve sin otra regla. La <strong>NACL</strong> filtra en la subred entera, no recuerda la conexión y te obliga a permitir también el tráfico de vuelta. En un lab es fácil dejar la aplicación incomunicada si editas la NACL sin un plan.</p>
+</li>
+<li>
+<p><code>0.0.0.0/0</code> significa cualquier dirección IPv4 de internet. El puerto 22 es la administración remota por SSH y el 3306 es el motor MySQL o MariaDB. Abrirlos así deja esos servicios expuestos a escaneos y a intentos de adivinar contraseñas. El tráfico de la aplicación debe entrar por el balanceador. Para administrar, usas un bastión, una VPN o Session Manager, y el security group de la base acepta solo el security group de la API.</p>
+</li>
+<li>
+<p>CloudFront acerca <strong>contenido</strong> que se puede cachear (ficheros estáticos y respuestas cacheables). No copia tu base de datos a las ubicaciones de borde.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="bloque-foundations-modulo-5">Bloque Foundations (Módulo 5)<a class="headerlink" href="#bloque-foundations-modulo-5" title="Permanent link">&para;</a></h2>
+<h3 id="vpc-tu-red-virtual-en-una-region">VPC: tu red virtual en una región<a class="headerlink" href="#vpc-tu-red-virtual-en-una-region" title="Permanent link">&para;</a></h3>
+<p>Antes de lanzar una sola instancia tienes que decidir qué parte de tu proyecto se publica hacia internet y cómo sale la instancia cuando es ella la que necesita internet. Esa decisión se toma en la <strong><a href="#vpc">VPC</a></strong>, que es una red virtual aislada de forma lógica dentro de <strong>una</strong> región de AWS. Conviene no imaginarla como un edificio físico con cables y armarios: es el espacio de direcciones y de rutas en el que AWS coloca las interfaces de red de tus recursos, de modo que todo lo que lanzas dentro recibe una dirección de ese espacio y sigue sus reglas de encaminamiento.</p>
+<p>El mapa de la VPC se dibuja en tres pasos, uno detrás de otro:</p>
+<ol>
+<li><strong>Eliges el rango IP de toda la VPC</strong>, escrito como un bloque <strong><a href="#cidr">CIDR</a></strong>: la dirección de inicio y, tras la barra, el prefijo que fija cuántas direcciones caben. <code>10.0.0.0/16</code> deja 16 bits libres, es decir, 65 536 direcciones (de <code>10.0.0.0</code> a <code>10.0.255.255</code>), margen de sobra para varias subredes.</li>
+<li><strong>Lo partes en <a href="#subnet">subredes</a></strong>, cada una un trozo más pequeño de ese rango y situada entera en una sola AZ. <code>10.0.1.0/24</code> tiene 256 direcciones dentro del <code>/16</code>; el tamaño permitido va de <code>/28</code> a <code>/16</code>, y las subredes no pueden solaparse.</li>
+<li><strong>Asocias cada subred a una <a href="#tabla-de-rutas">tabla de rutas</a></strong>, que elige el siguiente salto de cada destino y decide si esa subred llega a internet y por dónde.</li>
+</ol>
+<p>Al dimensionar, recuerda que AWS reserva cinco direcciones en cada subred: de las 16 de un <code>/28</code> solo quedan 11 asignables, y un <code>/24</code> no ofrece 256 instancias, sino 251.</p>
+<div class="admonition note">
+<p class="admonition-title">Direcciones que AWS reserva en cada subred</p>
+<p>En el CIDR de cada subred, AWS reserva cinco direcciones y no puedes asignarlas a un recurso. En <code>10.0.0.0/24</code> son las siguientes.</p>
+<ul>
+<li>La dirección <code>10.0.0.0</code> es la dirección de red.</li>
+<li>La dirección <code>10.0.0.1</code> es el router de la VPC.</li>
+<li>La dirección <code>10.0.0.2</code> queda reservada por AWS.</li>
+<li>La dirección <code>10.0.0.3</code> queda reservada para un uso futuro.</li>
+<li>La dirección <code>10.0.0.255</code> es la dirección de <em>broadcast</em>. La VPC no hace broadcast, pero la dirección se reserva igual.</li>
+</ul>
+<p>El servidor DNS de la VPC está en la base del CIDR principal más dos. En una VPC <code>10.0.0.0/16</code>, esa dirección es <code>10.0.0.2</code>. Por eso un <code>/24</code> no ofrece 256 instancias: ofrece 251 direcciones asignables. Cuéntalas al planificar.</p>
+</div>
+<p>Además del tamaño, tienes que decidir en qué zona queda cada subred, porque cada una vive en <strong>una</strong> AZ y no puede cruzar dos zonas. Por eso la alta disponibilidad no se consigue con un único <code>/24</code> más grande, sino con al menos dos subredes situadas en dos AZ: la subred, tenga el prefijo que tenga, sigue entera en una sola zona. Si toda la API está en una sola subred y esa AZ falla, no queda otra copia sirviendo tráfico dentro de la región.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> El front estático está en <a href="../01-fundamentos-nube-aws/tema1.html#s3">S3</a> (<em>Simple Storage Service</em>, almacenamiento de objetos). La API, en Node o PHP, corre sobre <a href="../01-fundamentos-nube-aws/tema1.html#ec2">EC2</a> (<em>Elastic Compute Cloud</em>, máquinas virtuales), y la base de datos está en <a href="../01-fundamentos-nube-aws/tema1.html#rds">RDS</a> (<em>Relational Database Service</em>, servicio de bases de datos relacionales). Dentro de la VPC viven el balanceador, las instancias de la API y la base. Si no dibujas antes el mapa de esa red, suele pasar una de dos cosas: o se publican puertos que no deberían verse desde internet, o la aplicación no consigue salir cuando tiene que descargar paquetes o llamar a un servicio externo.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Se deja la red sin diseñar y se acaban publicando puertos que no deberían verse desde internet, o la aplicación se queda sin salida para descargar paquetes.</li>
+<li>Se elige un <code>/28</code>, que se queda corto en cuanto coinciden en la subred el NAT Gateway, las interfaces del balanceador y una instancia.</li>
+<li>Se mete toda la API en una sola subred y se da por resuelta la alta disponibilidad ampliando el <code>/24</code>.</li>
+</ul>
+</div>
+<h4 id="subred-publica">Subred pública<a class="headerlink" href="#subred-publica" title="Permanent link">&para;</a></h4>
+<p>Una subred es pública cuando su tabla de rutas tiene una ruta directa hacia un <strong><a href="#igw">Internet Gateway</a></strong> (<strong>IGW</strong>, puerta de enlace a internet). Se comprueba en la tabla y no en el nombre de la consola: abres la subred, miras <strong>Route table</strong> y buscas la fila <code>0.0.0.0/0</code> cuyo objetivo es un <code>igw-…</code>. Ese destino significa «cualquier dirección que no encaje en una ruta más específica», así que el tráfico de internet sale por esa puerta.</p>
+<p>La ruta, sin embargo, solo abre el camino. Los recursos que deban ser alcanzables necesitan además una <a href="#ip-publica">IP pública</a> o una <a href="#ip-elastica">IP elástica</a>, y aun así el security group y la NACL deciden qué puertos se aceptan.</p>
+<figure>
+<img alt="VPC con una subred pública con ruta al Internet Gateway y una subred privada sin ella" src="img/capturas/internet-gateway-basics.png" width="560" />
+
+<figcaption>Solo la subred pública tiene ruta al Internet Gateway y se comunica con internet; la privada no. Fuente: Amazon VPC User Guide (AWS).</figcaption>
+</figure>
+<p>En una aplicación web, el usuario llega por <strong>HTTPS</strong> (<em>Hypertext Transfer Protocol Secure</em>) al balanceador, normalmente al puerto 443. El 80, el de <strong>HTTP</strong> en claro, solo se deja abierto si el balanceador redirige ese tráfico hacia HTTPS.</p>
+<p>El balanceador orientado a internet exige subredes en al menos dos AZ y una VPC que ya tenga Internet Gateway; por eso el diseño usa dos subredes públicas, una en cada zona.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Aquí colocas el <strong><a href="#alb">ALB</a></strong> (<em>Application Load Balancer</em>, balanceador de carga de aplicación), de la familia <strong>ELB</strong> (<em>Elastic Load Balancing</em>, balanceo de carga elástico). El usuario habla con el balanceador y no llega directo al puerto en el que escucha la API (en muchos proyectos, el 3000 de Node o el 8080 de otro servidor de aplicaciones) ni al puerto del motor de base de datos.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Se llama pública a una subred por el nombre que tiene en la consola, aunque su tabla no apunte al IGW.</li>
+<li>Se deja que el usuario llegue directamente al puerto de la API o al de la base de datos.</li>
+<li>Se trata una sola subred pública como si bastara para un ALB orientado a internet.</li>
+</ul>
+</div>
+<h4 id="subred-privada">Subred privada<a class="headerlink" href="#subred-privada" title="Permanent link">&para;</a></h4>
+<p>La subred privada es el lugar de lo que no debe recibir conexiones desde internet, como la API y la base de datos. Una subred es privada cuando su tabla de rutas <strong>no</strong> tiene una ruta directa al Internet Gateway y, igual que antes, el nombre de la consola no basta: la prueba está en dos filas de la tabla.</p>
+<ul>
+<li><strong>Ruta local.</strong> AWS la crea sola y no deja borrarla: destino el CIDR de la VPC (<code>10.0.0.0/16</code>) y objetivo <code>local</code>. Gracias a ella, la API y la base se hablan por IP privada sin salir de la VPC.</li>
+<li><strong>Ruta de internet.</strong> Lo que hace privada la subred es que <code>0.0.0.0/0</code> <strong>no</strong> apunta a un <code>igw-…</code>. Si la instancia necesita salir, apunta a un NAT Gateway (<code>nat-…</code>); si no hay ni IGW ni NAT, la subred está aislada y solo habla con el resto de la VPC.</li>
+</ul>
+<p>Esta configuración distingue dos tipos de tráfico. La conexión <strong>no solicitada</strong>, la que abre un equipo de internet hacia tu instancia (un escáner que prueba el puerto 22, por ejemplo), no tiene camino de entrada: AWS no anuncia a internet el rango de la subred, no hay ruta desde el Internet Gateway hasta ella y la instancia no tiene IP pública, así que una dirección como <code>10.0.2.25</code> no es alcanzable desde fuera.</p>
+<p>La salida que inicia la instancia es el caso contrario: la EC2 de la API envía el primer paquete para aplicar parches del <strong>SO</strong> (sistema operativo), lanzar <code>npm install</code> o llamar a una API externa de pagos. Como el destino no está en <code>10.0.0.0/16</code>, coincide con <code>0.0.0.0/0</code> y la tabla lo entrega al NAT Gateway. El equipo de internet solo <strong>responde</strong> a esa conexión y no puede aprovecharla para abrir una sesión nueva hacia el 22 o el 3306.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> La API en EC2 y la base en RDS van en subredes privadas, repetidas en dos AZ si el servicio tiene que sobrevivir al fallo de una zona. El ALB, en las subredes públicas, es quien recibe a los usuarios. Cómo se encadenan los security groups de ese camino se detalla en <a href="#seguridad-por-capas">seguridad por capas</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Se confía en el nombre de la subred aunque su tabla apunte <code>0.0.0.0/0</code> al IGW; en ese caso deja de ser privada, por muy restrictivo que siga el security group.</li>
+<li>Se confunde la salida que inicia la instancia con una entrada desde internet.</li>
+<li>Se da por resuelta la seguridad porque la API está en una subred llamada «privada».</li>
+</ul>
+</div>
+<h4 id="tabla-de-rutas-internet-gateway-y-nat-gateway">Tabla de rutas, Internet Gateway y NAT Gateway<a class="headerlink" href="#tabla-de-rutas-internet-gateway-y-nat-gateway" title="Permanent link">&para;</a></h4>
+<p>Las dos subredes anteriores solo se distinguen por su <a href="#tabla-de-rutas">tabla de rutas</a>, la lista de reglas que decide el siguiente salto de cada destino: la propia VPC, el IGW o el NAT Gateway. Cada subred está asociada a una tabla y, si no eliges otra, usa la tabla principal de la VPC.</p>
+<p>Cada ruta tiene un destino, escrito en CIDR, y un objetivo, que puede ser <code>local</code>, un Internet Gateway, un NAT Gateway u otra puerta que ya hayas creado. Cuando un paquete encaja en varias rutas, gana la más específica. Así, un destino dentro de <code>10.0.0.0/16</code> usa <code>local</code> y no la ruta <code>0.0.0.0/0</code>: el tráfico entre IP de la VPC usa la ruta local, y el tráfico hacia internet usa <code>0.0.0.0/0</code>.</p>
+<p>En el proyecto, con una VPC <code>10.0.0.0/16</code>, la subred pública queda así.</p>
+<table>
+<thead>
+<tr>
+<th>Destino</th>
+<th>Objetivo</th>
+<th>Qué hace con el paquete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>10.0.0.0/16</code></td>
+<td><code>local</code></td>
+<td>Lo entrega a otra IP privada de la VPC. El ALB llega así a la API.</td>
+</tr>
+<tr>
+<td><code>0.0.0.0/0</code></td>
+<td><code>igw-…</code></td>
+<td>El resto sale o entra por el Internet Gateway.</td>
+</tr>
+</tbody>
+</table>
+<p>La subred privada, cuando la API necesita salir a internet, queda así.</p>
+<table>
+<thead>
+<tr>
+<th>Destino</th>
+<th>Objetivo</th>
+<th>Qué hace con el paquete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>10.0.0.0/16</code></td>
+<td><code>local</code></td>
+<td>Mantiene dentro de la VPC el tráfico entre ALB, API y RDS.</td>
+</tr>
+<tr>
+<td><code>0.0.0.0/0</code></td>
+<td><code>nat-…</code></td>
+<td>Envía el resto al NAT Gateway. No hay ningún objetivo <code>igw-…</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Estas tablas se comprueban siempre en <strong>Subnet → Route table</strong>, dentro de la subred concreta, y no en el dibujo del asistente, porque lo que cuenta es la tabla que la subred tiene asociada de verdad.</p>
+<p>Las dos puertas hacia fuera funcionan así:</p>
+<ul>
+<li><strong><a href="#igw">Internet Gateway</a> (IGW).</strong> Es la puerta de la VPC hacia internet para los recursos con ruta hasta él e IP pública. Es redundante dentro de la región y cada VPC tiene uno solo: lo adjuntas a la VPC y apuntas a él la ruta <code>0.0.0.0/0</code> de las subredes públicas. Por ahí entra el usuario hasta el ALB, que solo se puede crear en una VPC con IGW.</li>
+<li><strong><a href="#nat-gateway">NAT Gateway</a>.</strong> Permite que las instancias de una subred privada, como la API, <strong>inicien</strong> conexiones hacia internet. No publica la API, no es un balanceador y no admite security group, así que el filtrado sigue en los grupos del ALB, la EC2 y RDS.</li>
+<li><strong>Dónde se crea el NAT.</strong> En una subred pública, con una IP elástica, porque él mismo necesita salir por el IGW; en la privada su tráfico no tendría salida.</li>
+<li><strong>Cómo traduce.</strong> La EC2 abre la conexión, el NAT la reenvía con su IP elástica como origen y recuerda la conexión, y devuelve la respuesta a la IP privada de la instancia. Quien está fuera responde, pero no inicia.</li>
+<li><strong>Un NAT por AZ.</strong> Cada NAT vive en una sola AZ; si cae esa zona, las instancias de otras zonas que lo compartían pierden la salida. Por eso cada AZ lleva su NAT y su tabla privada apunta a él.</li>
+<li><strong>Coste.</strong> Se factura por hora de existencia (una hora empezada cuenta entera) y por GB procesado, más la transferencia de datos; el precio por región está en la página de precios de Amazon VPC. Al terminar el lab, se borra.</li>
+<li><strong>Ahorro con S3.</strong> Si el grueso del tráfico va a S3 en la misma región, un <a href="#vpc-endpoint">VPC endpoint</a> de tipo <em>gateway</em> evita pasar esos bytes por el NAT, sin coste por hora ni por GB.</li>
+</ul>
+<p>Si el lab no crea ningún NAT, anótalo en el entregable: o la instancia privada no tiene salida, o el servidor está en una subred pública para simplificar.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> La base de datos no lleva IP pública ni ruta al IGW: solo recibe el tráfico que la API le envía por la ruta local. En cambio, las salidas que inicia la EC2 de la API (parches del SO, <code>npm install</code> y llamadas a una API externa) pasan por el NAT.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Se llama privada a una subred que todavía tiene <code>0.0.0.0/0</code> hacia el IGW.</li>
+<li>Se crea el Internet Gateway, pero se olvida asociar la tabla a la subred correcta: el recurso existe y la subred sigue usando otra tabla.</li>
+<li>Se da IP pública a la base de datos para administrarla desde el portátil.</li>
+<li>Se usa el NAT como si publicara la API, igual que un balanceador.</li>
+<li>Se deja un solo NAT compartido por todas las AZ.</li>
+</ul>
+</div>
+<h4 id="caso-daw-alb-en-publica-api-y-rds-en-privada">Caso DAW: ALB en pública, API y RDS en privada<a class="headerlink" href="#caso-daw-alb-en-publica-api-y-rds-en-privada" title="Permanent link">&para;</a></h4>
+<p><strong>Ejemplo del proyecto DAW.</strong> Todas las piezas anteriores encajan en un diseño sólido, aunque el lab del módulo lo simplifique, que reparte la VPC en dos pares de subredes. Hay dos subredes públicas, una en cada AZ, y en ellas viven el ALB orientado a internet y, si hace falta salida, un NAT Gateway por zona. En esas mismas AZ hay dos subredes privadas, donde viven las EC2 de la API (Node o PHP) y RDS con MySQL, MariaDB o PostgreSQL.</p>
+<p>La clave del patrón es que cada pieza solo acepta tráfico de la anterior. El usuario solo habla con el ALB, la API solo acepta tráfico que viene del balanceador y RDS solo acepta tráfico que viene de la API. Así, la base y el proceso de la aplicación no quedan publicados por el hecho de existir dentro de la VPC.</p>
+<p>El esquema siguiente recoge ese camino, reducido a una AZ.</p>
+<figure>
+<img alt="Camino del tráfico: usuario, Internet Gateway, ALB en la subred pública, API y RDS en la privada, y salida de la API por el NAT" src="../img/diagramas/vpc-camino-trafico.svg" width="800" />
+
+<figcaption>Cada pieza solo acepta tráfico de la anterior; la salida que inicia la API pasa por el NAT.</figcaption>
+</figure>
+<p>El esquema muestra una sola AZ para que el camino se lea con claridad. En el proyecto repites el par de subredes en una segunda AZ, con su propio NAT y su propia ruta <code>0.0.0.0/0</code> en la tabla privada de esa zona. Si el lab usa una sola AZ o un único servidor HTTP público, sirve para aprender rutas y security groups, pero no sustituye a este patrón.</p>
+<figure>
+<img alt="Ejemplo oficial de VPC con subnets privadas" src="img/capturas/vpc-subnets-privadas.png" width="800" />
+
+<figcaption>VPC con subredes privadas (patrón de la guía). Fuente: Amazon VPC User Guide (AWS).</figcaption>
+</figure>
+<p><a id="seguridad-por-capas"></a></p>
+<h4 id="seguridad-por-capas-del-alb-a-rds">Seguridad por capas: del ALB a RDS<a class="headerlink" href="#seguridad-por-capas-del-alb-a-rds" title="Permanent link">&para;</a></h4>
+<p>La subred privada evita un camino de entrada desde internet, pero no decide quién puede hablar con cada pieza dentro de la VPC. Eso lo deciden los security groups: cada regla de entrada nombra el puerto y el origen, de modo que abrir un puerto no lo abre para cualquier dirección. En el proyecto, el usuario entra por el balanceador, la API solo acepta a ese balanceador y la base solo acepta a la API.</p>
+<p>Los tres grupos del proyecto forman una cadena:</p>
+<ul>
+<li><strong>ALB.</strong> Acepta TCP en el 443 desde <code>0.0.0.0/0</code>, y el 80 solo si redirige a HTTPS. Es el único grupo con un origen tan amplio, y solo en los puertos de la web.</li>
+<li><strong>API.</strong> Permite el puerto de la aplicación con origen el security group del ALB, no una IP. La regla se aplica sobre las IP privadas de las interfaces que llevan ese grupo, que son las que usa el ALB, así que la EC2 no necesita IP pública y la regla sigue valiendo si el balanceador cambia un nodo. Esa misma regla cubre el <em>health check</em>, la comprobación con la que el ALB decide si el destino está sano.</li>
+<li><strong>RDS.</strong> Permite el puerto del motor (3306 en MySQL y MariaDB, 5432 en PostgreSQL) solo desde el grupo de la API. Si sustituyes la EC2, la base acepta a la nueva instancia porque lleva el mismo grupo.</li>
+</ul>
+<p>Con todo cerrado así, la EC2 o la base se administran por uno de estos tres caminos, ninguno de los cuales publica el 22 ni el 3306 a internet.</p>
+<ul>
+<li>El <strong>servidor bastión</strong> es una EC2 pequeña en la subred pública que sirve de salto: abres SSH (22) o <strong>RDP</strong> (<em>Remote Desktop Protocol</em>, 3389 en Windows) contra él y desde ahí saltas a la IP privada de la API. Su security group admite el 22 solo desde tu IP, el de la API solo desde el grupo del bastión, y hay que parchearlo como cualquier EC2. Conviene para accesos puntuales.</li>
+<li>La <strong>VPN de cliente</strong> abre un túnel cifrado desde el portátil hasta la VPC para llegar a las IP privadas. Cuesta más montarla que un bastión y conviene cuando varias personas administran durante semanas. La VPN de sitio a sitio, que une redes enteras, se ve en el <a href="#enlace-hibrido">enlace híbrido</a>; el lab no pide ninguna de las dos.</li>
+<li><strong>Session Manager</strong>, de AWS Systems Manager, abre un shell en la EC2 desde la consola o la AWS CLI sin puerto de entrada, sin bastión y sin claves SSH. La instancia necesita el agente de Systems Manager, salida HTTPS (443) por el NAT o por un VPC endpoint y un <a href="../02-seguridad-iam/tema2.html#rol">rol</a> de IAM que lo autorice, como se vio en el <a href="../02-seguridad-iam/tema2.html">Tema 2</a>.</li>
+</ul>
+<p>Ten en cuenta que en el Learner Lab de AWS Academy los permisos del rol que ya trae el entorno, y el catálogo de servicios, pueden no coincidir con los de una cuenta propia. Por eso no des por hecho que Session Manager, una VPN de cliente o un bastión adicional estén disponibles.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<ul>
+<li>Se abren el puerto 22 y el 3306 a <code>0.0.0.0/0</code>.</li>
+<li>Se suple la falta de bastión, VPN o Session Manager publicando la administración a internet.</li>
+<li>Se pega la IP de un nodo del ALB en el security group de la API en lugar del identificador del grupo.</li>
+</ul>
+</div>
+<h3 id="security-groups-frente-a-nacl">Security groups frente a NACL<a class="headerlink" href="#security-groups-frente-a-nacl" title="Permanent link">&para;</a></h3>
+<p>En el <a href="../02-seguridad-iam/tema2.html#security-group">Tema 2</a> el security group apareció como la capa de red, distinta de IAM: IAM decide quién puede llamar a la API de AWS, y el security group decide qué tráfico de red llega a la interfaz. Aquí se configura esa capa.</p>
+<p>El <strong><a href="#security-group">security group</a></strong> es un cortafuegos <strong>con estado</strong> asociado a la interfaz de red (<strong>ENI</strong>, <em>elastic network interface</em>) de la instancia, del ALB o de RDS. Solo tiene reglas de permiso: un grupo recién creado no deja entrar nada hasta que añades una regla y, en cambio, permite toda la salida (si quitas esa regla, tendrás que permitir la salida que necesites, por ejemplo hacia el NAT). Como recuerda la conexión, la respuesta a una entrada permitida vuelve sola, sin abrir puertos de vuelta. Y su origen puede ser otro security group, que es lo que encadena el ALB, la API y RDS.</p>
+<p>La <strong><a href="#nacl">NACL</a></strong> es un cortafuegos <strong>sin estado</strong> asociado a la <strong>subred</strong> entera. Sus reglas están numeradas, se evalúan de menor a mayor hasta la primera que coincide y pueden permitir o denegar. Como no recuerda la conexión, permitir el 443 de entrada no basta: también hay que permitir la vuelta por los puertos efímeros (1024-65535), y si falta, el ALB devuelve un HTTP 504. La NACL por defecto lo permite todo y una creada por ti empieza cerrada; si el enunciado no pide tocarla, deja la de por defecto y trabaja con security groups.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> En el lab del servidor web abres el 80 o el 443 a internet si el servidor es el punto público del ejercicio, o al grupo del ALB si ya lo hay, y la administración (22 en Linux, 3389 en Windows) solo a tu IP o al grupo del bastión.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Security group</th>
+<th>NACL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dónde actúa</td>
+<td>En la interfaz de red de la instancia, del ALB o de RDS.</td>
+<td>En la subred entera.</td>
+</tr>
+<tr>
+<td>Estado</td>
+<td>Con estado: la respuesta de una conexión permitida vuelve sola.</td>
+<td>Sin estado: la ida y la vuelta van en reglas distintas.</td>
+</tr>
+<tr>
+<td>Reglas</td>
+<td>Solo permisos. Lo que no escribes, no entra.</td>
+<td>Permisos y denegaciones, evaluados por número de regla.</td>
+</tr>
+<tr>
+<td>Uso habitual en el módulo</td>
+<td>El control de 80, 443, SSH y el puerto del motor.</td>
+<td>Solo cuando el enunciado pide tocarla.</td>
+</tr>
+<tr>
+<td>Error típico</td>
+<td>Dejar <code>0.0.0.0/0</code> en el puerto de administración.</td>
+<td>Olvidar el puerto de vuelta.</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img alt="Diagrama de security groups en EC2" src="img/capturas/ec2-security-groups.png" width="800" />
+
+<figcaption>Security group en la interfaz de red: se permite lo que dice la regla y el resto queda denegado. Fuente: Amazon EC2 User Guide (AWS).</figcaption>
+</figure>
+<p>En el módulo casi todo el filtrado se hace con security groups, y no hace falta añadir reglas de NACL que el enunciado no pide. Una sola EC2 pública con Node en el 3000 y MySQL en el mismo host responde en el aula, pero queda expuesta en cuanto alguien recorre rangos de direcciones; el patrón de este tema aplica a puertos y orígenes el mínimo privilegio del Tema 2.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<p>Dejar <code>0.0.0.0/0</code> en el puerto 22, aunque sea el tiempo de una tutoría. Editar la NACL, permitir solo el 443 de entrada y olvidar la regla de vuelta, de modo que la web deja de cargar con un timeout. Añadir reglas simétricas en la NACL para rellenar el entregable cuando el enunciado no las pide.</p>
+</div>
+<h3 id="dns-y-entrega-de-contenido">DNS y entrega de contenido<a class="headerlink" href="#dns-y-entrega-de-contenido" title="Permanent link">&para;</a></h3>
+<p>Cuando alguien escribe <code>midominio.es</code>, hay que traducir ese nombre a un destino. <strong><a href="#route-53">Route 53</a></strong> es el DNS de AWS: aloja la zona autoritativa del dominio, puede comprobar la salud de un destino y aplica políticas sencillas de enrutamiento. No sustituye al ALB ni a CloudFront, sino que resuelve el nombre <strong>hacia</strong> ellos con un registro de alias o un CNAME (<em>canonical name</em>). Nunca se apunta a la IP pública de una EC2, porque cambia al parar y relanzar la instancia; en el lab basta con el nombre DNS del propio ALB.</p>
+<p><strong><a href="#cloudfront">CloudFront</a></strong> es la CDN de AWS: guarda copias del contenido que se puede cachear (<strong>HTML</strong>, JavaScript, <strong>CSS</strong> e imágenes) en <strong><a href="#edge-location">ubicaciones de borde</a></strong> cercanas al usuario. Su origen suele ser un bucket S3 con el front o un ALB, y el TTL (<em>time to live</em>) de la política de caché marca cuánto dura cada copia. No replica la base de datos: el checkout o cualquier respuesta que depende de la sesión sigue yendo al origen.</p>
+<p><em>Global Accelerator</em>, que publica IP anycast (la misma IP anunciada desde varios puntos para entrar por el más cercano), solo aparece como nombre de examen. El recorrido de una petición concreta está en <a href="#flujo-de-una-peticion-http">Flujo de una petición HTTP</a>.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Route 53 hace que <code>api.midominio.es</code> llegue al ALB, o que <code>midominio.es</code> llegue a CloudFront delante del front. La hoja de estilo se sirve desde el borde; la consulta de pedidos sigue yendo al origen. CloudFront no sustituye a la API ni traslada RDS al borde.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<p>Apuntar el dominio a la IP pública de la EC2 del lab, que cambia al relanzar la instancia. Pensar que CloudFront replica la base de datos en el borde.</p>
+</div>
+<h3 id="flujo-de-una-peticion-http">Flujo de una petición HTTP<a class="headerlink" href="#flujo-de-una-peticion-http" title="Permanent link">&para;</a></h3>
+<p><strong>Ejemplo del proyecto DAW.</strong> Un usuario abre <code>https://midominio.es/productos</code>. El front está en S3 detrás de CloudFront, la API en EC2 detrás de un ALB y los datos en RDS. Estos son los pasos cuando <code>/productos</code> no está en la caché y la aplicación tiene que leer la base de datos.</p>
+<ol>
+<li>
+<p><strong>Resolución DNS (Route 53).</strong> El navegador pregunta qué destino tiene <code>midominio.es</code>, y Route 53 responde con la distribución de CloudFront o, si no hay CDN, con el ALB. Route 53 no recibe <code>/productos</code> ni consulta datos: solo traduce el nombre.</p>
+</li>
+<li>
+<p><strong>CloudFront (CDN).</strong> La petición llega a una ubicación de borde. Si hay copia en caché vigente, se entrega desde ahí; si no, CloudFront la pide al origen: los estáticos a S3 y <code>/productos</code>, que depende de la base de datos, al ALB.</p>
+</li>
+<li>
+<p><strong>Balanceador de aplicaciones (ALB).</strong> El ALB, en las subredes públicas, no ejecuta código: elige una EC2 sana de su grupo de destinos, según las comprobaciones de estado (<em>health checks</em>), y le reenvía la petición a su IP privada.</p>
+</li>
+<li>
+<p><strong>Servidor de aplicaciones (EC2).</strong> La EC2, en la subred privada, ejecuta la lógica de la ruta en Node.js, PHP u otro lenguaje. El navegador nunca se conecta a ella directamente.</p>
+</li>
+<li>
+<p><strong>Base de datos (RDS).</strong> La aplicación consulta RDS y obtiene los datos. RDS no atiende al navegador ni es origen de CloudFront.</p>
+</li>
+<li>
+<p><strong>Respuesta HTTP.</strong> La EC2 compone la respuesta en <strong>JSON</strong> (<em>JavaScript Object Notation</em>) o HTML y la devuelve por el ALB y CloudFront hasta el navegador, sin volver a consultar a Route 53.</p>
+</li>
+</ol>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  participant U as Navegador
+  participant R as Route 53
+  participant C as CloudFront
+  participant A as ALB
+  participant E as EC2 (API)
+  participant D as RDS
+  U-&gt;&gt;R: ¿Qué dirección tiene midominio.es?
+  R--&gt;&gt;U: La dirección de CloudFront
+  U-&gt;&gt;C: GET https://midominio.es/productos
+  Note over C: /productos no está en la caché
+  C-&gt;&gt;A: Reenvía la petición al origen
+  A-&gt;&gt;E: La pasa a una EC2 sana
+  E-&gt;&gt;D: Consulta los productos
+  D--&gt;&gt;E: Resultados
+  E--&gt;&gt;A: Respuesta en JSON o HTML
+  A--&gt;&gt;C: Respuesta
+  C--&gt;&gt;U: Respuesta en JSON o HTML</code></pre>
+<p>En el diagrama, las flechas continuas son peticiones y las discontinuas, respuestas. S3 no aparece porque solo sirve los estáticos y queda fuera de la cadena de <code>/productos</code>.</p>
+<p>Que la EC2 esté en marcha no demuestra que la petición pueda completarse. Si su security group no admite el tráfico del ALB, fallan las comprobaciones de estado, el destino queda <em>unhealthy</em> y el balanceador lo saca del reparto. El navegador verá un <strong>502 Bad Gateway</strong> si el destino rechaza la conexión o responde mal, o un <strong>504 Gateway Timeout</strong> si no responde a tiempo.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<p>Dar por resuelta la petición porque la instancia está en marcha. Abrir RDS a <code>0.0.0.0/0</code>. Tomar el lab de una EC2 pública con el puerto 80 como el patrón del proyecto.</p>
+</div>
+<h3 id="enlace-hibrido">Enlace híbrido: VPN y Direct Connect<a class="headerlink" href="#enlace-hibrido" title="Permanent link">&para;</a></h3>
+<p>Si el backend del cliente sigue en su CPD (centro de proceso de datos) y la API nueva está en AWS, hace falta un enlace entre los dos sitios. Una <strong><a href="#vpn">VPN</a></strong> de sitio a sitio crea un túnel cifrado con IPsec (<em>Internet Protocol Security</em>) que viaja por internet, de modo que una aplicación del CPD puede llamar a una IP privada de la VPC sin publicarla. Encaja en pruebas y caudales moderados; en Foundations no se configura, solo se reconoce en el examen. La VPN de cliente de la <a href="#seguridad-por-capas">seguridad por capas</a> conecta a una persona; esta une redes.</p>
+<p><strong><a href="#direct-connect">Direct Connect</a></strong> es una conexión física dedicada entre tu CPD y AWS que no pasa por internet público. La VPN aporta cifrado sobre la red pública; Direct Connect, un camino dedicado con caudal estable, útil para sincronizaciones grandes o cuando el contrato lo exige. Un <a href="#vpc-endpoint">VPC endpoint</a> no sustituye a ninguno de los dos: da acceso a un servicio de AWS como S3 sin salir a internet, pero no une la VPC con el CPD.</p>
+<p><strong>Ejemplo del proyecto DAW.</strong> Casi nunca montarás Direct Connect. Sí tienes que nombrarlo cuando el enunciado del CLF-C02 lo describa: mucho tráfico estable hacia el CPD apunta a Direct Connect; una prueba rápida y cifrada apunta a la VPN.</p>
+<div class="admonition warning">
+<p class="admonition-title">Errores frecuentes</p>
+<p>Confundir la VPN (cifrado por internet) con Direct Connect (circuito dedicado). Tratar un VPC endpoint hacia S3 como si uniera la VPC con el CPD del cliente.</p>
+</div>
+<h3 id="relacion-con-computo-y-balanceo">Relación con cómputo y balanceo<a class="headerlink" href="#relacion-con-computo-y-balanceo" title="Permanent link">&para;</a></h3>
+<p>La VPC fija el mapa de red de los demás temas. Cuando en el Tema 4 lances una instancia, tendrás que decidir en qué subred cae y con qué security group; cuando en el Tema 8 montes un ALB, en qué subredes públicas viven sus nodos y hacia qué destinos privados reenvía.</p>
+<h3 id="el-lab-del-modulo-5-creacion-de-una-vpc-y-lanzamiento-de-un-servidor-web">El lab del Módulo 5: creación de una VPC y lanzamiento de un servidor web<a class="headerlink" href="#el-lab-del-modulo-5-creacion-de-una-vpc-y-lanzamiento-de-un-servidor-web" title="Permanent link">&para;</a></h3>
+<p>En <em>Cloud Foundations</em> el ejercicio se llama <strong>Ejercicio de laboratorio 2 — Creación de una VPC y lanzamiento de un servidor web</strong>, y se hace en la región y el orden que marque el enunciado del LMS (<em>learning management system</em>).</p>
+<p>Primero creas la VPC con el asistente <strong>VPC and more</strong>: el CIDR y, en una AZ, una subred pública, otra privada y un NAT Gateway en la pública.</p>
+<p>Después amplías a dos AZ con otra subred pública y otra privada, y asocias cada una a su tabla: las públicas con <code>0.0.0.0/0</code> hacia el IGW y las privadas hacia el NAT. En el entregable anotas el CIDR, la AZ y la tabla de cada subred.</p>
+<p>Luego creas un security group que permite HTTP (80) desde el origen que indique el lab, normalmente internet, y dejas la administración (22 o 3389) restringida a tu IP.</p>
+<p>Por último lanzas el servidor web en una subred pública, le asocias el security group y compruebas que responde por HTTP. Con eso el lab cierra lo que pide.</p>
+<p>El lab <strong>practica</strong> la VPC completa (CIDR, dos AZ, IGW, NAT, tablas de rutas y security group), pero <strong>simplifica</strong> el resto: no hay ALB ni separación entre API y base de datos, y el servidor queda en la subred pública en el puerto 80. En PR301 deja escrito qué parte del patrón has configurado y cuál ha quedado fuera.</p>
+<hr />
+<h2 id="bloque-ampliacion-practitioner-clf-c02">Bloque Ampliación Practitioner (CLF-C02)<a class="headerlink" href="#bloque-ampliacion-practitioner-clf-c02" title="Permanent link">&para;</a></h2>
+<p>El examen <strong>CLF-C02</strong> (<em>AWS Certified Cloud Practitioner</em>, Cloud Practitioner) insiste en <strong>dónde</strong> publicas —el ALB o CloudFront, frente a una base que se queda en subred privada—, en qué hace una CDN y en la diferencia de estado entre el security group y la NACL. La VPN y Direct Connect solo hay que reconocerlos. Si el escenario describe un enlace dedicado hacia el CPD, la respuesta es Direct Connect. Si describe un túnel cifrado que une dos redes a través de internet, la respuesta es la VPN.</p>
+<div class="admonition tip">
+<p class="admonition-title">Para el CLF</p>
+<p>Publica el tráfico de los usuarios en el borde o en el balanceador, y deja la base en una subred privada. CloudFront acerca contenido que se puede cachear: no traslada RDS al borde. El security group tiene estado; la NACL, no. La ampliación y el <strong>autocheck de certificación</strong> están en <a href="../99-certificacion/certificacion.html#tema-3">Certificación § Tema 3</a>.</p>
+</div>
+<p><strong>Videotutorial (CDN / DNS).</strong> <a href="https://www.youtube.com/watch?v=DgQroj70CJ0">CloudFront - S3 - Route 53 (Static Web)</a> (~19 min). Vídeo: Profe Santos Cloud (YouTube).</p>
+<hr />
+<h2 id="videotutorial">Videotutorial<a class="headerlink" href="#videotutorial" title="Permanent link">&para;</a></h2>
+<p><strong>Principal (Foundations).</strong> <a href="https://www.youtube.com/watch?v=u0Kh0JRK4zk">VPC</a> (~16 min).</p>
+<iframe src="https://www.youtube.com/embed/u0Kh0JRK4zk" title="VPC — Profe Santos Cloud" style="width:100%;max-width:840px;aspect-ratio:16/9;border:0;display:block;margin:0.8em auto" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+<p>Vídeo: Profe Santos Cloud (YouTube). Conviene seguir el CIDR, las subredes y la salida a internet, y anotar qué recurso queda en la subred pública y cuál en la privada.</p>
+<p><strong>Extra (opcional).</strong> <a href="https://www.youtube.com/watch?v=I0nL0NX4qZc">VPC EC2 RDS</a> (~40 min). Es una demostración de red con cómputo y base de datos, útil antes del lab del Módulo 5. Vídeo: Profe Santos Cloud (YouTube).</p>
+<p>En la clase de <em>Cloud Foundations</em> de Academy, abre el <strong>Módulo 5</strong> (redes y VPC) y sigue el lab que indique el LMS. Usa la región que ese lab permita.</p>
+<hr />
+<h2 id="actividad-practica">Actividad / práctica<a class="headerlink" href="#actividad-practica" title="Permanent link">&para;</a></h2>
+<h3 id="pr301-vpc-y-servidor-web">PR301 — VPC y servidor web<a class="headerlink" href="#pr301-vpc-y-servidor-web" title="Permanent link">&para;</a></h3>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.563 1.396a.95.95 0 0 0-.534.184c-.404.307-.501.9-.425 1.654.075.755.335 1.704.751 2.8.357.937.835 1.984 1.407 3.095-1.17.146-2.24.338-3.158.57-1.08.274-1.958.6-2.583.973C.397 11.045 0 11.484 0 12s.397.955 1.021 1.328c.55.33 1.308.618 2.217.87a1 1 0 0 0-.006.097c0 .485.365.887.82.887.368 0 .678-.26.784-.616q.89.171 1.898.297a31 31 0 0 0-1.408 3.067c-.421 1.093-.686 2.04-.765 2.795-.08.754.016 1.347.42 1.656.201.154.46.208.734.181s.572-.125.896-.287c.649-.323 1.407-.894 2.244-1.67.962-.89 2.026-2.058 3.118-3.421 1.086 1.37 2.146 2.543 3.103 3.439.834.78 1.588 1.355 2.235 1.682.323.163.62.265.894.293s.534-.025.736-.178c.405-.307.502-.9.426-1.654-.054-.54-.206-1.18-.437-1.9a.91.91 0 0 0 .343-.72.92.92 0 0 0-.238-.625.8.8 0 0 0-.701-.251c-.312-.75-.69-1.557-1.125-2.4a27 27 0 0 0 3.187-.575c1.08-.273 1.958-.597 2.583-.97.624-.374 1.021-.813 1.021-1.329s-.397-.957-1.021-1.33c-.625-.373-1.503-.696-2.583-.969a27 27 0 0 0-3.156-.568 31 31 0 0 0 1.406-3.063c.422-1.093.687-2.04.766-2.795.08-.754-.017-1.347-.42-1.656a.95.95 0 0 0-.531-.185 1.3 1.3 0 0 0-.203.004c-.274.026-.57.127-.895.289-.51.254-1.092.665-1.722 1.205a.8.8 0 0 0-.418-.123c-.456 0-.82.4-.82.886q0 .178.06.334a35 35 0 0 0-2.465 2.791c-1.086-1.37-2.146-2.543-3.103-3.439-.834-.78-1.588-1.355-2.235-1.682-.323-.163-.62-.265-.894-.293a1.3 1.3 0 0 0-.204-.006zm.021.385a1 1 0 0 1 .143.004c.205.02.462.105.757.254.592.298 1.33.855 2.147 1.62.955.893 2.022 2.077 3.119 3.466-.428.544-.859 1.12-1.29 1.72a42 42 0 0 0-3.29.235 31 31 0 0 1-1.453-3.184c-.409-1.075-.658-2.002-.729-2.7-.07-.7.05-1.136.276-1.307a.55.55 0 0 1 .32-.108m12.854.033a.55.55 0 0 1 .32.108c.225.172.343.61.27 1.308s-.33 1.624-.743 2.698a31 31 0 0 1-1.455 3.15 42 42 0 0 0-3.312-.234 49 49 0 0 0-1.274-1.717 35 35 0 0 1 2.436-2.772.78.78 0 0 0 .543.223c.456 0 .82-.401.82-.887a.94.94 0 0 0-.133-.484c.61-.519 1.163-.909 1.625-1.139.297-.147.555-.23.76-.25a1 1 0 0 1 .142-.004zm-6.442 5.622c.344.443.69.913 1.035 1.394q-.51-.012-1.031-.014-.532.001-1.05.014c.35-.481.699-.95 1.046-1.394M12 9.203q.668.001 1.314.02.398.563.793 1.154c.366.55.71 1.093 1.041 1.633a54 54 0 0 1-1.046 1.623q-.395.584-.791 1.138-.646.02-1.311.022-.684-.001-1.348-.022a53 53 0 0 1-.789-1.148 52 52 0 0 1-1.04-1.633 53 53 0 0 1 1.84-2.765q.658-.02 1.337-.022m-1.824.04q-.315.444-.625.905c-.334.496-.647.988-.953 1.477a47 47 0 0 1-1.239-2.178 41 41 0 0 1 2.817-.205zm3.625 0a41 41 0 0 1 2.838.202 47 47 0 0 1-1.264 2.198 53 53 0 0 0-1.574-2.4m3.248.251c1.213.146 2.317.34 3.252.576 1.057.268 1.907.587 2.478.928s.834.689.834.998-.263.655-.834.996c-.57.342-1.421.662-2.478.93-.943.239-2.056.433-3.281.58a47 47 0 0 0-1.416-2.492 47 47 0 0 0 1.445-2.516M6.95 9.496c.424.805.899 1.64 1.418 2.494a47 47 0 0 0-1.443 2.508 30 30 0 0 1-2.059-.318.9.9 0 0 0-.23-.508.8.8 0 0 0-.584-.262.8.8 0 0 0-.696.418c-.894-.247-1.63-.53-2.136-.832C.65 12.655.387 12.31.387 12s.263-.654.834-.996c.57-.342 1.421-.662 2.478-.93.935-.237 2.039-.431 3.252-.578zm4.34.8c-.576 0-1.041.5-1.041 1.112 0 .484.29.897.695 1.049v.063c0 .612.466 1.109 1.041 1.109.576 0 1.041-.497 1.041-1.11q0-.025-.002-.05c.424-.141.73-.565.73-1.063 0-.294-.107-.575-.302-.783a1.01 1.01 0 0 0-.738-.326 1 1 0 0 0-.711.3 1 1 0 0 0-.713-.3zm-2.695 2.061a51 51 0 0 0 1.572 2.397c-.99-.04-1.941-.108-2.832-.205q.573-1.067 1.26-2.192m6.779.02c.448.743.862 1.472 1.236 2.176a42 42 0 0 1-2.814.199q.313-.443.625-.902c.333-.495.647-.986.953-1.473m-8.23 2.537c1.033.117 2.141.198 3.304.236.427.6.854 1.179 1.278 1.723-1.103 1.382-2.176 2.561-3.135 3.45-.821.76-1.562 1.31-2.155 1.605-.296.147-.554.23-.76.25s-.35-.018-.462-.104c-.225-.172-.343-.61-.27-1.308s.329-1.624.742-2.698c.366-.948.861-2.018 1.458-3.154m9.656.004c.459.884.854 1.727 1.178 2.504a.91.91 0 0 0-.348.724c0 .486.364.887.82.887a1 1 0 0 0 .123-.01c.218.686.36 1.293.408 1.782.07.698-.05 1.135-.275 1.306-.113.086-.258.124-.463.104s-.462-.105-.758-.254c-.59-.298-1.329-.855-2.146-1.62-.955-.893-2.023-2.077-3.12-3.466.43-.545.862-1.123 1.294-1.725a42 42 0 0 0 3.287-.232m-3.776.246a49 49 0 0 1-1.05 1.4 49 49 0 0 1-1.04-1.398 47 47 0 0 0 2.09-.002"/></svg></span> <strong>PR301</strong>. (RA3 // a, b, c // <strong>PR 0–10</strong>). Montas (o completas) el lab Academy del <strong>Módulo 5</strong> de VPC y servidor web: subredes, rutas y security group coherentes con una API publicada sin abrir administración al mundo.</li>
+</ul>
+<p><strong>Tareas:</strong> anota el CIDR de la VPC y el de cada subred con su AZ; verifica la ruta al IGW solo en la subred pública; captura el security group (puertos 80/443 y administración restringida si el lab lo permite); termina los recursos en el orden que indique el lab (suele ser instancia → volúmenes o ENI → IGW → subredes → VPC).</p>
+<p><strong>Entrega:</strong> según <a href="../index.html#entrega">Cómo entregar las prácticas</a> — fichero <code>PR301.md</code> (o ZIP + <code>img/</code> si hay capturas).</p>
+<p>Guía de apoyo: <a href="../90-soluciones/pr/PR301.html">Soluciones · PR301</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Descripción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VPC / subredes</td>
+<td>CIDR y AZ documentados</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Rutas e IGW</td>
+<td>Pública frente a privada coherente</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td>Security group</td>
+<td>Puertos justificados; sin <code>0.0.0.0/0</code> innecesario</td>
+<td>0–3</td>
+</tr>
+<tr>
+<td>Limpieza</td>
+<td>Recursos de lab terminados</td>
+<td>0–2</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>/10</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="autocheck-del-tema">Autocheck del tema<a class="headerlink" href="#autocheck-del-tema" title="Permanent link">&para;</a></h2>
+<p>Comprueba VPC y entrega de este tema. CLF: <a href="../99-certificacion/certificacion.html#tema-3">Certificación § Tema 3</a>.</p>
+<ol>
+<li><strong>V/F.</strong> Una subred puede cruzar dos AZ «para tener alta disponibilidad gratis».</li>
+<li>El <strong>security group</strong>…<br />
+   a) no tiene estado · b) recuerda conexiones establecidas · c) sustituye al IGW</li>
+<li>¿Para qué sirve un <strong>NAT Gateway</strong> si ya hay IGW?</li>
+<li>Empareja: <strong>IGW</strong> · <strong>NACL</strong> · <strong>CloudFront</strong> con: (a) puerta a internet de la VPC · (b) filtro a nivel de subred (sin estado) · (c) CDN en el borde</li>
+<li><strong>V/F.</strong> CloudFront «mueve» RDS a la ubicación de borde más cercana al alumno.</li>
+</ol>
+<details>
+<summary>Soluciones</summary>
+<ol>
+<li>
+<p><strong>Falso</strong> — una subred = una AZ.</p>
+</li>
+<li>
+<p><strong>b</strong>.</p>
+</li>
+<li>
+<p>Salida a internet desde subredes <strong>privadas</strong> sin aceptar entradas no solicitadas (parches del SO, <code>npm</code>…).</p>
+</li>
+<li>
+<p>El <strong>IGW</strong> es (a) la puerta a internet de la VPC; la <strong>NACL</strong>, (b) el filtro a nivel de subred sin estado; <strong>CloudFront</strong>, (c) la CDN en el borde.</p>
+</li>
+<li>
+<p><strong>Falso</strong> — cachea contenido; no traslada la base de datos.</p>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="glosario">Glosario<a class="headerlink" href="#glosario" title="Permanent link">&para;</a></h2>
+<p><strong id="vpc">VPC</strong>
+<em>Virtual Private Cloud</em> (nube virtual privada): red virtual aislada de forma lógica en una región de AWS. Dentro defines el CIDR, las subredes, las tablas de rutas y las puertas hacia internet. Es el espacio donde, en el proyecto de DAW, colocas el ALB, la API en EC2 y la base en RDS.</p>
+<p><strong id="subnet">subnet</strong>
+Subred: un trozo del CIDR de la VPC asociado a una sola zona de disponibilidad. No cruza dos AZ. Por eso la alta disponibilidad pide al menos dos subredes. Si su tabla de rutas apunta a un Internet Gateway, es pública; si no tiene esa ruta, es privada.</p>
+<p><strong id="cidr">CIDR</strong>
+<em>Classless Inter-Domain Routing</em> (enrutamiento entre dominios sin clases): notación que expresa un rango de direcciones IP. <code>10.0.0.0/16</code> es un bloque de VPC con 65 536 direcciones. <code>10.0.1.0/24</code> es una subred de 256 direcciones, de las cuales AWS reserva cinco.</p>
+<p><strong id="igw">IGW</strong>
+<em>Internet Gateway</em> (puerta de enlace a internet): componente que une la VPC con internet. Solo da servicio a los recursos que tienen una ruta hacia él y una IP pública. Sin esa ruta, la subred no es pública aunque el diagrama la llame así.</p>
+<p><strong id="nat-gateway">NAT Gateway</strong>
+<em>Network Address Translation Gateway</em>: recurso que permite a una subred privada iniciar conexiones salientes a internet, por ejemplo para parches del SO, <code>npm install</code> o una API externa. Se coloca en una subred pública, ocupa una AZ y la tabla privada le envía <code>0.0.0.0/0</code>. No publica la API y no acepta conexiones que internet intente abrir hacia la instancia.</p>
+<p><strong id="security-group">security group</strong>
+Cortafuegos con estado en la interfaz de red. Escribes permisos de entrada y de salida; lo que no permites en entrada queda denegado. Si una conexión está permitida, su respuesta vuelve sin otra regla. El origen de una regla puede ser un CIDR o el identificador de otro security group, que es como se encadenan el ALB, la API y RDS.</p>
+<p><strong id="nacl">NACL</strong>
+<em>Network ACL</em> (<em>network access control list</em>, lista de control de acceso de red): cortafuegos sin estado en la subred. Las reglas se evalúan por número y pueden permitir o denegar. Hay que escribir la ida y la vuelta, incluidos los puertos efímeros. La NACL por defecto de la VPC lo permite todo; una que crees tú empieza cerrada.</p>
+<p><strong id="cloudfront">CloudFront</strong>
+CDN de AWS. Cachea en ubicaciones de borde el contenido que se puede repetir, con origen habitual en S3 o en un balanceador. Acerca el front estático del proyecto. No copia la base de datos transaccional al borde.</p>
+<p><strong id="tabla-de-rutas">tabla de rutas</strong>
+Lista de destinos y de siguientes saltos asociada a una subred. La ruta <code>local</code> cubre el CIDR de la VPC. La ruta <code>0.0.0.0/0</code> dice si el tráfico de internet va al Internet Gateway (subred pública) o al NAT Gateway (subred privada con salida). Es la comprobación que decide de qué tipo es la subred.</p>
+<p><strong id="ip-publica">IP pública</strong>
+Dirección alcanzable desde internet, tomada del conjunto de direcciones de AWS y asociada a un recurso cuya subred tiene ruta al Internet Gateway. No es la IP privada del CIDR de la VPC. Si detienes la instancia, AWS puede devolver esa dirección al conjunto y darte otra al arrancarla. Para una dirección pública fija se usa una IP elástica.</p>
+<p><strong id="ip-elastica">IP elástica</strong>
+<em>Elastic IP</em>: dirección pública fija que queda asignada a tu cuenta y que puedes asociar o mover entre recursos, dentro de las cuotas. Un NAT Gateway público la usa como origen estable hacia internet. En el proyecto, el ALB evita tener que pegar una IP elástica a cada EC2 de la API.</p>
+<p><strong id="vpc-endpoint">VPC endpoint</strong>
+Punto de enlace que permite usar un servicio de AWS, por ejemplo S3, desde la VPC sin salir por internet público. Un endpoint de tipo <em>gateway</em> hacia S3 no sustituye a Direct Connect hacia el CPD del cliente, y evita pasar ese tráfico por el NAT Gateway. En políticas de IAM puede aparecer como condición de origen (<code>aws:SourceVpce</code>); el detalle de las políticas está en el Tema 2.</p>
+<p><strong id="route-53">Route 53</strong>
+Servicio DNS de AWS. Traduce el nombre del dominio a un destino: el ALB, CloudFront u otro registro. No reparte la carga ni cachea el contenido; señala hacia quien sí lo hace.</p>
+<p><strong id="edge-location">edge location</strong>
+Ubicación de borde de la red de AWS, donde CloudFront cachea o termina tráfico cerca del usuario. No es una AZ de la VPC y no es un sitio donde colocar RDS.</p>
+<p><strong id="vpn">VPN</strong>
+<em>Virtual private network</em> (red privada virtual): enlace cifrado. En sitio a sitio une la red del cliente con la VPC a través de internet, con IPsec. En la variante de cliente, une el portátil de quien administra con la VPC para llegar a IP privadas sin publicar el 22 ni el 3306.</p>
+<p><strong id="direct-connect">Direct Connect</strong>
+Conexión de red dedicada entre una ubicación tuya y AWS, por un circuito que no es internet público. En el examen se reconoce cuando el escenario pide caudal estable hacia el CPD. No se configura en el lab típico de Foundations, y no es lo mismo que el cifrado de una VPN.</p>
+<p><strong id="alb">ALB</strong>
+<em>Application Load Balancer</em>: balanceador de la familia ELB que trabaja en HTTP y HTTPS. Reparte las peticiones entre destinos de la VPC, por ejemplo las EC2 de la API, usando sus IP privadas. El orientado a internet se coloca en subredes públicas de al menos dos AZ.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../02-seguridad-iam/tema2.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 2. Seguridad, IAM y responsabilidad compartida">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                2. Seguridad, IAM y responsabilidad compartida
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../04-computo-serverless/tema4.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: 4. Cómputo: EC2, Lambda y contenedores">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                4. Cómputo: EC2, Lambda y contenedores
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026-2027 Francisco Javier Hernández Illán - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<fj.hernandez@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/fjavier-hernandez-illan" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>
