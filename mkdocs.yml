@@ -10,7 +10,6 @@ exclude_docs: |
 
 nav:
   - "Inicio": "index.md"
-  - "GameDay 2026": "96-gameday/gameday-2026.md"
   - "Acceso": "00-acceso/acceso.md"
   - "Calendario": "calendario.md"
   - "1. Fundamentos de la nube AWS": "01-fundamentos-nube-aws/tema1.md"
@@ -25,6 +24,7 @@ nav:
       - "Práctica orientativa: examen de la 1.ª evaluación": "95-preparacion-examenes/practica-orientativa-1ev.md"
   - "Certificación": "99-certificacion/certificacion.md"
   - "Soluciones": "90-soluciones/soluciones.md"
+  - "GameDay 2026": "96-gameday/gameday-2026.md"
 
 theme:
   language: es
